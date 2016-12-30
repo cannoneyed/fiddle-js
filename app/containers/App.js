@@ -1,16 +1,15 @@
-// @flow
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react'
 
 export default class App extends Component {
-  props: {
-    children: HTMLElement
-  };
+  static propTypes = {
+    children: PropTypes.node,
+  }
 
   render() {
     return (
       <div>
-        {this.props.children}
+        { this.props.children }
       </div>
-    );
+    )
   }
 }

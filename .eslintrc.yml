@@ -1,0 +1,53 @@
+parser: babel-eslint
+
+globals:
+    PRODUCTION: false
+
+env:
+    browser: true
+    mocha: true
+    node: true
+
+extends: [ "airbnb" ]
+
+plugins: [
+    "sorting",
+    "import",
+    "promise",
+    "react"
+]
+
+settings:
+    import/resolver:
+        webpack:
+            config: "../webpack.config.eslint.js"
+#
+rules:
+    arrow-body-style: 0
+    arrow-parens: 0
+    func-style: [2, "declaration", {allowArrowFunctions: true }]
+    indent: [2, 2, {SwitchCase: 1, VariableDeclarator: 2}]
+    no-param-reassign: 0
+    no-return-assign: 0
+    semi: [2, "never"]
+
+    #====================================
+    # eslint-plugin-react
+    #------------------------------------
+    react/jsx-indent: [2, 2]
+    react/jsx-indent-props: [2, 2]
+    react/jsx-filename-extension: 0
+    react/no-unescaped-entities: 0
+    react/prefer-stateless-function: 0
+
+    #====================================
+    # eslint-plugin-import
+    #------------------------------------
+    import/first: 0
+    import/no-extraneous-dependencies: 0
+    import/prefer-default-export: 0
+    import/no-unresolved: [ 2, { "ignore": ["electron"] }]
+
+    promise/param-names: 2
+    promise/always-return: 2
+    promise/catch-or-return: 2
