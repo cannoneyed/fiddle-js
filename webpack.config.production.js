@@ -2,26 +2,26 @@
  * Build config for electron 'Renderer Process' file
  */
 
-import path from 'path';
-import webpack from 'webpack';
-import validate from 'webpack-validator';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import merge from 'webpack-merge';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import BabiliPlugin from 'babili-webpack-plugin';
-import baseConfig from './webpack.config.base';
+import path from 'path'
+import webpack from 'webpack'
+import validate from 'webpack-validator'
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import merge from 'webpack-merge'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import BabiliPlugin from 'babili-webpack-plugin'
+import baseConfig from './webpack.config.base'
 
 export default validate(merge(baseConfig, {
   devtool: 'cheap-module-source-map',
 
   entry: [
     'babel-polyfill',
-    './app/index'
+    './app/index',
   ],
 
   output: {
     path: path.join(__dirname, 'app/dist'),
-    publicPath: '../dist/'
+    publicPath: '../dist/',
   },
 
   module: {
@@ -31,8 +31,8 @@ export default validate(merge(baseConfig, {
         test: /\.global\.css$/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
-          'css-loader'
-        )
+          'css-loader',
+        ),
       },
 
       // Pipe other styles through css modules and append to style.css
@@ -40,8 +40,8 @@ export default validate(merge(baseConfig, {
         test: /^((?!\.global).)*\.css$/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
-          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-        )
+          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+        ),
       },
 
       // Fonts
@@ -54,9 +54,9 @@ export default validate(merge(baseConfig, {
       // Images
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-        loader: 'url-loader'
-      }
-    ]
+        loader: 'url-loader',
+      },
+    ],
   },
 
   plugins: [
@@ -66,7 +66,7 @@ export default validate(merge(baseConfig, {
 
     // NODE_ENV should be production so that modules do not perform certain development checks
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
 
     new BabiliPlugin(),
@@ -76,10 +76,10 @@ export default validate(merge(baseConfig, {
     new HtmlWebpackPlugin({
       filename: '../app.html',
       template: 'app/app.html',
-      inject: false
-    })
+      inject: false,
+    }),
   ],
 
   // https://github.com/chentsulin/webpack-target-electron-renderer#how-this-module-works
   target: 'electron-renderer'
-}));
+}))
