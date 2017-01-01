@@ -30,6 +30,7 @@ export default validate({
 
   // https://webpack.github.io/docs/configuration.html#resolve
   resolve: {
+    modulesDirectories: ['app', 'node_modules'],
     extensions: ['', '.js', '.jsx', '.json'],
     packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main'],
   },

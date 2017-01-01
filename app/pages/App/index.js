@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 
-export default class App extends Component {
+export default class MainPage extends Component {
   static propTypes = {
     children: PropTypes.node,
   }
 
   render() {
     return (
-      <div>
+      <div className="pt-dark">
         { this.props.children }
       </div>
     )
