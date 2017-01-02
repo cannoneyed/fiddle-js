@@ -140,6 +140,8 @@
     "html-webpack-plugin": "^2.24.1",
     "jsdom": "^9.9.1",
     "json-loader": "^0.5.4",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
     "minimist": "^1.2.0",
     "mocha": "^3.2.0",
     "react-addons-test-utils": "^15.4.1",
@@ -164,6 +166,8 @@
     "electron-debug": "^1.1.0",
     "font-awesome": "^4.7.0",
     "immutable": "^3.8.1",
+    "jquery": "^3.1.1",
+    "lodash": "^4.17.4",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-grid-layout": "^0.13.9",
@@ -172,6 +176,7 @@
     "react-redux": "^5.0.1",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
+    "recompose": "^0.21.2",
     "redux": "^3.6.0",
     "redux-immutable": "^3.0.9",
     "redux-seamless-immutable": "^0.3.0",
@@ -186,5 +191,8 @@
   "devEngines": {
     "node": ">=6.x",
     "npm": ">=3.x"
-  }
+  },
+  "moduleRoots": [
+    "app"
+  ]
 }

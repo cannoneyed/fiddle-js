@@ -12,5 +12,5 @@
   "license": "MIT",
   "dependencies": {
   },
-  "moduleRoots": [ "app" ]
+  "moduleRoots": [ "./" ]
 }
