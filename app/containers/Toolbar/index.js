@@ -5,6 +5,8 @@ import { Button } from '@blueprintjs/core'
 import * as trackActions from 'core/tracks'
 import * as sequencerViewActions from 'core/sequencer/view'
 
+import styles from './styles.less'
+
 const mapDispatchToProps = {
   createTrack: trackActions.createTrack,
   zoomInHorizontal: sequencerViewActions.zoomInHorizontal,
@@ -27,7 +29,7 @@ export default class ToolbarContainer extends Component {
     } = this.props
 
     return (
-      <div>
+      <div className={ styles.toolbarContainer }>
         <Button iconName="add" onClick={ createTrack }>Add Track</Button>
         <Button iconName="zoom-in" onClick={ zoomInHorizontal } />
         <Button iconName="zoom-out" onClick={ zoomOutHorizontal } />

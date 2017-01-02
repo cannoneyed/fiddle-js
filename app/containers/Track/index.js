@@ -1,18 +1,15 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+
+import styles from './styles.less'
 
 export default class TrackContainer extends Component {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired,
-  }
-
   render() {
-    const { id, index } = this.props
+    const trackStyle = {
+      height: 40,
+    }
 
     return (
-      <h1>
-        { index } : { id }
-      </h1>
+      <div className={ styles.trackContainer } style={ trackStyle } />
     )
   }
 }

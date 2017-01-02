@@ -1,8 +1,10 @@
+@import "~styles/sequencer.less";
+
 .timelineContainer {
-  height: 20px;
+  height: @timelineHeight;
   padding: 0;
   position: relative;
-  z-index: 10;
+  z-index: @timelineZ;
 }
 
 .timelineSegmentsContainer {
@@ -12,7 +14,7 @@
 
 .timelineSegment {
   background-color: gray;
-  height: 20px;
+  height: @timelineHeight;
   border-right: solid 1px white;
   padding-left: 5px;
 }
