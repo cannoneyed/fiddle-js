@@ -15,9 +15,12 @@
   height: 30vh;
 
   top: @toolbarHeight;
-  left: @trackHeadersWidth;
 
-  overflow: auto;
+  overflow: scroll;
+}
+
+::-webkit-scrollbar {
+  width: 0px;  /* remove scrollbar space */
 }
 
 .tracksTimelineWrapper {
