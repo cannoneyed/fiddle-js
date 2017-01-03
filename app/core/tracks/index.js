@@ -8,12 +8,19 @@ class TracksStore {
   // The main page list of recipe ids
   @observable trackList = []
 
+  // Actions
   @action.bound
   createTrack = () => {
     const track = new Track()
 
     this.trackMap.set(track.id, track)
     this.trackList.unshift(track)
+  }
+
+  @action.bound
+  deleteTrack = (trackId) => {
+    this.trackList = this.trackList.filter(track => track.id !== trackId)
+    this.trackMap.delete(trackId)
   }
 }
 

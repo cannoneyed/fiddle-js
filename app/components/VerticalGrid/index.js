@@ -5,18 +5,18 @@ import styles from './styles.less'
 
 export default class VerticalGrid extends Component {
   static propTypes = {
-    gridWidth: PropTypes.number,
+    gridSegmentWidth: PropTypes.number,
     gridCount: PropTypes.number,
   }
 
   render() {
     const {
       gridCount,
-      gridWidth,
+      gridSegmentWidth,
     } = this.props
 
     const gridSegmentStyle = {
-      minWidth: gridWidth,
+      minWidth: gridSegmentWidth,
     }
 
     return (

@@ -1,10 +1,26 @@
 @import "~styles/sequencer.less";
 
-.trackHeadersContainer {
+.trackHeadersSectionContainer {
   position: absolute;
   top: @toolbarHeight;
 
   height: @tracksTimelineHeight;
   width: @trackHeadersWidth;
   background-color: red;
+  overflow: hidden;
+}
+
+.trackHeadersHeader {
+  position: absolute;
+  top: 0;
+  height: @timelineHeight;
+  z-index: @timelineZ;
+  width: 100%;
+  background-color: blue;
+}
+
+.trackHeadersContainer {
+  position: absolute;
+  top: @timelineHeight;
+  width: 100%;
 }

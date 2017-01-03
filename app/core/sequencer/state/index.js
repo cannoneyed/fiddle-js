@@ -4,7 +4,7 @@ import autobind from 'autobind-decorator'
 @autobind
 class SequencerStore {
   @observable tempo = 120
-  @observable timelineLength = 64
+  @observable timelineLength = 32
   @observable timeSignature = {
     numerator: 4,
     denominator: 4,

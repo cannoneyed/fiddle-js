@@ -3,10 +3,12 @@ import { inject, observer, PropTypes as ObsPropTypes } from 'mobx-react'
 
 import TrackHeader from 'containers/TrackHeader'
 
+import tracksStore from 'core/tracks'
+
 import styles from './styles.less'
 
-@inject(store => ({
-  trackList: store.tracks.trackList,
+@inject(() => ({
+  trackList: tracksStore.trackList,
 }))
 @observer
 export default class TrackHeadersContainer extends Component {
@@ -20,10 +22,13 @@ export default class TrackHeadersContainer extends Component {
     } = this.props
 
     return (
-      <div className={ styles.trackHeadersContainer }>
-        { trackList.map(({ id }, index) => (
-          <TrackHeader id={ id } index={ index } key={ index } />
-        ))}
+      <div className={ styles.trackHeadersSectionContainer }>
+        <div className={ styles.trackHeadersHeader } />
+        <div className={ styles.trackHeadersContainer } id="trackHeadersContainer">
+          { trackList.map(({ id }, index) => (
+            <TrackHeader trackId={ id } index={ index } key={ index } />
+          ))}
+        </div>
       </div>
     )
   }
