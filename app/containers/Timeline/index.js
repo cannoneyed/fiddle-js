@@ -1,21 +1,14 @@
 import React, { Component, PropTypes } from 'react'
 import { range } from 'lodash'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-
-import * as sequencerStateSelectors from 'core/sequencer/state'
-import * as sequencerViewSelectors from 'core/sequencer/view'
+import { inject, observer } from 'mobx-react'
 
 import styles from './styles.less'
 
-const mapStateToProps = createStructuredSelector({
-  gridWidth: sequencerViewSelectors.getGridWidth,
-  gridCount: sequencerViewSelectors.getGridCount,
-  timelineLength: sequencerStateSelectors.getTimelineLength,
-  zoomLevel: sequencerViewSelectors.getZoomLevel,
-})
-
-@connect(mapStateToProps)
+@inject(store => ({
+  gridWidth: store.sequencer.view.gridWidth,
+  timelineLength: store.sequencer.state.timelineLength,
+}))
+@observer
 export default class TimelineContainer extends Component {
   static propTypes = {
     gridWidth: PropTypes.number.isRequired,

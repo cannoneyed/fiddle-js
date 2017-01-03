@@ -1,38 +1,25 @@
-import Immutable from 'immutable'
-import { generateId } from 'utils/id'
+import { action, map, observable } from 'mobx'
+import autobind from 'autobind-decorator'
+import Track from './track'
 
-// Action types
-export const CREATE_TRACK = 'tracks/CREATE_TRACK'
-export const DELETE_TRACK = 'tracks/DELETE_TRACK'
+@autobind
+class TracksStore {
+  // The main store for tracks (by id)
+  @observable trackMap = map({})
 
-const initialState = Immutable.List()
+  // The main page list of recipe ids
+  @observable trackList = []
 
-export default function reducer(state = initialState, action) {
-  switch (action.type) {
-    case CREATE_TRACK: {
-      const { id, type } = action.payload
-      return state.unshift({ type, id })
-    }
-    case DELETE_TRACK: {
-      const { id } = action.payload
-      return state.filter(track => track.id !== id)
-    }
-    default:
-      return state
+  @action
+  createTrack = () => {
+    const track = new Track()
+
+    this.trackMap.set(track.id, track)
+    this.trackList.unshift(track)
   }
 }
 
-// Action creators
-export function createTrack() {
-  const id = generateId()
-  return { type: CREATE_TRACK, payload: { id, type: 'track' } }
-}
+const tracksStore = new TracksStore()
 
-export function deleteTrack(id) {
-  return { type: DELETE_TRACK, payload: { id } }
-}
-
-// Selectors
-export const getTrackList = (state) => {
-  return state.get('tracks')
-}
+export default tracksStore
+export { TracksStore }

@@ -1,22 +1,29 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Provider } from 'react-redux'
 import { Router, hashHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
+import { useStrict } from 'mobx'
+import { Provider } from 'mobx-react'
+import { RouterStore, syncHistoryWithStore } from 'mobx-react-router'
+import { enableLogging } from 'mobx-logger'
+
 import routes from './routes'
-import configureStore from './store/configureStore'
+import store from 'core'
+
 import './app.global.css'
 
-const store = configureStore()
-
-const history = syncHistoryWithStore(hashHistory, store, {
-  selectLocationState(state) {
-    return state.get('routing').toObject()
-  },
+enableLogging({
+  action: true,
+  reaction: false,
+  transaction: true,
+  compute: true,
 })
+useStrict(true)
+
+const routingStore = new RouterStore()
+const history = syncHistoryWithStore(hashHistory, routingStore)
 
 render(
-  <Provider store={ store }>
+  <Provider { ...store } routingStore={ routingStore }>
     <Router history={ history } routes={ routes } />
   </Provider>,
   document.getElementById('root'),

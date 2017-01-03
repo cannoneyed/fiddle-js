@@ -1,10 +1,9 @@
-import { combineReducers } from 'redux-immutable'
 import state from './state'
 import view from './view'
 
-const rootReducer = combineReducers({
+const store = {
   state,
   view,
-})
+}
 
-export default rootReducer
+export default store
