@@ -1,28 +1,33 @@
 import { action, computed, observable } from 'mobx'
-import autobind from 'autobind-decorator'
 
 import sequencerStore from '../state'
 
-@autobind
 class SequencerViewStore {
+  defaultGridWidth = 50
+  defaultTrackHeight = 100
+
   @observable zoomLevel = {
     horizontal: 1,
     vertical: 1,
   }
   @observable playheadPosition = 0
 
-  @action
+  @action.bound
   zoomInHorizontal = () => {
     this.zoomLevel.horizontal += 0.1
   }
 
-  @action
+  @action.bound
   zoomOutHorizontal = () => {
     this.zoomLevel.horizontal -= 0.1
   }
 
   @computed get gridWidth() {
-    return this.zoomLevel.horizontal * 50
+    return this.zoomLevel.horizontal * this.defaultGridWidth
+  }
+
+  @computed get trackHeight() {
+    return this.zoomLevel.vertical * this.defaultTrackHeight
   }
 
   @computed get gridCount() {

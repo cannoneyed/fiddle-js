@@ -5,7 +5,7 @@ import { Button } from '@blueprintjs/core'
 import styles from './styles.less'
 
 @inject(store => ({
-  createTrack: store.tracks.createTrack.bind(store.tracks),
+  createTrack: store.tracks.createTrack,
   zoomInHorizontal: store.sequencer.view.zoomInHorizontal,
   zoomOutHorizontal: store.sequencer.view.zoomOutHorizontal,
 }))

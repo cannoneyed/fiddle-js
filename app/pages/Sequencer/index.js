@@ -31,7 +31,7 @@ export default class SequencerPage extends Component {
     return (
       <div className={ styles.pageContainer }>
         <Toolbar />
-        {/* <TrackHeaders /> */}
+        <TrackHeaders />
         <div className={ styles.tracksTimelineContainer } ref={ makeRef('sequencerBodyRef') }>
           <div className={ styles.tracksTimelineWrapper }>
             <Timeline />

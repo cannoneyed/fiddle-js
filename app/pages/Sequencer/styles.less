@@ -11,18 +11,20 @@
 .tracksTimelineContainer {
   position: absolute;
 
-  width: 100vw;
-  height: 30vh;
+  width: 100%;
+  height: @tracksTimelineHeight;
 
   top: @toolbarHeight;
+  left: @trackHeadersWidth;
 
   overflow: scroll;
 }
 
 ::-webkit-scrollbar {
   width: 0px;  /* remove scrollbar space */
+  height: 0px;
 }
 
 .tracksTimelineWrapper {
-	// Empty div for proper scrollbar positioning
+  // Empty div for proper scrollbar positioning
 }

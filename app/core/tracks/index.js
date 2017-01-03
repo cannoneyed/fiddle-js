@@ -1,16 +1,14 @@
-import { action, map, observable } from 'mobx'
-import autobind from 'autobind-decorator'
+import { action, observable } from 'mobx'
 import Track from './track'
 
-@autobind
 class TracksStore {
   // The main store for tracks (by id)
-  @observable trackMap = map({})
+  @observable trackMap = observable.map({})
 
   // The main page list of recipe ids
   @observable trackList = []
 
-  @action
+  @action.bound
   createTrack = () => {
     const track = new Track()
 
