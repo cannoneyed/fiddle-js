@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import autobind from 'autobind-decorator'
-import { inject, observer } from 'mobx-react'
+import { inject, observer, PropTypes as ObsPropTypes } from 'mobx-react'
 import { ContextMenuTarget } from '@blueprintjs/core'
+
 import TrackContextMenu from 'containers/TrackContextMenu'
+import Clip from 'containers/Clip'
 
 import sequencerViewStore from 'core/sequencer/view'
 
@@ -16,20 +18,23 @@ import styles from './styles.less'
 @ContextMenuTarget
 export default class TrackContainer extends Component {
   static propTypes = {
-    trackId: PropTypes.string.isRequired,
+    track: ObsPropTypes.observableObject.isRequired,
     trackHeight: PropTypes.number.isRequired,
     trackWidth: PropTypes.number.isRequired,
   }
 
   @autobind
-  renderContextMenu() {
+  renderContextMenu(e) {
+    const { track } = this.props
+    const { offsetX } = e.nativeEvent
+
     return (
-      <TrackContextMenu trackId={ this.props.trackId } />
+      <TrackContextMenu trackId={ track.id } position={ offsetX } />
     )
   }
 
   render() {
-    const { trackHeight, trackWidth } = this.props
+    const { track, trackHeight, trackWidth } = this.props
 
     const trackStyle = {
       height: trackHeight,
@@ -37,7 +42,11 @@ export default class TrackContainer extends Component {
     }
 
     return (
-      <div className={ styles.trackContainer } style={ trackStyle } />
+      <div className={ styles.trackContainer } style={ trackStyle }>
+        { track.clips.map((clip, index) => (
+          <Clip clip={clip} key={index} />
+        ))}
+      </div>
     )
   }
 }

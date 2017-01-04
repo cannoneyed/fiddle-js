@@ -25,8 +25,8 @@ export default class TrackHeadersContainer extends Component {
       <div className={ styles.trackHeadersSectionContainer }>
         <div className={ styles.trackHeadersHeader } />
         <div className={ styles.trackHeadersContainer } id="trackHeadersContainer">
-          { trackList.map(({ id }, index) => (
-            <TrackHeader trackId={ id } index={ index } key={ index } />
+          { trackList.map((track, index) => (
+            <TrackHeader track={ track } index={ index } key={ index } />
           ))}
         </div>
       </div>

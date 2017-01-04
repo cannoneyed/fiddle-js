@@ -2,18 +2,20 @@ import React, { Component, PropTypes } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Menu, MenuItem } from '@blueprintjs/core'
 
-import tracksStore from 'core/tracks'
-import sequencerViewStore from 'core/sequencer/view'
+import trackStore from 'core/tracks'
+import clipStore from 'core/clips'
 
 @inject(() => ({
-  deleteTrack: tracksStore.deleteTrack,
-  trackWidth: sequencerViewStore.trackWidth,
+  deleteTrack: trackStore.deleteTrack,
+  createClip: clipStore.createClip,
 }))
 @observer
 export default class TrackContextMenu extends Component {
   static propTypes = {
-    trackId: PropTypes.string.isRequired,
+    createClip: PropTypes.func.isRequired,
+    position: PropTypes.number.isRequired,
     deleteTrack: PropTypes.func.isRequired,
+    trackId: PropTypes.string.isRequired,
   }
 
   deleteTrack = () => {
@@ -21,10 +23,15 @@ export default class TrackContextMenu extends Component {
     deleteTrack(trackId)
   }
 
+  createClip = () => {
+    const { createClip, trackId, position } = this.props
+    createClip({ trackId, position })
+  }
+
   render() {
     return (
       <Menu>
-        <MenuItem onClick={ () => {} } iconName="insert" text="New Clip" />
+        <MenuItem onClick={ this.createClip } iconName="insert" text="New Clip" />
         <MenuItem onClick={ this.deleteTrack } iconName="cross" text="Delete" />
       </Menu>
     )
