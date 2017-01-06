@@ -40,6 +40,7 @@ export default validate(merge(baseConfig, {
       loaders: [
         'style-loader',
         'css-loader?modules&sourceMap&importLoaders=1&context=app&localIdentName=[hash:base64:3]-[path]-[local]',
+        'resolve-url-loader',
         'less-loader',
       ],
     }, {

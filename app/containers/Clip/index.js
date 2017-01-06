@@ -48,7 +48,7 @@ export default class ClipContainer extends Component {
 
     const className = classnames(
       styles.clipContainer,
-      clip.selected ? 'selected' : null,
+      clip.selected ? styles.selected : null,
     )
 
     console.log('🍕', clip.selected)
@@ -57,7 +57,7 @@ export default class ClipContainer extends Component {
       <div
         className={ className }
         style={ clipStyle }
-        onClick={ this.handleClick }
+        onMouseDown={ this.handleClick }
       />
     )
   }

@@ -53,7 +53,7 @@ export default class TrackContainer extends Component {
       <div
         className={ styles.trackContainer }
         style={ trackStyle }
-        onClick={ this.handleClick }
+        onMouseDown={ this.handleClick }
       >
         { track.clips.map((clip, index) => (
           <Clip clip={ clip } key={ index } />
