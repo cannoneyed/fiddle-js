@@ -2,13 +2,16 @@ import { action, observable } from 'mobx'
 import Clip from './clip'
 import trackStore from '../tracks'
 
+import sequencerPosition from 'core/sequencer/position'
+
 class ClipsStore {
   // The main store for clips (by id)
   @observable clipMap = observable.map({})
 
   // Actions
   @action.bound
-  createClip = ({ trackId, position }) => {
+  createClip = ({ trackId, offsetX }) => {
+    const position = sequencerPosition.getPositionFromOffset(offsetX)
     const clip = new Clip({ trackId, position })
 
     this.clipMap.set(clip.id, clip)

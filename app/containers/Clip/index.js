@@ -51,8 +51,6 @@ export default class ClipContainer extends Component {
       clip.selected ? styles.selected : null,
     )
 
-    console.log('🍕', clip.selected)
-
     return (
       <div
         className={ className }

@@ -37,7 +37,7 @@ export default class TrackContainer extends Component {
     const { offsetX } = e.nativeEvent
 
     return (
-      <TrackContextMenu trackId={ track.id } position={ offsetX } />
+      <TrackContextMenu trackId={ track.id } offsetX={ offsetX } />
     )
   }
 

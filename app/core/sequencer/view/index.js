@@ -3,7 +3,9 @@ import { action, computed, observable } from 'mobx'
 import sequencerStore from '../state'
 
 class SequencerView {
-  defaultgridSegmentWidth = 50
+  defaultBarWidth = 50
+  barsPerGridSegment = 1
+
   defaultTrackHeight = 100
 
   @observable zoomLevel = {
@@ -24,8 +26,12 @@ class SequencerView {
   }
 
   // Computed Fields
+  @computed get barWidth() {
+    return this.zoomLevel.horizontal * this.defaultBarWidth
+  }
+
   @computed get gridSegmentWidth() {
-    return this.zoomLevel.horizontal * this.defaultgridSegmentWidth
+    return this.barWidth * this.barsPerGridSegment
   }
 
   @computed get trackHeight() {
@@ -33,11 +39,11 @@ class SequencerView {
   }
 
   @computed get trackWidth() {
-    return this.gridCount * this.gridSegmentWidth
+    return this.gridCount * this.defaultBarWidth
   }
 
   @computed get gridCount() {
-    const gridSegmentWidth = this.gridSegmentWidth // eslint-disable-line
+    const gridSegmentWidth = this.defaultBarWidth // eslint-disable-line
     const timelineLength = sequencerStore.timelineLength
     return timelineLength
   }

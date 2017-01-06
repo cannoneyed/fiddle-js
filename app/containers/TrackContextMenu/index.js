@@ -13,7 +13,7 @@ import clipStore from 'core/clips'
 export default class TrackContextMenu extends Component {
   static propTypes = {
     createClip: PropTypes.func.isRequired,
-    position: PropTypes.number.isRequired,
+    offsetX: PropTypes.number.isRequired,
     deleteTrack: PropTypes.func.isRequired,
     trackId: PropTypes.string.isRequired,
   }
@@ -24,8 +24,8 @@ export default class TrackContextMenu extends Component {
   }
 
   createClip = () => {
-    const { createClip, trackId, position } = this.props
-    createClip({ trackId, position })
+    const { createClip, trackId, offsetX } = this.props
+    createClip({ trackId, offsetX })
   }
 
   render() {
