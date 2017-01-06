@@ -7,6 +7,8 @@ class Clip {
   @observable length = 1
   @observable position
 
+  @observable selected = false
+
   constructor({ trackId, position }) {
     this.id = generateId()
     this.trackId = trackId

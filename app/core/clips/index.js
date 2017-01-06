@@ -36,7 +36,5 @@ class ClipsStore {
   }
 }
 
-const clipsStore = new ClipsStore()
-
-export default clipsStore
+export default new ClipsStore()
 export { ClipsStore }

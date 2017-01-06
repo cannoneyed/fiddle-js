@@ -29,15 +29,13 @@ export default class SequencerPage extends Component {
   }
 
   render() {
-    const makeRef = (name) => (ref) => {
-      this[name] = ref
-    }
-
     return (
       <div className={ styles.pageContainer }>
         <Toolbar />
         <TrackHeaders />
-        <div className={ styles.tracksTimelineContainer } ref={ makeRef('sequencerBodyRef') }>
+        <div
+          className={ styles.tracksTimelineContainer }
+          ref={ ref => this.sequencerBodyRef = ref }>
           <div className={ styles.tracksTimelineWrapper }>
             <Timeline />
             <Tracks />

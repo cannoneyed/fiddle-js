@@ -2,7 +2,7 @@ import { action, computed, observable } from 'mobx'
 
 import sequencerStore from '../state'
 
-class SequencerViewStore {
+class SequencerView {
   defaultgridSegmentWidth = 50
   defaultTrackHeight = 100
 
@@ -43,7 +43,5 @@ class SequencerViewStore {
   }
 }
 
-const sequencerViewStore = new SequencerViewStore()
-
-export default sequencerViewStore
-export { SequencerViewStore }
+export default new SequencerView()
+export { SequencerView }

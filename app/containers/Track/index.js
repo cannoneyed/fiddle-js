@@ -7,10 +7,12 @@ import TrackContextMenu from 'containers/TrackContextMenu'
 import Clip from 'containers/Clip'
 
 import sequencerViewStore from 'core/sequencer/view'
+import sequencerInteractionStore from 'core/sequencer/interaction'
 
 import styles from './styles.less'
 
 @inject(() => ({
+  handleTrackClick: sequencerInteractionStore.handleTrackClick,
   trackHeight: sequencerViewStore.trackHeight,
   trackWidth: sequencerViewStore.trackWidth,
 }))
@@ -18,9 +20,15 @@ import styles from './styles.less'
 @ContextMenuTarget
 export default class TrackContainer extends Component {
   static propTypes = {
+    handleTrackClick: PropTypes.func.isRequired,
     track: ObsPropTypes.observableObject.isRequired,
     trackHeight: PropTypes.number.isRequired,
     trackWidth: PropTypes.number.isRequired,
+  }
+
+  handleClick = (event) => {
+    const { track, handleTrackClick } = this.props
+    handleTrackClick(track, event)
   }
 
   @autobind
@@ -42,9 +50,13 @@ export default class TrackContainer extends Component {
     }
 
     return (
-      <div className={ styles.trackContainer } style={ trackStyle }>
+      <div
+        className={ styles.trackContainer }
+        style={ trackStyle }
+        onClick={ this.handleClick }
+      >
         { track.clips.map((clip, index) => (
-          <Clip clip={clip} key={index} />
+          <Clip clip={ clip } key={ index } />
         ))}
       </div>
     )

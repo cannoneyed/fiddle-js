@@ -31,7 +31,5 @@ class TrackStore {
   }
 }
 
-const trackStore = new TrackStore()
-
-export default trackStore
+export default new TrackStore()
 export { TrackStore }

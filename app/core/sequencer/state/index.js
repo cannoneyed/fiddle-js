@@ -1,8 +1,6 @@
 import { observable } from 'mobx'
-import autobind from 'autobind-decorator'
 
-@autobind
-class SequencerStore {
+class SequencerState {
   @observable tempo = 120
   @observable timelineLength = 32
   @observable timeSignature = {
@@ -11,7 +9,5 @@ class SequencerStore {
   }
 }
 
-const sequencerStore = new SequencerStore()
-
-export default sequencerStore
-export { SequencerStore }
+export default new SequencerState()
+export { SequencerState }
