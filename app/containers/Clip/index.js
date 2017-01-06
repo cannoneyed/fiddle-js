@@ -42,9 +42,11 @@ export default class ClipContainer extends Component {
 
     const clipStyle = {
       height: trackHeight,
-      width: 100,
-      left: clip.position,
+      width: clip.width,
+      left: clip.offsetX,
     }
+
+    console.log('🍕', clip.width, clip.offsetX)
 
     const className = classnames(
       styles.clipContainer,

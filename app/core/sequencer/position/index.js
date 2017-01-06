@@ -1,16 +1,27 @@
 import { observable } from 'mobx'
 
 import sequencerView from 'core/sequencer/view'
+import sequencerState from 'core/sequencer/state'
 
 class Position {
   bar
   beatNumerator
   beatDenominator
 
-  constructor() {
-    this.bar = 1
-    this.beatNumerator = 0
-    this.beatDenominator = 4
+  get bars() {
+    return this.bar + (this.beatNumerator / this.beatDenominator)
+  }
+
+  get offsetX() {
+    return this.bars * sequencerView.barWidth
+  }
+
+  constructor(bar = 1, beatNumerator = 0, beatDenominator) {
+    beatDenominator = sequencerState.timeSignature.denominator
+
+    this.bar = bar
+    this.beatNumerator = beatNumerator
+    this.beatDenominator = beatDenominator
   }
 }
 
@@ -20,7 +31,7 @@ class SequencerPosition {
   getPositionFromOffset = (offsetX) => {
     const { barWidth } = sequencerView
     const nearestBar = Math.floor(offsetX / barWidth)
-    return nearestBar * barWidth
+    return new Position(nearestBar)
   }
 }
 
