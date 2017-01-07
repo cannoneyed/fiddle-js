@@ -3,6 +3,7 @@ import Clip from './clip'
 import trackStore from '../tracks'
 
 import sequencerPosition from 'core/sequencer/position'
+import sequencerInteraction from 'core/sequencer/interaction'
 
 class ClipsStore {
   // The main store for clips (by id)
@@ -27,6 +28,15 @@ class ClipsStore {
     track.removeClip(clipId)
 
     this.clipMap.delete(clipId)
+  }
+
+  @action.bound
+  deleteSelectedClips = () => {
+    sequencerInteraction.selectedClips.forEach(clip => {
+      console.log('🐸', clip.id)
+      this.clipMap.delete(clip.id)
+    })
+    sequencerInteraction.selectedClips.clear()
   }
 
   @action.bound

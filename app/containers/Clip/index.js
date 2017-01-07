@@ -46,8 +46,6 @@ export default class ClipContainer extends Component {
       left: clip.offsetX,
     }
 
-    console.log('🍕', clip.width, clip.offsetX)
-
     const className = classnames(
       styles.clipContainer,
       clip.selected ? styles.selected : null,

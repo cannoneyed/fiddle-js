@@ -32,7 +32,7 @@ export default class TrackContextMenu extends Component {
     return (
       <Menu>
         <MenuItem onClick={ this.createClip } iconName="insert" text="New Clip" />
-        <MenuItem onClick={ this.deleteTrack } iconName="cross" text="Delete" />
+        <MenuItem onClick={ this.deleteTrack } iconName="cross" text="Delete Track" />
       </Menu>
     )
   }

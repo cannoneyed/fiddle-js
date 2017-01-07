@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx'
+import { action, computed, observable } from 'mobx'
 
 class SequencerInteraction {
   @observable selectedClips = observable.map({})
@@ -10,11 +10,17 @@ class SequencerInteraction {
   // The current selection target (either a map of clips or tracks)
   @observable selectionTarget = null
 
+  @computed get nSelectedClips() {
+    return this.selectedClips.size
+  }
+
   @action.bound handleClipClick = (clip, event) => {
     event.stopPropagation()
 
     this.selectionTarget = this.selectedClips
-    if (event.shiftKey) {
+    if (event.ctrlKey) {
+      // no op
+    } else if (event.shiftKey) {
       this.addSelectedClip(clip)
     } else {
       this.selectClip(clip)
@@ -24,7 +30,9 @@ class SequencerInteraction {
   @action.bound handleTrackClick = (track, event) => {
     event.stopPropagation()
 
-    if (this.selectionTarget === this.selectedClips) {
+    if (event.ctrlKey) {
+      // no op
+    } else if (this.selectionTarget === this.selectedClips) {
       this.deselectAllClips()
       this.selectionTarget = null
     }
@@ -33,7 +41,7 @@ class SequencerInteraction {
   // ------------------------------ Clips
   // Selects a single clip, removing previously selected
   @action selectClip = (clip) => {
-    this.selectedClips.clear()
+    this.deselectAllClips()
     clip.selected = true
     this.selectedClips.set(clip.id, clip)
   }

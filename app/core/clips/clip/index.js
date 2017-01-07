@@ -1,7 +1,9 @@
-import { computed, observable } from 'mobx'
+import { action, computed, observable } from 'mobx'
 import { generateId } from 'utils/id'
 
 import { Position } from 'core/sequencer/position'
+import tracks from 'core/tracks'
+import clips from 'core/clips'
 
 class Clip {
   @observable id
@@ -24,6 +26,15 @@ class Clip {
     this.trackId = trackId
     this.position = position
     this.length = new Position(2, 0, 0)
+  }
+
+  @action delete = () => {
+    // Delete reference from the track
+    const track = tracks.getTrackById(this.trackId)
+    track.removeClip(this.id)
+
+    // Delete from the clips store
+
   }
 }
 

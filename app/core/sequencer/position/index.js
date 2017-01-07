@@ -9,7 +9,7 @@ class Position {
   beatDenominator
 
   get bars() {
-    return this.bar + (this.beatNumerator / this.beatDenominator)
+    return this.bar + (this.beatNumerator / this.beatDenominator) * 1
   }
 
   get offsetX() {
