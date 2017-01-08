@@ -32,7 +32,7 @@ export default class TracksContainer extends Component {
     return (
       <div className={ styles.tracksWrapper }>
         <VerticalGrid gridCount={ gridCount } gridSegmentWidth={ gridSegmentWidth } />
-        <div className={ styles.tracksContainer }>
+        <div className={ styles.tracksContainer } id="tracksContainer">
           { trackList.map((track, index) => (
             <Track track={ track } index={ index } key={ index } />
           ))}

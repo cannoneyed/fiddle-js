@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import { DropTarget } from 'react-dnd'
 import autobind from 'autobind-decorator'
 import { inject, observer, PropTypes as ObsPropTypes } from 'mobx-react'
 import { ContextMenuTarget } from '@blueprintjs/core'
@@ -8,12 +7,12 @@ import TrackContextMenu from 'containers/TrackContextMenu'
 import Clip from 'containers/Clip'
 
 import sequencerViewStore from 'core/stores/sequencer/view'
-import sequencerInteractionStore from 'core/stores/sequencer/interaction'
+import trackMouseInteractions from 'core/interactions/tracks/mouse'
 
 import styles from './styles.less'
 
 @inject(() => ({
-  handleTrackClick: sequencerInteractionStore.handleTrackClick,
+  handleTrackClick: trackMouseInteractions.handleTrackClick,
   trackHeight: sequencerViewStore.trackHeight,
   trackWidth: sequencerViewStore.trackWidth,
 }))

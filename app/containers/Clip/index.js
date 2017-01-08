@@ -9,10 +9,10 @@ import ClipContextMenu from 'containers/ClipContextMenu'
 import styles from './styles.less'
 
 import sequencerViewStore from 'core/stores/sequencer/view'
-import sequencerInteractionStore from 'core/stores/sequencer/interaction'
+import clipMouseInteractions from 'core/interactions/clips/mouse'
 
 @inject(() => ({
-  handleClipMouseDown: sequencerInteractionStore.handleClipMouseDown,
+  handleClipMouseDown: clipMouseInteractions.handleClipMouseDown,
   trackHeight: sequencerViewStore.trackHeight,
 }))
 @ContextMenuTarget

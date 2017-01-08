@@ -33,7 +33,7 @@ export default class SequencerPage extends Component {
 
   render() {
     return (
-      <div className={ styles.pageContainer }>
+      <div className={ styles.pageContainer } id="sequencerBody">
         <Toolbar />
         <TrackHeaders />
         <div
