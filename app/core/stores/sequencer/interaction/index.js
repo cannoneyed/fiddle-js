@@ -1,9 +1,12 @@
 import { action, computed, observable } from 'mobx'
+import $ from 'jquery'
 
 import clipStore from 'core/stores/clips'
 
 class SequencerInteraction {
-  @observable draggedClip = null
+  @observable isDragging = false
+  @observable dragX
+  @observable dragY
 
   @computed get selectedClips() {
     return clipStore.clips.values().filter(clip => clip.selected)
@@ -12,19 +15,25 @@ class SequencerInteraction {
   @action.bound handleClipMouseDown = (clip, event) => {
     event.stopPropagation()
 
-    this.selectionTarget = this.selectedClips
-
     if (event.ctrlKey) {
-      // no op
+      return
     } else if (event.shiftKey) {
       this.addSelectedClip(clip)
     } else {
       this.selectClip(clip)
     }
+    this.setupMouseDownListeners()
   }
 
-  @action.bound handleClipMouseUp = (clip, event) => {
-    console.log('🐸', 'mouse up!', event)
+  setupMouseDownListeners = () => {
+    $('body').mousemove((e) => {
+      console.log('🐷', e)
+    })
+    $('body').mouseup(() => {
+      console.log('🐷', 'mouse up!')
+      $('body').off('mousemove')
+      $('body').off('mouseup')
+    })
   }
 
   @action.bound handleTrackClick = (track, event) => {

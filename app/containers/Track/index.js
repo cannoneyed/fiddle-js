@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { DropTarget } from 'react-dnd'
 import autobind from 'autobind-decorator'
 import { inject, observer, PropTypes as ObsPropTypes } from 'mobx-react'
 import { ContextMenuTarget } from '@blueprintjs/core'
@@ -16,8 +17,8 @@ import styles from './styles.less'
   trackHeight: sequencerViewStore.trackHeight,
   trackWidth: sequencerViewStore.trackWidth,
 }))
-@observer
 @ContextMenuTarget
+@observer
 export default class TrackContainer extends Component {
   static propTypes = {
     handleTrackClick: PropTypes.func.isRequired,
@@ -42,7 +43,11 @@ export default class TrackContainer extends Component {
   }
 
   render() {
-    const { track, trackHeight, trackWidth } = this.props
+    const {
+      track,
+      trackHeight,
+      trackWidth
+    } = this.props
 
     const trackStyle = {
       height: trackHeight,
