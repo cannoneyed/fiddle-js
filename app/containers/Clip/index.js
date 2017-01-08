@@ -8,8 +8,8 @@ import ClipContextMenu from 'containers/ClipContextMenu'
 
 import styles from './styles.less'
 
-import sequencerViewStore from 'core/sequencer/view'
-import sequencerInteractionStore from 'core/sequencer/interaction'
+import sequencerViewStore from 'core/stores/sequencer/view'
+import sequencerInteractionStore from 'core/stores/sequencer/interaction'
 
 @inject(() => ({
   handleClipClick: sequencerInteractionStore.handleClipClick,

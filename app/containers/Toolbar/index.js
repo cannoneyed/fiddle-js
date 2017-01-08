@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Button } from '@blueprintjs/core'
 
-import tracksStore from 'core/tracks'
-import sequencerViewStore from 'core/sequencer/view'
+import tracksStore from 'core/stores/tracks'
+import sequencerViewStore from 'core/stores/sequencer/view'
 
 import styles from './styles.less'
 

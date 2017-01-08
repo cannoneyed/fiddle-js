@@ -2,18 +2,18 @@ import React, { Component, PropTypes } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Menu, MenuItem } from '@blueprintjs/core'
 
-import clips from 'core/clips'
-import sequencerInteraction from 'core/sequencer/interaction'
+import clips from 'core/stores/clips'
+import sequencerInteraction from 'core/stores/sequencer/interaction'
 
 @inject(() => ({
   deleteClip: clips.deleteClip,
   deleteSelectedClips: clips.deleteSelectedClips,
-  nSelectedClips: sequencerInteraction.nSelectedClips,
+  nSelectedClips: sequencerInteraction.selectedClips.length,
 }))
 @observer
 export default class ClipContextMenu extends Component {
   static propTypes = {
-    clipId: PropTypes.string.isRequired,
+    clipId: PropTypes.number.isRequired,
     deleteClip: PropTypes.func.isRequired,
     deleteSelectedClips: PropTypes.func.isRequired,
     nSelectedClips: PropTypes.number.isRequired,

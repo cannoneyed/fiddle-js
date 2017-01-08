@@ -1,5 +1,5 @@
-import uuid from 'uuid'
+let nextId = 1
 
 export function generateId() {
-  return uuid()
+  return nextId++
 }

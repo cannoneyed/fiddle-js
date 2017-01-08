@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Menu, MenuItem } from '@blueprintjs/core'
 
-import trackStore from 'core/tracks'
-import clipStore from 'core/clips'
+import trackStore from 'core/stores/tracks'
+import clipStore from 'core/stores/clips'
 
 @inject(() => ({
   deleteTrack: trackStore.deleteTrack,
@@ -15,7 +15,7 @@ export default class TrackContextMenu extends Component {
     createClip: PropTypes.func.isRequired,
     offsetX: PropTypes.number.isRequired,
     deleteTrack: PropTypes.func.isRequired,
-    trackId: PropTypes.string.isRequired,
+    trackId: PropTypes.number.isRequired,
   }
 
   deleteTrack = () => {

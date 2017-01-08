@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { range } from 'lodash'
 import { inject, observer } from 'mobx-react'
 
-import sequencerViewStore from 'core/sequencer/view'
-import sequencerStateStore from 'core/sequencer/state'
+import sequencerViewStore from 'core/stores/sequencer/view'
+import sequencerStateStore from 'core/stores/sequencer/state'
 
 import styles from './styles.less'
 

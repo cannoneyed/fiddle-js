@@ -6,8 +6,8 @@ import { ContextMenuTarget } from '@blueprintjs/core'
 import TrackContextMenu from 'containers/TrackContextMenu'
 import Clip from 'containers/Clip'
 
-import sequencerViewStore from 'core/sequencer/view'
-import sequencerInteractionStore from 'core/sequencer/interaction'
+import sequencerViewStore from 'core/stores/sequencer/view'
+import sequencerInteractionStore from 'core/stores/sequencer/interaction'
 
 import styles from './styles.less'
 

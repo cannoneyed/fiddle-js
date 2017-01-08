@@ -7,11 +7,8 @@ import { RouterStore, syncHistoryWithStore } from 'mobx-react-router'
 import { enableLogging } from 'mobx-logger'
 
 import routes from './routes'
-import store from 'core'
 
 import './app.global.css'
-
-import './test'
 
 enableLogging({
   action: true,
@@ -25,9 +22,8 @@ const routingStore = new RouterStore()
 const history = syncHistoryWithStore(hashHistory, routingStore)
 
 render(
-  <Provider { ...store } routingStore={ routingStore }>
-    {/* <Router history={ history } routes={ routes } /> */}
-    <h1>DUMMY</h1>
+  <Provider routingStore={ routingStore }>
+    <Router history={ history } routes={ routes } />
   </Provider>,
   document.getElementById('root'),
 )

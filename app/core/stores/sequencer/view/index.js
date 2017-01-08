@@ -1,6 +1,6 @@
 import { action, computed, observable } from 'mobx'
 
-import sequencerStore from '../state'
+import sequencerState from 'core/stores/sequencer/state'
 
 class SequencerView {
   defaultBarWidth = 50
@@ -44,7 +44,7 @@ class SequencerView {
 
   @computed get gridCount() {
     const gridSegmentWidth = this.defaultBarWidth // eslint-disable-line
-    const timelineLength = sequencerStore.timelineLength
+    const timelineLength = sequencerState.timelineLength
     return timelineLength
   }
 }

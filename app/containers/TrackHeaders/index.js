@@ -3,7 +3,7 @@ import { inject, observer, PropTypes as ObsPropTypes } from 'mobx-react'
 
 import TrackHeader from 'containers/TrackHeader'
 
-import tracksStore from 'core/tracks'
+import tracksStore from 'core/stores/tracks'
 
 import styles from './styles.less'
 

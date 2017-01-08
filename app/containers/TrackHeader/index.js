@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { inject, observer, PropTypes as ObsPropTypes } from 'mobx-react'
 
-import sequencerViewStore from 'core/sequencer/view'
+import sequencerViewStore from 'core/stores/sequencer/view'
 
 import styles from './styles.less'
 

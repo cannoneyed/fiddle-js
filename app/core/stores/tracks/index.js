@@ -1,16 +1,17 @@
 import { action, observable } from 'mobx'
-import Track from './track'
-import clipStore from 'core/clips'
+
+import Track from 'core/models/track'
+import clipStore from 'core/stores/clips'
 
 class TrackStore {
   // The main store for tracks (by id)
-  @observable trackMap = observable.map({})
+  @observable tracks = observable.map({})
 
   // The main page list of recipe ids
   @observable trackList = []
 
   getTrackById = (trackId) => {
-    return this.trackMap.get(trackId)
+    return this.tracks.get(trackId)
   }
 
   // Actions
@@ -18,7 +19,7 @@ class TrackStore {
   createTrack = () => {
     const track = new Track()
 
-    this.trackMap.set(track.id, track)
+    this.tracks.set(track.id, track)
     this.trackList.unshift(track)
   }
 
@@ -27,7 +28,7 @@ class TrackStore {
     this.trackList = this.trackList.filter(track => track.id !== trackId)
 
     clipStore.deleteClipsByTrackId(trackId)
-    this.trackMap.delete(trackId)
+    this.tracks.delete(trackId)
   }
 }
 

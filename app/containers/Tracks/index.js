@@ -4,8 +4,8 @@ import { inject, observer, PropTypes as ObsPropTypes } from 'mobx-react'
 import Track from 'containers/Track'
 import VerticalGrid from 'components/VerticalGrid'
 
-import sequencerViewStore from 'core/sequencer/view'
-import tracksStore from 'core/tracks'
+import sequencerViewStore from 'core/stores/sequencer/view'
+import tracksStore from 'core/stores/tracks'
 
 import styles from './styles.less'
 
