@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { DragDropContext } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import { pxToInt } from 'utils/css'
 import $ from 'jquery'
 
@@ -10,6 +12,7 @@ import Tracks from 'containers/Tracks'
 import styles from './styles.less'
 import sequencerStyles from 'styles/sequencer.less'
 
+@DragDropContext(HTML5Backend)
 export default class SequencerPage extends Component {
   componentDidMount() {
     const timelineHeight = pxToInt(sequencerStyles.timelineHeight)

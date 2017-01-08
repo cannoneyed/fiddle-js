@@ -5,17 +5,15 @@ import clipStore from 'core/stores/clips'
 class SequencerInteraction {
   @observable draggedClip = null
 
-  // The current selection target (either a map of clips or tracks)
-  @observable selectionTarget = null
-
   @computed get selectedClips() {
     return clipStore.clips.values().filter(clip => clip.selected)
   }
 
-  @action.bound handleClipClick = (clip, event) => {
+  @action.bound handleClipMouseDown = (clip, event) => {
     event.stopPropagation()
 
     this.selectionTarget = this.selectedClips
+
     if (event.ctrlKey) {
       // no op
     } else if (event.shiftKey) {
@@ -25,6 +23,10 @@ class SequencerInteraction {
     }
   }
 
+  @action.bound handleClipMouseUp = (clip, event) => {
+    console.log('🐸', 'mouse up!', event)
+  }
+
   @action.bound handleTrackClick = (track, event) => {
     event.stopPropagation()
 
@@ -32,7 +34,6 @@ class SequencerInteraction {
       // no op
     } else if (this.selectedClips.length > 0) {
       this.deselectAllClips()
-      this.selectionTarget = null
     }
   }
 
