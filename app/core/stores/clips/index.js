@@ -3,7 +3,7 @@ import { action, observable } from 'mobx'
 import Clip from 'core/models/clip'
 
 import sequencerPosition from 'core/stores/sequencer/position'
-import sequencerInteraction from 'core/stores/sequencer/interaction'
+import clipSelect from 'core/interactions/clips/select'
 
 class ClipsStore {
   // The main store for clips (by id)
@@ -24,7 +24,7 @@ class ClipsStore {
 
   @action.bound
   deleteSelectedClips = () => {
-    sequencerInteraction.selectedClips.forEach(clip => {
+    clipSelect.selectedClips.forEach(clip => {
       this.clips.delete(clip.id)
     })
   }

@@ -9,7 +9,7 @@ class ClipSelect {
 
   // Selects a single clip, removing previously selected
   @action selectClip = (clip) => {
-    this.selectedClips.forEach(selectedClip => selectedClip.selected = false)
+    this.selectedClips.forEach(selectedClip => selectedClip.isSelected = false)
     clip.isSelected = true
   }
 

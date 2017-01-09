@@ -3,12 +3,12 @@ import { inject, observer } from 'mobx-react'
 import { Menu, MenuItem } from '@blueprintjs/core'
 
 import clips from 'core/stores/clips'
-import sequencerInteraction from 'core/stores/sequencer/interaction'
+import clipSelect from 'core/interactions/clips/select'
 
 @inject(() => ({
   deleteClip: clips.deleteClip,
   deleteSelectedClips: clips.deleteSelectedClips,
-  nSelectedClips: sequencerInteraction.selectedClips.length,
+  nSelectedClips: clipSelect.selectedClips.length,
 }))
 @observer
 export default class ClipContextMenu extends Component {

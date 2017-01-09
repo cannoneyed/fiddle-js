@@ -4,9 +4,9 @@ import $ from 'jquery'
 import position from 'core/stores/sequencer/position'
 import clipSelect from 'core/interactions/clips/select'
 
-class ClipDrag {
-  DRAG_DELAY = 100
+export const DRAG_DELAY = 200
 
+class ClipDrag {
   @observable isDragging = false
 
   @observable dragX
@@ -22,7 +22,7 @@ class ClipDrag {
     const mouseDownStart = new Date()
 
     $body.mousemove((e) => {
-      if (!this.isDragging && new Date() - mouseDownStart > this.DRAG_DELAY) {
+      if (!this.isDragging && new Date() - mouseDownStart > DRAG_DELAY) {
         this.startDrag()
       }
       // Get position relative to tracks
