@@ -15,6 +15,9 @@ class Clip {
   @observable isSelected = false
   @observable isDragging = false
 
+  @observable dragStartX = null
+  @observable dragStartY = null
+
   @computed get width() {
     return this.length.offsetX
   }

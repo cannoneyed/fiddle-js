@@ -1,12 +1,11 @@
 import React, { Component, PropTypes } from 'react'
 import autobind from 'autobind-decorator'
-import classnames from 'classnames'
 import { inject, observer, PropTypes as ObsPropTypes } from 'mobx-react'
 import { ContextMenuTarget } from '@blueprintjs/core'
 
 import ClipContextMenu from 'containers/ClipContextMenu'
-
-import styles from './styles.less'
+import ClipDrag from 'containers/ClipDrag'
+import Clip from 'components/Clip'
 
 import sequencerViewStore from 'core/stores/sequencer/view'
 import clipMouseInteractions from 'core/interactions/clips/mouse'
@@ -20,7 +19,6 @@ import clipMouseInteractions from 'core/interactions/clips/mouse'
 export default class ClipContainer extends Component {
   static propTypes = {
     handleClipMouseDown: PropTypes.func.isRequired,
-    trackHeight: PropTypes.number.isRequired,
     clip: ObsPropTypes.observableObject.isRequired,
   }
 
@@ -32,32 +30,25 @@ export default class ClipContainer extends Component {
     )
   }
 
-  render() {
-    const {
-      clip,
-      handleClipMouseDown,
-      trackHeight
-    } = this.props
-
-    const clipStyle = {
-      height: trackHeight,
-      width: clip.width + 1,
-      left: clip.offsetX - 1,
-      borderColor: clip.isDragging ? 'red' : 'white',
-    }
-
-    const className = classnames(
-      styles.clipContainer,
-      clip.isSelected ? styles.isSelected : null,
-    )
+  renderClip = () => {
+    const { clip } = this.props
 
     return (
-      <div
-        id={ clip.domId }
-        className={ className }
-        style={ clipStyle }
-        onMouseDown={ (event) => handleClipMouseDown(clip, event) }
+      <Clip
+        clip={ clip }
+        onMouseDown={ (e) => this.props.handleClipMouseDown(clip, e) }
       />
+    )
+  }
+
+  render() {
+    const { clip } = this.props
+
+    return (
+      <div>
+        { clip.isDragging && <ClipDrag clip={ clip } /> }
+        { !clip.isDragging && this.renderClip() }
+      </div>
     )
   }
 }

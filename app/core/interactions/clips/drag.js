@@ -9,27 +9,26 @@ export const DRAG_DELAY = 200
 class ClipDrag {
   @observable isDragging = false
 
-  @observable dragX
-  @observable dragY
+  @observable dragDeltaX = 0
+  @observable dragDeltaY = 0
+
+  @observable startX
+  @observable startY
 
   @observable dropTargetPosition
 
   // Handles setting up mouse event listeners for drag and drop functionality
   @action setupDragHandlers = () => {
-    const $tracksContainer = $('#tracksContainer')
+    this.$tracksContainer = $('#tracksContainer')
     const $body = $('body')
 
     const mouseDownStart = new Date()
 
     $body.mousemove((e) => {
       if (!this.isDragging && new Date() - mouseDownStart > DRAG_DELAY) {
-        this.startDrag()
+        this.startDrag(e)
       }
-      // Get position relative to tracks
-      const tracksOffsetX = e.pageX - $tracksContainer.offset().left
-      const tracksOffsetY = e.pageY - $tracksContainer.offset().top
-
-      this.setDropTargetPosition(tracksOffsetX, tracksOffsetY)
+      this.handleDragMove(e)
     })
 
     $body.mouseup(() => {
@@ -39,15 +38,28 @@ class ClipDrag {
     })
   }
 
-  @action setDropTargetPosition = (offsetX) => {
-    this.dropTargetPosition = position.getPositionFromOffset(offsetX)
+  @action handleDragMove = (e) => {
+    // Get position relative to tracks
+    const tracksOffsetX = e.pageX - this.$tracksContainer.offset().left
+    // const tracksOffsetY = e.pageY - this.$tracksContainer.offset().top
+
+    this.dragDeltaX = e.pageX - this.startX
+    this.dragDeltaY = e.pageY - this.startY
+
+    this.dropTargetPosition = position.getPositionFromOffset(tracksOffsetX)
   }
 
-  @action startDrag = () => {
+  @action startDrag = (e) => {
+    this.startX = e.pageX
+    this.startY = e.pageY
+
     this.isDragging = true
     clipSelect.selectedClips.forEach(clip => {
-      console.log('🍕', clip.domId, $(`#${clip.domId}`).offset())
+      const { top, left } = $(`#${clip.domId}`).offset()
       clip.isDragging = true
+
+      clip.dragStartX = left
+      clip.dragStartY = top
     })
   }
 
@@ -55,6 +67,9 @@ class ClipDrag {
     this.isDragging = false
     clipSelect.selectedClips.forEach(clip => {
       clip.isDragging = false
+
+      clip.dragStartX = 0
+      clip.dragStartY = 0
     })
     this.dropTargetPosition = null
   }
