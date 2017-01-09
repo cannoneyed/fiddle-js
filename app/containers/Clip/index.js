@@ -41,17 +41,19 @@ export default class ClipContainer extends Component {
 
     const clipStyle = {
       height: trackHeight,
-      width: clip.width,
-      left: clip.offsetX,
+      width: clip.width + 1,
+      left: clip.offsetX - 1,
+      borderColor: clip.isDragging ? 'red' : 'white',
     }
 
     const className = classnames(
       styles.clipContainer,
-      clip.selected ? styles.selected : null,
+      clip.isSelected ? styles.isSelected : null,
     )
 
     return (
       <div
+        id={ clip.domId }
         className={ className }
         style={ clipStyle }
         onMouseDown={ (event) => handleClipMouseDown(clip, event) }
