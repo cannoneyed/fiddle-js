@@ -1,13 +1,13 @@
-import clipsStore from './clips'
-import sequencerStore from './sequencer'
-import tracksStore from './tracks'
+import ClipStore from './clips'
+import SequencerStore from './sequencer'
+import TrackStore from './tracks'
 
-// Resource stores
-export const clipStore = clipsStore
-export const tracksStore = tracksStore
+// // Resource stores
+export const clipStore = ClipStore
+export const trackStore = TrackStore
 
-// Sequencer and substores
-export const sequencerStore = sequencerStore
-export const sequencerPositionStore = sequencerStore.position
-export const sequencerStateStore = sequencerStore.state
-export const sequencerViewStore = sequencerStore.view
+// // Sequencer and substores
+export const sequencerStore = SequencerStore
+export const sequencerPositionStore = SequencerStore.position
+export const sequencerStateStore = SequencerStore.state
+export const sequencerViewStore = SequencerStore.view

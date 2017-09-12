@@ -2,7 +2,7 @@ import { action, computed, observable } from 'mobx'
 import { generateId } from 'utils/id'
 
 import Position from 'core/models/position'
-import trackStore from 'core/stores/tracks'
+// import trackStore from 'core/stores/tracks'
 
 interface IClipConstructorParams {
   trackId: string
@@ -45,11 +45,10 @@ class Clip {
 
   @action
   delete = () => {
-    // Delete reference from the track
-    const track = trackStore.getTrackById(this.trackId)
-    track.removeClip(this.id)
-
-    // Delete from the clipStore store
+    // // Delete reference from the track
+    // const track = trackStore.getTrackById(this.trackId)
+    // track && track.removeClip(this.id)
+    // // Delete from the clipStore store
   }
 }
 
