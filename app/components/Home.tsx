@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { Link } from 'react-router-dom';
+import * as React from 'react'
+import { Link } from 'react-router-dom'
 
-let styles = require('./Home.scss');
+let styles = require('./Home.scss')
 
 export default class Home extends React.Component {
   render() {
@@ -12,6 +12,6 @@ export default class Home extends React.Component {
           <Link to="/counter">to Counter</Link>
         </div>
       </div>
-    );
+    )
   }
 }

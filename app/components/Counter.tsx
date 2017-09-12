@@ -1,20 +1,20 @@
-import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
-import { Link } from 'react-router-dom';
+import * as React from 'react'
+import { RouteComponentProps } from 'react-router'
+import { Link } from 'react-router-dom'
 
-let styles = require('./Counter.scss');
+let styles = require('./Counter.scss')
 
 export interface IProps extends RouteComponentProps<any> {
-  increment(): void,
-  incrementIfOdd(): void,
-  incrementAsync(): void,
-  decrement(): void,
+  increment(): void
+  incrementIfOdd(): void
+  incrementAsync(): void
+  decrement(): void
   counter: number
 }
 
 export class Counter extends React.Component<IProps> {
   render() {
-    const { increment, incrementIfOdd, incrementAsync, decrement, counter } = this.props;
+    const { increment, incrementIfOdd, incrementAsync, decrement, counter } = this.props
     return (
       <div>
         <div className={styles.backButton} data-tid="backButton">
@@ -32,12 +32,16 @@ export class Counter extends React.Component<IProps> {
           <button className={styles.btn} onClick={decrement} data-tclass="btn">
             <i className="fa fa-minus" />
           </button>
-          <button className={styles.btn} onClick={incrementIfOdd} data-tclass="btn">odd</button>
-          <button className={styles.btn} onClick={() => incrementAsync()} data-tclass="btn">async</button>
+          <button className={styles.btn} onClick={incrementIfOdd} data-tclass="btn">
+            odd
+          </button>
+          <button className={styles.btn} onClick={() => incrementAsync()} data-tclass="btn">
+            async
+          </button>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Counter;
+export default Counter
