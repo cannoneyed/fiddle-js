@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { Switch, Route } from 'react-router'
-import App from './containers/App'
-import HomePage from './containers/HomePage'
-import CounterPage from './containers/CounterPage'
+import App from './pages/App'
+import Sequencer from './pages/Sequencer'
+import Modulation from './pages/Modulation'
 
 export default () => (
   <App>
     <Switch>
-      <Route path="/counter" component={CounterPage} />
-      <Route path="/" component={HomePage} />
+      <Route path="/" component={Sequencer} />
+      <Route path="/modulation" component={Modulation} />
     </Switch>
   </App>
 )

@@ -2,8 +2,7 @@
   "name": "electron-react-typescript-boilerplate",
   "productName": "ElectronReactTypescript",
   "version": "0.10.0",
-  "description":
-    "Electron application boilerplate based on TypeScript, React, React Router, Webpack, React Hot Loader for rapid application development",
+  "description": "Electron application boilerplate based on TypeScript, React, React Router, Webpack, React Hot Loader for rapid application development",
   "main": "main.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test node --trace-warnings ./test/runTests.js",
@@ -11,14 +10,11 @@
     "test-watch": "npm test -- --watch",
     "test-e2e": "cross-env NODE_ENV=test node --trace-warnings ./test/runTests.js e2e",
     "hot-server": "cross-env NODE_ENV=development node --max_old_space_size=2096 server.js",
-    "build-main":
-      "cross-env NODE_ENV=production node ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
-    "build-renderer":
-      "cross-env NODE_ENV=production node ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
+    "build-main": "cross-env NODE_ENV=production node ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
+    "build-renderer": "cross-env NODE_ENV=production node ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
     "build": "npm run build-main && npm run build-renderer",
     "start": "cross-env NODE_ENV=production electron ./app/",
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron ./app/main.development",
-    "postinstall": "npm run build",
     "dev": "npm run hot-server -- --start-hot",
     "package": "npm run build && build --publish never",
     "package-win": "npm run build && build --win --x64",
@@ -28,16 +24,24 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-        "<rootDir>/internals/mocks/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/fileMock.js",
       "\\.(css|less|sass|scss)$": "identity-obj-proxy"
     },
-    "moduleFileExtensions": ["ts", "tsx", "js"],
-    "moduleDirectories": ["node_modules", "app/node_modules"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/node_modules"
+    ],
     "transform": {
       "^.+\\.(ts|tsx)$": "<rootDir>/test/preprocessor.js"
     },
-    "testMatch": ["**/?(*.)(spec|test).ts?(x)"]
+    "testMatch": [
+      "**/?(*.)(spec|test).ts?(x)"
+    ]
   },
   "build": {
     "productName": "ElectronReactTypescript",
@@ -57,7 +61,14 @@
         }
       ]
     },
-    "files": ["dist/", "node_modules/", "app.html", "main.js", "main.js.map", "package.json"],
+    "files": [
+      "dist/",
+      "node_modules/",
+      "app.html",
+      "main.js",
+      "main.js.map",
+      "package.json"
+    ],
     "directories": {
       "buildResources": "resources",
       "output": "release"
@@ -66,7 +77,10 @@
       "target": "nsis"
     },
     "linux": {
-      "target": ["deb", "AppImage"]
+      "target": [
+        "deb",
+        "AppImage"
+      ]
     }
   },
   "bin": {
@@ -85,7 +99,15 @@
   "bugs": {
     "url": "https://github.com/irath96/electron-react-typescript-boilerplate/issues"
   },
-  "keywords": ["electron", "boilerplate", "react", "react-router", "flux", "webpack", "react-hot"],
+  "keywords": [
+    "electron",
+    "boilerplate",
+    "react",
+    "react-router",
+    "flux",
+    "webpack",
+    "react-hot"
+  ],
   "homepage": "https://github.com/irath96/electron-react-typescript-boilerplate#readme",
   "devDependencies": {
     "@types/enzyme": "^2.8.7",
@@ -139,19 +161,38 @@
     "webpack-merge": "^2.0.0"
   },
   "dependencies": {
+    "@blueprintjs/core": "^1.27.0",
+    "@types/jquery": "^3.2.12",
+    "@types/lodash": "^4.14.74",
+    "@types/pure-render-decorator": "^0.2.28",
+    "@types/react-addons-css-transition-group": "^15.0.3",
+    "@types/react-dnd": "^2.0.33",
+    "@types/react-dnd-html5-backend": "^2.1.8",
+    "@types/react-portal": "^3.0.3",
+    "autobind-decorator": "^2.1.0",
     "electron-debug": "^1.1.0",
     "font-awesome": "^4.7.0",
     "history": "^4.6.1",
+    "jquery": "^3.2.1",
+    "lodash": "^4.17.4",
+    "mobx": "^3.2.2",
+    "mobx-logger": "^0.6.0",
+    "mobx-react": "^4.2.2",
+    "mobx-react-router": "^4.0.1",
     "prettier": "^1.6.1",
     "react": "^15.6.1",
+    "react-dnd": "^2.5.1",
+    "react-dnd-html5-backend": "^2.5.1",
     "react-dom": "^15.6.1",
+    "react-portal": "^3.1.0",
     "react-redux": "^5.0.1",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
-    "source-map-support": "^0.4.6"
+    "source-map-support": "^0.4.6",
+    "styled-components": "^2.1.2"
   },
   "devEngines": {
     "node": ">=6.x",
