@@ -20,8 +20,8 @@ class Clip {
   @observable isSelected = false
   @observable isDragging = false
 
-  @observable dragStartX: number | null = null
-  @observable dragStartY: number | null = null
+  @observable dragStartX: number = 0
+  @observable dragStartY: number = 0
 
   @computed
   get width() {

@@ -2,8 +2,8 @@ import * as React from 'react'
 import { inject, observer } from 'mobx-react'
 import { Menu, MenuItem } from '@blueprintjs/core'
 
-import { TrackStore } from 'core/stores/tracks'
-import { ClipStore } from 'core/stores/clips'
+import trackStore, { TrackStore } from 'core/stores/tracks'
+import clipStore, { ClipStore } from 'core/stores/clips'
 
 interface ComponentProps {
   trackId: string
@@ -15,7 +15,10 @@ interface InjectedProps extends ComponentProps {
   clipStore: ClipStore
 }
 
-@inject('trackStore', 'clipStore')
+@inject(() => ({
+  trackStore,
+  clipStore,
+}))
 @observer
 export default class TrackContextMenu extends React.Component<ComponentProps, {}> {
   get injected() {

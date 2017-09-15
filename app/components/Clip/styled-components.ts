@@ -5,6 +5,7 @@ interface IClipsWrapper {
   isDragging: boolean
   isSelected: boolean
   left: number
+  height: number
   width: number
 }
 
@@ -15,6 +16,7 @@ export const ClipWrapper = withProps<IClipsWrapper, HTMLDivElement>(styled.div)`
   border-color: ${props => (props.isDragging ? 'red' : 'white')};
 
   position: absolute;
-  left: ${props => props.left};
+  left: ${props => props.left}px;
   width: ${props => props.width}px;
+  height: ${props => props.height}px;
 `

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import autobind from 'autobind-decorator'
 import { inject, observer } from 'mobx-react'
 import { ContextMenuTarget } from '@blueprintjs/core'
 
@@ -36,7 +35,6 @@ export default class TrackContainer extends React.Component<ComponentProps, {}> 
     handleTrackClick(track, event)
   }
 
-  @autobind
   renderContextMenu(event: React.MouseEvent<HTMLElement>) {
     const { track } = this.props
     const { offsetX } = event.nativeEvent

@@ -8,8 +8,8 @@ import ClipDrag from 'features/ClipDrag'
 import ClipView from 'components/Clip'
 
 import Clip from 'core/models/clip'
-import { SequencerViewStore } from 'core/stores/sequencer/view'
-import { ClipMouseInteraction } from 'core/interactions/clips/mouse'
+import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
+import clipMouseInteraction, { ClipMouseInteraction } from 'core/interactions/clips/mouse'
 
 interface ComponentProps {
   clip: Clip
@@ -20,7 +20,10 @@ interface InjectedProps extends ComponentProps {
   sequencerViewStore: SequencerViewStore
 }
 
-@inject('clipMouseInteraction', 'sequencerViewStore')
+@inject(() => ({
+  clipMouseInteraction,
+  sequencerViewStore
+}))
 @ContextMenuTarget
 @observer
 export default class ClipContainer extends React.Component<ComponentProps, {}> {

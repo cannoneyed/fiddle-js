@@ -9,5 +9,5 @@ export const TrackHeaderWrapper = withProps<ITimelineSegment, HTMLDivElement>(st
   width: 100%;
   background-color: green;
   border-bottom: 1px solid white;
-  height: ${props => props.height};
+  height: ${props => props.height}px;
 `

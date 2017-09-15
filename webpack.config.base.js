@@ -10,7 +10,7 @@ module.exports = {
     loaders: [
       {
         test: /\.tsx?$/,
-        loaders: ['react-hot-loader/webpack', 'ts-loader'],
+        loaders: ['react-hot-loader/webpack', 'babel-loader', 'ts-loader'],
         exclude: /node_modules/,
       },
       {

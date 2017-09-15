@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "baseUrl": "./app",
-    "target": "es5",
+    "target": "esnext",
     "moduleResolution": "node",
-    "module": "commonjs",
+    "module": "esnext",
     "jsx": "react",
     "lib": ["dom", "es6", "dom.iterable", "scripthost"],
     "types": [],

@@ -7,8 +7,8 @@ import ClipView from 'components/Clip'
 import { ClipDragWrapper } from './styled-components'
 
 import Clip from 'core/models/clip'
-import { ClipDragInteraction } from 'core/interactions/clips/drag'
-import { SequencerViewStore } from 'core/stores/sequencer/view'
+import clipDragInteraction, { ClipDragInteraction } from 'core/interactions/clips/drag'
+import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
 
 interface ComponentProps {
   clip: Clip
@@ -19,7 +19,10 @@ interface InjectedProps extends ComponentProps {
   sequencerViewStore: SequencerViewStore
 }
 
-@inject('clipDragInteraction')
+@inject(() => ({
+  clipDragInteraction,
+  sequencerViewStore,
+}))
 @observer
 export default class ClipDrag extends React.Component<ComponentProps, {}> {
   get injected() {
@@ -32,8 +35,8 @@ export default class ClipDrag extends React.Component<ComponentProps, {}> {
     const { trackHeight } = this.injected.sequencerViewStore
 
     const style = {
-      left: clip.dragStartX || 0 + dragDeltaX,
-      top: clip.dragStartY || 0 + dragDeltaY,
+      left: clip.dragStartX + dragDeltaX,
+      top: clip.dragStartY + dragDeltaY,
     }
 
     return (

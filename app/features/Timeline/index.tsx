@@ -25,6 +25,8 @@ export default class Timeline extends React.Component<ComponentProps, {}> {
     const { timelineLength } = this.injected.sequencerStateStore
     const { gridSegmentWidth } = this.injected.sequencerViewStore
 
+    console.log('🍕', gridSegmentWidth)
+
     return range(timelineLength - 1).map(index => (
       <TimelineSegment key={index} gridSegmentWidth={gridSegmentWidth}>
         {index + 1}
