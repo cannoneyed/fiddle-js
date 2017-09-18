@@ -9,7 +9,7 @@ import ClipView from 'components/Clip'
 
 import { Clip } from 'core/models/clip'
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
-import clipMouseInteractions, { ClipMouseInteraction } from 'core/interactions/clips/mouse'
+import clipMouseInteraction, { ClipMouseInteraction } from 'core/interactions/clips/mouse'
 
 interface ComponentProps {
   clip: Clip
@@ -21,7 +21,7 @@ interface InjectedProps extends ComponentProps {
 }
 
 @inject(() => ({
-  clipMouseInteractions,
+  clipMouseInteraction,
   sequencerViewStore,
 }))
 @ContextMenuTarget

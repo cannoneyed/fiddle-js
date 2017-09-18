@@ -1,5 +1,5 @@
 import { action, observable } from 'mobx'
-import * as $ from 'jquery'
+import $ from 'jquery'
 
 import TimelineVector from 'core/models/timeline-vector'
 import position from 'core/stores/sequencer/position'
