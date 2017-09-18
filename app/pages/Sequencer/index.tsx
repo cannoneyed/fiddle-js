@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { pxToInt } from 'utils/css'
-import * as $ from 'jquery'
+import $ from 'jquery'
 
 import Timeline from 'features/Timeline'
 import Toolbar from 'features/Toolbar'
@@ -19,7 +19,6 @@ export default class SequencerPage extends React.Component {
       const timelineHeight = pxToInt(sequencerStyles.timelineHeight)
       // We need to manually handle the scroll positioning to ensure that the sequencer header
       // (timeline) remains locked in place to the top of the sequncer body
-      console.log('🍕', typeof $)
 
       this.scrollHandler = $(this.sequencerBodyRef).scroll(function fixTimelineScroll() {
         $('#timelineContainer')[0].style.top = `${this.scrollTop}px`
