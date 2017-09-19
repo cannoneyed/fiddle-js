@@ -4,20 +4,21 @@
 
 import path from 'path'
 import validate from 'webpack-validator'
-import {
-  dependencies as externals,
-} from './app/package.json'
+import { dependencies as externals } from './app/package.json'
 
 export default validate({
   module: {
-    loaders: [{
-      test: /\.jsx?$/,
-      loaders: ['babel-loader'],
-      exclude: /node_modules/,
-    }, {
-      test: /\.json$/,
-      loader: 'json-loader',
-    }],
+    loaders: [
+      {
+        test: /\.tsx?$/,
+        loaders: ['babel-loader', 'ts-loader'],
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.json$/,
+        loader: 'json-loader',
+      },
+    ],
   },
 
   output: {
@@ -31,7 +32,7 @@ export default validate({
   // https://webpack.github.io/docs/configuration.html#resolve
   resolve: {
     modulesDirectories: ['app', 'node_modules'],
-    extensions: ['', '.js', '.jsx', '.json'],
+    extensions: ['', '.js', '.jsx', '.json', '.ts', '.tsx'],
     packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main'],
   },
 
