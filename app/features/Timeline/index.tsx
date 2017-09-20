@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { range } from 'lodash'
 import { inject, observer } from 'mobx-react'
 
