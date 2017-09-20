@@ -4,7 +4,7 @@ import { useStrict } from 'mobx'
 import { AppContainer } from 'react-hot-loader'
 import { configureDevtool } from 'mobx-react-devtools'
 
-import Root from 'pages/Root'
+import Root from './pages/Root'
 
 import './app.global.css'
 
@@ -16,21 +16,25 @@ configureDevtool({
 })
 useStrict(true)
 
-render(
-  <AppContainer>
-    <Root />
-  </AppContainer>,
-  document.getElementById('root')
-)
+const rootEl = document.getElementById('root')
+const renderPage = (Component: any) =>
+  render(
+    <AppContainer>
+      <Component />
+    </AppContainer>,
+    rootEl
+  )
 
-if ((module as any).hot) {
-  ;(module as any).hot.accept('./pages/Root', () => {
-    const NextRoot = require('./pages/Root').default
-    render(
-      <AppContainer>
-        <NextRoot />
-      </AppContainer>,
-      document.getElementById('root')
-    )
-  })
+renderPage(Root)
+
+declare const module: any
+// if (module.hot) {
+//   const NextRoot = require('./pages/Root').default
+//   module.hot.accept('./pages/Root', () => renderPage(NextRoot))
+// }
+if (module.hot) {
+  module.hot.accept() // this is important
+  renderPage(Root)
+} else {
+  renderPage(Root)
 }
