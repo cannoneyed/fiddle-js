@@ -59,21 +59,13 @@ export default merge.smart(baseConfig, {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'babel-loader',
-            options: {
-              cacheDirectory: true,
-              plugins: [
-                // Here, we include babel plugins that are only required for the
-                // renderer process. The 'transform-*' plugins must be included
-                // before react-hot-loader/babel
-                'transform-class-properties',
-                'transform-es2015-classes',
-                'react-hot-loader/babel',
-              ],
-            },
+            loader: 'react-hot-loader/webpack',
           },
           {
-            loader: 'ts-loader',
+            loader: 'babel-loader',
+          },
+          {
+            loader: 'awesome-typescript-loader',
           },
         ],
       },
