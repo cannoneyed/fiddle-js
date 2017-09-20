@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import autobind from 'autobind-decorator'
 import { inject, observer } from 'mobx-react'
 import { ContextMenuTarget } from '@blueprintjs/core'

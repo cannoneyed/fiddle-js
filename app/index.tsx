@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { render } from 'react-dom'
 import { useStrict } from 'mobx'
 import { AppContainer } from 'react-hot-loader'
