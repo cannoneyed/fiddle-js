@@ -22,7 +22,7 @@ export default {
             },
           },
           {
-            loader: 'ts-loader',
+            loader: 'awesome-typescript-loader',
           },
         ],
       },
