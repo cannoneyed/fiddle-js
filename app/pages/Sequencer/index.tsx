@@ -1,22 +1,42 @@
 import React from 'react'
 import { pxToInt } from 'utils/css'
 import $ from 'jquery'
+import { inject, observer } from 'mobx-react'
 
 import Timeline from 'features/Timeline'
 import Toolbar from 'features/Toolbar'
 import TrackHeaders from 'features/TrackHeaders'
 import Tracks from 'features/Tracks'
 
+import VerticalGrid from 'components/VerticalGrid'
+
+import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
+
 const styles = require('./styles.less')
 const sequencerStyles = require('styles/sequencer.less')
 
-export default class SequencerPage extends React.Component {
+interface ComponentProps {}
+
+interface InjectedProps extends ComponentProps {
+  sequencerViewStore: SequencerViewStore
+}
+
+@inject(() => ({
+  sequencerViewStore,
+}))
+@observer
+export default class SequencerPage extends React.Component<ComponentProps, {}> {
   sequencerPageRef: Element | null
   scrollHandler: JQuery<HTMLElement>
 
+  get injected() {
+    return this.props as InjectedProps
+  }
+
   componentDidMount() {
     if (this.sequencerPageRef) {
-      const timelineHeight = pxToInt(sequencerStyles.timelineHeight)
+      console.log()
+      const timelineHeight = pxToInt(sequencerStyles.timeline_height)
       // We need to manually handle the scroll positioning to ensure that the sequencer header
       // (timeline) remains locked in place to the top of the sequncer body
 
@@ -35,15 +55,16 @@ export default class SequencerPage extends React.Component {
   }
 
   render() {
+    const { sequencerViewStore } = this.injected
+    const { gridCount, gridSegmentWidth } = sequencerViewStore
     return (
       <div className={styles.pageContainer} id="sequencerPage">
         <Toolbar />
         <TrackHeaders />
         <div className={styles.tracksTimelineContainer} ref={ref => (this.sequencerPageRef = ref)}>
-          <div className={styles.tracksTimelineWrapper}>
-            <Timeline />
-            <Tracks />
-          </div>
+          <Timeline />
+          <Tracks />
+          <VerticalGrid gridCount={gridCount} gridSegmentWidth={gridSegmentWidth} />
         </div>
       </div>
     )
