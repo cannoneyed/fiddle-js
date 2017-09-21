@@ -1,8 +1,10 @@
 import { observable } from 'mobx'
 
 class SequencerLayoutStore {
-  @observable trackHeadersWidth: number = 200
-  @observable sequencerAreaHeight: number = 500
+  @observable toolbarHeight: number = 40
+  @observable timelineHeight: number = 30
+  @observable gutterWidth: number = 200
+  @observable tracksAreaHeight: number = 500
 }
 
 export default new SequencerLayoutStore()

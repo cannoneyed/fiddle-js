@@ -1,14 +1,20 @@
 import React from 'react'
 import { pxToInt } from 'utils/css'
-import $ from 'jquery'
 import { inject, observer } from 'mobx-react'
 
+import { setScrollHandler, removeScrollHandler } from './interactions/scroll-handlers'
+
+import TimelineLayout from './layout/Timeline'
+import ToolbarLayout from './layout/Toolbar'
+import TracksLayout from './layout/Tracks'
+
 import Timeline from 'features/Timeline'
+import TimelineGutter from 'features/TimelineGutter'
 import Toolbar from 'features/Toolbar'
-import TrackHeaders from 'features/TrackHeaders'
+import TracksGutter from 'features/TracksGutter'
 import Tracks from 'features/Tracks'
 
-import VerticalGrid from 'components/VerticalGrid'
+// import VerticalGrid from 'components/VerticalGrid'
 
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
 
@@ -26,7 +32,7 @@ interface InjectedProps extends ComponentProps {
 }))
 @observer
 export default class SequencerPage extends React.Component<ComponentProps, {}> {
-  sequencerPageRef: Element | null
+  tracksRef: Element | null
   scrollHandler: JQuery<HTMLElement>
 
   get injected() {
@@ -34,38 +40,34 @@ export default class SequencerPage extends React.Component<ComponentProps, {}> {
   }
 
   componentDidMount() {
-    if (this.sequencerPageRef) {
-      console.log()
+    if (this.tracksRef) {
       const timelineHeight = pxToInt(sequencerStyles.timeline_height)
-      // We need to manually handle the scroll positioning to ensure that the sequencer header
-      // (timeline) remains locked in place to the top of the sequncer body
-
-      this.scrollHandler = $(this.sequencerPageRef).scroll(function fixTimelineScroll() {
-        $('#timelineContainer')[0].style.top = `${this.scrollTop}px`
-        $('#verticalGridContainer')[0].style.top = `${this.scrollTop}px`
-        $('#trackHeadersContainer')[0].style.top = `${timelineHeight - this.scrollTop}px`
-      })
+      setScrollHandler(this.tracksRef, timelineHeight)
     }
   }
 
   componentWillUnmount() {
-    if (this.sequencerPageRef) {
-      $(this.sequencerPageRef).off('scroll')
+    if (this.tracksRef) {
+      removeScrollHandler(this.tracksRef)
     }
   }
 
   render() {
-    const { sequencerViewStore } = this.injected
-    const { gridCount, gridSegmentWidth } = sequencerViewStore
+    // const { sequencerViewStore } = this.injected
+    // const { gridCount, gridSegmentWidth } = sequencerViewStore
     return (
       <div className={styles.pageContainer} id="sequencerPage">
-        <Toolbar />
-        <TrackHeaders />
-        <div className={styles.tracksTimelineContainer} ref={ref => (this.sequencerPageRef = ref)}>
+        <ToolbarLayout>
+          <Toolbar />
+        </ToolbarLayout>
+        <TimelineLayout>
+          <TimelineGutter />
           <Timeline />
+        </TimelineLayout>
+        <TracksLayout>
+          <TracksGutter />
           <Tracks />
-          <VerticalGrid gridCount={gridCount} gridSegmentWidth={gridSegmentWidth} />
-        </div>
+        </TracksLayout>
       </div>
     )
   }

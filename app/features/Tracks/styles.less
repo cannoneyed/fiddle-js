@@ -1,10 +1,15 @@
-.tracksWrapper {
-  height: 100%;
+@import '~styles/sequencer.less';
+
+.tracksAreaContainer {
   overflow: auto;
+  flex-grow: 1;
+  background-color: cornflowerblue;
+  position: relative;
 }
 
 .tracksContainer {
-  z-index: 1;
   position: absolute;
+  top: 0;
+  z-index: @tracksZIndex;
   width: 100%;
 }
