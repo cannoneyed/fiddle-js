@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { render } from 'react-dom'
 import { useStrict } from 'mobx'
 import { AppContainer } from 'react-hot-loader'
@@ -28,10 +28,7 @@ const renderPage = (Component: any) =>
 renderPage(Root)
 
 declare const module: any
-// if (module.hot) {
-//   const NextRoot = require('./pages/Root').default
-//   module.hot.accept('./pages/Root', () => renderPage(NextRoot))
-// }
+
 if (module.hot) {
   module.hot.accept() // this is important
   renderPage(Root)
