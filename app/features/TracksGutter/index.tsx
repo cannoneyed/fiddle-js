@@ -1,6 +1,5 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
-import { setScrollHandler, removeScrollHandler } from './interactions/scroll-handler'
 
 import TrackHeader from 'features/TrackHeader'
 
@@ -26,18 +25,6 @@ export default class TracksGutter extends React.Component<ComponentProps, {}> {
 
   get injected() {
     return this.props as InjectedProps
-  }
-
-  componentDidMount() {
-    if (this.tracksGutterRef) {
-      setScrollHandler(this.tracksGutterRef)
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.tracksGutterRef) {
-      removeScrollHandler(this.tracksGutterRef)
-    }
   }
 
   render() {

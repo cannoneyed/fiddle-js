@@ -1,6 +1,5 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
-import { setScrollHandler, removeScrollHandler } from './interactions/scroll-handler'
 
 import VerticalGrid from 'components/VerticalGrid'
 import Track from 'features/Track'
@@ -30,18 +29,6 @@ export default class TracksContainer extends React.Component<ComponentProps, {}>
 
   get injected() {
     return this.props as InjectedProps
-  }
-
-  componentDidMount() {
-    if (this.tracksAreaRef) {
-      setScrollHandler(this.tracksAreaRef)
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.tracksAreaRef) {
-      removeScrollHandler(this.tracksAreaRef)
-    }
   }
 
   render() {

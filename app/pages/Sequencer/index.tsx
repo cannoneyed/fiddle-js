@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
+import { getElementsByIds } from 'utils/document'
+import { syncScroll, unsyncScroll } from './interactions/sync-scroll'
 
 import Timeline from 'features/Timeline'
 import TimelineGutter from 'features/TimelineGutter'
@@ -32,6 +34,18 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
 
   get injected() {
     return this.props as InjectedProps
+  }
+
+  componentDidMount() {
+    const xy = getElementsByIds('tracksAreaContainer')
+    const x = getElementsByIds('timelineContainer')
+    const y = getElementsByIds('tracksGutterContainer')
+
+    syncScroll({ xy, x, y })
+  }
+
+  componentWillUnmount() {
+    unsyncScroll()
   }
 
   render() {
