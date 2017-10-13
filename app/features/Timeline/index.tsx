@@ -34,7 +34,7 @@ export default class TimelineContainer extends Component<ComponentProps, {}> {
       minWidth: gridSegmentWidth,
     }
 
-    return range(timelineLength - 1).map(index => (
+    return range(timelineLength).map(index => (
       <div key={index} className={styles.timelineSegment} style={timelineSegmentStyles}>
         {index + 1}
       </div>

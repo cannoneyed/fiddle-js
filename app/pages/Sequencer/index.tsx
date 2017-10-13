@@ -37,6 +37,7 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
   }
 
   componentDidMount() {
+    // Sync the scroll between the
     const xy = getElementsByIds('tracksAreaContainer')
     const x = getElementsByIds('timelineContainer')
     const y = getElementsByIds('tracksGutterContainer')

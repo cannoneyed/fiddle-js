@@ -18,7 +18,8 @@ const elementsToSync = new ElementsToSync()
 interface ModifiedHTMLElement extends HTMLElement {
   eX?: number
   eY?: number
-  syn?(): void
+  isScrolling?: boolean
+  syn?(event: WheelEvent): void
 }
 
 interface IElementsToSync {
@@ -35,47 +36,62 @@ export function syncScroll(elements: IElementsToSync): void {
   elementsToSync.x = x
   elementsToSync.y = y
 
+  window.onscroll = (event: Event) => {
+    event.preventDefault()
+  }
+
   map([xy, x, y], group => {
     map(group, element => {
-      if (!element) {
-        return
-      }
+      element.eX = element.scrollLeft
+      element.eY = element.scrollTop
 
-      element.eX = 0
-      element.eY = 0
+      element.syn = (event: WheelEvent) => {
+        event.preventDefault()
+        const { deltaX, deltaY } = event
 
-      element.syn = function() {
-        const { scrollLeft: scrollX, scrollTop: scrollY } = element
+        const { scrollLeft, scrollTop } = element
         const { clientWidth, clientHeight, scrollWidth, scrollHeight } = element
+
+        const scrollX = scrollLeft + deltaX
+        const scrollY = scrollTop + deltaY
 
         const rateX = scrollX / (scrollWidth - clientWidth)
         const rateY = scrollY / (scrollHeight - clientHeight)
 
-        element.eX = scrollX
-        element.eY = scrollY
+        const changeX = element.eX !== scrollX
+        const changeY = element.eY !== scrollY
+
+        element.eX = element.scrollLeft = scrollX
+        element.eY = element.scrollTop = scrollY
 
         // iterate over the other elements to sync, updating the correct scroll properties
         for (let otherElement of elementsToSync.xy) {
-          if (otherElement && otherElement !== element) {
-            setScrollX(otherElement, scrollX, rateX)
-            setScrollY(otherElement, scrollY, rateY)
+          if ((changeX || changeY) && otherElement !== element) {
+            window.requestAnimationFrame(() => {
+              setScrollX(otherElement, scrollX, rateX)
+              setScrollY(otherElement, scrollY, rateY)
+            })
           }
         }
 
         for (let otherElement of elementsToSync.x) {
-          if (otherElement && otherElement !== element) {
-            setScrollX(otherElement, scrollX, rateX)
+          if (changeX && otherElement !== element) {
+            window.requestAnimationFrame(() => {
+              setScrollX(otherElement, scrollX, rateX)
+            })
           }
         }
 
         for (let otherElement of elementsToSync.y) {
-          if (otherElement && otherElement !== element) {
-            setScrollY(otherElement, scrollY, rateY)
+          if (changeY && otherElement !== element) {
+            window.requestAnimationFrame(() => {
+              setScrollY(otherElement, scrollY, rateY)
+            })
           }
         }
       }
 
-      element.addEventListener('scroll', element.syn)
+      element.addEventListener('mousewheel', element.syn)
     })
   })
 }
@@ -84,17 +100,12 @@ export function unsyncScroll() {
   const { xy, x, y } = elementsToSync
   map([xy, x, y], group => {
     map(group, element => {
-      element.removeEventListener('scroll', element.syn)
+      element.removeEventListener('mousewheel', element.syn)
     })
   })
 }
 
 function setScrollX(element: ModifiedHTMLElement, scrollX: number, rateX: number): void {
-  const updateX = scrollX !== element.eX
-  if (!updateX) {
-    return
-  }
-
   const { clientWidth, scrollLeft, scrollWidth } = element
   const nextX = Math.round(rateX * (scrollWidth - clientWidth))
   const shouldUpdate = Math.round(scrollLeft - nextX)
