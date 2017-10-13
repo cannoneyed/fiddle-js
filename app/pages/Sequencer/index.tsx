@@ -1,12 +1,5 @@
-import React from 'react'
-import { pxToInt } from 'utils/css'
+import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-
-import { setScrollHandler, removeScrollHandler } from './interactions/scroll-handlers'
-
-import TimelineLayout from './layout/Timeline'
-import ToolbarLayout from './layout/Toolbar'
-import TracksLayout from './layout/Tracks'
 
 import Timeline from 'features/Timeline'
 import TimelineGutter from 'features/TimelineGutter'
@@ -16,22 +9,24 @@ import Tracks from 'features/Tracks'
 
 // import VerticalGrid from 'components/VerticalGrid'
 
+import sequencerLayoutStore, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
 
 const styles = require('./styles.less')
-const sequencerStyles = require('styles/sequencer.less')
 
 interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
+  sequencerLayoutStore: SequencerLayoutStore
   sequencerViewStore: SequencerViewStore
 }
 
 @inject(() => ({
+  sequencerLayoutStore,
   sequencerViewStore,
 }))
 @observer
-export default class SequencerPage extends React.Component<ComponentProps, {}> {
+export default class SequencerPage extends Component<ComponentProps, {}> {
   tracksRef: Element | null
   scrollHandler: JQuery<HTMLElement>
 
@@ -39,35 +34,36 @@ export default class SequencerPage extends React.Component<ComponentProps, {}> {
     return this.props as InjectedProps
   }
 
-  componentDidMount() {
-    if (this.tracksRef) {
-      const timelineHeight = pxToInt(sequencerStyles.timeline_height)
-      setScrollHandler(this.tracksRef, timelineHeight)
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.tracksRef) {
-      removeScrollHandler(this.tracksRef)
-    }
-  }
-
   render() {
-    // const { sequencerViewStore } = this.injected
+    const { sequencerLayoutStore } = this.injected
+    const { timelineHeight, toolbarHeight, tracksAreaHeight } = sequencerLayoutStore
+
+    const toolbarWrapperStyle = {
+      height: toolbarHeight,
+    }
+
+    const timelineWrapperStyle = {
+      height: timelineHeight,
+    }
+
+    const tracksAreaStyle = {
+      height: tracksAreaHeight,
+    }
+
     // const { gridCount, gridSegmentWidth } = sequencerViewStore
     return (
-      <div className={styles.pageContainer} id="sequencerPage">
-        <ToolbarLayout>
+      <div className={styles.pageWrapper} id="sequencerPage">
+        <div className={styles.toolbarWrapper} style={toolbarWrapperStyle}>
           <Toolbar />
-        </ToolbarLayout>
-        <TimelineLayout>
+        </div>
+        <div className={styles.timelineWrapper} style={timelineWrapperStyle}>
           <TimelineGutter />
           <Timeline />
-        </TimelineLayout>
-        <TracksLayout>
+        </div>
+        <div className={styles.tracksAreaWrapper} style={tracksAreaStyle}>
           <TracksGutter />
           <Tracks />
-        </TracksLayout>
+        </div>
       </div>
     )
   }
