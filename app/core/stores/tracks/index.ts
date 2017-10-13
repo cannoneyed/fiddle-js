@@ -10,6 +10,12 @@ class TrackStore {
   // The main page list of recipe ids
   @observable trackList = observable.array<Track>([])
 
+  constructor() {
+    for (let i = 0; i < 10; i++) {
+      this.createTrack()
+    }
+  }
+
   getTrackById = (trackId: string) => {
     return this.tracks.get(trackId)
   }
