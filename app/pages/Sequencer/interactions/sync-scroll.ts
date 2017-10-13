@@ -16,9 +16,8 @@ class ElementsToSync {
 const elementsToSync = new ElementsToSync()
 
 interface ModifiedHTMLElement extends HTMLElement {
-  eX?: number
-  eY?: number
-  isScrolling?: boolean
+  canScrollX?: boolean
+  canScrollY?: boolean
   syn?(event: WheelEvent): void
 }
 
@@ -36,14 +35,15 @@ export function syncScroll(elements: IElementsToSync): void {
   elementsToSync.x = x
   elementsToSync.y = y
 
-  window.onscroll = (event: Event) => {
-    event.preventDefault()
-  }
-
   map([xy, x, y], group => {
     map(group, element => {
-      element.eX = element.scrollLeft
-      element.eY = element.scrollTop
+      if (group === xy) {
+        element.canScrollX = element.canScrollY = true
+      } else if (group === x) {
+        element.canScrollX = true
+      } else if (group === y) {
+        element.canScrollY = true
+      }
 
       element.syn = (event: WheelEvent) => {
         event.preventDefault()
@@ -52,24 +52,24 @@ export function syncScroll(elements: IElementsToSync): void {
         const { scrollLeft, scrollTop } = element
         const { clientWidth, clientHeight, scrollWidth, scrollHeight } = element
 
-        const scrollX = scrollLeft + deltaX
-        const scrollY = scrollTop + deltaY
+        const scrollX = element.canScrollX ? scrollLeft + deltaX : scrollLeft
+        const scrollY = element.canScrollY ? scrollTop + deltaY : scrollTop
 
-        const rateX = scrollX / (scrollWidth - clientWidth)
-        const rateY = scrollY / (scrollHeight - clientHeight)
+        const ratioX = scrollX / (scrollWidth - clientWidth)
+        const ratioY = scrollY / (scrollHeight - clientHeight)
 
-        const changeX = element.eX !== scrollX
-        const changeY = element.eY !== scrollY
+        const changeX = element.scrollLeft !== scrollX
+        const changeY = element.scrollTop !== scrollY
 
-        element.eX = element.scrollLeft = scrollX
-        element.eY = element.scrollTop = scrollY
+        element.scrollLeft = scrollX
+        element.scrollTop = scrollY
 
         // iterate over the other elements to sync, updating the correct scroll properties
         for (let otherElement of elementsToSync.xy) {
           if ((changeX || changeY) && otherElement !== element) {
             window.requestAnimationFrame(() => {
-              setScrollX(otherElement, scrollX, rateX)
-              setScrollY(otherElement, scrollY, rateY)
+              setScrollX(otherElement, ratioX)
+              setScrollY(otherElement, ratioY)
             })
           }
         }
@@ -77,7 +77,7 @@ export function syncScroll(elements: IElementsToSync): void {
         for (let otherElement of elementsToSync.x) {
           if (changeX && otherElement !== element) {
             window.requestAnimationFrame(() => {
-              setScrollX(otherElement, scrollX, rateX)
+              setScrollX(otherElement, ratioX)
             })
           }
         }
@@ -85,7 +85,7 @@ export function syncScroll(elements: IElementsToSync): void {
         for (let otherElement of elementsToSync.y) {
           if (changeY && otherElement !== element) {
             window.requestAnimationFrame(() => {
-              setScrollY(otherElement, scrollY, rateY)
+              setScrollY(otherElement, ratioY)
             })
           }
         }
@@ -105,31 +105,16 @@ export function unsyncScroll() {
   })
 }
 
-function setScrollX(element: ModifiedHTMLElement, scrollX: number, rateX: number): void {
-  const { clientWidth, scrollLeft, scrollWidth } = element
-  const nextX = Math.round(rateX * (scrollWidth - clientWidth))
-  const shouldUpdate = Math.round(scrollLeft - nextX)
+function setScrollX(element: ModifiedHTMLElement, ratioX: number): void {
+  const { clientWidth, scrollWidth } = element
+  const nextX = Math.round(ratioX * (scrollWidth - clientWidth))
 
-  scrollX = element.eX = nextX
-
-  if (shouldUpdate) {
-    element.scrollLeft = scrollX
-  }
+  element.scrollLeft = nextX
 }
 
-function setScrollY(element: ModifiedHTMLElement, scrollY: number, rateY: number): void {
-  const updateY = scrollY !== element.eY
-  if (!updateY) {
-    return
-  }
+function setScrollY(element: ModifiedHTMLElement, ratioY: number): void {
+  const { clientHeight, scrollHeight } = element
+  const nextY = Math.round(ratioY * (scrollHeight - clientHeight))
 
-  const { clientHeight, scrollTop, scrollHeight } = element
-  const nextY = Math.round(rateY * (scrollHeight - clientHeight))
-  const shouldUpdate = Math.round(scrollTop - nextY)
-
-  scrollY = element.eY = nextY
-
-  if (shouldUpdate) {
-    element.scrollTop = scrollY
-  }
+  element.scrollTop = nextY
 }

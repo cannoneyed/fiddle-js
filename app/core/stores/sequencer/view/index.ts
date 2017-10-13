@@ -16,7 +16,7 @@ class SequencerViewStore {
   defaultBarWidth = 50
   barsPerGridSegment = 1
 
-  defaultTrackHeight = 100
+  defaultTrackHeight = 50
 
   @observable zoomLevel = new ZoomLevel()
   @observable playheadPosition = 0
