@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 
 import sequencerLayoutStore, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
@@ -15,7 +15,7 @@ interface InjectedProps extends ComponentProps {
   sequencerLayoutStore,
 }))
 @observer
-export default class TimelineGutter extends React.Component<ComponentProps, {}> {
+export default class TimelineGutter extends Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }

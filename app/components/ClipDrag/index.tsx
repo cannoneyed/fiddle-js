@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import classnames from 'classnames'
 
 import { Clip } from 'core/models/clip'
@@ -11,7 +11,7 @@ interface ComponentProps {
   clip: Clip
 }
 
-export default class ClipDrag extends React.Component<ComponentProps, {}> {
+export default class ClipDrag extends Component<ComponentProps, {}> {
   render() {
     const { clip } = this.props
 

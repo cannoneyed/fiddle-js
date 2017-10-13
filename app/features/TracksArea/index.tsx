@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 
 import VerticalGrid from 'components/VerticalGrid'
@@ -24,7 +24,7 @@ interface InjectedProps extends ComponentProps {
   sequencerViewStore,
 }))
 @observer
-export default class TracksContainer extends React.Component<ComponentProps, {}> {
+export default class TracksAreaContainer extends Component<ComponentProps, {}> {
   tracksAreaRef: HTMLDivElement | null
 
   get injected() {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 
 import TrackHeader from 'features/TrackHeader'
@@ -20,7 +20,7 @@ interface InjectedProps extends ComponentProps {
   sequencerLayoutStore,
 }))
 @observer
-export default class TracksGutter extends React.Component<ComponentProps, {}> {
+export default class TracksGutter extends Component<ComponentProps, {}> {
   tracksGutterRef: HTMLDivElement | null
 
   get injected() {

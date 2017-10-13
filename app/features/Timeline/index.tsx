@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { range } from 'lodash'
 import { inject, observer } from 'mobx-react'
 
@@ -19,7 +19,7 @@ interface InjectedProps extends ComponentProps {
   sequencerStateStore,
 }))
 @observer
-export default class TimelineContainer extends React.Component<ComponentProps, {}> {
+export default class TimelineContainer extends Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }

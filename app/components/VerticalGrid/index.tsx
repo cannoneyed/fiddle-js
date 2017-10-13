@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { range } from 'lodash'
 
 const styles = require('./styles.less')
@@ -8,7 +8,7 @@ interface ComponentProps {
   gridSegmentWidth: number
 }
 
-export default class VerticalGrid extends React.Component<ComponentProps, {}> {
+export default class VerticalGrid extends Component<ComponentProps, {}> {
   render() {
     const { gridCount, gridSegmentWidth } = this.props
 
@@ -18,7 +18,7 @@ export default class VerticalGrid extends React.Component<ComponentProps, {}> {
 
     return (
       <div className={styles.verticalGridContainer} id="verticalGridContainer">
-        {range(gridCount - 1).map((index: number) => (
+        {range(gridCount).map((index: number) => (
           <div key={index} style={gridSegmentStyle} className={styles.gridSegment} />
         ))}
       </div>

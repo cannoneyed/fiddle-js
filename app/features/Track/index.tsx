@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import autobind from 'autobind-decorator'
 import { inject, observer } from 'mobx-react'
 import { ContextMenuTarget } from '@blueprintjs/core'
@@ -28,7 +28,7 @@ interface InjectedProps extends ComponentProps {
 }))
 @ContextMenuTarget
 @observer
-export default class TrackContainer extends React.Component<ComponentProps, {}> {
+export default class TrackContainer extends Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }
