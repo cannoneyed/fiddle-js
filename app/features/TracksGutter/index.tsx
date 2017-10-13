@@ -6,7 +6,7 @@ import TrackHeader from 'features/TrackHeader'
 import trackStore, { TrackStore } from 'core/stores/tracks'
 import sequencerLayoutStore, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
 
-const styles = require('./styles.less')
+import * as styles from './styles'
 
 interface ComponentProps {}
 

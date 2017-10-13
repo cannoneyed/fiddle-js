@@ -10,7 +10,7 @@ import Track from 'core/models/track'
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
 import trackMouseInteraction, { TrackMouseInteraction } from 'core/interactions/tracks/mouse'
 
-const styles = require('./styles.less')
+import * as styles from './styles'
 
 interface ComponentProps {
   track: Track

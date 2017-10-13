@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import classnames from 'classnames'
 import { inject, observer } from 'mobx-react'
 
-const styles = require('./styles.less')
-
 import { Clip } from 'core/models/clip'
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
+
+import * as styles from './styles'
 
 interface ComponentProps {
   clip: Clip

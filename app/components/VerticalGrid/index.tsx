@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { range } from 'lodash'
 
-const styles = require('./styles.less')
+import * as styles from './styles'
 
 interface ComponentProps {
   gridCount: number

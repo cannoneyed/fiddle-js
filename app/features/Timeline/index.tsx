@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react'
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
 import sequencerStateStore, { SequencerStateStore } from 'core/stores/sequencer/state'
 
-const styles = require('./styles.less')
+import * as styles from './styles'
 
 interface ComponentProps {}
 

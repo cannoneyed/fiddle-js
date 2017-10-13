@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react'
 
 import sequencerLayoutStore, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
 
-const styles = require('./styles.less')
+import * as styles from './styles'
 
 interface ComponentProps {}
 

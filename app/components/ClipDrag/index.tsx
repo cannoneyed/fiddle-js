@@ -5,7 +5,7 @@ import { Clip } from 'core/models/clip'
 
 import ClipView from 'components/Clip'
 
-const styles = require('./styles.less')
+import * as styles from './styles'
 
 interface ComponentProps {
   clip: Clip

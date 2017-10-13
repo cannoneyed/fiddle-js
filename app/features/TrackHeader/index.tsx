@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react'
 import { Track } from 'core/models/track'
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
 
-const styles = require('./styles.less')
+import * as styles from './styles'
 
 interface ComponentProps {
   index: number

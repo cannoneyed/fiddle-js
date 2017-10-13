@@ -5,7 +5,7 @@ import { Button } from '@blueprintjs/core'
 import trackStore, { TrackStore } from 'core/stores/tracks'
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
 
-const styles = require('./styles.less')
+import * as styles from './styles'
 
 interface ComponentProps {}
 
