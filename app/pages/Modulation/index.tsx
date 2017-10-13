@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-export default class MainPage extends React.Component {
+export default class MainPage extends Component {
   render() {
     return <div>{this.props.children}</div>
   }

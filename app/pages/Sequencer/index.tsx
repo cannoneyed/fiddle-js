@@ -7,7 +7,7 @@ import Timeline from 'features/Timeline'
 import TimelineGutter from 'features/TimelineGutter'
 import Toolbar from 'features/Toolbar'
 import TracksGutter from 'features/TracksGutter'
-import Tracks from 'features/Tracks'
+import TracksArea from 'features/TracksArea'
 
 // import VerticalGrid from 'components/VerticalGrid'
 
@@ -76,7 +76,7 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
         </div>
         <div className={styles.tracksAreaWrapper} style={tracksAreaStyle}>
           <TracksGutter />
-          <Tracks />
+          <TracksArea />
         </div>
       </div>
     )
