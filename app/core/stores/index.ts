@@ -1,10 +1,12 @@
 import ClipStore from './clips'
 import SequencerStore from './sequencer'
 import TrackStore from './tracks'
+import WindowStore from './window'
 
 // // Resource stores
 export const clipStore = ClipStore
 export const trackStore = TrackStore
+export const windowStore = WindowStore
 
 // // Sequencer and substores
 export const sequencerStore = SequencerStore

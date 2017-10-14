@@ -1,11 +1,12 @@
 /**
  * @fileoverview syncscroll - scroll several areas simultaniously
  * @version 0.0.3
- * 
+ *
  * @license MIT, see http://github.com/asvd/intence
- * @copyright 2015 asvd <heliosframework@gmail.com> 
+ * @copyright 2015 asvd <heliosframework@gmail.com>
  */
-import { map } from 'lodash'
+import { clamp, map } from 'lodash'
+import sequencerViewStore from 'core/stores/sequencer/view'
 
 class ElementsToSync {
   xy: ModifiedHTMLElement[] = []
@@ -52,17 +53,26 @@ export function syncScroll(elements: IElementsToSync): void {
         const { scrollLeft, scrollTop } = element
         const { clientWidth, clientHeight, scrollWidth, scrollHeight } = element
 
-        const scrollX = element.canScrollX ? scrollLeft + deltaX : scrollLeft
-        const scrollY = element.canScrollY ? scrollTop + deltaY : scrollTop
+        let scrollX = element.canScrollX ? scrollLeft + deltaX : scrollLeft
+        let scrollY = element.canScrollY ? scrollTop + deltaY : scrollTop
 
-        const ratioX = scrollX / (scrollWidth - clientWidth)
-        const ratioY = scrollY / (scrollHeight - clientHeight)
+        // clamp scrollX and scrollY
+        scrollX = clamp(scrollX, 0, scrollWidth - clientWidth)
+        scrollY = clamp(scrollY, 0, scrollHeight - clientHeight)
+
+        const ratioX = clamp(scrollX / (scrollWidth - clientWidth), 0, 1)
+        const ratioY = clamp(scrollY / (scrollHeight - clientHeight), 0, 1)
 
         const changeX = element.scrollLeft !== scrollX
         const changeY = element.scrollTop !== scrollY
 
         element.scrollLeft = scrollX
         element.scrollTop = scrollY
+
+        // Set the ratio in the mobx sequencer view store (for reactive elements) as well as imperatively
+        // scrolling the scroll areas - we want this number to be normalized to the entire length of the
+        // scrollable area (just the left edge of the scroll) rather than from 0 to 1
+        sequencerViewStore.setScrollPercentX(scrollX / scrollWidth)
 
         // iterate over the other elements to sync, updating the correct scroll properties
         for (let otherElement of elementsToSync.xy) {

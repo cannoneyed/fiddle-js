@@ -1,6 +1,7 @@
 import { action, computed, observable } from 'mobx'
 
 import sequencerState from 'core/stores/sequencer/state'
+import windowStore from 'core/stores/window'
 
 class ZoomLevel {
   @observable horizontal: number
@@ -13,6 +14,12 @@ class ZoomLevel {
 }
 
 class SequencerViewStore {
+  static mobxLoggerConfig = {
+    methods: {
+      setScrollPercentX: false,
+    },
+  }
+
   defaultBarWidth = 50
   barsPerGridSegment = 1
 
@@ -20,6 +27,8 @@ class SequencerViewStore {
 
   @observable zoomLevel = new ZoomLevel()
   @observable playheadPosition = 0
+
+  @observable scrollPercentX = 0
 
   // Actions
   @action.bound
@@ -30,6 +39,11 @@ class SequencerViewStore {
   @action.bound
   zoomOutHorizontal = () => {
     this.zoomLevel.horizontal -= 0.1
+  }
+
+  @action.bound
+  setScrollPercentX = (scrollPercentX: number) => {
+    this.scrollPercentX = scrollPercentX
   }
 
   // Computed Fields
@@ -58,6 +72,12 @@ class SequencerViewStore {
     // const gridSegmentWidth = this.defaultBarWidth
     const timelineLength = sequencerState.timelineLength
     return timelineLength
+  }
+
+  @computed
+  get minimapWidth() {
+    const { width } = windowStore
+    return width / width
   }
 }
 
