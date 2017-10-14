@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { getElementsByIds } from 'utils/document'
-import { syncScroll, unsyncScroll } from './interactions/sync-scroll'
+import { syncScroll, unsyncScroll } from 'interactions/sequencer-scroll'
 
+import Minimap from 'features/Minimap'
 import Timeline from 'features/Timeline'
 import TimelineGutter from 'features/TimelineGutter'
 import Toolbar from 'features/Toolbar'
@@ -51,7 +52,7 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
 
   render() {
     const { sequencerLayoutStore } = this.injected
-    const { timelineHeight, toolbarHeight, tracksAreaHeight } = sequencerLayoutStore
+    const { minimapHeight, timelineHeight, toolbarHeight, tracksAreaHeight } = sequencerLayoutStore
 
     const toolbarWrapperStyle = {
       height: toolbarHeight,
@@ -61,8 +62,12 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
       height: timelineHeight,
     }
 
-    const tracksAreaStyle = {
+    const tracksAreaWrapperStyle = {
       height: tracksAreaHeight,
+    }
+
+    const minimapWrapperStyle = {
+      height: minimapHeight,
     }
 
     // const { gridCount, gridSegmentWidth } = sequencerViewStore
@@ -71,11 +76,14 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
         <div className={styles.toolbarWrapper} style={toolbarWrapperStyle}>
           <Toolbar />
         </div>
+        <div className={styles.minimapWrapper} style={minimapWrapperStyle}>
+          <Minimap />
+        </div>
         <div className={styles.timelineWrapper} style={timelineWrapperStyle}>
           <TimelineGutter />
           <Timeline />
         </div>
-        <div className={styles.tracksAreaWrapper} style={tracksAreaStyle}>
+        <div className={styles.tracksAreaWrapper} style={tracksAreaWrapperStyle}>
           <TracksGutter />
           <TracksArea />
         </div>
