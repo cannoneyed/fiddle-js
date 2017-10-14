@@ -31,17 +31,20 @@ class SequencerViewStore {
   @observable scrollPercentX = 0
 
   // Actions
-  @action.bound
+  @action
   zoomInHorizontal = () => {
     this.zoomLevel.horizontal += 0.1
+    this.computeScrollPercentX()
   }
 
-  @action.bound
+  @action
   zoomOutHorizontal = () => {
     this.zoomLevel.horizontal -= 0.1
   }
 
-  @action.bound
+  @action computeScrollPercentX = () => {}
+
+  @action
   setScrollPercentX = (scrollPercentX: number) => {
     this.scrollPercentX = scrollPercentX
   }
@@ -76,8 +79,6 @@ class SequencerViewStore {
 
   @computed
   get tracksViewPercentX() {
-    const { zoomLevel } = this
-    console.log(zoomLevel)
     const { tracksAreaWidth } = sequencerLayoutStore
     return tracksAreaWidth / this.trackWidth
   }
