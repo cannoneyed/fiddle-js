@@ -5,7 +5,7 @@ const getMobxLoggerConfig = (object: any) => {
 }
 
 export default function logFilter(change: any): boolean {
-  const isReaction = change.type === 'reaction'
+  const isReaction = change.type === 'reaction' || change.type === 'scheduled-reaction'
   const isAction = change.type === 'action'
 
   if (isAction) {

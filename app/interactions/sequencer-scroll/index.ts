@@ -1,10 +1,3 @@
-/**
- * @fileoverview syncscroll - scroll several areas simultaniously
- * @version 0.0.3
- *
- * @license MIT, see http://github.com/asvd/intence
- * @copyright 2015 asvd <heliosframework@gmail.com>
- */
 import { clamp, map } from 'lodash'
 import sequencerViewStore from 'core/stores/sequencer/view'
 

@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx'
 
+import sequencerLayoutStore from 'core/stores/sequencer/layout'
 import sequencerState from 'core/stores/sequencer/state'
-import windowStore from 'core/stores/window'
 
 class ZoomLevel {
   @observable horizontal: number
@@ -64,7 +64,7 @@ class SequencerViewStore {
 
   @computed
   get trackWidth() {
-    return this.gridCount * this.defaultBarWidth
+    return this.gridCount * this.barWidth
   }
 
   @computed
@@ -75,9 +75,11 @@ class SequencerViewStore {
   }
 
   @computed
-  get minimapWidth() {
-    const { width } = windowStore
-    return width / width
+  get tracksViewPercentX() {
+    const { zoomLevel } = this
+    console.log(zoomLevel)
+    const { tracksAreaWidth } = sequencerLayoutStore
+    return tracksAreaWidth / this.trackWidth
   }
 }
 
