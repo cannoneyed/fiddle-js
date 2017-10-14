@@ -1,4 +1,6 @@
 import { clamp, map } from 'lodash'
+
+import sequencerDOMStore from 'core/stores/sequencer/dom'
 import sequencerViewStore from 'core/stores/sequencer/view'
 
 class ElementsToSync {
@@ -15,21 +17,15 @@ interface ModifiedHTMLElement extends HTMLElement {
   syn?(event: WheelEvent): void
 }
 
-interface IElementsToSync {
-  xy: ModifiedHTMLElement[]
-  x: ModifiedHTMLElement[]
-  y: ModifiedHTMLElement[]
-}
-
-export function syncScroll(elements: IElementsToSync): void {
-  const { xy = [], x = [], y = [] } = elements
+export function syncScroll(): void {
+  const { xy, x, y } = sequencerDOMStore.getSyncScrollElements()
 
   // Add the elements to the map in order to keep track of sync operations
   elementsToSync.xy = xy
   elementsToSync.x = x
   elementsToSync.y = y
 
-  map([xy, x, y], group => {
+  map([elementsToSync.xy, elementsToSync.x, elementsToSync.y], group => {
     map(group, element => {
       if (group === xy) {
         element.canScrollX = element.canScrollY = true

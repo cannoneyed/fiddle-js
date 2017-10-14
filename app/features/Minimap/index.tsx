@@ -30,10 +30,10 @@ export default class Minimap extends Component<ComponentProps, {}> {
     }
 
     return (
-      <div className={styles.minimapContainer} id="minimapContainer">
+      <div className={styles.minimapContainer} id="minimap">
         <div
           className={styles.minimapScrollContainer}
-          id="minimapScrollContainer"
+          id="minimapScroll"
           style={minimapScrollContainerStyle}
         />
         {/* <div className={styles.timelineSegmentsContainer}>{this.renderTimelineSegments()}</div> */}

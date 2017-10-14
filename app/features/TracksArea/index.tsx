@@ -25,8 +25,6 @@ interface InjectedProps extends ComponentProps {
 }))
 @observer
 export default class TracksAreaContainer extends Component<ComponentProps, {}> {
-  tracksAreaRef: HTMLDivElement | null
-
   get injected() {
     return this.props as InjectedProps
   }
@@ -43,11 +41,7 @@ export default class TracksAreaContainer extends Component<ComponentProps, {}> {
     }
 
     return (
-      <div
-        className={styles.tracksAreaContainer}
-        ref={ref => (this.tracksAreaRef = ref)}
-        id="tracksAreaContainer"
-      >
+      <div className={styles.tracksAreaContainer} id="tracksArea">
         <div className={styles.gridContainer} style={gridContainerStyle}>
           <VerticalGrid gridCount={gridCount} gridSegmentWidth={gridSegmentWidth} />
         </div>

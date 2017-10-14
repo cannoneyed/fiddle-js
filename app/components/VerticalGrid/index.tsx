@@ -17,7 +17,7 @@ export default class VerticalGrid extends Component<ComponentProps, {}> {
     }
 
     return (
-      <div className={styles.verticalGridContainer} id="verticalGridContainer">
+      <div className={styles.verticalGridContainer}>
         {range(gridCount).map((index: number) => (
           <div key={index} style={gridSegmentStyle} className={styles.gridSegment} />
         ))}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { getElementsByIds } from 'utils/document'
 import { syncScroll, unsyncScroll } from 'interactions/sequencer-scroll'
 
 import Minimap from 'features/Minimap'
@@ -11,7 +10,6 @@ import TracksGutter from 'features/TracksGutter'
 import TracksArea from 'features/TracksArea'
 
 // import VerticalGrid from 'components/VerticalGrid'
-
 import sequencerLayoutStore, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
 
@@ -38,12 +36,7 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
   }
 
   componentDidMount() {
-    // Sync the scroll between the
-    const xy = getElementsByIds('tracksAreaContainer')
-    const x = getElementsByIds('timelineContainer')
-    const y = getElementsByIds('tracksGutterContainer')
-
-    syncScroll({ xy, x, y })
+    syncScroll()
   }
 
   componentWillUnmount() {
