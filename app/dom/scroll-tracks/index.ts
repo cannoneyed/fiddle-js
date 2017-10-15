@@ -1,6 +1,8 @@
+import { clamp } from 'lodash'
 import sequencerDOMStore from 'core/stores/sequencer/dom'
 
 export function scrollTracksX(ratioX: number) {
+  ratioX = clamp(ratioX, 0, 1)
   const { xy, x } = sequencerDOMStore.getSyncScrollElements()
 
   let element: HTMLElement
@@ -14,6 +16,8 @@ export function scrollTracksX(ratioX: number) {
 }
 
 export function scrollTracks(ratioX: number, ratioY: number) {
+  ratioX = clamp(ratioX, 0, 1)
+  ratioY = clamp(ratioY, 0, 1)
   const { xy, x, y } = sequencerDOMStore.getSyncScrollElements()
 
   let element: HTMLElement

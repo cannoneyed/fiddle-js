@@ -1,4 +1,3 @@
-import { clamp } from 'lodash'
 import { scrollTracksX } from 'dom/scroll-tracks'
 
 import sequencerDOMStore from 'core/stores/sequencer/dom'
@@ -26,15 +25,8 @@ export function registerHandlers(): void {
       const { tracksScrollPercentX } = sequencerViewStore
       const nextScrollPercentX = tracksScrollPercentX + deltaPercentX
 
-      const scrollPercentX = sequencerViewStore.setTracksScrollPercentX(nextScrollPercentX)
-
-      // The scrollTracks method expects a normalized 0 to 1 ratio of scrollable area
-      // covered, not the scrollLeft / clientWidth percentage maintained in the
-      // mobx store: TODO: make this consistent
-      const nextScrollRatioX = (minimapWidth * scrollPercentX + deltaX) / scrollableMinimapWidth
-
-      const scrollRatioX = clamp(nextScrollRatioX, 0, 1)
-      scrollTracksX(scrollRatioX)
+      sequencerViewStore.setTracksScrollPercentX(nextScrollPercentX)
+      scrollTracksX(nextScrollPercentX)
     }
   }
 
