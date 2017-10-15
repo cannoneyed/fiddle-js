@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { syncScroll, unsyncScroll } from 'interactions/sequencer-scroll'
+import * as tracksScroll from 'interactions/tracks-scroll'
 
 import Minimap from 'features/Minimap'
 import Timeline from 'features/Timeline'
@@ -36,11 +36,11 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
   }
 
   componentDidMount() {
-    syncScroll()
+    tracksScroll.syncScroll()
   }
 
   componentWillUnmount() {
-    unsyncScroll()
+    tracksScroll.unsyncScroll()
   }
 
   render() {

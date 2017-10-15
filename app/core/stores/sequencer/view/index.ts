@@ -7,16 +7,28 @@ class ZoomLevel {
   @observable horizontal: number
   @observable vertical: number
 
+  zoomInterval = 0.1
+
   constructor(horizontal = 1, vertical = 1) {
     this.horizontal = horizontal
     this.vertical = vertical
+  }
+
+  @action
+  zoomInHorizontal() {
+    this.horizontal += this.zoomInterval
+  }
+
+  @action
+  zoomOutHorizontal() {
+    this.horizontal = Math.max(0, (this.horizontal -= this.zoomInterval))
   }
 }
 
 class SequencerViewStore {
   static mobxLoggerConfig = {
     methods: {
-      setScrollPercentX: false,
+      setTracksScroll: false,
     },
   }
 
@@ -28,25 +40,24 @@ class SequencerViewStore {
   @observable zoomLevel = new ZoomLevel()
   @observable playheadPosition = 0
 
-  @observable scrollPercentX = 0
+  @observable tracksScrollX = 0
+  @observable tracksScrollY = 0
 
   // Actions
-  @action
+  @action.bound
   zoomInHorizontal = () => {
-    this.zoomLevel.horizontal += 0.1
-    this.computeScrollPercentX()
+    this.zoomLevel.zoomInHorizontal()
   }
 
-  @action
+  @action.bound
   zoomOutHorizontal = () => {
-    this.zoomLevel.horizontal -= 0.1
+    this.zoomLevel.zoomOutHorizontal()
   }
 
-  @action computeScrollPercentX = () => {}
-
-  @action
-  setScrollPercentX = (scrollPercentX: number) => {
-    this.scrollPercentX = scrollPercentX
+  @action.bound
+  setTracksScroll = (scrollX: number, scrollY: number) => {
+    this.tracksScrollX = scrollX
+    this.tracksScrollY = scrollY
   }
 
   // Computed Fields
@@ -75,6 +86,11 @@ class SequencerViewStore {
     // const gridSegmentWidth = this.defaultBarWidth
     const timelineLength = sequencerState.timelineLength
     return timelineLength
+  }
+
+  @computed
+  get tracksScrollPercentX() {
+    return this.tracksScrollX / this.trackWidth
   }
 
   @computed

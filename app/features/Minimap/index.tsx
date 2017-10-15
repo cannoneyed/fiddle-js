@@ -22,10 +22,10 @@ export default class Minimap extends Component<ComponentProps, {}> {
 
   render() {
     const { sequencerViewStore } = this.injected
-    const { scrollPercentX, tracksViewPercentX } = sequencerViewStore
+    const { tracksScrollPercentX, tracksViewPercentX } = sequencerViewStore
 
     const minimapScrollContainerStyle = {
-      left: `${scrollPercentX * 100}%`,
+      left: `${tracksScrollPercentX * 100}%`,
       width: `${tracksViewPercentX * 100}%`,
     }
 
