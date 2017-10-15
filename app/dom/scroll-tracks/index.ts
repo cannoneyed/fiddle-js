@@ -1,6 +1,19 @@
 import sequencerDOMStore from 'core/stores/sequencer/dom'
 
-export default function srcollTracks(ratioX: number, ratioY: number) {
+export function scrollTracksX(ratioX: number) {
+  const { xy, x } = sequencerDOMStore.getSyncScrollElements()
+
+  let element: HTMLElement
+  for (element of xy) {
+    setScrollX(element, ratioX)
+  }
+
+  for (element of x) {
+    setScrollX(element, ratioX)
+  }
+}
+
+export function scrollTracks(ratioX: number, ratioY: number) {
   const { xy, x, y } = sequencerDOMStore.getSyncScrollElements()
 
   let element: HTMLElement

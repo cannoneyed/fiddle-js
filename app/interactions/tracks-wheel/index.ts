@@ -3,9 +3,9 @@ import { clamp, map } from 'lodash'
 import sequencerDOMStore from 'core/stores/sequencer/dom'
 import sequencerViewStore from 'core/stores/sequencer/view'
 
-import scrollTracks from 'dom/scroll-tracks'
+import { scrollTracks } from 'dom/scroll-tracks'
 
-export function syncScroll(): void {
+export function registerHandlers(): void {
   const { xy, x, y } = sequencerDOMStore.getSyncScrollElements()
 
   map([xy, x, y], group => {

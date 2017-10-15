@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
+import * as minimapWheel from 'interactions/minimap-wheel'
 
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
 
@@ -18,6 +19,10 @@ interface InjectedProps extends ComponentProps {
 export default class Minimap extends Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
+  }
+
+  componentDidMount() {
+    minimapWheel.registerHandlers()
   }
 
   render() {

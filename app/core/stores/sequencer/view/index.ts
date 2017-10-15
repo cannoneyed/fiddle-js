@@ -1,4 +1,5 @@
 import { action, computed, observable } from 'mobx'
+import { clamp } from 'lodash'
 
 import sequencerLayoutStore from 'core/stores/sequencer/layout'
 import sequencerState from 'core/stores/sequencer/state'
@@ -9,6 +10,7 @@ class SequencerViewStore {
   static mobxLoggerConfig = {
     methods: {
       setTracksScroll: false,
+      setTracksScrollPercentX: false,
     },
   }
 
@@ -38,6 +40,17 @@ class SequencerViewStore {
   setTracksScroll = (scrollX: number, scrollY: number) => {
     this.tracksScrollX = scrollX
     this.tracksScrollY = scrollY
+  }
+
+  @action.bound
+  setTracksScrollPercentX = (scrollPercentX: number) => {
+    const { tracksAreaWidth } = sequencerLayoutStore
+    const maxScroll = this.trackWidth - tracksAreaWidth
+    const scrollX = clamp(scrollPercentX * this.trackWidth, 0, maxScroll)
+    this.tracksScrollX = scrollX
+
+    const percentX = scrollX / this.trackWidth
+    return percentX
   }
 
   // Computed Fields
