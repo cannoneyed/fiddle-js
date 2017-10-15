@@ -35,7 +35,7 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
   }
 
   componentDidMount() {
-    tracksWheel.syncScroll()
+    tracksWheel.registerHandlers()
   }
 
   render() {
