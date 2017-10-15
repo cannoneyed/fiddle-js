@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import * as tracksScroll from 'interactions/tracks-scroll'
+import * as tracksWheel from 'interactions/tracks-wheel'
 
 import Minimap from 'features/Minimap'
 import Timeline from 'features/Timeline'
@@ -35,11 +35,7 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
   }
 
   componentDidMount() {
-    tracksScroll.syncScroll()
-  }
-
-  componentWillUnmount() {
-    tracksScroll.unsyncScroll()
+    tracksWheel.syncScroll()
   }
 
   render() {
