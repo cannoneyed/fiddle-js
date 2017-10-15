@@ -9,7 +9,6 @@ import Toolbar from 'features/Toolbar'
 import TracksGutter from 'features/TracksGutter'
 import TracksArea from 'features/TracksArea'
 
-// import VerticalGrid from 'components/VerticalGrid'
 import sequencerLayoutStore, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
 
@@ -63,7 +62,6 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
       height: minimapHeight,
     }
 
-    // const { gridCount, gridSegmentWidth } = sequencerViewStore
     return (
       <div className={styles.pageWrapper} id="sequencerPage">
         <div className={styles.toolbarWrapper} style={toolbarWrapperStyle}>
