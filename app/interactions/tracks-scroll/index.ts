@@ -58,10 +58,9 @@ export function syncScroll(): void {
         element.scrollLeft = scrollX
         element.scrollTop = scrollY
 
-        // Set the ratio in the mobx sequencer view store (for reactive elements) as well as imperatively
-        // scrolling the scroll areas - we want this number to be normalized to the entire length of the
-        // scrollable area (just the left edge of the scroll) rather than from 0 to 1
-        sequencerViewStore.setScrollPercentX(scrollX / scrollWidth)
+        // Set the scroll amount in the mobx sequencer view store (for reactive elements) as well as imperatively
+        // scrolling the scroll areas
+        sequencerViewStore.setTracksScroll(scrollX, scrollY)
 
         // iterate over the other elements to sync, updating the correct scroll properties
         for (let otherElement of elementsToSync.xy) {

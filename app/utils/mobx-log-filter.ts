@@ -1,7 +1,7 @@
 import { get } from 'lodash'
 
 const getMobxLoggerConfig = (object: any) => {
-  return get(object.constructor, ['mobxLoggerConfig'])
+  return get(object, ['constructor', 'mobxLoggerConfig'])
 }
 
 export default function logFilter(change: any): boolean {
