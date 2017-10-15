@@ -29,8 +29,12 @@ export default class Minimap extends Component<ComponentProps, {}> {
     const { sequencerViewStore } = this.injected
     const { tracksScrollPercentX, tracksViewPercentX } = sequencerViewStore
 
+    // We need to compute the relative left position of the minimap container's since the scrollPercentX
+    // is a normalized 0 to 1 value.
+    const leftPercent = tracksScrollPercentX * (1 - tracksViewPercentX)
+
     const minimapScrollContainerStyle = {
-      left: `${tracksScrollPercentX * 100}%`,
+      left: `${leftPercent * 100}%`,
       width: `${tracksViewPercentX * 100}%`,
     }
 

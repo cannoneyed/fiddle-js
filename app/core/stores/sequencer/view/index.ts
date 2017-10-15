@@ -44,13 +44,12 @@ class SequencerViewStore {
 
   @action.bound
   setTracksScrollPercentX = (scrollPercentX: number) => {
-    const { tracksAreaWidth } = sequencerLayoutStore
-    const maxScroll = this.trackWidth - tracksAreaWidth
-    const scrollX = clamp(scrollPercentX * this.trackWidth, 0, maxScroll)
-    this.tracksScrollX = scrollX
+    scrollPercentX = clamp(scrollPercentX, 0, 1)
 
-    const percentX = scrollX / this.trackWidth
-    return percentX
+    const { tracksAreaWidth } = sequencerLayoutStore
+
+    const maxScroll = this.trackWidth - tracksAreaWidth
+    this.tracksScrollX = maxScroll * scrollPercentX
   }
 
   // Computed Fields
@@ -75,6 +74,11 @@ class SequencerViewStore {
   }
 
   @computed
+  get tracksScrollableWidth() {
+    return this.trackWidth - sequencerLayoutStore.tracksAreaWidth
+  }
+
+  @computed
   get gridCount() {
     // const gridSegmentWidth = this.defaultBarWidth
     const timelineLength = sequencerState.timelineLength
@@ -83,7 +87,7 @@ class SequencerViewStore {
 
   @computed
   get tracksScrollPercentX() {
-    return this.tracksScrollX / this.trackWidth
+    return this.tracksScrollX / this.tracksScrollableWidth
   }
 
   @computed

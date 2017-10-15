@@ -27,9 +27,6 @@ interface InjectedProps extends ComponentProps {
 }))
 @observer
 export default class SequencerPage extends Component<ComponentProps, {}> {
-  tracksRef: Element | null
-  scrollHandler: JQuery<HTMLElement>
-
   get injected() {
     return this.props as InjectedProps
   }
