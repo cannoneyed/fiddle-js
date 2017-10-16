@@ -2,6 +2,8 @@ import sequencerDOMStore from 'core/stores/sequencer/dom'
 import sequencerViewStore from 'core/stores/sequencer/view'
 import minimapInteractionStore from 'core/interactions/minimap'
 
+import { getNextScrollPercentX } from './helpers'
+
 export function registerHandlers() {
   const { minimap, minimapScroll } = sequencerDOMStore
   if (minimap && minimapScroll) {
@@ -16,15 +18,7 @@ export function registerHandlers() {
         const deltaX = mouseMove.pageX - lastX
         lastX = mouseMove.pageX
 
-        const minimapWidth = minimap.clientWidth
-        const minimapScrollWidth = minimapScroll.clientWidth
-
-        const scrollableMinimapWidth = minimapWidth - minimapScrollWidth
-        const deltaPercentX = deltaX / scrollableMinimapWidth
-
-        const { tracksScrollPercentX } = sequencerViewStore
-        const nextScrollPercentX = tracksScrollPercentX + deltaPercentX
-
+        const nextScrollPercentX = getNextScrollPercentX(deltaX)
         sequencerViewStore.setTracksScroll({ x: nextScrollPercentX })
       }
 

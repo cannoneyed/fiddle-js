@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 
-import * as minimapWheel from 'interactions/minimap-wheel'
-import * as minimapDrag from 'interactions/minimap-drag'
+import * as minimapScroll from 'interactions/minimap/scroll'
+import * as minimapDrag from 'interactions/minimap/drag'
 
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
 import minimapInteractions, { MinimapInteractions } from 'core/interactions/minimap'
@@ -27,7 +27,7 @@ export default class Minimap extends Component<ComponentProps, {}> {
   }
 
   componentDidMount() {
-    minimapWheel.registerHandlers()
+    minimapScroll.registerHandlers()
     minimapDrag.registerHandlers()
   }
 

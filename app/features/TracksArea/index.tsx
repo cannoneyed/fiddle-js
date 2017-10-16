@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 
-import VerticalGrid from 'components/VerticalGrid'
+import DraggedClips from 'features/DraggedClips'
 import Track from 'features/Track'
+import VerticalGrid from 'components/VerticalGrid'
 
 import trackStore, { TrackStore } from 'core/stores/tracks'
 import sequencerLayoutStore, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
@@ -48,6 +49,7 @@ export default class TracksAreaContainer extends Component<ComponentProps, {}> {
         <div className={styles.tracksContainer}>
           {trackList.map((track, index) => <Track track={track} index={index} key={index} />)}
         </div>
+        <DraggedClips />
       </div>
     )
   }
