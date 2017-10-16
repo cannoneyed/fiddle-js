@@ -24,7 +24,7 @@ class SequencerDOMStore {
     return document.getElementById('timeline')
   }
 
-  getSyncScrollElements = () => {
+  getTrackScrollElements = () => {
     const filter = (input: Array<HTMLElement | null>): HTMLElement[] => {
       return input.filter(element => element !== null) as HTMLElement[]
     }
