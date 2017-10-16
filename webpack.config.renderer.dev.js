@@ -37,6 +37,8 @@ if (!(fs.existsSync(dll) && fs.existsSync(manifest))) {
 }
 
 export default merge.smart(baseConfig, {
+  cache: false,
+
   devtool: 'inline-source-map',
 
   target: 'electron-renderer',

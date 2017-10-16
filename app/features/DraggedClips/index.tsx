@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 
 import DraggedClip from 'components/DraggedClip'
+import Portal from 'components/Portal'
 
 import observeClipsDrag from 'observers/clips-drag'
 
 import clipDragInteraction, { ClipDragInteraction } from 'core/interactions/clips/drag'
 import clipSelectInteraction, { ClipSelectInteraction } from 'core/interactions/clips/select'
+import sequencerPortalDOMStore from 'core/stores/sequencer/dom/portal'
 
 const styles = require('./styles.less')
 
@@ -32,19 +34,26 @@ export default class DraggedClips extends Component<ComponentProps, {}> {
   }
 
   render() {
-    const { isDragging } = clipDragInteraction
-    if (!isDragging) {
-      return null
-    }
+    // const { isDragging } = clipDragInteraction
+    // if (!isDragging) {
+    //   return null
+    // }
 
     const { clipSelectInteraction } = this.injected
     const { selectedClips } = clipSelectInteraction
 
+    const { draggedClipsRoot } = sequencerPortalDOMStore
+    if (!draggedClipsRoot) {
+      return null
+    }
+
     return (
-      <div className={styles.draggedClipsContainer} id="draggedClips">
-        <h1>FUCK YOU</h1>
-        {selectedClips.map(clip => <DraggedClip clip={clip} />)}
-      </div>
+      <Portal domNode={draggedClipsRoot}>
+        <div className={styles.draggedClipsContainer} id="draggedClips">
+          <h1>FUCK YOU</h1>
+          {selectedClips.map(clip => <DraggedClip clip={clip} />)}
+        </div>
+      </Portal>
     )
   }
 }
