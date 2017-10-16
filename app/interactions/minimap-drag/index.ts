@@ -1,4 +1,4 @@
-import { scrollTracksX } from 'dom/scroll-tracks'
+import { scrollTracks } from 'dom/scroll-tracks'
 
 import sequencerDOMStore from 'core/stores/sequencer/dom'
 import sequencerViewStore from 'core/stores/sequencer/view'
@@ -11,7 +11,10 @@ export function registerHandlers() {
       let lastX = mouseDown.pageX
       minimapInteractionStore.setIsDragging(true)
 
-      const mouseMove = (mouseMove: MouseEvent) => {
+      function mouseMove(mouseMove: MouseEvent): void {
+        if (!minimap || !minimapScroll) {
+          return
+        }
         const deltaX = mouseMove.pageX - lastX
         lastX = mouseMove.pageX
 
@@ -25,20 +28,27 @@ export function registerHandlers() {
         const nextScrollPercentX = tracksScrollPercentX + deltaPercentX
 
         sequencerViewStore.setTracksScrollPercentX(nextScrollPercentX)
-        scrollTracksX(nextScrollPercentX)
+        scrollTracks({ x: nextScrollPercentX })
       }
 
-      const mouseUp = (mouseUp: MouseEvent) => {
+      function mouseUp(mouseUp: MouseEvent): void {
         minimapInteractionStore.setIsDragging(false)
-        window.removeEventListener('mouseup', mouseMove as EventListener)
-        window.removeEventListener('mousemove', mouseMove as EventListener)
+        removeEventHandlers()
       }
 
-      window.addEventListener('mousemove', mouseMove)
-      window.addEventListener('mouseup', mouseUp)
+      function removeEventHandlers() {
+        window.removeEventListener('mouseup', mouseUp)
+        window.removeEventListener('mousemove', mouseMove)
+      }
+
+      function addEventHandlers() {
+        window.addEventListener('mouseup', mouseUp)
+        window.addEventListener('mousemove', mouseMove)
+      }
 
       mouseDown.stopPropagation()
       mouseDown.preventDefault()
+      addEventHandlers()
     }
   }
 }

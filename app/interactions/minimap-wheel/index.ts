@@ -1,4 +1,4 @@
-import { scrollTracksX } from 'dom/scroll-tracks'
+import { scrollTracks } from 'dom/scroll-tracks'
 
 import sequencerDOMStore from 'core/stores/sequencer/dom'
 import sequencerViewStore from 'core/stores/sequencer/view'
@@ -26,7 +26,7 @@ export function registerHandlers(): void {
       const nextScrollPercentX = tracksScrollPercentX + deltaPercentX
 
       sequencerViewStore.setTracksScrollPercentX(nextScrollPercentX)
-      scrollTracksX(nextScrollPercentX)
+      scrollTracks({ x: nextScrollPercentX })
     }
   }
 

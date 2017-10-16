@@ -1,23 +1,13 @@
 import { clamp } from 'lodash'
 import sequencerDOMStore from 'core/stores/sequencer/dom'
 
-export function scrollTracksX(ratioX: number) {
-  ratioX = clamp(ratioX, 0, 1)
-  const { xy, x } = sequencerDOMStore.getSyncScrollElements()
-
-  let element: HTMLElement
-  for (element of xy) {
-    setScrollX(element, ratioX)
-  }
-
-  for (element of x) {
-    setScrollX(element, ratioX)
-  }
+interface IScrollTracks {
+  x?: number
+  y?: number
 }
 
-export function scrollTracks(ratioX: number, ratioY: number) {
-  ratioX = clamp(ratioX, 0, 1)
-  ratioY = clamp(ratioY, 0, 1)
+export function scrollTracks(params: IScrollTracks) {
+  const { x: ratioX, y: ratioY } = params
   const { xy, x, y } = sequencerDOMStore.getSyncScrollElements()
 
   let element: HTMLElement
@@ -35,14 +25,22 @@ export function scrollTracks(ratioX: number, ratioY: number) {
   }
 }
 
-function setScrollX(element: HTMLElement, ratioX: number): void {
+function setScrollX(element: HTMLElement, ratioX: number | undefined): void {
+  if (ratioX == undefined) {
+    return
+  }
+  ratioX = clamp(ratioX, 0, 1)
   const { clientWidth, scrollWidth } = element
   const nextX = Math.round(ratioX * (scrollWidth - clientWidth))
 
   element.scrollLeft = nextX
 }
 
-function setScrollY(element: HTMLElement, ratioY: number): void {
+function setScrollY(element: HTMLElement, ratioY: number | undefined): void {
+  if (ratioY === undefined) {
+    return
+  }
+  ratioY = clamp(ratioY, 0, 1)
   const { clientHeight, scrollHeight } = element
   const nextY = Math.round(ratioY * (scrollHeight - clientHeight))
 
