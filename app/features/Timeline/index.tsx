@@ -43,7 +43,7 @@ export default class TimelineContainer extends Component<ComponentProps, {}> {
 
   render() {
     return (
-      <div className={styles.timelineContainer} id="timelineContainer">
+      <div className={styles.timelineContainer} id="timeline">
         <div className={styles.timelineSegmentsContainer}>{this.renderTimelineSegments()}</div>
       </div>
     )

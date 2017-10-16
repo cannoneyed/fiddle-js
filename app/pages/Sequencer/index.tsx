@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { getElementsByIds } from 'utils/document'
-import { syncScroll, unsyncScroll } from './interactions/sync-scroll'
+import * as tracksWheel from 'interactions/tracks-wheel'
 
+import Minimap from 'features/Minimap'
 import Timeline from 'features/Timeline'
 import TimelineGutter from 'features/TimelineGutter'
 import Toolbar from 'features/Toolbar'
 import TracksGutter from 'features/TracksGutter'
 import TracksArea from 'features/TracksArea'
-
-// import VerticalGrid from 'components/VerticalGrid'
 
 import sequencerLayoutStore, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
@@ -29,29 +27,17 @@ interface InjectedProps extends ComponentProps {
 }))
 @observer
 export default class SequencerPage extends Component<ComponentProps, {}> {
-  tracksRef: Element | null
-  scrollHandler: JQuery<HTMLElement>
-
   get injected() {
     return this.props as InjectedProps
   }
 
   componentDidMount() {
-    // Sync the scroll between the
-    const xy = getElementsByIds('tracksAreaContainer')
-    const x = getElementsByIds('timelineContainer')
-    const y = getElementsByIds('tracksGutterContainer')
-
-    syncScroll({ xy, x, y })
-  }
-
-  componentWillUnmount() {
-    unsyncScroll()
+    tracksWheel.registerHandlers()
   }
 
   render() {
     const { sequencerLayoutStore } = this.injected
-    const { timelineHeight, toolbarHeight, tracksAreaHeight } = sequencerLayoutStore
+    const { minimapHeight, timelineHeight, toolbarHeight, tracksAreaHeight } = sequencerLayoutStore
 
     const toolbarWrapperStyle = {
       height: toolbarHeight,
@@ -61,21 +47,27 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
       height: timelineHeight,
     }
 
-    const tracksAreaStyle = {
+    const tracksAreaWrapperStyle = {
       height: tracksAreaHeight,
     }
 
-    // const { gridCount, gridSegmentWidth } = sequencerViewStore
+    const minimapWrapperStyle = {
+      height: minimapHeight,
+    }
+
     return (
       <div className={styles.pageWrapper} id="sequencerPage">
         <div className={styles.toolbarWrapper} style={toolbarWrapperStyle}>
           <Toolbar />
         </div>
+        <div className={styles.minimapWrapper} style={minimapWrapperStyle}>
+          <Minimap />
+        </div>
         <div className={styles.timelineWrapper} style={timelineWrapperStyle}>
           <TimelineGutter />
           <Timeline />
         </div>
-        <div className={styles.tracksAreaWrapper} style={tracksAreaStyle}>
+        <div className={styles.tracksAreaWrapper} style={tracksAreaWrapperStyle}>
           <TracksGutter />
           <TracksArea />
         </div>

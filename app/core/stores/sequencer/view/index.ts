@@ -1,18 +1,19 @@
 import { action, computed, observable } from 'mobx'
+import { clamp } from 'lodash'
 
+import sequencerLayoutStore from 'core/stores/sequencer/layout'
 import sequencerState from 'core/stores/sequencer/state'
 
-class ZoomLevel {
-  @observable horizontal: number
-  @observable vertical: number
-
-  constructor(horizontal = 1, vertical = 1) {
-    this.horizontal = horizontal
-    this.vertical = vertical
-  }
-}
+import ZoomLevel from 'core/models/zoom-level'
 
 class SequencerViewStore {
+  static mobxLoggerConfig = {
+    methods: {
+      setTracksScroll: false,
+      setTracksScrollPercentX: false,
+    },
+  }
+
   defaultBarWidth = 50
   barsPerGridSegment = 1
 
@@ -21,15 +22,34 @@ class SequencerViewStore {
   @observable zoomLevel = new ZoomLevel()
   @observable playheadPosition = 0
 
+  @observable tracksScrollX = 0
+  @observable tracksScrollY = 0
+
   // Actions
   @action.bound
   zoomInHorizontal = () => {
-    this.zoomLevel.horizontal += 0.1
+    this.zoomLevel.zoomInHorizontal()
   }
 
   @action.bound
   zoomOutHorizontal = () => {
-    this.zoomLevel.horizontal -= 0.1
+    this.zoomLevel.zoomOutHorizontal()
+  }
+
+  @action.bound
+  setTracksScroll = (scrollX: number, scrollY: number) => {
+    this.tracksScrollX = scrollX
+    this.tracksScrollY = scrollY
+  }
+
+  @action.bound
+  setTracksScrollPercentX = (scrollPercentX: number) => {
+    scrollPercentX = clamp(scrollPercentX, 0, 1)
+
+    const { tracksAreaWidth } = sequencerLayoutStore
+
+    const maxScroll = this.trackWidth - tracksAreaWidth
+    this.tracksScrollX = maxScroll * scrollPercentX
   }
 
   // Computed Fields
@@ -50,7 +70,12 @@ class SequencerViewStore {
 
   @computed
   get trackWidth() {
-    return this.gridCount * this.defaultBarWidth
+    return this.gridCount * this.barWidth
+  }
+
+  @computed
+  get tracksScrollableWidth() {
+    return this.trackWidth - sequencerLayoutStore.tracksAreaWidth
   }
 
   @computed
@@ -58,6 +83,17 @@ class SequencerViewStore {
     // const gridSegmentWidth = this.defaultBarWidth
     const timelineLength = sequencerState.timelineLength
     return timelineLength
+  }
+
+  @computed
+  get tracksScrollPercentX() {
+    return this.tracksScrollX / this.tracksScrollableWidth
+  }
+
+  @computed
+  get tracksViewPercentX() {
+    const { tracksAreaWidth } = sequencerLayoutStore
+    return tracksAreaWidth / this.trackWidth
   }
 }
 

@@ -21,8 +21,6 @@ interface InjectedProps extends ComponentProps {
 }))
 @observer
 export default class TracksGutter extends Component<ComponentProps, {}> {
-  tracksGutterRef: HTMLDivElement | null
-
   get injected() {
     return this.props as InjectedProps
   }
@@ -37,12 +35,7 @@ export default class TracksGutter extends Component<ComponentProps, {}> {
     }
 
     return (
-      <div
-        className={styles.tracksGutterContainer}
-        style={tracksGutterStyle}
-        ref={ref => (this.tracksGutterRef = ref)}
-        id="tracksGutterContainer"
-      >
+      <div className={styles.tracksGutterContainer} style={tracksGutterStyle} id="tracksGutter">
         {trackList.map((track, index) => <TrackHeader track={track} index={index} key={index} />)}
       </div>
     )

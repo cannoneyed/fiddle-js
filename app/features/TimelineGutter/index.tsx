@@ -28,8 +28,6 @@ export default class TimelineGutter extends Component<ComponentProps, {}> {
       minWidth: gutterWidth,
     }
 
-    return (
-      <div style={style} className={styles.timelineGutterContainer} id="timelineGutterContainer" />
-    )
+    return <div style={style} className={styles.timelineGutterContainer} />
   }
 }
