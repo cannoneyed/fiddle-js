@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import * as tracksScroll from 'interactions/tracks-scroll'
+import * as tracksScroll from 'interactions/tracks/scroll'
 import observeTracksScroll from 'observers/tracks-scroll'
 
 import Minimap from 'features/Minimap'
