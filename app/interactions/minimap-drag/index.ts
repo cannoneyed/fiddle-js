@@ -1,5 +1,3 @@
-import { scrollTracks } from 'dom/scroll-tracks'
-
 import sequencerDOMStore from 'core/stores/sequencer/dom'
 import sequencerViewStore from 'core/stores/sequencer/view'
 import minimapInteractionStore from 'core/interactions/minimap'
@@ -27,8 +25,7 @@ export function registerHandlers() {
         const { tracksScrollPercentX } = sequencerViewStore
         const nextScrollPercentX = tracksScrollPercentX + deltaPercentX
 
-        sequencerViewStore.setTracksScrollPercentX(nextScrollPercentX)
-        scrollTracks({ x: nextScrollPercentX })
+        sequencerViewStore.setTracksScroll({ x: nextScrollPercentX })
       }
 
       function mouseUp(mouseUp: MouseEvent): void {
