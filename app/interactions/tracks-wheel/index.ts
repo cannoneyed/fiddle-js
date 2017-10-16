@@ -39,7 +39,7 @@ export function registerHandlers(): void {
         const ratioY = clamp(scrollY / (scrollHeight - clientHeight), 0, 1)
 
         // Imperatively scroll the scrollable dom elements
-        scrollTracks(ratioX, ratioY)
+        scrollTracks({ x: ratioX, y: ratioY })
 
         // Set the scroll amount in the mobx sequencer view store (for reactive elements) as well as imperatively
         // scrolling the scroll areas
