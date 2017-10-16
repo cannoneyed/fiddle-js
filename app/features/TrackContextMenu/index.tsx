@@ -4,6 +4,7 @@ import { Menu, MenuItem } from '@blueprintjs/core'
 
 import trackStore, { TrackStore } from 'core/stores/tracks'
 import clipStore, { ClipStore } from 'core/stores/clips'
+import sequencerPositionStore, { SequencerPositionStore } from 'core/stores/sequencer/position'
 
 interface ComponentProps {
   trackId: string
@@ -13,11 +14,13 @@ interface ComponentProps {
 interface InjectedProps extends ComponentProps {
   trackStore: TrackStore
   clipStore: ClipStore
+  sequencerPositionStore: SequencerPositionStore
 }
 
 @inject(() => ({
   trackStore,
   clipStore,
+  sequencerPositionStore,
 }))
 @observer
 export default class TrackContextMenu extends Component<ComponentProps, {}> {
@@ -33,8 +36,10 @@ export default class TrackContextMenu extends Component<ComponentProps, {}> {
 
   createClip = () => {
     const { trackId, offsetX } = this.props
-    const { clipStore } = this.injected
-    clipStore.createClip({ trackId, offsetX })
+    const { clipStore, sequencerPositionStore } = this.injected
+    const position = sequencerPositionStore.getPositionFromOffset(offsetX)
+
+    clipStore.createClip({ trackId, position })
   }
 
   render() {

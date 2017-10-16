@@ -1,14 +1,9 @@
 import { action, observable } from 'mobx'
 
-import Clip from 'core/models/clip'
+import Clip, { IClipConstructorParams } from 'core/models/clip'
+import TimelineVector from 'core/models/timeline-vector'
 
-import sequencerPosition from 'core/stores/sequencer/position'
 import clipSelect from 'core/interactions/clips/select'
-
-interface ICreateClip {
-  trackId: string
-  offsetX: number
-}
 
 class ClipStore {
   // The main store for clips (by id)
@@ -17,15 +12,14 @@ class ClipStore {
   constructor() {
     this.createClip({
       trackId: '20',
-      offsetX: 4,
+      position: new TimelineVector(4),
     })
   }
 
   // Actions
   @action.bound
-  createClip = (params: ICreateClip) => {
-    const { trackId, offsetX } = params
-    const position = sequencerPosition.getPositionFromOffset(offsetX)
+  createClip = (params: IClipConstructorParams) => {
+    const { trackId, position } = params
     const clip = new Clip({ trackId, position })
     this.clips.set(clip.id, clip)
   }

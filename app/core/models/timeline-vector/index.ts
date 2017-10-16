@@ -11,10 +11,10 @@ class Position {
   }
 
   get offsetX() {
-    return this.bars * sequencerView.barWidth
+    return this.bar * sequencerView.barWidth
   }
 
-  constructor(bar = 1, beatNumerator = 4, beatDenominator = 4) {
+  constructor(bar = 0, beatNumerator = 4, beatDenominator = 4) {
     beatDenominator = sequencerState.timeSignature.denominator
 
     this.bar = bar
