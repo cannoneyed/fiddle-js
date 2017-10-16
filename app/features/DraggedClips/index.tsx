@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
+import { IReactionDisposer } from 'mobx'
 import { inject, observer } from 'mobx-react'
 
-import DraggedClip from 'components/DraggedClip'
+import Clip from 'core/models/clip'
+
+import ClipView from 'components/Clip'
 import Portal from 'components/Portal'
 
 import observeClipsDrag from 'observers/clips-drag'
@@ -25,20 +28,38 @@ interface InjectedProps extends ComponentProps {
 }))
 @observer
 export default class DraggedClips extends Component<ComponentProps, {}> {
+  disposeObserver: IReactionDisposer
+
   get injected() {
     return this.props as InjectedProps
   }
 
   componentDidMount() {
-    observeClipsDrag()
+    this.disposeObserver = observeClipsDrag()
+  }
+
+  componentWillUnmount() {
+    this.disposeObserver()
+  }
+
+  renderDraggedClip = (clip: Clip) => {
+    const { clipDragInteraction } = this.injected
+    const relativePosition = clipDragInteraction.getRelativePosition(clip)
+    const { x, y } = relativePosition
+
+    const clipWrapperStyle = {
+      top: y,
+      left: x,
+    }
+
+    return (
+      <div className={styles.draggedClipWrapper} style={clipWrapperStyle}>
+        <ClipView clip={clip} isDragging />
+      </div>
+    )
   }
 
   render() {
-    // const { isDragging } = clipDragInteraction
-    // if (!isDragging) {
-    //   return null
-    // }
-
     const { clipSelectInteraction } = this.injected
     const { selectedClips } = clipSelectInteraction
 
@@ -50,8 +71,7 @@ export default class DraggedClips extends Component<ComponentProps, {}> {
     return (
       <Portal domNode={draggedClipsRoot}>
         <div className={styles.draggedClipsContainer} id="draggedClips">
-          <h1>FUCK YOU</h1>
-          {selectedClips.map(clip => <DraggedClip clip={clip} />)}
+          {selectedClips.map(this.renderDraggedClip)}
         </div>
       </Portal>
     )

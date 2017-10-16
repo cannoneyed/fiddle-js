@@ -5,6 +5,7 @@ import DraggedClips from 'features/DraggedClips'
 import Track from 'features/Track'
 import VerticalGrid from 'components/VerticalGrid'
 
+import clipDragInteraction, { ClipDragInteraction } from 'core/interactions/clips/drag'
 import trackStore, { TrackStore } from 'core/stores/tracks'
 import sequencerLayoutStore, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
@@ -14,12 +15,14 @@ const styles = require('./styles.less')
 interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
+  clipDragInteraction: ClipDragInteraction
   trackStore: TrackStore
   sequencerLayoutStore: SequencerLayoutStore
   sequencerViewStore: SequencerViewStore
 }
 
 @inject(() => ({
+  clipDragInteraction,
   trackStore,
   sequencerLayoutStore,
   sequencerViewStore,
@@ -41,6 +44,8 @@ export default class TracksAreaContainer extends Component<ComponentProps, {}> {
       height: gridHeight,
     }
 
+    const { isDragging } = clipDragInteraction
+
     return (
       <div className={styles.tracksAreaContainer} id="tracksArea">
         <div className={styles.gridContainer} style={gridContainerStyle}>
@@ -49,7 +54,7 @@ export default class TracksAreaContainer extends Component<ComponentProps, {}> {
         <div className={styles.tracksContainer}>
           {trackList.map((track, index) => <Track track={track} index={index} key={index} />)}
         </div>
-        <DraggedClips />
+        {isDragging && <DraggedClips />}
       </div>
     )
   }

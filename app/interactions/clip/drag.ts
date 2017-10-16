@@ -1,16 +1,19 @@
+import Clip from 'core/models/clip'
 import clipDragInteraction, { DRAG_DELAY } from 'core/interactions/clips/drag'
 
-export function registerClipDragHandlers(startX: number, startY: number) {
+export function registerClipDragHandlers(clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) {
+  const startX = mouseDown.pageX
+  const startY = mouseDown.pageY
   const begin = Date.now()
 
-  clipDragInteraction.setStart(startX, startY)
+  clipDragInteraction.setStartPosition(startX, startY)
 
   function mouseMove(mouseMove: MouseEvent): void {
     if (Date.now() < begin + DRAG_DELAY) {
       return
     }
     if (!clipDragInteraction.isDragging) {
-      clipDragInteraction.beginDrag()
+      clipDragInteraction.beginDrag(clip)
     }
 
     const deltaX = mouseMove.pageX - clipDragInteraction.startX
