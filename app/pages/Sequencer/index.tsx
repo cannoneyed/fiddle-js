@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import * as tracksWheel from 'interactions/tracks-wheel'
+import * as tracksScroll from 'interactions/tracks-scroll'
+import observeTracksScroll from 'observers/tracks-scroll'
 
 import Minimap from 'features/Minimap'
 import Timeline from 'features/Timeline'
@@ -32,7 +33,8 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
   }
 
   componentDidMount() {
-    tracksWheel.registerHandlers()
+    tracksScroll.registerHandlers()
+    observeTracksScroll()
   }
 
   render() {
