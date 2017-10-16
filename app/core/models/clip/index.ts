@@ -5,7 +5,7 @@ import ScreenPosition from 'core/models/screen-position'
 import TimelineVector from 'core/models/timeline-vector'
 import trackStore from 'core/stores/tracks'
 
-interface IClipConstructorParams {
+export interface IClipConstructorParams {
   trackId: string
   position: TimelineVector
 }
