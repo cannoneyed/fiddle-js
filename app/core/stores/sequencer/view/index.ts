@@ -96,16 +96,6 @@ class SequencerViewStore {
   }
 
   @computed
-  get tracksScrollPixelsX() {
-    return this.tracksScrollPercentX * this.tracksScrollableWidth
-  }
-
-  @computed
-  get tracksScrollPixelY() {
-    return this.tracksScrollPercentY * this.tracksScrollableHeight
-  }
-
-  @computed
   get tracksViewPercentX() {
     const { tracksAreaWidth } = sequencerLayoutStore
     return tracksAreaWidth / this.trackWidth
