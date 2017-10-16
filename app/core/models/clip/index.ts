@@ -18,10 +18,16 @@ class Clip {
   @observable position: TimelineVector
 
   @observable isSelected = false
-  @observable isDragging = false
 
-  @observable dragStartX: number = 0
-  @observable dragStartY: number = 0
+  constructor(params: IClipConstructorParams) {
+    const { trackId, position } = params
+    this.id = generateId()
+    this.domId = `clip_${this.id}`
+
+    this.trackId = trackId
+    this.position = position
+    this.length = new TimelineVector(2, 0, 0)
+  }
 
   @computed
   get width() {
@@ -33,14 +39,9 @@ class Clip {
     return this.position.offsetX
   }
 
-  constructor(params: IClipConstructorParams) {
-    const { trackId, position } = params
-    this.id = generateId()
-    this.domId = `clip_${this.id}`
-
-    this.trackId = trackId
-    this.position = position
-    this.length = new TimelineVector(2, 0, 0)
+  @computed
+  get track() {
+    return trackStore.getTrackById(this.trackId)
   }
 
   @action

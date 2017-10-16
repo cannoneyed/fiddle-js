@@ -1,5 +1,9 @@
 // A register for sequencer DOM elements (for consistent querying)
 class SequencerDOMStore {
+  get draggedClips(): HTMLElement | null {
+    return document.getElementById('draggedClips')
+  }
+
   get minimap(): HTMLElement | null {
     return document.getElementById('minimap')
   }
