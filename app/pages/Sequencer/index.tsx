@@ -30,17 +30,19 @@ interface InjectedProps extends ComponentProps {
 @observer
 export default class SequencerPage extends Component<ComponentProps, {}> {
   disposeObserver: IReactionDisposer
+  disposeHandlers: tracksScroll.UnregisterHandlers
 
   get injected() {
     return this.props as InjectedProps
   }
 
   componentDidMount() {
-    tracksScroll.registerHandlers()
+    this.disposeHandlers = tracksScroll.registerHandlers()
     this.disposeObserver = observeTracksScroll()
   }
 
   componentWillUnmount() {
+    this.disposeHandlers()
     this.disposeObserver()
   }
 

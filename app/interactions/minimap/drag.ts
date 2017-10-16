@@ -4,10 +4,15 @@ import minimapInteractionStore from 'core/interactions/minimap'
 
 import { getNextScrollPercentX } from './helpers'
 
-export function registerHandlers() {
+export type UnregisterHandlers = () => void
+export type EventHandler = (event: MouseEvent) => void
+
+export function registerHandlers(): UnregisterHandlers {
   const { minimap, minimapScroll } = sequencerDOMStore
+  let mouseDown: EventHandler
+
   if (minimap && minimapScroll) {
-    minimapScroll.onmousedown = (mouseDown: MouseEvent) => {
+    mouseDown = (mouseDown: MouseEvent) => {
       let lastX = mouseDown.pageX
       minimapInteractionStore.setIsDragging(true)
 
@@ -40,6 +45,14 @@ export function registerHandlers() {
       mouseDown.stopPropagation()
       mouseDown.preventDefault()
       addEventHandlers()
+    }
+
+    minimapScroll.addEventListener('mousedown', mouseDown)
+  }
+
+  return function unregisterHandlers(): void {
+    if (minimap && minimapScroll) {
+      minimapScroll.removeEventListener('mousedown', mouseDown)
     }
   }
 }

@@ -22,13 +22,21 @@ interface InjectedProps extends ComponentProps {
 }))
 @observer
 export default class Minimap extends Component<ComponentProps, {}> {
+  unregisterScrollHandlers: minimapScroll.UnregisterHandlers
+  unregisterDragHandlers: minimapDrag.UnregisterHandlers
+
   get injected() {
     return this.props as InjectedProps
   }
 
   componentDidMount() {
-    minimapScroll.registerHandlers()
-    minimapDrag.registerHandlers()
+    this.unregisterScrollHandlers = minimapScroll.registerHandlers()
+    this.unregisterDragHandlers = minimapDrag.registerHandlers()
+  }
+
+  componentWillUnmount() {
+    this.unregisterScrollHandlers()
+    this.unregisterDragHandlers()
   }
 
   render() {

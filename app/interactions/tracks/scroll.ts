@@ -3,8 +3,12 @@ import { map } from 'lodash'
 import sequencerDOMStore from 'core/stores/sequencer/dom'
 import sequencerViewStore from 'core/stores/sequencer/view'
 
-export function registerHandlers(): void {
+export type UnregisterHandlers = () => void
+export type EventHandler = (event: WheelEvent) => void
+
+export function registerHandlers(): UnregisterHandlers {
   const { xy, x, y } = sequencerDOMStore.getTrackScrollElements()
+  const eventHandlers = new WeakMap<HTMLElement, EventHandler>()
 
   map([xy, x, y], group => {
     map(group, element => {
@@ -38,6 +42,17 @@ export function registerHandlers(): void {
       }
 
       element.addEventListener('mousewheel', syn)
+      eventHandlers.set(element, syn)
     })
   })
+
+  return function unregisterHandlers(): void {
+    map([xy, x, y], group => {
+      map(group, element => {
+        const syn = eventHandlers.get(element)
+        element.removeEventListener('mousewheel', syn)
+        eventHandlers.delete(element)
+      })
+    })
+  }
 }
