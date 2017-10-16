@@ -10,6 +10,8 @@ import { Clip } from 'core/models/clip'
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
 import { handleClipMouseDown } from 'interactions/clip/mouse'
 
+const styles = require('./styles.less')
+
 interface ComponentProps {
   clip: Clip
 }
@@ -37,8 +39,12 @@ export default class ClipContainer extends Component<ComponentProps, {}> {
   render() {
     const { clip } = this.props
 
+    const clipWrapperStyle = {
+      left: clip.offsetX - 1,
+    }
+
     return (
-      <div>
+      <div className={styles.clipContainer} style={clipWrapperStyle}>
         <ClipView clip={clip} onMouseDown={e => handleClipMouseDown(clip, e)} />
       </div>
     )

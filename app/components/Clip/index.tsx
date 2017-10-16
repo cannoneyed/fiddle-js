@@ -10,6 +10,7 @@ import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/vi
 interface ComponentProps {
   clip: Clip
   onMouseDown?: (event: React.MouseEvent<HTMLElement>) => any
+  isDragging?: boolean
 }
 
 interface InjectedProps extends ComponentProps {
@@ -33,7 +34,6 @@ export default class ClipView extends Component<ComponentProps, {}> {
     const clipStyle = {
       height: trackHeight,
       width: clip.width + 1,
-      left: clip.offsetX - 1,
     }
 
     const className = classnames(styles.clipContainer, clip.isSelected ? styles.isSelected : null)

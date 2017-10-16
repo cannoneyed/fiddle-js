@@ -1,6 +1,7 @@
 import { action, computed, observable } from 'mobx'
 import { generateId } from 'utils/generate-id'
 
+import ScreenPosition from 'core/models/screen-position'
 import TimelineVector from 'core/models/timeline-vector'
 import trackStore from 'core/stores/tracks'
 
@@ -40,8 +41,22 @@ class Clip {
   }
 
   @computed
+  get offsetY() {
+    return 0
+  }
+
+  @computed
   get track() {
     return trackStore.getTrackById(this.trackId)
+  }
+
+  getScreenPosition = () => {
+    const clipElement = document.getElementById(this.domId)
+    if (clipElement) {
+      const { left, top } = clipElement.getBoundingClientRect()
+      return new ScreenPosition(left, top)
+    }
+    return new ScreenPosition()
   }
 
   @action

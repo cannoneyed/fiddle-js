@@ -1,13 +1,14 @@
-import { autorun } from 'mobx'
+import { autorun, IReactionDisposer } from 'mobx'
 
 import clipDragInteraction from 'core/interactions/clips/drag'
 import { moveDraggedClips } from 'dom/drag-clips'
 
-export default function observeClipsDrag(): void {
-  autorun(() => {
-    const { isDragging, deltaX, deltaY } = clipDragInteraction
+export default function observeClipsDrag(): IReactionDisposer {
+  return autorun(() => {
+    const { isDragging } = clipDragInteraction
     if (isDragging) {
-      moveDraggedClips(deltaX, deltaY)
+      const { draggedClipsPosition } = clipDragInteraction
+      moveDraggedClips(draggedClipsPosition.x, draggedClipsPosition.y)
     }
   })
 }

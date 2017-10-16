@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { IReactionDisposer } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import * as tracksScroll from 'interactions/tracks/scroll'
 import observeTracksScroll from 'observers/tracks-scroll'
@@ -28,13 +29,19 @@ interface InjectedProps extends ComponentProps {
 }))
 @observer
 export default class SequencerPage extends Component<ComponentProps, {}> {
+  disposeObserver: IReactionDisposer
+
   get injected() {
     return this.props as InjectedProps
   }
 
   componentDidMount() {
     tracksScroll.registerHandlers()
-    observeTracksScroll()
+    this.disposeObserver = observeTracksScroll()
+  }
+
+  componentWillUnmount() {
+    this.disposeObserver()
   }
 
   render() {

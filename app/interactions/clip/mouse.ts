@@ -19,5 +19,5 @@ export function handleClipMouseDown(clip: Clip, event: React.MouseEvent<HTMLElem
 
   event.stopPropagation()
   event.preventDefault()
-  registerClipDragHandlers(event.pageX, event.pageY)
+  registerClipDragHandlers(clip, event)
 }
