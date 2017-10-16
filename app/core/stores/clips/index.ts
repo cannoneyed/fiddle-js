@@ -14,6 +14,13 @@ class ClipStore {
   // The main store for clips (by id)
   @observable clips = observable.map<Clip>({})
 
+  constructor() {
+    this.createClip({
+      trackId: '20',
+      offsetX: 4,
+    })
+  }
+
   // Actions
   @action.bound
   createClip = (params: ICreateClip) => {

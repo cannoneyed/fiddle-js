@@ -3,14 +3,19 @@ import { clamp } from 'lodash'
 
 import sequencerLayoutStore from 'core/stores/sequencer/layout'
 import sequencerState from 'core/stores/sequencer/state'
+import trackStore from 'core/stores/tracks'
 
 import ZoomLevel from 'core/models/zoom-level'
+
+interface ISetTracksScroll {
+  x?: number
+  y?: number
+}
 
 class SequencerViewStore {
   static mobxLoggerConfig = {
     methods: {
       setTracksScroll: false,
-      setTracksScrollPercentX: false,
     },
   }
 
@@ -22,8 +27,8 @@ class SequencerViewStore {
   @observable zoomLevel = new ZoomLevel()
   @observable playheadPosition = 0
 
-  @observable tracksScrollX = 0
-  @observable tracksScrollY = 0
+  @observable tracksScrollPercentX = 0
+  @observable tracksScrollPercentY = 0
 
   // Actions
   @action.bound
@@ -37,19 +42,14 @@ class SequencerViewStore {
   }
 
   @action.bound
-  setTracksScroll = (scrollX: number, scrollY: number) => {
-    this.tracksScrollX = scrollX
-    this.tracksScrollY = scrollY
-  }
-
-  @action.bound
-  setTracksScrollPercentX = (scrollPercentX: number) => {
-    scrollPercentX = clamp(scrollPercentX, 0, 1)
-
-    const { tracksAreaWidth } = sequencerLayoutStore
-
-    const maxScroll = this.trackWidth - tracksAreaWidth
-    this.tracksScrollX = maxScroll * scrollPercentX
+  setTracksScroll = (tracksScroll: ISetTracksScroll) => {
+    const { x, y } = tracksScroll
+    if (x !== undefined) {
+      this.tracksScrollPercentX = clamp(x, 0, 1)
+    }
+    if (y !== undefined) {
+      this.tracksScrollPercentY = clamp(y, 0, 1)
+    }
   }
 
   // Computed Fields
@@ -74,8 +74,18 @@ class SequencerViewStore {
   }
 
   @computed
+  get tracksHeight() {
+    return this.trackHeight * trackStore.trackList.length
+  }
+
+  @computed
   get tracksScrollableWidth() {
     return this.trackWidth - sequencerLayoutStore.tracksAreaWidth
+  }
+
+  @computed
+  get tracksScrollableHeight() {
+    return this.tracksHeight - sequencerLayoutStore.tracksAreaHeight
   }
 
   @computed
@@ -86,8 +96,13 @@ class SequencerViewStore {
   }
 
   @computed
-  get tracksScrollPercentX() {
-    return this.tracksScrollX / this.tracksScrollableWidth
+  get tracksScrollPixelsX() {
+    return this.tracksScrollPercentX * this.tracksScrollableWidth
+  }
+
+  @computed
+  get tracksScrollPixelY() {
+    return this.tracksScrollPercentY * this.tracksScrollableHeight
   }
 
   @computed
