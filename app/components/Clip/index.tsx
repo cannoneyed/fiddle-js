@@ -34,7 +34,6 @@ export default class ClipView extends Component<ComponentProps, {}> {
       height: trackHeight,
       width: clip.width + 1,
       left: clip.offsetX - 1,
-      borderColor: clip.isDragging ? 'red' : 'white',
     }
 
     const className = classnames(styles.clipContainer, clip.isSelected ? styles.isSelected : null)
