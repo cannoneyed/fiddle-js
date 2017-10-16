@@ -8,7 +8,7 @@ interface IScrollTracks {
 
 export function scrollTracks(params: IScrollTracks) {
   const { x: ratioX, y: ratioY } = params
-  const { xy, x, y } = sequencerDOMStore.getSyncScrollElements()
+  const { xy, x, y } = sequencerDOMStore.getTrackScrollElements()
 
   let element: HTMLElement
   for (element of xy) {

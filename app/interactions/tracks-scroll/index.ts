@@ -4,7 +4,7 @@ import sequencerDOMStore from 'core/stores/sequencer/dom'
 import sequencerViewStore from 'core/stores/sequencer/view'
 
 export function registerHandlers(): void {
-  const { xy, x, y } = sequencerDOMStore.getSyncScrollElements()
+  const { xy, x, y } = sequencerDOMStore.getTrackScrollElements()
 
   map([xy, x, y], group => {
     map(group, element => {
@@ -29,15 +29,12 @@ export function registerHandlers(): void {
         const scrollX = canScrollX ? scrollLeft + deltaX : scrollLeft
         const scrollY = canScrollY ? scrollTop + deltaY : scrollTop
 
-        const ratioX = scrollX / (scrollWidth - clientWidth)
-        const ratioY = scrollY / (scrollHeight - clientHeight)
+        const ratioX = canScrollX ? scrollX / (scrollWidth - clientWidth) : undefined
+        const ratioY = canScrollY ? scrollY / (scrollHeight - clientHeight) : undefined
 
         // Set the scroll amount in the mobx sequencer view store (for reactive elements) as well as imperatively
         // scrolling the scroll areas
-        sequencerViewStore.setTracksScroll({
-          x: canScrollX ? ratioX : undefined,
-          y: canScrollY ? ratioY : undefined,
-        })
+        sequencerViewStore.setTracksScroll({ x: ratioX, y: ratioY })
       }
 
       element.addEventListener('mousewheel', syn)
