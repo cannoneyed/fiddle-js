@@ -78,6 +78,7 @@ class ClipDragInteraction {
   @action
   endDrag() {
     this.isDragging = false
+    this.relativePositions.clear()
   }
 }
 
