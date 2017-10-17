@@ -24,7 +24,7 @@ export function registerHandlers(): UnregisterHandlers {
         lastX = mouseMove.pageX
 
         const nextScrollPercentX = getNextScrollPercentX(deltaX)
-        sequencerViewStore.setTracksScroll({ x: nextScrollPercentX })
+        sequencerViewStore.tracks.setTracksScroll({ x: nextScrollPercentX })
       }
 
       function mouseUp(mouseUp: MouseEvent): void {

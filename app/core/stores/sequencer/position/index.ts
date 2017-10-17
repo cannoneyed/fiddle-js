@@ -7,7 +7,7 @@ class SequencerPositionStore {
   @observable snapPosition = new TimelineVector()
 
   getPositionFromOffset = (offsetX: number) => {
-    const { barWidth } = sequencerView
+    const { barWidth } = sequencerView.grid
     const nearestBar = Math.floor(offsetX / barWidth)
     return new TimelineVector(nearestBar)
   }

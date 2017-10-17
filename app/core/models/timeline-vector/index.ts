@@ -1,7 +1,7 @@
 import sequencerState from 'core/stores/sequencer/state'
 import sequencerView from 'core/stores/sequencer/view'
 
-class Position {
+class TimelineVector {
   bar: number
   beatNumerator: number
   beatDenominator: number
@@ -11,7 +11,7 @@ class Position {
   }
 
   get offsetX() {
-    return this.bar * sequencerView.barWidth
+    return this.bar * sequencerView.grid.barWidth
   }
 
   constructor(bar = 0, beatNumerator = 4, beatDenominator = 4) {
@@ -23,5 +23,4 @@ class Position {
   }
 }
 
-export default Position
-export { Position }
+export default TimelineVector

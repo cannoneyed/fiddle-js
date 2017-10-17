@@ -3,7 +3,7 @@ import sequencerViewStore from 'core/stores/sequencer/view'
 
 export function getNextScrollPercentX(deltaX: number) {
   const { minimap, minimapScroll } = sequencerDOMStore
-  const { tracksScrollPercentX } = sequencerViewStore
+  const { tracksScrollPercentX } = sequencerViewStore.tracks
 
   if (minimap && minimapScroll) {
     const minimapWidth = minimap.clientWidth

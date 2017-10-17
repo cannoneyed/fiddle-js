@@ -38,7 +38,7 @@ export function registerHandlers(): UnregisterHandlers {
 
         // Set the scroll amount in the mobx sequencer view store (for reactive elements) as well as imperatively
         // scrolling the scroll areas
-        sequencerViewStore.setTracksScroll({ x: ratioX, y: ratioY })
+        sequencerViewStore.tracks.setTracksScroll({ x: ratioX, y: ratioY })
       }
 
       element.addEventListener('mousewheel', syn)

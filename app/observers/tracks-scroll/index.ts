@@ -5,7 +5,7 @@ import { scrollTracks } from 'dom/scroll-tracks'
 
 export default function observeTracksScroll(): IReactionDisposer {
   return autorun(() => {
-    const { tracksScrollPercentX, tracksScrollPercentY } = sequencerViewStore
+    const { tracksScrollPercentX, tracksScrollPercentY } = sequencerViewStore.tracks
     scrollTracks({ x: tracksScrollPercentX, y: tracksScrollPercentY })
   })
 }

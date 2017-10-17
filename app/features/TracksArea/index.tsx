@@ -37,7 +37,8 @@ export default class TracksAreaContainer extends Component<ComponentProps, {}> {
     const { sequencerLayoutStore, sequencerViewStore, trackStore } = this.injected
     const { trackList } = trackStore
     const { tracksAreaHeight } = sequencerLayoutStore
-    const { gridCount, gridSegmentWidth, trackHeight } = sequencerViewStore
+    const { trackHeight } = sequencerViewStore.tracks
+    const { gridCount, gridSegmentWidth } = sequencerViewStore.grid
 
     const gridHeight = Math.max(trackList.length * trackHeight, tracksAreaHeight)
     const gridContainerStyle = {
