@@ -26,7 +26,7 @@ export default class ToolbarContainer extends Component<ComponentProps, {}> {
 
   render() {
     const { trackStore, sequencerViewStore } = this.injected
-    const { zoomInHorizontal, zoomOutHorizontal } = sequencerViewStore
+    const { zoomInHorizontal, zoomOutHorizontal } = sequencerViewStore.zoom
     const { createTrack } = trackStore
 
     return (

@@ -18,7 +18,7 @@ export function registerHandlers(): UnregisterHandlers {
     const { deltaX } = event
 
     const nextScrollPercentX = getNextScrollPercentX(deltaX)
-    sequencerViewStore.setTracksScroll({ x: nextScrollPercentX })
+    sequencerViewStore.tracks.setTracksScroll({ x: nextScrollPercentX })
   }
   minimap.addEventListener('mousewheel', eventHandler)
 

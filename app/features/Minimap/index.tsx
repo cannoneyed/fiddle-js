@@ -41,7 +41,7 @@ export default class Minimap extends Component<ComponentProps, {}> {
 
   render() {
     const { sequencerViewStore } = this.injected
-    const { tracksScrollPercentX, tracksViewPercentX } = sequencerViewStore
+    const { tracksScrollPercentX, tracksViewPercentX } = sequencerViewStore.tracks
     const { isDragging } = minimapInteractions
 
     // We need to compute the relative left position of the minimap container's since the scrollPercentX

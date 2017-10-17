@@ -50,7 +50,7 @@ export default class TrackContainer extends Component<ComponentProps, {}> {
   render() {
     const { track } = this.props
     const { sequencerViewStore } = this.injected
-    const { trackHeight, trackWidth } = sequencerViewStore
+    const { trackHeight, trackWidth } = sequencerViewStore.tracks
 
     const trackStyle = {
       height: trackHeight,

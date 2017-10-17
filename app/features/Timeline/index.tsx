@@ -28,7 +28,7 @@ export default class TimelineContainer extends Component<ComponentProps, {}> {
     const { sequencerStateStore, sequencerViewStore } = this.injected
 
     const { timelineLength } = sequencerStateStore
-    const { gridSegmentWidth } = sequencerViewStore
+    const { gridSegmentWidth } = sequencerViewStore.grid
 
     const timelineSegmentStyles = {
       minWidth: gridSegmentWidth,

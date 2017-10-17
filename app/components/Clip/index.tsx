@@ -29,7 +29,7 @@ export default class ClipView extends Component<ComponentProps, {}> {
   render() {
     const { clip, onMouseDown } = this.props
     const { sequencerViewStore } = this.injected
-    const { trackHeight } = sequencerViewStore
+    const { trackHeight } = sequencerViewStore.tracks
 
     const clipStyle = {
       height: trackHeight,

@@ -27,7 +27,7 @@ export default class TrackHeaderContainer extends Component<ComponentProps, {}> 
   render() {
     const { index, track } = this.props
     const { sequencerViewStore } = this.injected
-    const { trackHeight } = sequencerViewStore
+    const { trackHeight } = sequencerViewStore.tracks
 
     const headerStyle = {
       height: trackHeight,
