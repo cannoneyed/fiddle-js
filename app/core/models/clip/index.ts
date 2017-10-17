@@ -27,7 +27,7 @@ class Clip {
 
     this.trackId = trackId
     this.position = position
-    this.length = new TimelineVector(2, 0, 0)
+    this.length = new TimelineVector(2)
   }
 
   @computed

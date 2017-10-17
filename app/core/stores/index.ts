@@ -12,6 +12,5 @@ export const windowStore = WindowStore
 export const sequencerStore = SequencerStore
 export const sequencerDOMStore = SequencerStore.dom
 export const sequencerLayoutStore = SequencerStore.layout
-export const sequencerPositionStore = SequencerStore.position
 export const sequencerStateStore = SequencerStore.state
 export const sequencerViewStore = SequencerStore.view

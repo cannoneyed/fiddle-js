@@ -11,14 +11,14 @@ class ClipSelectInteraction {
 
   // Selects a single clip, removing previously selected
   @action
-  selectClip = (clip: Clip) => {
+  selectOnlyClip = (clip: Clip) => {
     this.selectedClips.forEach(selectedClip => (selectedClip.isSelected = false))
     clip.isSelected = true
   }
 
   // Adds a clip to a group of selected clips
   @action
-  addSelectedClip = (clip: Clip) => {
+  selectClip = (clip: Clip) => {
     clip.isSelected = true
   }
 

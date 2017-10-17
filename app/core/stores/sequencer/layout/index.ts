@@ -1,6 +1,7 @@
 import { observable } from 'mobx'
 
 import { computed } from 'mobx'
+import windowStore from 'core/stores/window'
 
 class SequencerLayoutStore {
   @observable minimapHeight: number = 60
@@ -11,7 +12,7 @@ class SequencerLayoutStore {
 
   @computed
   get tracksAreaWidth() {
-    return window.innerWidth - this.gutterWidth
+    return windowStore.width - this.gutterWidth
   }
 }
 

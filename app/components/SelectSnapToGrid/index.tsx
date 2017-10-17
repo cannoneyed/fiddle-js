@@ -29,17 +29,17 @@ export default class SelectSnapToGrid extends Component<ComponentProps, {}> {
     const snapToGrid = sequencerStateStore.snapToGrid
 
     const options = map(snapToGridValues, (snapToGridValue, key) => {
-      const { name, value } = snapToGridValue
-      const selected = snapToGrid.snap === snapToGridValue
-      return { name, value, selected }
+      const { name } = snapToGridValue
+      const selected = snapToGrid.value === snapToGridValue
+      return { name, value: key, selected }
     })
 
     return (
       <div className={styles.selectSnapToGridContainer}>
         <Select
           options={options}
-          onSelect={() => {
-            console.log('HEY!')
+          onSelect={key => {
+            snapToGrid.setSnapToGridValue(key)
           }}
         />
       </div>

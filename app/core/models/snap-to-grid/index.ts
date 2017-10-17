@@ -19,31 +19,37 @@ class SnapToGridValues {
 export const snapToGridValues = new SnapToGridValues()
 
 class SnapToGrid {
-  @observable snap: SnapToGridValue
+  @observable value: SnapToGridValue
 
-  constructor(snap: SnapToGridValue = snapToGridValues.snap_1) {
-    this.snap = snap
+  constructor(value: SnapToGridValue = snapToGridValues.snap_1) {
+    this.value = value
   }
 
   @action
-  setSnapToGridValue(snap: SnapToGridValue) {
-    this.snap = snap
+  setSnapToGridValue(valueOrKey: SnapToGridValue | string | number) {
+    if (valueOrKey) {
+      if (valueOrKey instanceof SnapToGridValue) {
+        this.value = valueOrKey
+      } else {
+        this.value = snapToGridValues[valueOrKey]
+      }
+    }
   }
 
   @computed
   get division() {
-    const value = this.snap.value
+    const value = this.value.value
     return typeof value === 'number' ? value : 0
   }
 
   @computed
   get free() {
-    return this.snap === snapToGridValues.snap_free
+    return this.value === snapToGridValues.snap_free
   }
 
   @computed
   get auto() {
-    return this.snap === snapToGridValues.snap_auto
+    return this.value === snapToGridValues.snap_auto
   }
 }
 

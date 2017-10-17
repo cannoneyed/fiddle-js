@@ -1,9 +1,9 @@
 import { computed } from 'mobx'
 import * as defaults from 'defaults/view'
 
-import sequencerState from 'core/stores/sequencer/state'
+import timeline from 'core/stores/sequencer/state/timeline'
 
-import sequencerView from './index'
+import zoom from './zoom'
 
 class GridView {
   barsPerGridSegment = 1
@@ -11,13 +11,12 @@ class GridView {
   // Computed Fields
   @computed
   get barWidth() {
-    return sequencerView.zoom.level.horizontal * defaults.barWidth
+    return zoom.level.horizontal * defaults.barWidth
   }
 
   @computed
   get gridCount() {
-    const timelineLength = sequencerState.timelineLength
-    return timelineLength
+    return timeline.length
   }
 
   @computed
