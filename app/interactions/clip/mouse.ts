@@ -12,9 +12,9 @@ export function handleClipMouseDown(clip: Clip, event: React.MouseEvent<HTMLElem
   } else if (clip.isSelected) {
     // no op, still set up handlers below
   } else if (event.shiftKey) {
-    clipSelect.addSelectedClip(clip)
-  } else {
     clipSelect.selectClip(clip)
+  } else {
+    clipSelect.selectOnlyClip(clip)
   }
 
   event.stopPropagation()

@@ -2,11 +2,12 @@ import { action, computed, observable } from 'mobx'
 import { clamp } from 'lodash'
 import * as defaults from 'defaults/view'
 
-import sequencerLayoutStore from 'core/stores/sequencer/layout'
-import sequencerState from 'core/stores/sequencer/state'
+import sequencerLayout from 'core/stores/sequencer/layout'
+import timelineState from 'core/stores/sequencer/state/timeline'
 import trackStore from 'core/stores/tracks'
 
-import sequencerView from './index'
+import grid from './grid'
+import zoom from './zoom'
 
 interface ISetTracksScroll {
   x?: number
@@ -36,18 +37,13 @@ class TracksView {
 
   // Computed Fields
   @computed
-  get barWidth() {
-    return sequencerView.zoom.level.horizontal * defaults.barWidth
-  }
-
-  @computed
   get trackHeight() {
-    return sequencerView.zoom.level.vertical * defaults.trackHeight
+    return zoom.level.vertical * defaults.trackHeight
   }
 
   @computed
   get trackWidth() {
-    return this.gridCount * this.barWidth
+    return timelineState.length * grid.barWidth
   }
 
   @computed
@@ -57,23 +53,17 @@ class TracksView {
 
   @computed
   get tracksScrollableWidth() {
-    return this.trackWidth - sequencerLayoutStore.tracksAreaWidth
+    return this.trackWidth - sequencerLayout.tracksAreaWidth
   }
 
   @computed
   get tracksScrollableHeight() {
-    return this.tracksHeight - sequencerLayoutStore.tracksAreaHeight
-  }
-
-  @computed
-  get gridCount() {
-    const timelineLength = sequencerState.timelineLength
-    return timelineLength
+    return this.tracksHeight - sequencerLayout.tracksAreaHeight
   }
 
   @computed
   get tracksViewPercentX() {
-    const { tracksAreaWidth } = sequencerLayoutStore
+    const { tracksAreaWidth } = sequencerLayout
     return tracksAreaWidth / this.trackWidth
   }
 }

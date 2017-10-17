@@ -3,7 +3,7 @@ import { range } from 'lodash'
 import { inject, observer } from 'mobx-react'
 
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
-import sequencerStateStore, { SequencerStateStore } from 'core/stores/sequencer/state'
+import timelineState, { TimelineState } from 'core/stores/sequencer/state/timeline'
 
 const styles = require('./styles.less')
 
@@ -11,12 +11,12 @@ interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
   sequencerViewStore: SequencerViewStore
-  sequencerStateStore: SequencerStateStore
+  timelineState: TimelineState
 }
 
 @inject(() => ({
   sequencerViewStore,
-  sequencerStateStore,
+  timelineState,
 }))
 @observer
 export default class TimelineContainer extends Component<ComponentProps, {}> {
@@ -25,9 +25,9 @@ export default class TimelineContainer extends Component<ComponentProps, {}> {
   }
 
   renderTimelineSegments() {
-    const { sequencerStateStore, sequencerViewStore } = this.injected
+    const { timelineState, sequencerViewStore } = this.injected
 
-    const { timelineLength } = sequencerStateStore
+    const timelineLength = timelineState.length
     const { gridSegmentWidth } = sequencerViewStore.grid
 
     const timelineSegmentStyles = {

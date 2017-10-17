@@ -22,7 +22,9 @@ export function registerClipDragHandlers(clip: Clip, mouseDown: React.MouseEvent
   }
 
   function mouseUp(mouseUp: MouseEvent): void {
-    clipDragInteraction.endDrag()
+    if (Date.now() >= begin + DRAG_DELAY && clipDragInteraction.isDragging) {
+      clipDragInteraction.endDrag()
+    }
     removeEventHandlers()
   }
 
