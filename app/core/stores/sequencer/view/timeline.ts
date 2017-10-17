@@ -1,10 +1,11 @@
+export const prefixModule = 'prefixModule'
+
 import { observable } from 'mobx'
 
 import TimelineVector from 'core/models/timeline-vector'
-console.log('🍕 timeline store', TimelineVector)
 
 class TimelineView {
-  @observable playheadPosition = 0
+  @observable playheadPosition = new TimelineVector()
 }
 
 export default new TimelineView()

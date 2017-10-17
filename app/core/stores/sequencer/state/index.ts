@@ -1,19 +1,13 @@
 import { observable } from 'mobx'
 
-class TimeSignature {
-  @observable numerator: number
-  @observable denominator: number
-
-  constructor(numerator = 4, denominator = 4) {
-    this.numerator = numerator
-    this.denominator = denominator
-  }
-}
+import SnapToGrid from 'core/models/snap-to-grid'
+import TimeSignature from 'core/models/time-signature'
 
 class SequencerStateStore {
   @observable tempo = 120
   @observable timelineLength = 64
   @observable timeSignature = new TimeSignature()
+  @observable snapToGrid = new SnapToGrid()
 }
 
 export default new SequencerStateStore()
