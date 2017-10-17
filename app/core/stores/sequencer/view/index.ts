@@ -1,3 +1,5 @@
+export const prefixModule = 'prefixModule'
+
 import GridView from './grid'
 import TimelineView from './timeline'
 import TracksView from './tracks'

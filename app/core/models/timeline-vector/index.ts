@@ -1,5 +1,7 @@
+export const prefixModule = 'prefixModule'
+
 import sequencerState from 'core/stores/sequencer/state'
-import sequencerView from 'core/stores/sequencer/view'
+import gridView from 'core/stores/sequencer/view/grid'
 
 class TimelineVector {
   bar: number
@@ -11,7 +13,7 @@ class TimelineVector {
   }
 
   get offsetX() {
-    return this.bar * sequencerView.grid.barWidth
+    return this.bar * gridView.barWidth
   }
 
   constructor(bar = 0, beatNumerator = 4, beatDenominator = 4) {
