@@ -66,6 +66,11 @@ class TracksView {
     const { tracksAreaWidth } = sequencerLayout
     return tracksAreaWidth / this.trackWidth
   }
+
+  @computed
+  get tracksScrolledX() {
+    return this.tracksScrollableWidth * this.tracksScrollPercentX
+  }
 }
 
 export default new TracksView()

@@ -14,6 +14,11 @@ class SequencerLayoutStore {
   get tracksAreaWidth() {
     return windowStore.width - this.gutterWidth
   }
+
+  @computed
+  get tracksAreaLeft() {
+    return this.gutterWidth
+  }
 }
 
 export default new SequencerLayoutStore()
