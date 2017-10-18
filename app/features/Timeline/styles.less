@@ -15,18 +15,20 @@
 .timelineSegmentsContainer {
   display: flex;
   flex-direction: row;
+  height: 100%;
+  align-items: flex-end;
 }
 
 .timelineSegment {
+  box-sizing: border-box;
   background-color: gray;
-  height: @timelineHeight;
-  border-right: solid 1px white;
+  border-left: solid 1px white;
   padding-left: 5px;
   font-size: 10px;
 }
 
-.timelineSegment:first-child {
-  border-left: solid 1px white;
+.timelineSegment:last-child {
+  border-right: solid 1px white;
 }
 
 .dragToMarkerContainer {

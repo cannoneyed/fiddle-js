@@ -1,7 +1,7 @@
 import { autorun, IReactionDisposer } from 'mobx'
 
 import snapToGridService from 'core/services/sequencer/snap-to-grid'
-import tracksPositionService from 'core/services/sequencer/tracks-position'
+import tracksPositionService from 'core/services/sequencer/position/tracks'
 
 import clipDragInteraction from 'core/interactions/clips/drag'
 import { moveDraggedClips } from 'dom/drag-clips'

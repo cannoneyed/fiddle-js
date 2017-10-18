@@ -1,8 +1,8 @@
 import { action, computed, observable } from 'mobx'
 import { generateId } from 'utils/generate-id'
 
-import ScreenPosition from 'core/models/screen-position'
-import TimelineVector from 'core/models/timeline-vector'
+import ScreenVector from 'core/classes/screen-vector'
+import TimelineVector from 'core/classes/timeline-vector'
 import trackStore from 'core/stores/tracks'
 
 export interface IClipConstructorParams {
@@ -50,13 +50,13 @@ class Clip {
     return trackStore.getTrackById(this.trackId)
   }
 
-  getScreenPosition = () => {
+  getScreenVector = () => {
     const clipElement = document.getElementById(this.domId)
     if (clipElement) {
       const { left, top } = clipElement.getBoundingClientRect()
-      return new ScreenPosition(left, top)
+      return new ScreenVector(left, top)
     }
-    return new ScreenPosition()
+    return new ScreenVector()
   }
 
   @action

@@ -1,5 +1,5 @@
 import gridView from 'core/stores/sequencer/view/grid'
-import TimelineVector from 'core/models/timeline-vector'
+import TimelineVector from 'core/classes/timeline-vector'
 
 class SequencerPositionService {
   getTimelineVector = (offsetX: number) => {
