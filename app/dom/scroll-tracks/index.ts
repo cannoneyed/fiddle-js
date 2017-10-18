@@ -1,5 +1,5 @@
 import { clamp } from 'lodash'
-import sequencerDOMStore from 'core/stores/sequencer/dom'
+import sequencerDOMStore from 'core/dom/sequencer'
 
 interface IScrollTracks {
   x?: number

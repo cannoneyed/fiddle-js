@@ -1,4 +1,4 @@
-import sequencerDOMStore from 'core/stores/sequencer/dom'
+import sequencerDOMStore from 'core/dom/sequencer'
 import sequencerViewStore from 'core/stores/sequencer/view'
 import minimapInteractionStore from 'core/interactions/minimap'
 

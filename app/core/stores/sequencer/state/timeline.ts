@@ -8,7 +8,6 @@ class TimelineState {
   @observable length = 64
 
   @observable playheadPosition = new TimelineVector()
-  @observable dragToMarkerPosition = new TimelineVector()
 }
 
 export default new TimelineState()
