@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx'
 
 import clipsDragInteraction from 'core/interactions/clips/drag'
-import TimelineVector from 'core/models/timeline-vector'
+import TimelineVector from 'core/classes/timeline-vector'
 
 class TimelineView {
   @observable private dragToMarkerPosition = new TimelineVector(1)

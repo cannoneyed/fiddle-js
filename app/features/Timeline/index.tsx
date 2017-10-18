@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
-import { range } from 'lodash'
+import { noop, range } from 'lodash'
 import { inject, observer } from 'mobx-react'
 
 import Caret from 'components/Caret'
 
-import TimelineVector from 'core/models/timeline-vector'
+import TimelineVector from 'core/classes/timeline-vector'
 import sequencerPositionService from 'core/services/sequencer/position'
 
 import gridView, { GridView } from 'core/stores/sequencer/view/grid'
 import sequencerLayout, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
 import timelineView, { TimelineView } from 'core/stores/sequencer/view/timeline'
-import timelineState, { TimelineState } from 'core/stores/sequencer/state/timeline'
 
 const styles = require('./styles.less')
 
@@ -19,14 +18,12 @@ interface ComponentProps {}
 interface InjectedProps extends ComponentProps {
   gridView: GridView
   sequencerLayout: SequencerLayoutStore
-  timelineState: TimelineState
   timelineView: TimelineView
 }
 
 @inject(() => ({
   gridView,
   sequencerLayout,
-  timelineState,
   timelineView,
 }))
 @observer
@@ -36,20 +33,26 @@ export default class TimelineContainer extends Component<ComponentProps, {}> {
   }
 
   renderTimelineSegments() {
-    const { gridView, timelineState } = this.injected
+    const { gridView } = this.injected
 
-    const timelineLength = timelineState.length
-    const { gridSegmentWidth } = gridView
+    const { division, divisionWidth, nDivisions } = gridView
 
-    const timelineSegmentStyles = {
-      minWidth: gridSegmentWidth,
-    }
+    return range(nDivisions).map(n => {
+      const div = division.multiply(n, 1).reduce()
+      const { denominator } = div
+      noop(denominator)
 
-    return range(timelineLength).map(index => (
-      <div key={index} className={styles.timelineSegment} style={timelineSegmentStyles}>
-        {index + 1}
-      </div>
-    ))
+      const timelineSegmentStyle = {
+        minWidth: divisionWidth,
+        height: '50%',
+      }
+
+      return (
+        <div key={n} className={styles.timelineSegment} style={timelineSegmentStyle}>
+          {n + 1}
+        </div>
+      )
+    })
   }
 
   renderDragToMarker(dragToMarkerPosition: TimelineVector) {
