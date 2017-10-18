@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx'
 
 export class SnapToGridValue {
-  constructor(public name: string, public value: number | string) {}
+  constructor(public name: string, public divisions?: number) {}
 }
 
 class SnapToGridValues {
@@ -11,8 +11,8 @@ class SnapToGridValues {
   readonly snap_1_8 = new SnapToGridValue('1/8', 8)
   readonly snap_1_16 = new SnapToGridValue('1/16', 16)
   readonly snap_1_32 = new SnapToGridValue('1/32', 32)
-  readonly snap_auto = new SnapToGridValue('auto', 'auto')
-  readonly snap_free = new SnapToGridValue('free', 'free')
+  readonly snap_auto = new SnapToGridValue('auto')
+  readonly snap_free = new SnapToGridValue('free')
   readonly [key: string]: SnapToGridValue
 }
 
@@ -37,9 +37,17 @@ class SnapToGrid {
   }
 
   @computed
-  get division() {
-    const value = this.value.value
-    return typeof value === 'number' ? value : 0
+  get divisions() {
+    const divisions = this.value.divisions
+    return divisions === undefined ? 0 : divisions
+  }
+
+  getDivisionWidth(barWidth: number) {
+    if (this.value.divisions) {
+      return barWidth / this.value.divisions
+    } else {
+      return barWidth
+    }
   }
 
   @computed
