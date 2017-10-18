@@ -1,6 +1,6 @@
 import { map } from 'lodash'
 
-import sequencerDOMStore from 'core/stores/sequencer/dom'
+import sequencerDOMStore from 'core/dom/sequencer'
 import sequencerViewStore from 'core/stores/sequencer/view'
 
 export type UnregisterHandlers = () => void

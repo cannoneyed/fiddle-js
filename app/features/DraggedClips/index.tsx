@@ -11,7 +11,7 @@ import observeClipsDrag from 'observers/clips-drag'
 
 import clipDragInteraction, { ClipDragInteraction } from 'core/interactions/clips/drag'
 import clipSelectInteraction, { ClipSelectInteraction } from 'core/interactions/clips/select'
-import sequencerPortalDOMStore from 'core/stores/sequencer/dom/portal'
+import sequencerPortals from 'core/dom/sequencer/portal'
 
 const styles = require('./styles.less')
 
@@ -63,7 +63,7 @@ export default class DraggedClips extends Component<ComponentProps, {}> {
     const { clipSelectInteraction } = this.injected
     const { selectedClips } = clipSelectInteraction
 
-    const { draggedClipsRoot } = sequencerPortalDOMStore
+    const { draggedClipsRoot } = sequencerPortals
     if (!draggedClipsRoot) {
       return null
     }
