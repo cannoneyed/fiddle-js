@@ -1,24 +1,35 @@
 import { action, observable } from 'mobx'
+import { round } from 'lodash'
+
+export interface IOptions {
+  level?: number
+  max?: number
+  min?: number
+  ratio?: number
+}
 
 class ZoomLevel {
-  @observable horizontal: number
-  @observable vertical: number
+  @observable level: number
+  max: number
+  min: number
+  ratio: number
 
-  zoomInterval = 0.1
-
-  constructor(horizontal = 1, vertical = 1) {
-    this.horizontal = horizontal
-    this.vertical = vertical
+  constructor(options: IOptions = {}) {
+    const { level = 1, max = Infinity, min = 0, ratio = 1.1 } = options
+    this.level = level
+    this.max = max
+    this.min = min
+    this.ratio = ratio
   }
 
   @action
-  zoomInHorizontal() {
-    this.horizontal += this.zoomInterval
+  zoomIn() {
+    this.level = round(Math.min(this.max, this.level * this.ratio), 2)
   }
 
   @action
-  zoomOutHorizontal() {
-    this.horizontal = Math.max(0, (this.horizontal -= this.zoomInterval))
+  zoomOut() {
+    this.level = round(Math.max(this.min, this.level / this.ratio), 2)
   }
 }
 
