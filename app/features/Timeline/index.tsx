@@ -33,8 +33,7 @@ export default class TimelineContainer extends Component<ComponentProps, {}> {
     console.log(zoomStore.horizontal.level, barWidth, division)
 
     return range(nDivisions).map(n => {
-      const div = division.multiply(n, 1).reduce()
-      const { numerator, denominator } = div
+      const { numerator, denominator } = division.multiply(n, 1).reduce()
       noop(numerator, denominator)
 
       const timelineSegmentStyle = {
@@ -48,7 +47,9 @@ export default class TimelineContainer extends Component<ComponentProps, {}> {
         marginLeft: -1,
       }
 
-      const timelineLabel = denominator === 1 ? numerator + 1 : null
+      const isMajorDivision = denominator === 1 && n % 2 == 0
+
+      const timelineLabel = isMajorDivision ? numerator + 1 : null
       const timelineLabelStyle = {
         marginLeft: 2,
         fontSize: 10,

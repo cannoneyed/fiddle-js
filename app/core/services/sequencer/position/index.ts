@@ -1,5 +1,6 @@
-import gridView from 'core/stores/sequencer/view/grid'
 import TimelineVector from 'core/classes/timeline-vector'
+
+import gridView from 'core/stores/sequencer/view/grid'
 
 class SequencerPositionService {
   getTimelineVector = (offsetX: number) => {
@@ -9,7 +10,11 @@ class SequencerPositionService {
   }
 
   getOffsetX = (position: TimelineVector) => {
-    return position.bar * gridView.barWidth
+    const { barWidth } = gridView
+    const bar = position.bar * barWidth
+    const beats = position.beats.multiplyScalar(barWidth)
+
+    return bar + beats
   }
 }
 
