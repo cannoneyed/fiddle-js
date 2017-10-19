@@ -5,9 +5,22 @@ class Fraction {
   denominator: number
 
   constructor(numerator: number = 1, denominator: number = 1) {
+    this.denominator = denominator
+
     // Correct for negative zero (lol JS)
     this.numerator = numerator === 0 ? 0 : numerator
-    this.denominator = denominator === 0 ? 0 : denominator
+
+    // Don't allow divide by zero
+    if (this.denominator === 0) {
+      this.numerator = this.numerator >= 0 ? Infinity : -Infinity
+      this.denominator = 1
+    }
+
+    // Only allow negative numerators
+    if (this.denominator < 0) {
+      this.numerator *= -1
+      this.denominator *= -1
+    }
   }
 
   add(other: Fraction): Fraction
@@ -47,7 +60,7 @@ class Fraction {
   }
 
   mixedNumber() {
-    const number = this.numerator % this.denominator
+    const number = Math.floor(this.numerator / this.denominator)
     const fraction = new Fraction(this.numerator - number * this.denominator, this.denominator)
     return { number, fraction }
   }
