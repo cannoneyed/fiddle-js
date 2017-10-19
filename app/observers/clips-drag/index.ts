@@ -1,6 +1,6 @@
 import { autorun, IReactionDisposer } from 'mobx'
 
-import snapToGridService from 'core/services/sequencer/snap-to-grid'
+import gridService from 'core/services/sequencer/grid'
 import tracksPositionService from 'core/services/sequencer/position/tracks'
 
 import clipDragInteraction from 'core/stores/interactions/clips/drag'
@@ -14,7 +14,7 @@ export default function observeClipsDrag(): IReactionDisposer {
       moveDraggedClips(x, y)
 
       const offsetX = tracksPositionService.getOffsetXFromScreenX(x)
-      const snapToGridPosition = snapToGridService.getNearestSnapPosition(offsetX)
+      const snapToGridPosition = gridService.getNearestSnapPosition(offsetX)
       clipDragInteraction.setDropTargetPosition(snapToGridPosition)
     }
   })
