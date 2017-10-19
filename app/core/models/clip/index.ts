@@ -1,6 +1,8 @@
 import { action, computed, observable } from 'mobx'
 import { generateId } from 'utils/generate-id'
 
+import positionService from 'core/services/sequencer/position'
+
 import ScreenVector from 'core/classes/screen-vector'
 import TimelineVector from 'core/classes/timeline-vector'
 import trackStore from 'core/stores/tracks'
@@ -32,12 +34,12 @@ class Clip {
 
   @computed
   get width() {
-    return this.length.offsetX
+    return positionService.getOffsetX(this.length)
   }
 
   @computed
   get offsetX() {
-    return this.position.offsetX
+    return positionService.getOffsetX(this.position)
   }
 
   @computed

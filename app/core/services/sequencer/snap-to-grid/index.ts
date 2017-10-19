@@ -9,18 +9,22 @@ class SnapToGridService {
     // const snapToGrid = sequencerState.snapToGrid
 
     // First, decide the correct division by which to attempt a snap
-    const { barWidth } = gridView
+    const { divisionWidth, division } = gridView
     // const divisions = snapToGrid.divisions
     // const divisionWidth = snapToGrid.getDivisionWidth(barWidth)
 
-    const prevBar = Math.floor(offsetX / barWidth)
-    const nextBar = prevBar + 1
+    const prevDivision = Math.floor(offsetX / divisionWidth)
+    const nextDivision = prevDivision + 1
 
-    const prevDifference = offsetX - prevBar * barWidth
-    const nextDifference = nextBar * barWidth - offsetX
-    const closestBar = nextDifference > prevDifference ? prevBar : nextBar
+    const prevDifference = offsetX - prevDivision * divisionWidth
+    const nextDifference = nextDivision * divisionWidth - offsetX
+    const closestDivision = nextDifference > prevDifference ? prevDivision : nextDivision
 
-    return new TimelineVector(closestBar)
+    const position = division.multiply(closestDivision, 1)
+    const bar = Math.floor(position.numerator / position.denominator)
+    const beats = position.subtract(position.denominator * bar, position.denominator)
+
+    return new TimelineVector(bar, beats)
   }
 }
 

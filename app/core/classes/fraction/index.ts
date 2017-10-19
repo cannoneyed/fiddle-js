@@ -13,16 +13,20 @@ class Fraction {
   add(numerator: number, denominator: number): Fraction
   add(a: any, b?: any): Fraction {
     const other = typeof a === 'number' ? new Fraction(a, b) : a
-    const { numerator, denominator } = other
-    return new Fraction(this.numerator + numerator, this.denominator + denominator)
+
+    const nextNumerator = this.numerator * other.denominator + other.numerator * this.denominator
+    const nextDenominator = this.denominator * other.denominator
+    return new Fraction(nextNumerator, nextDenominator).reduce()
   }
 
   subtract(other: Fraction): Fraction
   subtract(numerator: number, denominator: number): Fraction
   subtract(a: any, b?: any): Fraction {
     const other = typeof a === 'number' ? new Fraction(a, b) : a
-    const { numerator, denominator } = other
-    return new Fraction(this.numerator - numerator, this.denominator - denominator)
+
+    const nextNumerator = this.numerator * other.denominator - other.numerator * this.denominator
+    const nextDenominator = this.denominator * other.denominator
+    return new Fraction(nextNumerator, nextDenominator).reduce()
   }
 
   multiply(other: Fraction): Fraction
@@ -54,5 +58,7 @@ class Fraction {
     return new Fraction(this.numerator / gcd, this.denominator / gcd)
   }
 }
+
+;(window as any).fraction = Fraction
 
 export default Fraction
