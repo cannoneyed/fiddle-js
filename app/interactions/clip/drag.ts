@@ -1,5 +1,9 @@
 import Clip from 'core/models/clip'
-import clipDragInteraction, { DRAG_DELAY } from 'core/interactions/clips/drag'
+
+import clipMoveService from 'core/services/sequencer/clip-move'
+
+import clipDragInteraction, { DRAG_DELAY } from 'core/stores/interactions/clips/drag'
+import clipSelectInteraction from 'core/stores/interactions/clips/select'
 
 export function registerClipDragHandlers(clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) {
   const startX = mouseDown.pageX
@@ -23,7 +27,7 @@ export function registerClipDragHandlers(clip: Clip, mouseDown: React.MouseEvent
 
   function mouseUp(mouseUp: MouseEvent): void {
     if (Date.now() >= begin + DRAG_DELAY && clipDragInteraction.isDragging) {
-      clipDragInteraction.endDrag()
+      endDrag()
     }
     removeEventHandlers()
   }
@@ -39,4 +43,14 @@ export function registerClipDragHandlers(clip: Clip, mouseDown: React.MouseEvent
   }
 
   addEventHandlers()
+}
+
+function endDrag() {
+  const { handleClip, dropTargetPosition } = clipDragInteraction
+  if (dropTargetPosition) {
+    const { selectedClips } = clipSelectInteraction
+    const deltaTimeline = dropTargetPosition.subtract(handleClip.position)
+    clipMoveService.moveClips(selectedClips, deltaTimeline)
+  }
+  clipDragInteraction.endDrag()
 }

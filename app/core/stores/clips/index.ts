@@ -3,7 +3,7 @@ import { action, observable } from 'mobx'
 import Clip, { IClipConstructorParams } from 'core/models/clip'
 import TimelineVector from 'core/classes/timeline-vector'
 
-import clipSelect from 'core/interactions/clips/select'
+import clipSelect from 'core/stores/interactions/clips/select'
 
 class ClipStore {
   // The main store for clips (by id)

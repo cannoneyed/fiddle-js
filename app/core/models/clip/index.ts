@@ -71,6 +71,11 @@ class Clip {
 
     // Delete from the clipStore store
   }
+
+  @action
+  setPosition(position: TimelineVector) {
+    this.position = position
+  }
 }
 
 export default Clip

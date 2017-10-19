@@ -9,8 +9,8 @@ import Portal from 'components/Portal'
 
 import observeClipsDrag from 'observers/clips-drag'
 
-import clipDragInteraction, { ClipDragInteraction } from 'core/interactions/clips/drag'
-import clipSelectInteraction, { ClipSelectInteraction } from 'core/interactions/clips/select'
+import clipDragInteraction, { ClipDragInteraction } from 'core/stores/interactions/clips/drag'
+import clipSelectInteraction, { ClipSelectInteraction } from 'core/stores/interactions/clips/select'
 import sequencerPortals from 'core/dom/sequencer/portal'
 
 const styles = require('./styles.less')

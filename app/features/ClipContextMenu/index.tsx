@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { Menu, MenuItem } from '@blueprintjs/core'
 
 import clipStore, { ClipStore } from 'core/stores/clips'
-import clipSelectInteraction, { ClipSelectInteraction } from 'core/interactions/clips/select'
+import clipSelectInteraction, { ClipSelectInteraction } from 'core/stores/interactions/clips/select'
 
 interface ComponentProps {
   clipId: string

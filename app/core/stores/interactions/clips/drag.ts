@@ -3,7 +3,7 @@ import { action, computed, observable } from 'mobx'
 import Clip from 'core/models/clip'
 import ScreenVector from 'core/classes/screen-vector'
 import TimelineVector from 'core/classes/timeline-vector'
-import ClipsSelection from 'core/interactions/clips/select'
+import ClipsSelection from 'core/stores/interactions/clips/select'
 
 export const DRAG_DELAY: number = 200
 
@@ -36,6 +36,11 @@ class ClipDragInteraction {
       x: x + this.deltaX,
       y: y + this.deltaY,
     }
+  }
+
+  @action
+  setDropTargetPosition(position: TimelineVector) {
+    this.dropTargetPosition = position
   }
 
   @action

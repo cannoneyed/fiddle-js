@@ -12,6 +12,26 @@ class TimelineVector {
     this.beats = beats === undefined ? new Fraction(0, 4) : beats
     this.ticks = clamp(ticks, 0, Infinity)
   }
+
+  add(delta: TimelineVector) {
+    let bars = this.bar + delta.bar
+    const { number, fraction: beats } = this.beats.add(delta.beats).mixedNumber()
+    bars += number
+
+    // TODO: Refactor once ticks system is sorted
+    this.ticks += delta.ticks
+    return new TimelineVector(bars, beats)
+  }
+
+  subtract(delta: TimelineVector) {
+    let bars = this.bar - delta.bar
+    const { number, fraction: beats } = this.beats.add(delta.beats).mixedNumber()
+    bars -= number
+
+    // TODO: Refactor once ticks system is sorted
+    this.ticks -= delta.ticks
+    return new TimelineVector(bars, beats)
+  }
 }
 
 export default TimelineVector

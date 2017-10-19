@@ -29,14 +29,14 @@ export default class TimelineContainer extends Component<ComponentProps, {}> {
 
   render() {
     const { sequencerLayout, timelineView } = this.injected
-    const { dragToMarker } = timelineView
+    const { dropTargetPosition } = timelineView
 
-    if (!dragToMarker) {
+    if (!dropTargetPosition) {
       return null
     }
 
     const timelineHeight = sequencerLayout.timelineHeight
-    const offsetX = sequencerPositionService.getOffsetX(dragToMarker)
+    const offsetX = sequencerPositionService.getOffsetX(dropTargetPosition)
 
     const caretSize = 10
 
