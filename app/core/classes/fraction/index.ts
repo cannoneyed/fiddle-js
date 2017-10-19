@@ -5,8 +5,9 @@ class Fraction {
   denominator: number
 
   constructor(numerator: number = 1, denominator: number = 1) {
-    this.numerator = numerator
-    this.denominator = denominator
+    // Correct for negative zero (lol JS)
+    this.numerator = numerator === 0 ? 0 : numerator
+    this.denominator = denominator === 0 ? 0 : denominator
   }
 
   add(other: Fraction): Fraction
@@ -45,6 +46,12 @@ class Fraction {
     return new Fraction(this.numerator * denominator, this.denominator * numerator)
   }
 
+  mixedNumber() {
+    const number = this.numerator % this.denominator
+    const fraction = new Fraction(this.numerator - number * this.denominator, this.denominator)
+    return { number, fraction }
+  }
+
   inverse() {
     return new Fraction(this.denominator, this.numerator)
   }
@@ -56,6 +63,10 @@ class Fraction {
   reduce() {
     const gcd = getGCD(this.numerator, this.denominator)
     return new Fraction(this.numerator / gcd, this.denominator / gcd)
+  }
+
+  toString() {
+    return `${this.numerator} / ${this.denominator}`
   }
 }
 

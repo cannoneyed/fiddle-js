@@ -1,6 +1,6 @@
 import sequencerDOMStore from 'core/dom/sequencer'
 import sequencerViewStore from 'core/stores/sequencer/view'
-import minimapInteractionStore from 'core/interactions/minimap'
+import minimapInteractionStore from 'core/stores/interactions/minimap'
 
 import { getNextScrollPercentX } from './helpers'
 

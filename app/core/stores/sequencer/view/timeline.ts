@@ -1,20 +1,11 @@
-import { action, computed, observable } from 'mobx'
+import { computed } from 'mobx'
 
-import clipsDragInteraction from 'core/interactions/clips/drag'
-import TimelineVector from 'core/classes/timeline-vector'
+import clipsDragInteraction from 'core/stores/interactions/clips/drag'
 
 class TimelineView {
-  @observable private dragToMarkerPosition = new TimelineVector(1)
-
   @computed
-  get dragToMarker() {
-    return clipsDragInteraction.isDragging ? this.dragToMarkerPosition : null
-  }
-
-  // actions
-  @action
-  setDragToMarkerPosition(position: TimelineVector) {
-    this.dragToMarkerPosition = position
+  get dropTargetPosition() {
+    return clipsDragInteraction.isDragging ? clipsDragInteraction.dropTargetPosition : null
   }
 }
 

@@ -1,5 +1,5 @@
 import Clip from 'core/models/clip'
-import clipSelect from 'core/interactions/clips/select'
+import clipSelect from 'core/stores/interactions/clips/select'
 
 import { registerClipDragHandlers } from './drag'
 

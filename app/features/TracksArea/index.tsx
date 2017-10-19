@@ -5,7 +5,7 @@ import DraggedClips from 'features/DraggedClips'
 import Track from 'features/Track'
 import VerticalGrid from 'components/VerticalGrid'
 
-import clipDragInteraction, { ClipDragInteraction } from 'core/interactions/clips/drag'
+import clipDragInteraction, { ClipDragInteraction } from 'core/stores/interactions/clips/drag'
 import trackStore, { TrackStore } from 'core/stores/tracks'
 import sequencerLayoutStore, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'

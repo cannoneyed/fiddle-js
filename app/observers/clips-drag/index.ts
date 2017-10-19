@@ -3,10 +3,8 @@ import { autorun, IReactionDisposer } from 'mobx'
 import snapToGridService from 'core/services/sequencer/snap-to-grid'
 import tracksPositionService from 'core/services/sequencer/position/tracks'
 
-import clipDragInteraction from 'core/interactions/clips/drag'
+import clipDragInteraction from 'core/stores/interactions/clips/drag'
 import { moveDraggedClips } from 'dom/drag-clips'
-
-import timelineView from 'core/stores/sequencer/view/timeline'
 
 export default function observeClipsDrag(): IReactionDisposer {
   return autorun(() => {
@@ -17,7 +15,7 @@ export default function observeClipsDrag(): IReactionDisposer {
 
       const offsetX = tracksPositionService.getOffsetXFromScreenX(x)
       const snapToGridPosition = snapToGridService.getNearestSnapPosition(offsetX)
-      timelineView.setDragToMarkerPosition(snapToGridPosition)
+      clipDragInteraction.setDropTargetPosition(snapToGridPosition)
     }
   })
 }

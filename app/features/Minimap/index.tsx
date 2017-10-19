@@ -5,7 +5,7 @@ import * as minimapScroll from 'interactions/minimap/scroll'
 import * as minimapDrag from 'interactions/minimap/drag'
 
 import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
-import minimapInteractions, { MinimapInteractions } from 'core/interactions/minimap'
+import minimapInteractions, { MinimapInteractions } from 'core/stores/interactions/minimap'
 
 const styles = require('./styles.less')
 
