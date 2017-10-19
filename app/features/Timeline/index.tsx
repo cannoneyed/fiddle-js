@@ -7,6 +7,7 @@ import Caret from 'components/Caret'
 import TimelineVector from 'core/classes/timeline-vector'
 import sequencerPositionService from 'core/services/sequencer/position'
 
+import zoomStore, { ZoomStore } from 'core/stores/sequencer/view/zoom'
 import gridView, { GridView } from 'core/stores/sequencer/view/grid'
 import sequencerLayout, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
 import timelineView, { TimelineView } from 'core/stores/sequencer/view/timeline'
@@ -19,12 +20,14 @@ interface InjectedProps extends ComponentProps {
   gridView: GridView
   sequencerLayout: SequencerLayoutStore
   timelineView: TimelineView
+  zoomStore: ZoomStore
 }
 
 @inject(() => ({
   gridView,
   sequencerLayout,
   timelineView,
+  zoomStore,
 }))
 @observer
 export default class TimelineContainer extends Component<ComponentProps, {}> {
@@ -35,21 +38,35 @@ export default class TimelineContainer extends Component<ComponentProps, {}> {
   renderTimelineSegments() {
     const { gridView } = this.injected
 
-    const { division, divisionWidth, nDivisions } = gridView
+    const { barWidth, division, divisionWidth, nDivisions } = gridView
+    console.log(zoomStore.horizontal.level, barWidth, division)
 
     return range(nDivisions).map(n => {
       const div = division.multiply(n, 1).reduce()
-      const { denominator } = div
-      noop(denominator)
+      const { numerator, denominator } = div
+      noop(numerator, denominator)
 
       const timelineSegmentStyle = {
         minWidth: divisionWidth,
-        height: '50%',
+      }
+
+      const timelineDividerStyle = {
+        height: 10,
+        width: 1,
+        borderLeft: `1px solid white`,
+        marginLeft: -1,
+      }
+
+      const timelineLabel = denominator === 1 ? numerator + 1 : null
+      const timelineLabelStyle = {
+        marginLeft: 2,
+        fontSize: 10,
       }
 
       return (
         <div key={n} className={styles.timelineSegment} style={timelineSegmentStyle}>
-          {n + 1}
+          <div style={timelineDividerStyle} />
+          {timelineLabel && <div style={timelineLabelStyle}>{timelineLabel}</div>}
         </div>
       )
     })

@@ -38,7 +38,7 @@ class TracksView {
   // Computed Fields
   @computed
   get trackHeight() {
-    return zoom.level.vertical * defaults.trackHeight
+    return zoom.vertical.level * defaults.trackHeight
   }
 
   @computed

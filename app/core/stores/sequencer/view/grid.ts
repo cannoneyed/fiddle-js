@@ -7,7 +7,8 @@ import timeline from 'core/stores/sequencer/state/timeline'
 
 import zoom from './zoom'
 
-const MIN_DIVISION_WIDTH = 40
+const MIN_DIVISION_WIDTH = 15
+const MAX_DIVISION_WIDTH = 25
 
 class GridView {
   barsPerGridSegment = 1
@@ -15,7 +16,7 @@ class GridView {
   // Computed Fields
   @computed
   get barWidth() {
-    return zoom.level.horizontal * defaults.barWidth
+    return Math.round(zoom.horizontal.level * defaults.barWidth)
   }
 
   @computed
@@ -32,21 +33,21 @@ class GridView {
   @computed
   get division() {
     let division = new Fraction(1, 1)
-    let barWidth = this.barWidth
+    let divisionWidth = this.barWidth
 
     // If the current bar width is greater than minimum divison width, we need to increase our division size
-    if (barWidth < MIN_DIVISION_WIDTH) {
+    if (divisionWidth < MIN_DIVISION_WIDTH) {
       const multiple = new Fraction(2, 1)
-      while (barWidth < MIN_DIVISION_WIDTH) {
+      while (divisionWidth < MIN_DIVISION_WIDTH) {
         const nextDivision = division.multiply(multiple)
-        barWidth = nextDivision.multiplyScalar(barWidth)
+        divisionWidth = nextDivision.multiplyScalar(this.barWidth)
         division = nextDivision
       }
-    } else if (barWidth > MIN_DIVISION_WIDTH) {
+    } else if (divisionWidth > MAX_DIVISION_WIDTH) {
       const multiple = new Fraction(1, 2)
-      while (barWidth > MIN_DIVISION_WIDTH) {
+      while (divisionWidth > MAX_DIVISION_WIDTH) {
         const nextDivision = division.multiply(multiple)
-        barWidth = nextDivision.multiplyScalar(barWidth)
+        divisionWidth = nextDivision.multiplyScalar(this.barWidth)
         division = nextDivision
       }
     }
