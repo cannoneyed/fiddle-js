@@ -1,7 +1,16 @@
-import gridView from 'core/stores/sequencer/view/grid'
+import Fraction from 'core/classes/fraction'
 import TimelineVector from 'core/classes/timeline-vector'
 
-class SnapToGridService {
+import gridView from 'core/stores/sequencer/view/grid'
+
+export enum DivisionType {
+  primary,
+  secondary,
+  tertiary,
+  quaternary,
+}
+
+class GridService {
   getNearestSnapPosition = (offsetX: number) => {
     const { divisionWidth, division } = gridView
 
@@ -23,7 +32,11 @@ class SnapToGridService {
 
     return new TimelineVector(bar, beats)
   }
+
+  getDivisionType(division: Fraction): DivisionType {
+    return DivisionType.primary
+  }
 }
 
-export default new SnapToGridService()
-export { SnapToGridService }
+export default new GridService()
+export { GridService }
