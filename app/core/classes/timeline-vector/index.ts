@@ -1,5 +1,3 @@
-import { clamp } from 'lodash'
-
 import Fraction from 'core/classes/fraction'
 
 class TimelineVector {
@@ -7,10 +5,17 @@ class TimelineVector {
   beats: Fraction
   ticks: number
 
-  constructor(bar = 1, beats?: Fraction, ticks = 0) {
-    this.bar = clamp(bar, 0, Infinity)
+  constructor(bar = 0, beats?: Fraction, ticks = 0) {
+    this.bar = bar
     this.beats = beats === undefined ? new Fraction(0, 4) : beats
-    this.ticks = clamp(ticks, 0, Infinity)
+    this.ticks = ticks
+  }
+
+  makeNegative() {
+    const bar = this.bar * -1
+    const beats = this.beats.multiply(-1, 1)
+    const ticks = this.ticks * -1
+    return new TimelineVector(bar, beats, ticks)
   }
 
   add(delta: TimelineVector) {
@@ -24,13 +29,7 @@ class TimelineVector {
   }
 
   subtract(delta: TimelineVector) {
-    let bars = this.bar - delta.bar
-    const { number, fraction: beats } = this.beats.add(delta.beats).mixedNumber()
-    bars -= number
-
-    // TODO: Refactor once ticks system is sorted
-    this.ticks -= delta.ticks
-    return new TimelineVector(bars, beats)
+    return this.add(delta.makeNegative())
   }
 }
 
