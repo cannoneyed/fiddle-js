@@ -23,13 +23,15 @@ class ZoomLevel {
   }
 
   @action
-  zoomIn() {
-    this.level = round(Math.min(this.max, this.level * this.ratio), 2)
+  zoomIn(ratio?: number) {
+    const zoomRatio = ratio === undefined ? this.ratio : ratio
+    this.level = round(Math.min(this.max, this.level * zoomRatio), 4)
   }
 
   @action
-  zoomOut() {
-    this.level = round(Math.max(this.min, this.level / this.ratio), 2)
+  zoomOut(ratio?: number) {
+    const zoomRatio = ratio === undefined ? this.ratio : ratio
+    this.level = round(Math.max(this.min, this.level / zoomRatio), 4)
   }
 }
 

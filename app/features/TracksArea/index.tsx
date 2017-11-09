@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react'
 
 import DraggedClips from 'features/DraggedClips'
 import Track from 'features/Track'
-import VerticalGrid from 'components/VerticalGrid'
+import VerticalGrid from 'features/VerticalGrid'
 
 import clipDragInteraction, { ClipDragInteraction } from 'core/stores/interactions/clips/drag'
 import trackStore, { TrackStore } from 'core/stores/tracks'
