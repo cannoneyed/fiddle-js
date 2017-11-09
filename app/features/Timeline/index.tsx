@@ -27,10 +27,8 @@ export default class TimelineContainer extends Component<ComponentProps, {}> {
   }
 
   renderTimelineSegments() {
-    const { gridView, zoomStore } = this.injected
-
-    const { barWidth, division, divisionWidth, nDivisions } = gridView
-    console.log(zoomStore.horizontal.level, barWidth, division)
+    const { gridView } = this.injected
+    const { division, divisionWidth, nDivisions } = gridView
 
     return range(nDivisions).map(n => {
       const { numerator, denominator } = division.multiply(n, 1).reduce()

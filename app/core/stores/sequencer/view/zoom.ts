@@ -1,24 +1,23 @@
-import { action, observable } from 'mobx'
+import { action } from 'mobx'
 
 import ZoomLevel from 'core/models/zoom-level'
 
 class ZoomStore {
-  @observable
   horizontal = new ZoomLevel({
     min: 0.15,
   })
-  @observable
+
   vertical = new ZoomLevel({
     min: 0.15,
   })
 
   // Actions
-  @action.bound
+  @action
   zoomInHorizontal = () => {
     this.horizontal.zoomIn()
   }
 
-  @action.bound
+  @action
   zoomOutHorizontal = () => {
     this.horizontal.zoomOut()
   }

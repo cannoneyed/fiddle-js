@@ -14,6 +14,7 @@ export function registerHandlers(): UnregisterHandlers {
   if (minimap && minimapScroll) {
     mouseDown = (mouseDown: MouseEvent) => {
       let lastX = mouseDown.pageX
+      let lastY = mouseDown.pageY
       minimapInteractionStore.setIsDragging(true)
 
       function mouseMove(mouseMove: MouseEvent): void {
@@ -22,6 +23,7 @@ export function registerHandlers(): UnregisterHandlers {
         }
         const deltaX = mouseMove.pageX - lastX
         lastX = mouseMove.pageX
+        lastY = mouseMove.pageY
 
         const nextScrollPercentX = getNextScrollPercentX(deltaX)
         sequencerViewStore.tracks.setTracksScroll({ x: nextScrollPercentX })
