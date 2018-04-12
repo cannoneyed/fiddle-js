@@ -7,7 +7,7 @@ fiddle will be a modern sequencer application specializing in arranging OSC data
 ```bash
 $ git clone https://github.com/cannoneyed/fiddle.git
 $ cd fiddle
-$ yarn
+$ npm i
 
 $ npm run dev
 ```
