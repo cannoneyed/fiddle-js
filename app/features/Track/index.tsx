@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import autobind from 'autobind-decorator'
 import { inject, observer } from 'mobx-react'
-import { ContextMenuTarget } from '@blueprintjs/core'
+import { ContextMenu } from '@blueprintjs/core'
 
 import TrackContextMenu from 'features/TrackContextMenu'
 import Clip from 'features/Clip'
@@ -12,12 +11,16 @@ import trackMouseInteraction, { TrackMouseInteraction } from 'core/stores/intera
 
 const styles = require('./styles.less')
 
-interface ComponentProps {
+interface Props {
   track: Track
   index: number
 }
 
-interface InjectedProps extends ComponentProps {
+interface State {
+  isContextMenuOpen: boolean
+}
+
+interface InjectedProps extends Props {
   sequencerViewStore: SequencerViewStore
   trackMouseInteraction: TrackMouseInteraction
 }
@@ -26,9 +29,8 @@ interface InjectedProps extends ComponentProps {
   trackMouseInteraction,
   sequencerViewStore,
 }))
-@ContextMenuTarget
 @observer
-export default class TrackContainer extends Component<ComponentProps, {}> {
+export default class TrackContainer extends Component<Props, State> {
   get injected() {
     return this.props as InjectedProps
   }
@@ -39,12 +41,18 @@ export default class TrackContainer extends Component<ComponentProps, {}> {
     trackMouseInteraction.handleTrackClick(track, event)
   }
 
-  @autobind
-  renderContextMenu(event: React.MouseEvent<HTMLElement>) {
+  renderContextMenu = (offsetX: number) => {
     const { track } = this.props
-    const { offsetX } = event.nativeEvent
 
     return <TrackContextMenu trackId={track.id} offsetX={offsetX} />
+  }
+
+  showContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    const props = { left: e.clientX, top: e.clientY }
+    const callback = () => this.setState({ isContextMenuOpen: false })
+    ContextMenu.show(this.renderContextMenu(e.clientX), props, callback)
+    this.setState({ isContextMenuOpen: true })
   }
 
   render() {
@@ -58,7 +66,12 @@ export default class TrackContainer extends Component<ComponentProps, {}> {
     }
 
     return (
-      <div className={styles.trackContainer} style={trackStyle} onMouseDown={this.handleClick}>
+      <div
+        className={styles.trackContainer}
+        style={trackStyle}
+        onMouseDown={this.handleClick}
+        onContextMenu={this.showContextMenu}
+      >
         {track.clips.map((clip, index) => <Clip clip={clip} key={index} />)}
       </div>
     )

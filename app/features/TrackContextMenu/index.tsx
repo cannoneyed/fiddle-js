@@ -43,8 +43,8 @@ export default class TrackContextMenu extends Component<ComponentProps, {}> {
   render() {
     return (
       <Menu>
-        <MenuItem onClick={this.createClip} iconName="insert" text="New Clip" />
-        <MenuItem onClick={this.deleteTrack} iconName="cross" text="Delete Track" />
+        <MenuItem onClick={this.createClip} icon="insert" text="New Clip" />
+        <MenuItem onClick={this.deleteTrack} icon="cross" text="Delete Track" />
       </Menu>
     )
   }

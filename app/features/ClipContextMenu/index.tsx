@@ -39,7 +39,7 @@ export default class ClipContextMenu extends Component<ComponentProps, {}> {
 
     return (
       <Menu>
-        <MenuItem onClick={deleteAction} iconName="cross" text={deleteText} />
+        <MenuItem onClick={deleteAction} icon="cross" text={deleteText} />
       </Menu>
     )
   }

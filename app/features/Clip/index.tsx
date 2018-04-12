@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import autobind from 'autobind-decorator'
+// import autobind from 'autobind-decorator'
 import { inject, observer } from 'mobx-react'
-import { ContextMenuTarget } from '@blueprintjs/core'
+import { ContextMenu } from '@blueprintjs/core'
 
 import ClipContextMenu from 'features/ClipContextMenu'
 import ClipView from 'components/Clip'
@@ -12,28 +12,40 @@ import { handleClipMouseDown } from 'interactions/clip/mouse'
 
 const styles = require('./styles.less')
 
-interface ComponentProps {
+interface Props {
   clip: Clip
 }
 
-interface InjectedProps extends ComponentProps {
+interface State {
+  isContextMenuOpen: boolean
+}
+
+interface InjectedProps extends Props {
   sequencerViewStore: SequencerViewStore
 }
 
 @inject(() => ({
   sequencerViewStore,
 }))
-@ContextMenuTarget
 @observer
-export default class ClipContainer extends Component<ComponentProps, {}> {
+export default class ClipContainer extends Component<Props, State> {
+  state = { isContextMenuOpen: false }
+
   get injected() {
     return this.props as InjectedProps
   }
 
-  @autobind // Need to autobind because this method must be a class method, not babel-transformed
-  renderContextMenu() {
+  renderContextMenu = () => {
     const { clip } = this.props
     return <ClipContextMenu clipId={clip.id} />
+  }
+
+  showContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    const props = { left: e.clientX, top: e.clientY }
+    const callback = () => this.setState({ isContextMenuOpen: false })
+    ContextMenu.show(this.renderContextMenu(), props, callback)
+    this.setState({ isContextMenuOpen: true })
   }
 
   render() {
@@ -44,7 +56,11 @@ export default class ClipContainer extends Component<ComponentProps, {}> {
     }
 
     return (
-      <div className={styles.clipContainer} style={clipWrapperStyle}>
+      <div
+        className={styles.clipContainer}
+        style={clipWrapperStyle}
+        onContextMenu={this.showContextMenu}
+      >
         <ClipView clip={clip} onMouseDown={e => handleClipMouseDown(clip, e)} />
       </div>
     )

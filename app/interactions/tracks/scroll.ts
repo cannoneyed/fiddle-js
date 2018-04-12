@@ -49,7 +49,7 @@ export function registerHandlers(): UnregisterHandlers {
   return function unregisterHandlers(): void {
     map([xy, x, y], group => {
       map(group, element => {
-        const syn = eventHandlers.get(element)
+        const syn = eventHandlers.get(element)!
         element.removeEventListener('mousewheel', syn)
         eventHandlers.delete(element)
       })
