@@ -34,12 +34,8 @@ const renderPage = (Component: any) =>
 renderPage(Root)
 
 declare const module: any
-// if (module.hot) {
-//   const NextRoot = require('./pages/Root').default
-//   module.hot.accept('./pages/Root', () => renderPage(NextRoot))
-// }
 if (module.hot) {
-  module.hot.accept() // this is important
+  module.hot.accept()
   renderPage(Root)
 } else {
   renderPage(Root)
