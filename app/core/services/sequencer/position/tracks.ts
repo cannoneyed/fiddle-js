@@ -1,7 +1,7 @@
-import tracksView from 'core/stores/sequencer/view/tracks'
-import sequencerLayout from 'core/stores/sequencer/layout'
+import { tracksView } from 'core/stores/sequencer/view/tracks'
+import { sequencerLayout } from 'core/stores/sequencer/layout'
 
-class TracksPositionService {
+export class TracksPositionService {
   getOffsetXFromScreenX = (screenX: number) => {
     const leftEdge = sequencerLayout.tracksAreaLeft
     const scrolledX = tracksView.tracksScrolledX
@@ -11,5 +11,4 @@ class TracksPositionService {
   }
 }
 
-export default new TracksPositionService()
-export { TracksPositionService }
+export const tracksPositionService = new TracksPositionService()

@@ -4,7 +4,7 @@ export class SnapToGridValue {
   constructor(public name: string, public divisions?: number) {}
 }
 
-class SnapToGridValues {
+export class SnapToGridValues {
   readonly snap_1 = new SnapToGridValue('1 bar', 1)
   readonly snap_1_2 = new SnapToGridValue('1/2', 2)
   readonly snap_1_4 = new SnapToGridValue('1/4', 4)
@@ -18,7 +18,7 @@ class SnapToGridValues {
 
 export const snapToGridValues = new SnapToGridValues()
 
-class SnapToGrid {
+export class SnapToGrid {
   @observable value: SnapToGridValue
 
   constructor(value: SnapToGridValue = snapToGridValues.snap_1) {
@@ -60,5 +60,3 @@ class SnapToGrid {
     return this.value === snapToGridValues.snap_auto
   }
 }
-
-export default SnapToGrid

@@ -1,4 +1,4 @@
-export function getGCD(a: number, b: number): number {
+export const getGCD = (a: number, b: number): number => {
   if (!a) {
     return b
   }

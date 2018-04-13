@@ -8,7 +8,7 @@ export interface IOptions {
   ratio?: number
 }
 
-class ZoomLevel {
+export class ZoomLevel {
   @observable level: number
   max: number
   min: number
@@ -34,5 +34,3 @@ class ZoomLevel {
     this.level = round(Math.max(this.min, this.level / zoomRatio), 4)
   }
 }
-
-export default ZoomLevel

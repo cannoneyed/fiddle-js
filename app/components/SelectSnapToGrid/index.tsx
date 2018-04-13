@@ -4,29 +4,29 @@ import { map } from 'lodash'
 
 import { snapToGridValues } from 'core/models/snap-to-grid'
 
-import Select from 'components/Select'
+import { Select } from 'components/Select'
 
-import sequencerStateStore, { SequencerStateStore } from 'core/stores/sequencer/state'
+import { sequencerState, SequencerState } from 'core/stores/sequencer/state'
 
 const styles = require('./styles.less')
 
 interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
-  sequencerStateStore: SequencerStateStore
+  sequencerState: SequencerState
 }
 
 @inject(() => ({
-  sequencerStateStore,
+  sequencerState,
 }))
 @observer
-export default class SelectSnapToGrid extends Component<ComponentProps, {}> {
+export class SelectSnapToGrid extends Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }
 
   render() {
-    const snapToGrid = sequencerStateStore.snapToGrid
+    const snapToGrid = sequencerState.snapToGrid
 
     const options = map(snapToGridValues, (snapToGridValue, key) => {
       const { name } = snapToGridValue

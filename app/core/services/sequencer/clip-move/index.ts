@@ -1,7 +1,7 @@
-import Clip from 'core/models/clip'
-import TimelineVector from 'core/classes/timeline-vector'
+import { Clip } from 'core/models/clip'
+import { TimelineVector } from 'core/classes/timeline-vector'
 
-class ClipMoveService {
+export class ClipMoveService {
   moveClip(clip: Clip, deltaTimeline: TimelineVector) {
     this.moveClips([clip], deltaTimeline)
   }
@@ -13,5 +13,4 @@ class ClipMoveService {
   }
 }
 
-export default new ClipMoveService()
-export { ClipMoveService }
+export const clipMoveService = new ClipMoveService()

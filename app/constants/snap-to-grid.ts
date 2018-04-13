@@ -1,7 +1,7 @@
 export const AUTO = 'snap-to-grid/auto'
 export const FREE = 'snap-to-grid/free'
 
-export function getValues() {
+export const getValues = () => {
   return {
     '1 bar': 1,
     '1/2': 2,

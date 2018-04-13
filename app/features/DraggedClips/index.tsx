@@ -2,32 +2,32 @@ import React, { Component } from 'react'
 import { IReactionDisposer } from 'mobx'
 import { inject, observer } from 'mobx-react'
 
-import Clip from 'core/models/clip'
+import { Clip } from 'core/models/clip'
 
-import ClipView from 'components/Clip'
-import Portal from 'components/Portal'
+import { Clip as ClipView } from 'components/Clip'
+import { Portal } from 'components/Portal'
 
-import observeClipsDrag from 'observers/clips-drag'
+import { observeClipsDrag } from 'observers/clips-drag'
 
-import clipDragInteraction, { ClipDragInteraction } from 'core/stores/interactions/clips/drag'
-import clipSelectInteraction, { ClipSelectInteraction } from 'core/stores/interactions/clips/select'
-import sequencerPortals from 'core/dom/sequencer/portal'
+import { clipDrag, ClipDrag } from 'core/stores/interactions/clips/drag'
+import { clipSelect, ClipSelect } from 'core/stores/interactions/clips/select'
+import { sequencerPortalDOM } from 'core/dom/sequencer/portal'
 
 const styles = require('./styles.less')
 
 interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
-  clipDragInteraction: ClipDragInteraction
-  clipSelectInteraction: ClipSelectInteraction
+  clipDrag: ClipDrag
+  clipSelect: ClipSelect
 }
 
 @inject(() => ({
-  clipDragInteraction,
-  clipSelectInteraction,
+  clipDrag,
+  clipSelect,
 }))
 @observer
-export default class DraggedClips extends Component<ComponentProps, {}> {
+export class DraggedClips extends Component<ComponentProps, {}> {
   disposeObserver: IReactionDisposer
 
   get injected() {
@@ -43,8 +43,8 @@ export default class DraggedClips extends Component<ComponentProps, {}> {
   }
 
   renderDraggedClip = (clip: Clip) => {
-    const { clipDragInteraction } = this.injected
-    const relativePosition = clipDragInteraction.getRelativePosition(clip)
+    const { clipDrag } = this.injected
+    const relativePosition = clipDrag.getRelativePosition(clip)
     const { x, y } = relativePosition
 
     const clipWrapperStyle = {
@@ -60,10 +60,10 @@ export default class DraggedClips extends Component<ComponentProps, {}> {
   }
 
   render() {
-    const { clipSelectInteraction } = this.injected
-    const { selectedClips } = clipSelectInteraction
+    const { clipSelect } = this.injected
+    const { selectedClips } = clipSelect
 
-    const { draggedClipsRoot } = sequencerPortals
+    const { draggedClipsRoot } = sequencerPortalDOM
     if (!draggedClipsRoot) {
       return null
     }

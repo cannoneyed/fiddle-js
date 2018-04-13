@@ -4,24 +4,21 @@ import { inject, observer } from 'mobx-react'
 import * as minimapScroll from 'interactions/minimap/scroll'
 import * as minimapDrag from 'interactions/minimap/drag'
 
-import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
-import minimapInteractions, { MinimapInteractions } from 'core/stores/interactions/minimap'
+import { sequencerView, SequencerView } from 'core/stores/sequencer/view'
 
 const styles = require('./styles.less')
 
 interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
-  sequencerViewStore: SequencerViewStore
-  minimapInteractions: MinimapInteractions
+  sequencerView: SequencerView
 }
 
 @inject(() => ({
-  sequencerViewStore,
-  minimapInteractions,
+  sequencerView,
 }))
 @observer
-export default class Minimap extends Component<ComponentProps, {}> {
+export class Minimap extends Component<ComponentProps, {}> {
   unregisterScrollHandlers: minimapScroll.UnregisterHandlers
   unregisterDragHandlers: minimapDrag.UnregisterHandlers
 
@@ -40,8 +37,8 @@ export default class Minimap extends Component<ComponentProps, {}> {
   }
 
   render() {
-    const { sequencerViewStore } = this.injected
-    const { tracksScrollPercentX, tracksViewPercentX } = sequencerViewStore.tracks
+    const { sequencerView } = this.injected
+    const { tracksScrollPercentX, tracksViewPercentX } = sequencerView.tracks
 
     // We need to compute the relative left position of the minimap container's since the scrollPercentX
     // is a normalized 0 to 1 value.

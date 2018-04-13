@@ -1,5 +1,5 @@
-import Fraction from 'core/classes/fraction'
-import TimelineVector from 'core/classes/timeline-vector'
+import { Fraction } from 'core/classes/fraction'
+import { TimelineVector } from 'core/classes/timeline-vector'
 
 describe('TimelineVector class', () => {
   it('constructs a timeline vector with defaults', () => {

@@ -2,13 +2,12 @@ export const prefixModule = 'prefixModule'
 
 import { observable } from 'mobx'
 
-import TimelineVector from 'core/classes/timeline-vector'
+import { TimelineVector } from 'core/classes/timeline-vector'
 
-class TimelineState {
+export class TimelineState {
   @observable length = 64
 
   @observable playheadPosition = new TimelineVector()
 }
 
-export default new TimelineState()
-export { TimelineState }
+export const timelineState = new TimelineState()

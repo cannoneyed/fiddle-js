@@ -1,13 +1,13 @@
-import sequencerDOMStore from 'core/dom/sequencer'
-import sequencerViewStore from 'core/stores/sequencer/view'
+import { sequencerDOM } from 'core/dom/sequencer'
+import { sequencerView } from 'core/stores/sequencer/view'
 
 import { getNextScrollPercentX } from './helpers'
 
 export type UnregisterHandlers = () => void
 export type EventHandler = (event: WheelEvent) => void
 
-export function registerHandlers(): UnregisterHandlers {
-  const { minimap } = sequencerDOMStore
+export const registerHandlers = (): UnregisterHandlers => {
+  const { minimap } = sequencerDOM
 
   if (!minimap) {
     return () => {}
@@ -18,7 +18,7 @@ export function registerHandlers(): UnregisterHandlers {
     const { deltaX } = event
 
     const nextScrollPercentX = getNextScrollPercentX(deltaX)
-    sequencerViewStore.tracks.setTracksScroll({ x: nextScrollPercentX })
+    sequencerView.tracks.setTracksScroll({ x: nextScrollPercentX })
   }
   minimap.addEventListener('mousewheel', eventHandler)
 

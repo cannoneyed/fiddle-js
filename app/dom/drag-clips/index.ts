@@ -1,7 +1,7 @@
-import sequencerDOMStore from 'core/dom/sequencer'
+import { sequencerDOM } from 'core/dom/sequencer'
 
-export function moveDraggedClips(x: number, y: number) {
-  const draggedClipsContainer = sequencerDOMStore.draggedClips
+export const moveDraggedClips = (x: number, y: number) => {
+  const draggedClipsContainer = sequencerDOM.draggedClips
   if (!draggedClipsContainer) {
     return
   }

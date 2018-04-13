@@ -1,12 +1,11 @@
-import GridView from './grid'
-import TracksView from './tracks'
-import Zoom from './zoom'
+import { gridView } from './grid'
+import { tracksView } from './tracks'
+import { zoomView } from './zoom'
 
-class SequencerViewStore {
-  grid = GridView
-  tracks = TracksView
-  zoom = Zoom
+export class SequencerView {
+  grid = gridView
+  tracks = tracksView
+  zoom = zoomView
 }
 
-export default new SequencerViewStore()
-export { SequencerViewStore }
+export const sequencerView = new SequencerView()

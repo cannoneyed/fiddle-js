@@ -4,32 +4,32 @@ import { inject, observer } from 'mobx-react'
 
 const styles = require('./styles.less')
 
-import { Clip } from 'core/models/clip'
-import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
+import { Clip as ClipModel } from 'core/models/clip'
+import { sequencerView, SequencerView } from 'core/stores/sequencer/view'
 
 interface ComponentProps {
-  clip: Clip
+  clip: ClipModel
   onMouseDown?: (event: React.MouseEvent<HTMLElement>) => any
   isDragging?: boolean
 }
 
 interface InjectedProps extends ComponentProps {
-  sequencerViewStore: SequencerViewStore
+  sequencerView: SequencerView
 }
 
 @inject(() => ({
-  sequencerViewStore,
+  sequencerView,
 }))
 @observer
-export default class ClipView extends Component<ComponentProps, {}> {
+export class Clip extends Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }
 
   render() {
     const { clip, onMouseDown } = this.props
-    const { sequencerViewStore } = this.injected
-    const { trackHeight } = sequencerViewStore.tracks
+    const { sequencerView } = this.injected
+    const { trackHeight } = sequencerView.tracks
 
     const clipStyle = {
       height: trackHeight,

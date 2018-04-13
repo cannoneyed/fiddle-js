@@ -1,9 +1,8 @@
 // A register for sequencer DOM elements (for consistent querying)
-class SequencerPortalDOMStore {
+export class SequencerPortalDOM {
   get draggedClipsRoot(): HTMLElement | null {
     return document.getElementById('draggedClipsRoot')
   }
 }
 
-export default new SequencerPortalDOMStore()
-export { SequencerPortalDOMStore }
+export const sequencerPortalDOM = new SequencerPortalDOM()

@@ -2,33 +2,33 @@ import React, { Component } from 'react'
 import { IReactionDisposer } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import * as tracksScroll from 'interactions/tracks/scroll'
-import observeTracksScroll from 'observers/tracks-scroll'
+import { observeTracksScroll } from 'observers/tracks-scroll'
 
-import Minimap from 'features/Minimap'
-import Timeline from 'features/Timeline'
-import TimelineGutter from 'features/TimelineGutter'
-import Toolbar from 'features/Toolbar'
-import TracksGutter from 'features/TracksGutter'
-import TracksArea from 'features/TracksArea'
+import { Minimap } from 'features/Minimap'
+import { Timeline } from 'features/Timeline'
+import { TimelineGutter } from 'features/TimelineGutter'
+import { Toolbar } from 'features/Toolbar'
+import { TracksGutter } from 'features/TracksGutter'
+import { TracksArea } from 'features/TracksArea'
 
-import sequencerLayoutStore, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
-import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
+import { sequencerLayout, SequencerLayout } from 'core/stores/sequencer/layout'
+import { sequencerView, SequencerView } from 'core/stores/sequencer/view'
 
 const styles = require('./styles.less')
 
 interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
-  sequencerLayoutStore: SequencerLayoutStore
-  sequencerViewStore: SequencerViewStore
+  sequencerLayout: SequencerLayout
+  sequencerView: SequencerView
 }
 
 @inject(() => ({
-  sequencerLayoutStore,
-  sequencerViewStore,
+  sequencerLayout,
+  sequencerView,
 }))
 @observer
-export default class SequencerPage extends Component<ComponentProps, {}> {
+export class SequencerPage extends Component<ComponentProps, {}> {
   disposeObserver: IReactionDisposer
   disposeHandlers: tracksScroll.UnregisterHandlers
 
@@ -47,8 +47,8 @@ export default class SequencerPage extends Component<ComponentProps, {}> {
   }
 
   render() {
-    const { sequencerLayoutStore } = this.injected
-    const { minimapHeight, timelineHeight, toolbarHeight, tracksAreaHeight } = sequencerLayoutStore
+    const { sequencerLayout } = this.injected
+    const { minimapHeight, timelineHeight, toolbarHeight, tracksAreaHeight } = sequencerLayout
 
     const toolbarWrapperStyle = {
       height: toolbarHeight,

@@ -1,9 +1,9 @@
 import { observable } from 'mobx'
 
 import { computed } from 'mobx'
-import windowStore from 'core/stores/window'
+import { windowStore } from 'core/stores/window'
 
-class SequencerLayoutStore {
+export class SequencerLayout {
   @observable minimapHeight: number = 60
   @observable gutterWidth: number = 200
   @observable timelineHeight: number = 30
@@ -21,5 +21,4 @@ class SequencerLayoutStore {
   }
 }
 
-export default new SequencerLayoutStore()
-export { SequencerLayoutStore }
+export const sequencerLayout = new SequencerLayout()

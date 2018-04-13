@@ -1,8 +1,8 @@
-import TimelineVector from 'core/classes/timeline-vector'
+import { TimelineVector } from 'core/classes/timeline-vector'
 
-import gridView from 'core/stores/sequencer/view/grid'
+import { gridView } from 'core/stores/sequencer/view/grid'
 
-class SequencerPositionService {
+export class SequencerPositionService {
   getTimelineVector = (offsetX: number) => {
     const { barWidth } = gridView
     const nearestBar = Math.floor(offsetX / barWidth)
@@ -18,5 +18,4 @@ class SequencerPositionService {
   }
 }
 
-export default new SequencerPositionService()
-export { SequencerPositionService }
+export const sequencerPositionService = new SequencerPositionService()

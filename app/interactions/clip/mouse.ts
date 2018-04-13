@@ -1,9 +1,9 @@
-import Clip from 'core/models/clip'
-import clipSelect from 'core/stores/interactions/clips/select'
+import { Clip } from 'core/models/clip'
+import { clipSelect } from 'core/stores/interactions/clips/select'
 
 import { registerClipDragHandlers } from './drag'
 
-export function handleClipMouseDown(clip: Clip, event: React.MouseEvent<HTMLElement>) {
+export const handleClipMouseDown = (clip: Clip, event: React.MouseEvent<HTMLElement>) => {
   event.stopPropagation()
 
   // If left-click, do nothing (delegate to context menus)

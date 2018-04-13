@@ -1,6 +1,6 @@
-import Fraction from 'core/classes/fraction'
+import { Fraction } from 'core/classes/fraction'
 
-class TimelineVector {
+export class TimelineVector {
   bar: number
   beats: Fraction
   ticks: number
@@ -32,5 +32,3 @@ class TimelineVector {
     return this.add(delta.makeNegative())
   }
 }
-
-export default TimelineVector

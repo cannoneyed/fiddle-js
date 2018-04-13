@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx'
 
-class WindowStore {
+export class WindowStore {
   @observable width = window.innerWidth
   @observable height = window.innerHeight
 
@@ -15,5 +15,4 @@ class WindowStore {
   }
 }
 
-export default new WindowStore()
-export { WindowStore }
+export const windowStore = new WindowStore()

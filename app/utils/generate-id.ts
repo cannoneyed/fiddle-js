@@ -1,5 +1,5 @@
 let nextId = 1
 
-export function generateId() {
+export const generateId = () => {
   return String(nextId++)
 }

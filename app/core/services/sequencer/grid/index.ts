@@ -1,7 +1,7 @@
-import Fraction from 'core/classes/fraction'
-import TimelineVector from 'core/classes/timeline-vector'
+import { Fraction } from 'core/classes/fraction'
+import { TimelineVector } from 'core/classes/timeline-vector'
 
-import gridView from 'core/stores/sequencer/view/grid'
+import { gridView } from 'core/stores/sequencer/view/grid'
 
 export enum DivisionType {
   primary,
@@ -10,7 +10,7 @@ export enum DivisionType {
   quaternary,
 }
 
-class GridService {
+export class GridService {
   getNearestSnapPosition = (offsetX: number) => {
     const { divisionWidth, division } = gridView
 
@@ -38,5 +38,4 @@ class GridService {
   }
 }
 
-export default new GridService()
-export { GridService }
+export const gridService = new GridService()

@@ -2,17 +2,17 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { ContextMenu } from '@blueprintjs/core'
 
-import TrackContextMenu from 'features/TrackContextMenu'
-import Clip from 'features/Clip'
+import { TrackContextMenu } from 'features/TrackContextMenu'
+import { Clip } from 'features/Clip'
 
-import Track from 'core/models/track'
-import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
-import trackMouseInteraction, { TrackMouseInteraction } from 'core/stores/interactions/tracks/mouse'
+import { Track as TrackModel } from 'core/models/track'
+import { sequencerView, SequencerView } from 'core/stores/sequencer/view'
+import { trackMouseInteraction, TrackMouseInteraction } from 'core/stores/interactions/tracks/mouse'
 
 const styles = require('./styles.less')
 
 interface Props {
-  track: Track
+  track: TrackModel
   index: number
 }
 
@@ -21,16 +21,16 @@ interface State {
 }
 
 interface InjectedProps extends Props {
-  sequencerViewStore: SequencerViewStore
+  sequencerView: SequencerView
   trackMouseInteraction: TrackMouseInteraction
 }
 
 @inject(() => ({
   trackMouseInteraction,
-  sequencerViewStore,
+  sequencerView,
 }))
 @observer
-export default class TrackContainer extends Component<Props, State> {
+export class Track extends Component<Props, State> {
   get injected() {
     return this.props as InjectedProps
   }
@@ -57,8 +57,8 @@ export default class TrackContainer extends Component<Props, State> {
 
   render() {
     const { track } = this.props
-    const { sequencerViewStore } = this.injected
-    const { trackHeight, trackWidth } = sequencerViewStore.tracks
+    const { sequencerView } = this.injected
+    const { trackHeight, trackWidth } = sequencerView.tracks
 
     const trackStyle = {
       height: trackHeight,

@@ -1,11 +1,11 @@
 import { action, observable } from 'mobx'
 
-import Clip, { IClipConstructorParams } from 'core/models/clip'
-import TimelineVector from 'core/classes/timeline-vector'
+import { Clip, IClipConstructorParams } from 'core/models/clip'
+import { TimelineVector } from 'core/classes/timeline-vector'
 
-import clipSelect from 'core/stores/interactions/clips/select'
+import { clipSelect } from 'core/stores/interactions/clips/select'
 
-class ClipStore {
+export class ClipStore {
   // The main store for clips (by id)
   @observable clips = observable.map<string, Clip>({})
 
@@ -51,5 +51,4 @@ class ClipStore {
   }
 }
 
-export default new ClipStore()
-export { Clip, ClipStore }
+export const clipStore = new ClipStore()

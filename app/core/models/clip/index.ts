@@ -1,18 +1,18 @@
 import { action, computed, observable } from 'mobx'
 import { generateId } from 'utils/generate-id'
 
-import positionService from 'core/services/sequencer/position'
+import { sequencerPositionService } from 'core/services/sequencer/position'
 
-import ScreenVector from 'core/classes/screen-vector'
-import TimelineVector from 'core/classes/timeline-vector'
-import trackStore from 'core/stores/tracks'
+import { ScreenVector } from 'core/classes/screen-vector'
+import { TimelineVector } from 'core/classes/timeline-vector'
+import { trackStore } from 'core/stores/tracks'
 
 export interface IClipConstructorParams {
   trackId: string
   position: TimelineVector
 }
 
-class Clip {
+export class Clip {
   id: string
   domId: string
 
@@ -34,12 +34,12 @@ class Clip {
 
   @computed
   get width() {
-    return positionService.getOffsetX(this.length)
+    return sequencerPositionService.getOffsetX(this.length)
   }
 
   @computed
   get offsetX() {
-    return positionService.getOffsetX(this.position)
+    return sequencerPositionService.getOffsetX(this.position)
   }
 
   @computed
@@ -77,6 +77,3 @@ class Clip {
     this.position = position
   }
 }
-
-export default Clip
-export { Clip }

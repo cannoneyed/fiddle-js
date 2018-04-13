@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Menu, MenuItem } from '@blueprintjs/core'
 
-import trackStore, { TrackStore } from 'core/stores/tracks'
-import clipStore, { ClipStore } from 'core/stores/clips'
-import sequencerPositionService from 'core/services/sequencer/position'
+import { trackStore, TrackStore } from 'core/stores/tracks'
+import { clipStore, ClipStore } from 'core/stores/clips'
+import { sequencerPositionService } from 'core/services/sequencer/position'
 
 interface ComponentProps {
   trackId: string
@@ -21,7 +21,7 @@ interface InjectedProps extends ComponentProps {
   clipStore,
 }))
 @observer
-export default class TrackContextMenu extends Component<ComponentProps, {}> {
+export class TrackContextMenu extends Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }

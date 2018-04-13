@@ -1,9 +1,9 @@
-import sequencerDOMStore from 'core/dom/sequencer'
-import sequencerViewStore from 'core/stores/sequencer/view'
+import { sequencerDOM } from 'core/dom/sequencer'
+import { sequencerView } from 'core/stores/sequencer/view'
 
-export function getNextScrollPercentX(deltaX: number) {
-  const { minimap, minimapScroll } = sequencerDOMStore
-  const { tracksScrollPercentX } = sequencerViewStore.tracks
+export const getNextScrollPercentX = (deltaX: number) => {
+  const { minimap, minimapScroll } = sequencerDOM
+  const { tracksScrollPercentX } = sequencerView.tracks
 
   if (minimap && minimapScroll) {
     const minimapWidth = minimap.clientWidth

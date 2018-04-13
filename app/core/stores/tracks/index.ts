@@ -1,9 +1,9 @@
 import { action, observable } from 'mobx'
 
-import Track from 'core/models/track'
-import clipStore from 'core/stores/clips'
+import { Track } from 'core/models/track'
+import { clipStore } from 'core/stores/clips'
 
-class TrackStore {
+export class TrackStore {
   // The main store for tracks (by id)
   @observable tracks = observable.map<string, Track>({})
 
@@ -38,5 +38,4 @@ class TrackStore {
   }
 }
 
-export default new TrackStore()
-export { TrackStore }
+export const trackStore = new TrackStore()

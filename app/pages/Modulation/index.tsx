@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class MainPage extends Component {
+export class ModulationPage extends Component {
   render() {
     return <div>{this.props.children}</div>
   }

@@ -1,14 +1,14 @@
 import { clamp } from 'lodash'
-import sequencerDOMStore from 'core/dom/sequencer'
+import { sequencerDOM } from 'core/dom/sequencer'
 
 interface IScrollTracks {
   x?: number
   y?: number
 }
 
-export function scrollTracks(params: IScrollTracks) {
+export const scrollTracks = (params: IScrollTracks) => {
   const { x: ratioX, y: ratioY } = params
-  const { xy, x, y } = sequencerDOMStore.getTrackScrollElements()
+  const { xy, x, y } = sequencerDOM.getTrackScrollElements()
 
   let element: HTMLElement
   for (element of xy) {

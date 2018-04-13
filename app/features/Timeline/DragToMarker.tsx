@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 
-import Caret from 'components/Caret'
+import { Caret } from 'components/Caret'
 
-import sequencerPositionService from 'core/services/sequencer/position'
+import { sequencerPositionService } from 'core/services/sequencer/position'
 
-import sequencerLayout, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
-import timelineView, { TimelineView } from 'core/stores/sequencer/view/timeline'
+import { sequencerLayout, SequencerLayout } from 'core/stores/sequencer/layout'
+import { timelineView, TimelineView } from 'core/stores/sequencer/view/timeline'
 
 const styles = require('./styles.less')
 
 interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
-  sequencerLayout: SequencerLayoutStore
+  sequencerLayout: SequencerLayout
   timelineView: TimelineView
 }
 
@@ -22,7 +22,7 @@ interface InjectedProps extends ComponentProps {
   timelineView,
 }))
 @observer
-export default class TimelineContainer extends Component<ComponentProps, {}> {
+export class DragToMarker extends Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }

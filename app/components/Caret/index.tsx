@@ -7,7 +7,7 @@ interface ComponentProps {
   strokeWidth?: number
 }
 
-export default class Caret extends Component<ComponentProps, {}> {
+export class Caret extends Component<ComponentProps, {}> {
   static defaultProps = {
     size: 10,
     fillColor: 'black',

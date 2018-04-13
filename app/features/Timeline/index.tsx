@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import { noop, range } from 'lodash'
 import { inject, observer } from 'mobx-react'
 
-import DragToMarker from './DragToMarker'
+import { DragToMarker } from './DragToMarker'
 
-import zoomStore, { ZoomStore } from 'core/stores/sequencer/view/zoom'
-import gridView, { GridView } from 'core/stores/sequencer/view/grid'
+import { gridView, GridView } from 'core/stores/sequencer/view/grid'
 
 const styles = require('./styles.less')
 
@@ -13,15 +12,13 @@ interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
   gridView: GridView
-  zoomStore: ZoomStore
 }
 
 @inject(() => ({
   gridView,
-  zoomStore,
 }))
 @observer
-export default class TimelineContainer extends Component<ComponentProps, {}> {
+export class Timeline extends Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }

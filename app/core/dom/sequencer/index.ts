@@ -1,5 +1,5 @@
 // A register for sequencer DOM elements (for consistent querying)
-class SequencerDOMStore {
+export class SequencerDOM {
   get draggedClips(): HTMLElement | null {
     return document.getElementById('draggedClips')
   }
@@ -41,5 +41,4 @@ class SequencerDOMStore {
   }
 }
 
-export default new SequencerDOMStore()
-export { SequencerDOMStore }
+export const sequencerDOM = new SequencerDOM()

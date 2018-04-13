@@ -1,3 +1,3 @@
-export function pxToInt(str: string) {
+export const pxToInt = (str: string) => {
   return parseFloat(str.replace('px', ''))
 }

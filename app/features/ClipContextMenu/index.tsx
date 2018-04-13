@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Menu, MenuItem } from '@blueprintjs/core'
 
-import clipStore, { ClipStore } from 'core/stores/clips'
-import clipSelectInteraction, { ClipSelectInteraction } from 'core/stores/interactions/clips/select'
+import { clipStore, ClipStore } from 'core/stores/clips'
+import { clipSelect, ClipSelect } from 'core/stores/interactions/clips/select'
 
 interface ComponentProps {
   clipId: string
@@ -11,15 +11,15 @@ interface ComponentProps {
 
 interface InjectedProps extends ComponentProps {
   clipStore: ClipStore
-  clipSelectInteraction: ClipSelectInteraction
+  clipSelect: ClipSelect
 }
 
 @inject(() => ({
   clipStore,
-  clipSelectInteraction,
+  clipSelect,
 }))
 @observer
-export default class ClipContextMenu extends Component<ComponentProps, {}> {
+export class ClipContextMenu extends Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }
@@ -31,9 +31,9 @@ export default class ClipContextMenu extends Component<ComponentProps, {}> {
   }
 
   render() {
-    const { clipStore, clipSelectInteraction } = this.injected
+    const { clipStore, clipSelect } = this.injected
     const { deleteSelectedClips } = clipStore
-    const nSelectedClips = clipSelectInteraction.selectedClips.length
+    const nSelectedClips = clipSelect.selectedClips.length
     const deleteAction = nSelectedClips > 1 ? deleteSelectedClips : this.deleteClip
     const deleteText = nSelectedClips > 1 ? 'Delete Clips' : 'Delete Clip'
 

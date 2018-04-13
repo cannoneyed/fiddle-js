@@ -2,19 +2,19 @@ import { action, computed, observable } from 'mobx'
 import { clamp } from 'lodash'
 import * as defaults from 'defaults/view'
 
-import sequencerLayout from 'core/stores/sequencer/layout'
-import timelineState from 'core/stores/sequencer/state/timeline'
-import trackStore from 'core/stores/tracks'
+import { sequencerLayout } from 'core/stores/sequencer/layout'
+import { timelineState } from 'core/stores/sequencer/state/timeline'
+import { trackStore } from 'core/stores/tracks'
 
-import grid from './grid'
-import zoom from './zoom'
+import { gridView } from './grid'
+import { zoomView } from './zoom'
 
 interface ISetTracksScroll {
   x?: number
   y?: number
 }
 
-class TracksView {
+export class TracksView {
   static mobxLoggerConfig = {
     methods: {
       setTracksScroll: false,
@@ -38,12 +38,12 @@ class TracksView {
   // Computed Fields
   @computed
   get trackHeight() {
-    return zoom.vertical.level * defaults.trackHeight
+    return zoomView.vertical.level * defaults.trackHeight
   }
 
   @computed
   get trackWidth() {
-    return timelineState.length * grid.barWidth
+    return timelineState.length * gridView.barWidth
   }
 
   @computed
@@ -73,5 +73,4 @@ class TracksView {
   }
 }
 
-export default new TracksView()
-export { TracksView }
+export const tracksView = new TracksView()

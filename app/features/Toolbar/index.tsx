@@ -2,33 +2,33 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { Button } from '@blueprintjs/core'
 
-import SelectSnapToGrid from 'components/SelectSnapToGrid'
+import { SelectSnapToGrid } from 'components/SelectSnapToGrid'
 
-import trackStore, { TrackStore } from 'core/stores/tracks'
-import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
+import { trackStore, TrackStore } from 'core/stores/tracks'
+import { sequencerView, SequencerView } from 'core/stores/sequencer/view'
 
 const styles = require('./styles.less')
 
 interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
-  sequencerViewStore: SequencerViewStore
+  sequencerView: SequencerView
   trackStore: TrackStore
 }
 
 @inject(() => ({
   trackStore,
-  sequencerViewStore,
+  sequencerView,
 }))
 @observer
-export default class ToolbarContainer extends Component<ComponentProps, {}> {
+export class Toolbar extends Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }
 
   render() {
-    const { trackStore, sequencerViewStore } = this.injected
-    const { zoomInHorizontal, zoomOutHorizontal } = sequencerViewStore.zoom
+    const { trackStore, sequencerView } = this.injected
+    const { zoomInHorizontal, zoomOutHorizontal } = sequencerView.zoom
     const { createTrack } = trackStore
 
     return (

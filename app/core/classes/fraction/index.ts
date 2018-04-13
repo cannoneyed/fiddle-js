@@ -1,6 +1,6 @@
 import { getGCD } from './helpers'
 
-class Fraction {
+export class Fraction {
   numerator: number
   denominator: number
 
@@ -82,7 +82,3 @@ class Fraction {
     return `${this.numerator} / ${this.denominator}`
   }
 }
-
-;(window as any).fraction = Fraction
-
-export default Fraction

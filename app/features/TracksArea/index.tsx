@@ -1,51 +1,51 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 
-import DraggedClips from 'features/DraggedClips'
-import Track from 'features/Track'
-import VerticalGrid from 'features/VerticalGrid'
+import { DraggedClips } from 'features/DraggedClips'
+import { Track } from 'features/Track'
+import { VerticalGrid } from 'features/VerticalGrid'
 
-import clipDragInteraction, { ClipDragInteraction } from 'core/stores/interactions/clips/drag'
-import trackStore, { TrackStore } from 'core/stores/tracks'
-import sequencerLayoutStore, { SequencerLayoutStore } from 'core/stores/sequencer/layout'
-import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
+import { clipDrag, ClipDrag } from 'core/stores/interactions/clips/drag'
+import { trackStore, TrackStore } from 'core/stores/tracks'
+import { sequencerLayout, SequencerLayout } from 'core/stores/sequencer/layout'
+import { sequencerView, SequencerView } from 'core/stores/sequencer/view'
 
 const styles = require('./styles.less')
 
 interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
-  clipDragInteraction: ClipDragInteraction
+  clipDrag: ClipDrag
   trackStore: TrackStore
-  sequencerLayoutStore: SequencerLayoutStore
-  sequencerViewStore: SequencerViewStore
+  sequencerLayout: SequencerLayout
+  sequencerView: SequencerView
 }
 
 @inject(() => ({
-  clipDragInteraction,
+  clipDrag,
   trackStore,
-  sequencerLayoutStore,
-  sequencerViewStore,
+  sequencerLayout,
+  sequencerView,
 }))
 @observer
-export default class TracksAreaContainer extends Component<ComponentProps, {}> {
+export class TracksArea extends Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }
 
   render() {
-    const { sequencerLayoutStore, sequencerViewStore, trackStore } = this.injected
+    const { sequencerLayout, sequencerView, trackStore } = this.injected
     const { trackList } = trackStore
-    const { tracksAreaHeight } = sequencerLayoutStore
-    const { trackHeight } = sequencerViewStore.tracks
-    const { gridCount, gridSegmentWidth } = sequencerViewStore.grid
+    const { tracksAreaHeight } = sequencerLayout
+    const { trackHeight } = sequencerView.tracks
+    const { gridCount, gridSegmentWidth } = sequencerView.grid
 
     const gridHeight = Math.max(trackList.length * trackHeight, tracksAreaHeight)
     const gridContainerStyle = {
       height: gridHeight,
     }
 
-    const { isDragging } = clipDragInteraction
+    const { isDragging } = clipDrag
 
     return (
       <div className={styles.tracksAreaContainer} id="tracksArea">

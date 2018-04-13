@@ -4,7 +4,7 @@ const getMobxLoggerConfig = (object: any) => {
   return get(object, ['constructor', 'mobxLoggerConfig'])
 }
 
-export default function logFilter(change: any): boolean {
+export const logFilter = (change: any): boolean => {
   const isReaction = change.type === 'reaction' || change.type === 'scheduled-reaction'
   const isAction = change.type === 'action'
 

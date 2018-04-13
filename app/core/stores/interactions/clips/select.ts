@@ -1,9 +1,9 @@
 import { action, computed } from 'mobx'
 
-import Clip from 'core/models/Clip'
-import clipStore from 'core/stores/clips'
+import { Clip } from 'core/models/Clip'
+import { clipStore } from 'core/stores/clips'
 
-class ClipSelectInteraction {
+export class ClipSelect {
   @computed
   get selectedClips() {
     return clipStore.getClips().filter(clip => clip.isSelected)
@@ -37,5 +37,4 @@ class ClipSelectInteraction {
   }
 }
 
-export default new ClipSelectInteraction()
-export { ClipSelectInteraction }
+export const clipSelect = new ClipSelect()

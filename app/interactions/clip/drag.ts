@@ -1,32 +1,32 @@
-import Clip from 'core/models/clip'
+import { Clip } from 'core/models/clip'
 
-import clipMoveService from 'core/services/sequencer/clip-move'
+import { clipMoveService } from 'core/services/sequencer/clip-move'
 
-import clipDragInteraction, { DRAG_DELAY } from 'core/stores/interactions/clips/drag'
-import clipSelectInteraction from 'core/stores/interactions/clips/select'
+import { clipDrag, DRAG_DELAY } from 'core/stores/interactions/clips/drag'
+import { clipSelect } from 'core/stores/interactions/clips/select'
 
-export function registerClipDragHandlers(clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) {
+export const registerClipDragHandlers = (clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) => {
   const startX = mouseDown.pageX
   const startY = mouseDown.pageY
   const begin = Date.now()
 
-  clipDragInteraction.setStartPosition(startX, startY)
+  clipDrag.setStartPosition(startX, startY)
 
   function mouseMove(mouseMove: MouseEvent): void {
     if (Date.now() < begin + DRAG_DELAY) {
       return
     }
-    if (!clipDragInteraction.isDragging) {
-      clipDragInteraction.beginDrag(clip)
+    if (!clipDrag.isDragging) {
+      clipDrag.beginDrag(clip)
     }
 
-    const deltaX = mouseMove.pageX - clipDragInteraction.startX
-    const deltaY = mouseMove.pageY - clipDragInteraction.startY
-    clipDragInteraction.setDelta(deltaX, deltaY)
+    const deltaX = mouseMove.pageX - clipDrag.startX
+    const deltaY = mouseMove.pageY - clipDrag.startY
+    clipDrag.setDelta(deltaX, deltaY)
   }
 
   function mouseUp(mouseUp: MouseEvent): void {
-    if (Date.now() >= begin + DRAG_DELAY && clipDragInteraction.isDragging) {
+    if (Date.now() >= begin + DRAG_DELAY && clipDrag.isDragging) {
       endDrag()
     }
     removeEventHandlers()
@@ -46,11 +46,11 @@ export function registerClipDragHandlers(clip: Clip, mouseDown: React.MouseEvent
 }
 
 function endDrag() {
-  const { handleClip, dropTargetPosition } = clipDragInteraction
+  const { handleClip, dropTargetPosition } = clipDrag
   if (dropTargetPosition) {
-    const { selectedClips } = clipSelectInteraction
+    const { selectedClips } = clipSelect
     const deltaTimeline = dropTargetPosition.subtract(handleClip.position)
     clipMoveService.moveClips(selectedClips, deltaTimeline)
   }
-  clipDragInteraction.endDrag()
+  clipDrag.endDrag()
 }

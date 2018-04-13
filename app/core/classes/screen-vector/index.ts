@@ -1,4 +1,4 @@
-class ScreenPosition {
+export class ScreenVector {
   x: number
   y: number
 
@@ -7,15 +7,13 @@ class ScreenPosition {
     this.y = y
   }
 
-  subtract(nextPosition: ScreenPosition) {
+  subtract(nextPosition: ScreenVector) {
     const { x, y } = nextPosition
-    return new ScreenPosition(this.x - x, this.y - y)
+    return new ScreenVector(this.x - x, this.y - y)
   }
 
-  add(nextPosition: ScreenPosition) {
+  add(nextPosition: ScreenVector) {
     const { x, y } = nextPosition
-    return new ScreenPosition(this.x + x, this.y + y)
+    return new ScreenVector(this.x + x, this.y + y)
   }
 }
-
-export default ScreenPosition

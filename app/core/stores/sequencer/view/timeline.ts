@@ -1,13 +1,12 @@
 import { computed } from 'mobx'
 
-import clipsDragInteraction from 'core/stores/interactions/clips/drag'
+import { clipDrag } from 'core/stores/interactions/clips/drag'
 
-class TimelineView {
+export class TimelineView {
   @computed
   get dropTargetPosition() {
-    return clipsDragInteraction.isDragging ? clipsDragInteraction.dropTargetPosition : null
+    return clipDrag.isDragging ? clipDrag.dropTargetPosition : null
   }
 }
 
-export default new TimelineView()
-export { TimelineView }
+export const timelineView = new TimelineView()

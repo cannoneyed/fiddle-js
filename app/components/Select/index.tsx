@@ -14,7 +14,7 @@ export interface ComponentProps {
   onSelect(value: string | number): void
 }
 
-export default class Select extends Component<ComponentProps, {}> {
+export class Select extends Component<ComponentProps, {}> {
   static defaultProps = {
     fill: true,
     disabled: false,

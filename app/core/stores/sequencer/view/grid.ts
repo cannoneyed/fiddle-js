@@ -1,27 +1,27 @@
 import { computed } from 'mobx'
 import * as defaults from 'defaults/view'
 
-import Fraction from 'core/classes/fraction'
+import { Fraction } from 'core/classes/fraction'
 
-import timeline from 'core/stores/sequencer/state/timeline'
+import { timelineState } from 'core/stores/sequencer/state/timeline'
 
-import zoom from './zoom'
+import { zoomView } from './zoom'
 
 const MIN_DIVISION_WIDTH = 15
 const MAX_DIVISION_WIDTH = 25
 
-class GridView {
+export class GridView {
   barsPerGridSegment = 1
 
   // Computed Fields
   @computed
   get barWidth() {
-    return Math.round(zoom.horizontal.level * defaults.barWidth)
+    return Math.round(zoomView.horizontal.level * defaults.barWidth)
   }
 
   @computed
   get gridCount() {
-    return timeline.length
+    return timelineState.length
   }
 
   @computed
@@ -57,7 +57,7 @@ class GridView {
 
   @computed
   get nDivisions() {
-    return this.division.inverse().multiplyScalar(timeline.length)
+    return this.division.inverse().multiplyScalar(timelineState.length)
   }
 
   @computed
@@ -66,5 +66,4 @@ class GridView {
   }
 }
 
-export default new GridView()
-export { GridView }
+export const gridView = new GridView()

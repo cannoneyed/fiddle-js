@@ -1,8 +1,8 @@
 import { action } from 'mobx'
 
-import ZoomLevel from 'core/models/zoom-level'
+import { ZoomLevel } from 'core/models/zoom-level'
 
-class ZoomStore {
+export class ZoomView {
   horizontal = new ZoomLevel({
     min: 0.15,
   })
@@ -23,5 +23,4 @@ class ZoomStore {
   }
 }
 
-export default new ZoomStore()
-export { ZoomStore }
+export const zoomView = new ZoomView()

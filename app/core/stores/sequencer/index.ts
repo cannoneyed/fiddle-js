@@ -1,12 +1,11 @@
-import layout from './layout'
-import state from './state'
-import view from './view'
+import { sequencerLayout } from './layout'
+import { sequencerState } from './state'
+import { sequencerView } from './view'
 
 class SequencerStore {
-  layout = layout
-  state = state
-  view = view
+  layout = sequencerLayout
+  state = sequencerState
+  view = sequencerView
 }
 
-export default new SequencerStore()
-export { SequencerStore }
+export const sequencerStore = new SequencerStore()

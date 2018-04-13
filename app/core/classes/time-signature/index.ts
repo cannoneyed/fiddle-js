@@ -1,6 +1,6 @@
 import { observable } from 'mobx'
 
-class TimeSignature {
+export class TimeSignature {
   @observable numerator: number
   @observable denominator: number
 
@@ -9,5 +9,3 @@ class TimeSignature {
     this.denominator = denominator
   }
 }
-
-export default TimeSignature

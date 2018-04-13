@@ -8,7 +8,7 @@ interface ComponentProps {
   gridSegmentWidth: number
 }
 
-export default class VerticalGrid extends Component<ComponentProps, {}> {
+export class VerticalGrid extends Component<ComponentProps, {}> {
   render() {
     const { gridCount, gridSegmentWidth } = this.props
 

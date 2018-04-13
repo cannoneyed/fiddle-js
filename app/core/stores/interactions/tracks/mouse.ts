@@ -1,9 +1,9 @@
 import { action } from 'mobx'
 
-import Track from 'core/models/Track'
-import clipSelect from 'core/stores/interactions/clips/select'
+import { Track } from 'core/models/Track'
+import { clipSelect } from 'core/stores/interactions/clips/select'
 
-class TrackMouseInteraction {
+export class TrackMouseInteraction {
   @action.bound
   handleTrackClick = (track: Track, event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation()
@@ -16,5 +16,4 @@ class TrackMouseInteraction {
   }
 }
 
-export default new TrackMouseInteraction()
-export { TrackMouseInteraction }
+export const trackMouseInteraction = new TrackMouseInteraction()

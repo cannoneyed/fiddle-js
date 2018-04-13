@@ -3,10 +3,10 @@ import { render } from 'react-dom'
 import { configure } from 'mobx'
 import { AppContainer } from 'react-hot-loader'
 import { configureDevtool } from 'mobx-react-devtools'
-import logFilter from 'utils/mobx-log-filter'
-import logStores from 'utils/log-stores'
+import { logFilter } from 'utils/mobx-log-filter'
+import { logStores } from 'utils/log-stores'
 
-import Root from './pages/Root'
+import { Root } from './pages/Root'
 
 import './app.global.css'
 

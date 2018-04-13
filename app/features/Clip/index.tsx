@@ -1,39 +1,27 @@
 import React, { Component } from 'react'
 // import autobind from 'autobind-decorator'
-import { inject, observer } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { ContextMenu } from '@blueprintjs/core'
 
-import ClipContextMenu from 'features/ClipContextMenu'
-import ClipView from 'components/Clip'
+import { ClipContextMenu } from 'features/ClipContextMenu'
+import { Clip as ClipView } from 'components/Clip'
 
-import { Clip } from 'core/models/clip'
-import sequencerViewStore, { SequencerViewStore } from 'core/stores/sequencer/view'
+import { Clip as ClipModel } from 'core/models/clip'
 import { handleClipMouseDown } from 'interactions/clip/mouse'
 
 const styles = require('./styles.less')
 
 interface Props {
-  clip: Clip
+  clip: ClipModel
 }
 
 interface State {
   isContextMenuOpen: boolean
 }
 
-interface InjectedProps extends Props {
-  sequencerViewStore: SequencerViewStore
-}
-
-@inject(() => ({
-  sequencerViewStore,
-}))
 @observer
-export default class ClipContainer extends Component<Props, State> {
+export class Clip extends Component<Props, State> {
   state = { isContextMenuOpen: false }
-
-  get injected() {
-    return this.props as InjectedProps
-  }
 
   renderContextMenu = () => {
     const { clip } = this.props
