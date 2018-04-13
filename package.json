@@ -158,6 +158,7 @@
     "flow-typed": "^2.1.2",
     "html-webpack-plugin": "^2.29.0",
     "identity-obj-proxy": "^3.0.0",
+    "jest": "^22.4.3",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
     "minimist": "^1.2.0",
