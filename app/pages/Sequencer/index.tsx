@@ -2,7 +2,7 @@ import * as React from 'react';
 import { IReactionDisposer } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
-import { observeTracksScroll } from 'observers/tracks-scroll';
+import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
 import { Minimap } from 'features/Minimap';
 import { Timeline } from 'features/Timeline';

@@ -1,7 +1,7 @@
 import { autorun, IReactionDisposer } from 'mobx';
 
 import { sequencerView } from 'core/stores/sequencer/view';
-import { scrollTracks } from 'dom/scroll-tracks';
+import { scrollTracks } from 'core/dom/scroll-tracks';
 
 export const observeTracksScroll = (): IReactionDisposer => {
   return autorun(() => {

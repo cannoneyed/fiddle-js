@@ -7,7 +7,7 @@ import { Clip } from 'core/models/clip';
 import { Clip as ClipView } from 'components/Clip';
 import { Portal } from 'components/Portal';
 
-import { observeClipsDrag } from 'observers/clips-drag';
+import { observeClipsDrag } from 'core/observers/clips-drag';
 
 import { clipDrag, ClipDrag } from 'core/interactions/clip/drag';
 import { clipSelect, ClipSelect } from 'core/interactions/clip/select';

@@ -4,7 +4,7 @@ import { gridService } from 'core/services/sequencer/grid';
 import { tracksPositionService } from 'core/services/sequencer/position/tracks';
 
 import { clipDrag } from 'core/interactions/clip/drag';
-import { moveDraggedClips } from 'dom/drag-clips';
+import { moveDraggedClips } from 'core/dom/drag-clips';
 
 export const observeClipsDrag = (): IReactionDisposer => {
   return autorun(() => {
