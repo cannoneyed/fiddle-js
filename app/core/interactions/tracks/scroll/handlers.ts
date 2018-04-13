@@ -3,10 +3,10 @@ import { map } from 'lodash';
 import { sequencerDOM } from 'core/dom/sequencer';
 import { sequencerView } from 'core/stores/sequencer/view';
 
-export type UnregisterHandlers = () => void;
+export type Unregister = () => void;
 export type EventHandler = (event: WheelEvent) => void;
 
-export const registerHandlers = (): UnregisterHandlers => {
+export const register = (): Unregister => {
   const { xy, x, y } = sequencerDOM.getTrackScrollElements();
   const eventHandlers = new WeakMap<HTMLElement, EventHandler>();
 

@@ -1,20 +1,20 @@
 import { sequencerDOM } from 'core/dom/sequencer';
 import { sequencerView } from 'core/stores/sequencer/view';
-import { minimapInteraction } from 'core/stores/interactions/minimap';
+import { minimapDrag } from 'core/interactions/minimap/drag';
 
-import { getNextScrollPercentX } from './helpers';
+import { getNextScrollPercentX } from '../helpers';
 
-export type UnregisterHandlers = () => void;
+export type Unregister = () => void;
 export type EventHandler = (event: MouseEvent) => void;
 
-export const registerHandlers = (): UnregisterHandlers => {
+export const register = (): Unregister => {
   const { minimap, minimapScroll } = sequencerDOM;
   let mouseDown: EventHandler;
 
   if (minimap && minimapScroll) {
     mouseDown = (mouseDown: MouseEvent) => {
       let lastX = mouseDown.pageX;
-      minimapInteraction.setIsDragging(true);
+      minimapDrag.setIsDragging(true);
 
       function mouseMove(mouseMove: MouseEvent): void {
         if (!minimap || !minimapScroll) {
@@ -28,7 +28,7 @@ export const registerHandlers = (): UnregisterHandlers => {
       }
 
       function mouseUp(mouseUp: MouseEvent): void {
-        minimapInteraction.setIsDragging(false);
+        minimapDrag.setIsDragging(false);
         removeEventHandlers();
       }
 

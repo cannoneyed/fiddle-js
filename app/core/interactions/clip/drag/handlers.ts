@@ -5,7 +5,7 @@ import { clipMoveService } from 'core/services/sequencer/clip-move';
 import { clipDrag, DRAG_DELAY } from 'core/interactions/clip/drag';
 import { clipSelect } from 'core/interactions/clip/select';
 
-export const registerClipDragHandlers = (clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) => {
+export const register = (clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) => {
   const startX = mouseDown.pageX;
   const startY = mouseDown.pageY;
   const begin = Date.now();

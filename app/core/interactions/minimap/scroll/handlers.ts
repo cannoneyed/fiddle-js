@@ -1,12 +1,12 @@
 import { sequencerDOM } from 'core/dom/sequencer';
 import { sequencerView } from 'core/stores/sequencer/view';
 
-import { getNextScrollPercentX } from './helpers';
+import { getNextScrollPercentX } from '../helpers';
 
-export type UnregisterHandlers = () => void;
+export type Unregister = () => void;
 export type EventHandler = (event: WheelEvent) => void;
 
-export const registerHandlers = (): UnregisterHandlers => {
+export const register = (): Unregister => {
   const { minimap } = sequencerDOM;
 
   if (!minimap) {

@@ -7,10 +7,7 @@ import { Clip } from 'features/Clip';
 
 import { Track as TrackModel } from 'core/models/track';
 import { sequencerView, SequencerView } from 'core/stores/sequencer/view';
-import {
-  trackMouseInteraction,
-  TrackMouseInteraction,
-} from 'core/stores/interactions/tracks/mouse';
+import { trackMouseInteraction, TrackMouseInteraction } from 'core/interactions/tracks/mouse';
 
 const styles = require('./styles.less');
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { IReactionDisposer } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import * as tracksScroll from 'interactions/tracks/scroll';
+import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
 import { observeTracksScroll } from 'observers/tracks-scroll';
 
 import { Minimap } from 'features/Minimap';
@@ -30,14 +30,14 @@ interface InjectedProps extends ComponentProps {
 @observer
 export class SequencerPage extends React.Component<ComponentProps, {}> {
   disposeObserver: IReactionDisposer;
-  disposeHandlers: tracksScroll.UnregisterHandlers;
+  disposeHandlers: trackScrollHandlers.Unregister;
 
   get injected() {
     return this.props as InjectedProps;
   }
 
   componentDidMount() {
-    this.disposeHandlers = tracksScroll.registerHandlers();
+    this.disposeHandlers = trackScrollHandlers.register();
     this.disposeObserver = observeTracksScroll();
   }
 

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 
-import * as minimapScroll from 'interactions/minimap/scroll';
-import * as minimapDrag from 'interactions/minimap/drag';
+import * as minimapScrollHandlers from 'core/interactions/minimap/scroll/handlers';
+import * as minimapDragHandlers from 'core/interactions/minimap/drag/handlers';
 
 import { sequencerView, SequencerView } from 'core/stores/sequencer/view';
 
@@ -19,16 +19,16 @@ interface InjectedProps extends ComponentProps {
 }))
 @observer
 export class Minimap extends React.Component<ComponentProps, {}> {
-  unregisterScrollHandlers: minimapScroll.UnregisterHandlers;
-  unregisterDragHandlers: minimapDrag.UnregisterHandlers;
+  unregisterScrollHandlers: minimapScrollHandlers.Unregister;
+  unregisterDragHandlers: minimapDragHandlers.Unregister;
 
   get injected() {
     return this.props as InjectedProps;
   }
 
   componentDidMount() {
-    this.unregisterScrollHandlers = minimapScroll.registerHandlers();
-    this.unregisterDragHandlers = minimapDrag.registerHandlers();
+    this.unregisterScrollHandlers = minimapScrollHandlers.register();
+    this.unregisterDragHandlers = minimapDragHandlers.register();
   }
 
   componentWillUnmount() {
