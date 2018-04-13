@@ -1,7 +1,7 @@
 import { action } from 'mobx';
 
 import { Track } from 'core/models/Track';
-import { clipSelect } from 'core/stores/interactions/clips/select';
+import { clipSelect } from 'core/interactions/clip/select';
 
 export class TrackMouseInteraction {
   @action.bound

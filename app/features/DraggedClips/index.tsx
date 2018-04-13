@@ -9,8 +9,8 @@ import { Portal } from 'components/Portal';
 
 import { observeClipsDrag } from 'observers/clips-drag';
 
-import { clipDrag, ClipDrag } from 'core/stores/interactions/clips/drag';
-import { clipSelect, ClipSelect } from 'core/stores/interactions/clips/select';
+import { clipDrag, ClipDrag } from 'core/interactions/clip/drag';
+import { clipSelect, ClipSelect } from 'core/interactions/clip/select';
 import { sequencerPortalDOM } from 'core/dom/sequencer/portal';
 
 const styles = require('./styles.less');

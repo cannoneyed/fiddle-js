@@ -3,7 +3,7 @@ import { action, computed, observable } from 'mobx';
 import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/classes/screen-vector';
 import { TimelineVector } from 'core/classes/timeline-vector';
-import { clipSelect } from 'core/stores/interactions/clips/select';
+import { clipSelect } from 'core/interactions/clip/select';
 
 export const DRAG_DELAY: number = 200;
 

@@ -1,6 +1,6 @@
 import { computed } from 'mobx';
 
-import { clipDrag } from 'core/stores/interactions/clips/drag';
+import { clipDrag } from 'core/interactions/clip/drag';
 
 export class TimelineView {
   @computed

@@ -5,7 +5,7 @@ import { DraggedClips } from 'features/DraggedClips';
 import { Track } from 'features/Track';
 import { VerticalGrid } from 'features/VerticalGrid';
 
-import { clipDrag, ClipDrag } from 'core/stores/interactions/clips/drag';
+import { clipDrag, ClipDrag } from 'core/interactions/clip/drag';
 import { trackStore, TrackStore } from 'core/stores/tracks';
 import { sequencerLayout, SequencerLayout } from 'core/stores/sequencer/layout';
 import { sequencerView, SequencerView } from 'core/stores/sequencer/view';

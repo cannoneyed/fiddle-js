@@ -2,8 +2,8 @@ import { Clip } from 'core/models/clip';
 
 import { clipMoveService } from 'core/services/sequencer/clip-move';
 
-import { clipDrag, DRAG_DELAY } from 'core/stores/interactions/clips/drag';
-import { clipSelect } from 'core/stores/interactions/clips/select';
+import { clipDrag, DRAG_DELAY } from 'core/interactions/clip/drag';
+import { clipSelect } from 'core/interactions/clip/select';
 
 export const registerClipDragHandlers = (clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) => {
   const startX = mouseDown.pageX;
@@ -12,7 +12,7 @@ export const registerClipDragHandlers = (clip: Clip, mouseDown: React.MouseEvent
 
   clipDrag.setStartPosition(startX, startY);
 
-  function mouseMove(mouseMove: MouseEvent): void {
+  const mouseMove = (mouseMove: MouseEvent): void => {
     if (Date.now() < begin + DRAG_DELAY) {
       return;
     }
@@ -23,24 +23,24 @@ export const registerClipDragHandlers = (clip: Clip, mouseDown: React.MouseEvent
     const deltaX = mouseMove.pageX - clipDrag.startX;
     const deltaY = mouseMove.pageY - clipDrag.startY;
     clipDrag.setDelta(deltaX, deltaY);
-  }
+  };
 
-  function mouseUp(mouseUp: MouseEvent): void {
+  const mouseUp = (mouseUp: MouseEvent): void => {
     if (Date.now() >= begin + DRAG_DELAY && clipDrag.isDragging) {
       endDrag();
     }
     removeEventHandlers();
-  }
+  };
 
-  function removeEventHandlers() {
+  const removeEventHandlers = () => {
     window.removeEventListener('mouseup', mouseUp);
     window.removeEventListener('mousemove', mouseMove);
-  }
+  };
 
-  function addEventHandlers() {
+  const addEventHandlers = () => {
     window.addEventListener('mouseup', mouseUp);
     window.addEventListener('mousemove', mouseMove);
-  }
+  };
 
   addEventHandlers();
 };

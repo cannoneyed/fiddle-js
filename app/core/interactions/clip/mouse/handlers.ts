@@ -1,7 +1,7 @@
 import { Clip } from 'core/models/clip';
-import { clipSelect } from 'core/stores/interactions/clips/select';
+import { clipSelect } from 'core/interactions/clip/select';
 
-import { registerClipDragHandlers } from './drag';
+import { registerClipDragHandlers } from 'core/interactions/clip/drag/handlers';
 
 export const handleClipMouseDown = (clip: Clip, event: React.MouseEvent<HTMLElement>) => {
   event.stopPropagation();
