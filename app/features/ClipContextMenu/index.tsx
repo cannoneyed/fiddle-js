@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { inject, observer } from 'mobx-react'
 import { Menu, MenuItem } from '@blueprintjs/core'
 
@@ -19,7 +19,7 @@ interface InjectedProps extends ComponentProps {
   clipSelect,
 }))
 @observer
-export class ClipContextMenu extends Component<ComponentProps, {}> {
+export class ClipContextMenu extends React.Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }

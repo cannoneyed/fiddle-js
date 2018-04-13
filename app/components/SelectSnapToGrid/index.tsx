@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { inject, observer } from 'mobx-react'
 import { map } from 'lodash'
 
@@ -20,7 +20,7 @@ interface InjectedProps extends ComponentProps {
   sequencerState,
 }))
 @observer
-export class SelectSnapToGrid extends Component<ComponentProps, {}> {
+export class SelectSnapToGrid extends React.Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { IReactionDisposer } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import * as tracksScroll from 'interactions/tracks/scroll'
@@ -28,7 +28,7 @@ interface InjectedProps extends ComponentProps {
   sequencerView,
 }))
 @observer
-export class SequencerPage extends Component<ComponentProps, {}> {
+export class SequencerPage extends React.Component<ComponentProps, {}> {
   disposeObserver: IReactionDisposer
   disposeHandlers: tracksScroll.UnregisterHandlers
 

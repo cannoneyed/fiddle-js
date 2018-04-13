@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { inject, observer } from 'mobx-react'
 import { Button } from '@blueprintjs/core'
 
@@ -21,7 +21,7 @@ interface InjectedProps extends ComponentProps {
   sequencerView,
 }))
 @observer
-export class Toolbar extends Component<ComponentProps, {}> {
+export class Toolbar extends React.Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }

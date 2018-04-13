@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { noop, range } from 'lodash'
 import { inject, observer } from 'mobx-react'
 
@@ -18,7 +18,7 @@ interface InjectedProps extends ComponentProps {
   gridView,
 }))
 @observer
-export class Timeline extends Component<ComponentProps, {}> {
+export class Timeline extends React.Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }

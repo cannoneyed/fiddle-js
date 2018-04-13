@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { inject, observer } from 'mobx-react'
 
 import * as minimapScroll from 'interactions/minimap/scroll'
@@ -18,7 +18,7 @@ interface InjectedProps extends ComponentProps {
   sequencerView,
 }))
 @observer
-export class Minimap extends Component<ComponentProps, {}> {
+export class Minimap extends React.Component<ComponentProps, {}> {
   unregisterScrollHandlers: minimapScroll.UnregisterHandlers
   unregisterDragHandlers: minimapDrag.UnregisterHandlers
 

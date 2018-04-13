@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 
 interface ComponentProps {
   size?: number
@@ -7,7 +7,7 @@ interface ComponentProps {
   strokeWidth?: number
 }
 
-export class Caret extends Component<ComponentProps, {}> {
+export class Caret extends React.Component<ComponentProps, {}> {
   static defaultProps = {
     size: 10,
     fillColor: 'black',

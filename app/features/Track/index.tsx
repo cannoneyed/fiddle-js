@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { inject, observer } from 'mobx-react'
 import { ContextMenu } from '@blueprintjs/core'
 
@@ -30,7 +30,7 @@ interface InjectedProps extends Props {
   sequencerView,
 }))
 @observer
-export class Track extends Component<Props, State> {
+export class Track extends React.Component<Props, State> {
   get injected() {
     return this.props as InjectedProps
   }

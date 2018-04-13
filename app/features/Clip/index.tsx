@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 // import autobind from 'autobind-decorator'
 import { observer } from 'mobx-react'
 import { ContextMenu } from '@blueprintjs/core'
@@ -20,7 +20,7 @@ interface State {
 }
 
 @observer
-export class Clip extends Component<Props, State> {
+export class Clip extends React.Component<Props, State> {
   state = { isContextMenuOpen: false }
 
   renderContextMenu = () => {

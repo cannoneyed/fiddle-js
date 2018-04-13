@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import classnames from 'classnames'
 import { inject, observer } from 'mobx-react'
 
@@ -21,7 +21,7 @@ interface InjectedProps extends ComponentProps {
   sequencerView,
 }))
 @observer
-export class Clip extends Component<ComponentProps, {}> {
+export class Clip extends React.Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }

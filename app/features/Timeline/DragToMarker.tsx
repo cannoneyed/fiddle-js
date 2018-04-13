@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { inject, observer } from 'mobx-react'
 
 import { Caret } from 'components/Caret'
@@ -22,7 +22,7 @@ interface InjectedProps extends ComponentProps {
   timelineView,
 }))
 @observer
-export class DragToMarker extends Component<ComponentProps, {}> {
+export class DragToMarker extends React.Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }

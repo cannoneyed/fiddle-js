@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { inject, observer } from 'mobx-react'
 
 import { Track } from 'core/models/track'
@@ -19,7 +19,7 @@ interface InjectedProps extends ComponentProps {
   sequencerView,
 }))
 @observer
-export class TrackHeader extends Component<ComponentProps, {}> {
+export class TrackHeader extends React.Component<ComponentProps, {}> {
   get injected() {
     return this.props as InjectedProps
   }

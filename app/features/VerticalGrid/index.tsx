@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { range } from 'lodash'
 
 const styles = require('./styles.less')
@@ -8,7 +8,7 @@ interface ComponentProps {
   gridSegmentWidth: number
 }
 
-export class VerticalGrid extends Component<ComponentProps, {}> {
+export class VerticalGrid extends React.Component<ComponentProps, {}> {
   render() {
     const { gridCount, gridSegmentWidth } = this.props
 

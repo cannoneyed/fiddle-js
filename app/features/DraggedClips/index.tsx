@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import { IReactionDisposer } from 'mobx'
 import { inject, observer } from 'mobx-react'
 
@@ -27,7 +27,7 @@ interface InjectedProps extends ComponentProps {
   clipSelect,
 }))
 @observer
-export class DraggedClips extends Component<ComponentProps, {}> {
+export class DraggedClips extends React.Component<ComponentProps, {}> {
   disposeObserver: IReactionDisposer
 
   get injected() {

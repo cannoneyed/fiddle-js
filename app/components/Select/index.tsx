@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import classnames from 'classnames'
 
 export interface IOption {
@@ -14,7 +14,7 @@ export interface ComponentProps {
   onSelect(value: string | number): void
 }
 
-export class Select extends Component<ComponentProps, {}> {
+export class Select extends React.Component<ComponentProps, {}> {
   static defaultProps = {
     fill: true,
     disabled: false,
