@@ -51,7 +51,7 @@ export default class TrackContainer extends Component<Props, State> {
     e.preventDefault()
     const props = { left: e.clientX, top: e.clientY }
     const callback = () => this.setState({ isContextMenuOpen: false })
-    ContextMenu.show(this.renderContextMenu(e.clientX), props, callback)
+    ContextMenu.show(this.renderContextMenu(e.nativeEvent.offsetX), props, callback)
     this.setState({ isContextMenuOpen: true })
   }
 
