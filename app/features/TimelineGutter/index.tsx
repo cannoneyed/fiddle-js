@@ -1,14 +1,14 @@
-import * as React from 'react'
-import { inject, observer } from 'mobx-react'
+import * as React from 'react';
+import { inject, observer } from 'mobx-react';
 
-import { sequencerLayout, SequencerLayout } from 'core/stores/sequencer/layout'
+import { sequencerLayout, SequencerLayout } from 'core/stores/sequencer/layout';
 
-const styles = require('./styles.less')
+const styles = require('./styles.less');
 
 interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
-  sequencerLayout: SequencerLayout
+  sequencerLayout: SequencerLayout;
 }
 
 @inject(() => ({
@@ -17,17 +17,17 @@ interface InjectedProps extends ComponentProps {
 @observer
 export class TimelineGutter extends React.Component<ComponentProps, {}> {
   get injected() {
-    return this.props as InjectedProps
+    return this.props as InjectedProps;
   }
 
   render() {
-    const { sequencerLayout } = this.injected
-    const { gutterWidth } = sequencerLayout
+    const { sequencerLayout } = this.injected;
+    const { gutterWidth } = sequencerLayout;
 
     const style = {
       minWidth: gutterWidth,
-    }
+    };
 
-    return <div style={style} className={styles.timelineGutterContainer} />
+    return <div style={style} className={styles.timelineGutterContainer} />;
   }
 }

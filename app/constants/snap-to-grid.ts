@@ -1,5 +1,5 @@
-export const AUTO = 'snap-to-grid/auto'
-export const FREE = 'snap-to-grid/free'
+export const AUTO = 'snap-to-grid/auto';
+export const FREE = 'snap-to-grid/free';
 
 export const getValues = () => {
   return {
@@ -12,5 +12,5 @@ export const getValues = () => {
     '1/64': 64,
     auto: AUTO,
     free: FREE,
-  }
-}
+  };
+};

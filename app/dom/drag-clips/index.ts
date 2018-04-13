@@ -1,11 +1,11 @@
-import { sequencerDOM } from 'core/dom/sequencer'
+import { sequencerDOM } from 'core/dom/sequencer';
 
 export const moveDraggedClips = (x: number, y: number) => {
-  const draggedClipsContainer = sequencerDOM.draggedClips
+  const draggedClipsContainer = sequencerDOM.draggedClips;
   if (!draggedClipsContainer) {
-    return
+    return;
   }
 
-  draggedClipsContainer.style.left = `${x}px`
-  draggedClipsContainer.style.top = `${y}px`
-}
+  draggedClipsContainer.style.left = `${x}px`;
+  draggedClipsContainer.style.top = `${y}px`;
+};

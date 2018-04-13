@@ -1,17 +1,17 @@
-import * as React from 'react'
-import { inject, observer } from 'mobx-react'
+import * as React from 'react';
+import { inject, observer } from 'mobx-react';
 
-import * as minimapScroll from 'interactions/minimap/scroll'
-import * as minimapDrag from 'interactions/minimap/drag'
+import * as minimapScroll from 'interactions/minimap/scroll';
+import * as minimapDrag from 'interactions/minimap/drag';
 
-import { sequencerView, SequencerView } from 'core/stores/sequencer/view'
+import { sequencerView, SequencerView } from 'core/stores/sequencer/view';
 
-const styles = require('./styles.less')
+const styles = require('./styles.less');
 
 interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
-  sequencerView: SequencerView
+  sequencerView: SequencerView;
 }
 
 @inject(() => ({
@@ -19,35 +19,35 @@ interface InjectedProps extends ComponentProps {
 }))
 @observer
 export class Minimap extends React.Component<ComponentProps, {}> {
-  unregisterScrollHandlers: minimapScroll.UnregisterHandlers
-  unregisterDragHandlers: minimapDrag.UnregisterHandlers
+  unregisterScrollHandlers: minimapScroll.UnregisterHandlers;
+  unregisterDragHandlers: minimapDrag.UnregisterHandlers;
 
   get injected() {
-    return this.props as InjectedProps
+    return this.props as InjectedProps;
   }
 
   componentDidMount() {
-    this.unregisterScrollHandlers = minimapScroll.registerHandlers()
-    this.unregisterDragHandlers = minimapDrag.registerHandlers()
+    this.unregisterScrollHandlers = minimapScroll.registerHandlers();
+    this.unregisterDragHandlers = minimapDrag.registerHandlers();
   }
 
   componentWillUnmount() {
-    this.unregisterScrollHandlers()
-    this.unregisterDragHandlers()
+    this.unregisterScrollHandlers();
+    this.unregisterDragHandlers();
   }
 
   render() {
-    const { sequencerView } = this.injected
-    const { tracksScrollPercentX, tracksViewPercentX } = sequencerView.tracks
+    const { sequencerView } = this.injected;
+    const { tracksScrollPercentX, tracksViewPercentX } = sequencerView.tracks;
 
     // We need to compute the relative left position of the minimap container's since the scrollPercentX
     // is a normalized 0 to 1 value.
-    const leftPercent = tracksScrollPercentX * (1 - tracksViewPercentX)
+    const leftPercent = tracksScrollPercentX * (1 - tracksViewPercentX);
 
     const minimapScrollContainerStyle = {
       left: `${leftPercent * 100}%`,
       width: `${tracksViewPercentX * 100}%`,
-    }
+    };
 
     return (
       <div className={styles.minimapContainer} id="minimap">
@@ -57,6 +57,6 @@ export class Minimap extends React.Component<ComponentProps, {}> {
           style={minimapScrollContainerStyle}
         />
       </div>
-    )
+    );
   }
 }

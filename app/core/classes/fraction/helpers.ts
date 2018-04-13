@@ -1,19 +1,19 @@
 export const getGCD = (a: number, b: number): number => {
   if (!a) {
-    return b
+    return b;
   }
   if (!b) {
-    return a
+    return a;
   }
 
   while (true) {
-    a %= b
+    a %= b;
     if (!a) {
-      return b
+      return b;
     }
-    b %= a
+    b %= a;
     if (!b) {
-      return a
+      return a;
     }
   }
-}
+};

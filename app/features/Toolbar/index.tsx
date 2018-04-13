@@ -1,19 +1,19 @@
-import * as React from 'react'
-import { inject, observer } from 'mobx-react'
-import { Button } from '@blueprintjs/core'
+import * as React from 'react';
+import { inject, observer } from 'mobx-react';
+import { Button } from '@blueprintjs/core';
 
-import { SelectSnapToGrid } from 'components/SelectSnapToGrid'
+import { SelectSnapToGrid } from 'components/SelectSnapToGrid';
 
-import { trackStore, TrackStore } from 'core/stores/tracks'
-import { sequencerView, SequencerView } from 'core/stores/sequencer/view'
+import { trackStore, TrackStore } from 'core/stores/tracks';
+import { sequencerView, SequencerView } from 'core/stores/sequencer/view';
 
-const styles = require('./styles.less')
+const styles = require('./styles.less');
 
 interface ComponentProps {}
 
 interface InjectedProps extends ComponentProps {
-  sequencerView: SequencerView
-  trackStore: TrackStore
+  sequencerView: SequencerView;
+  trackStore: TrackStore;
 }
 
 @inject(() => ({
@@ -23,13 +23,13 @@ interface InjectedProps extends ComponentProps {
 @observer
 export class Toolbar extends React.Component<ComponentProps, {}> {
   get injected() {
-    return this.props as InjectedProps
+    return this.props as InjectedProps;
   }
 
   render() {
-    const { trackStore, sequencerView } = this.injected
-    const { zoomInHorizontal, zoomOutHorizontal } = sequencerView.zoom
-    const { createTrack } = trackStore
+    const { trackStore, sequencerView } = this.injected;
+    const { zoomInHorizontal, zoomOutHorizontal } = sequencerView.zoom;
+    const { createTrack } = trackStore;
 
     return (
       <div className={styles.toolbarContainer}>
@@ -40,6 +40,6 @@ export class Toolbar extends React.Component<ComponentProps, {}> {
         <Button icon="zoom-out" onClick={() => zoomOutHorizontal()} />
         <SelectSnapToGrid />
       </div>
-    )
+    );
   }
 }

@@ -1,23 +1,23 @@
-import { Clip } from 'core/models/clip'
-import { clipSelect } from 'core/stores/interactions/clips/select'
+import { Clip } from 'core/models/clip';
+import { clipSelect } from 'core/stores/interactions/clips/select';
 
-import { registerClipDragHandlers } from './drag'
+import { registerClipDragHandlers } from './drag';
 
 export const handleClipMouseDown = (clip: Clip, event: React.MouseEvent<HTMLElement>) => {
-  event.stopPropagation()
+  event.stopPropagation();
 
   // If left-click, do nothing (delegate to context menus)
   if (event.ctrlKey) {
-    return
+    return;
   } else if (clip.isSelected) {
     // no op, still set up handlers below
   } else if (event.shiftKey) {
-    clipSelect.selectClip(clip)
+    clipSelect.selectClip(clip);
   } else {
-    clipSelect.selectOnlyClip(clip)
+    clipSelect.selectOnlyClip(clip);
   }
 
-  event.stopPropagation()
-  event.preventDefault()
-  registerClipDragHandlers(clip, event)
-}
+  event.stopPropagation();
+  event.preventDefault();
+  registerClipDragHandlers(clip, event);
+};

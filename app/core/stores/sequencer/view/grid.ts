@@ -1,69 +1,69 @@
-import { computed } from 'mobx'
-import * as defaults from 'defaults/view'
+import { computed } from 'mobx';
+import * as defaults from 'defaults/view';
 
-import { Fraction } from 'core/classes/fraction'
+import { Fraction } from 'core/classes/fraction';
 
-import { timelineState } from 'core/stores/sequencer/state/timeline'
+import { timelineState } from 'core/stores/sequencer/state/timeline';
 
-import { zoomView } from './zoom'
+import { zoomView } from './zoom';
 
-const MIN_DIVISION_WIDTH = 15
-const MAX_DIVISION_WIDTH = 25
+const MIN_DIVISION_WIDTH = 15;
+const MAX_DIVISION_WIDTH = 25;
 
 export class GridView {
-  barsPerGridSegment = 1
+  barsPerGridSegment = 1;
 
   // Computed Fields
   @computed
   get barWidth() {
-    return Math.round(zoomView.horizontal.level * defaults.barWidth)
+    return Math.round(zoomView.horizontal.level * defaults.barWidth);
   }
 
   @computed
   get gridCount() {
-    return timelineState.length
+    return timelineState.length;
   }
 
   @computed
   get gridSegmentWidth() {
-    return this.barWidth * this.barsPerGridSegment
+    return this.barWidth * this.barsPerGridSegment;
   }
 
   // V2 Interface for divisions / subdivisions
   @computed
   get division() {
-    let division = new Fraction(1, 1)
-    let divisionWidth = this.barWidth
+    let division = new Fraction(1, 1);
+    let divisionWidth = this.barWidth;
 
     // If the current bar width is greater than minimum divison width, we need to increase our division size
     if (divisionWidth < MIN_DIVISION_WIDTH) {
-      const multiple = new Fraction(2, 1)
+      const multiple = new Fraction(2, 1);
       while (divisionWidth < MIN_DIVISION_WIDTH) {
-        const nextDivision = division.multiply(multiple)
-        divisionWidth = nextDivision.multiplyScalar(this.barWidth)
-        division = nextDivision
+        const nextDivision = division.multiply(multiple);
+        divisionWidth = nextDivision.multiplyScalar(this.barWidth);
+        division = nextDivision;
       }
     } else if (divisionWidth > MAX_DIVISION_WIDTH) {
-      const multiple = new Fraction(1, 2)
+      const multiple = new Fraction(1, 2);
       while (divisionWidth > MAX_DIVISION_WIDTH) {
-        const nextDivision = division.multiply(multiple)
-        divisionWidth = nextDivision.multiplyScalar(this.barWidth)
-        division = nextDivision
+        const nextDivision = division.multiply(multiple);
+        divisionWidth = nextDivision.multiplyScalar(this.barWidth);
+        division = nextDivision;
       }
     }
 
-    return division
+    return division;
   }
 
   @computed
   get nDivisions() {
-    return this.division.inverse().multiplyScalar(timelineState.length)
+    return this.division.inverse().multiplyScalar(timelineState.length);
   }
 
   @computed
   get divisionWidth() {
-    return this.division.multiplyScalar(this.barWidth)
+    return this.division.multiplyScalar(this.barWidth);
   }
 }
 
-export const gridView = new GridView()
+export const gridView = new GridView();

@@ -1,12 +1,12 @@
-import { action, observable } from 'mobx'
+import { action, observable } from 'mobx';
 
 export class MinimapInteraction {
-  @observable isDragging: boolean = false
+  @observable isDragging: boolean = false;
 
   @action
   setIsDragging(isDragging: boolean) {
-    this.isDragging = isDragging
+    this.isDragging = isDragging;
   }
 }
 
-export const minimapInteraction = new MinimapInteraction()
+export const minimapInteraction = new MinimapInteraction();

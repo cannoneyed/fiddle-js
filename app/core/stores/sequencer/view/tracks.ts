@@ -1,17 +1,17 @@
-import { action, computed, observable } from 'mobx'
-import { clamp } from 'lodash'
-import * as defaults from 'defaults/view'
+import { action, computed, observable } from 'mobx';
+import { clamp } from 'lodash';
+import * as defaults from 'defaults/view';
 
-import { sequencerLayout } from 'core/stores/sequencer/layout'
-import { timelineState } from 'core/stores/sequencer/state/timeline'
-import { trackStore } from 'core/stores/tracks'
+import { sequencerLayout } from 'core/stores/sequencer/layout';
+import { timelineState } from 'core/stores/sequencer/state/timeline';
+import { trackStore } from 'core/stores/tracks';
 
-import { gridView } from './grid'
-import { zoomView } from './zoom'
+import { gridView } from './grid';
+import { zoomView } from './zoom';
 
 interface ISetTracksScroll {
-  x?: number
-  y?: number
+  x?: number;
+  y?: number;
 }
 
 export class TracksView {
@@ -19,58 +19,58 @@ export class TracksView {
     methods: {
       setTracksScroll: false,
     },
-  }
+  };
 
-  @observable tracksScrollPercentX = 0
-  @observable tracksScrollPercentY = 0
+  @observable tracksScrollPercentX = 0;
+  @observable tracksScrollPercentY = 0;
 
   @action.bound
   setTracksScroll = (tracksScroll: ISetTracksScroll) => {
-    const { x, y } = tracksScroll
+    const { x, y } = tracksScroll;
     if (x !== undefined) {
-      this.tracksScrollPercentX = clamp(x, 0, 1)
+      this.tracksScrollPercentX = clamp(x, 0, 1);
     }
     if (y !== undefined) {
-      this.tracksScrollPercentY = clamp(y, 0, 1)
+      this.tracksScrollPercentY = clamp(y, 0, 1);
     }
-  }
+  };
 
   // Computed Fields
   @computed
   get trackHeight() {
-    return zoomView.vertical.level * defaults.trackHeight
+    return zoomView.vertical.level * defaults.trackHeight;
   }
 
   @computed
   get trackWidth() {
-    return timelineState.length * gridView.barWidth
+    return timelineState.length * gridView.barWidth;
   }
 
   @computed
   get tracksHeight() {
-    return this.trackHeight * trackStore.trackList.length
+    return this.trackHeight * trackStore.trackList.length;
   }
 
   @computed
   get tracksScrollableWidth() {
-    return this.trackWidth - sequencerLayout.tracksAreaWidth
+    return this.trackWidth - sequencerLayout.tracksAreaWidth;
   }
 
   @computed
   get tracksScrollableHeight() {
-    return this.tracksHeight - sequencerLayout.tracksAreaHeight
+    return this.tracksHeight - sequencerLayout.tracksAreaHeight;
   }
 
   @computed
   get tracksViewPercentX() {
-    const { tracksAreaWidth } = sequencerLayout
-    return tracksAreaWidth / this.trackWidth
+    const { tracksAreaWidth } = sequencerLayout;
+    return tracksAreaWidth / this.trackWidth;
   }
 
   @computed
   get tracksScrolledX() {
-    return this.tracksScrollableWidth * this.tracksScrollPercentX
+    return this.tracksScrollableWidth * this.tracksScrollPercentX;
   }
 }
 
-export const tracksView = new TracksView()
+export const tracksView = new TracksView();

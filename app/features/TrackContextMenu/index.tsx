@@ -1,19 +1,19 @@
-import * as React from 'react'
-import { inject, observer } from 'mobx-react'
-import { Menu, MenuItem } from '@blueprintjs/core'
+import * as React from 'react';
+import { inject, observer } from 'mobx-react';
+import { Menu, MenuItem } from '@blueprintjs/core';
 
-import { trackStore, TrackStore } from 'core/stores/tracks'
-import { clipStore, ClipStore } from 'core/stores/clips'
-import { sequencerPositionService } from 'core/services/sequencer/position'
+import { trackStore, TrackStore } from 'core/stores/tracks';
+import { clipStore, ClipStore } from 'core/stores/clips';
+import { sequencerPositionService } from 'core/services/sequencer/position';
 
 interface ComponentProps {
-  trackId: string
-  offsetX: number
+  trackId: string;
+  offsetX: number;
 }
 
 interface InjectedProps extends ComponentProps {
-  trackStore: TrackStore
-  clipStore: ClipStore
+  trackStore: TrackStore;
+  clipStore: ClipStore;
 }
 
 @inject(() => ({
@@ -23,22 +23,22 @@ interface InjectedProps extends ComponentProps {
 @observer
 export class TrackContextMenu extends React.Component<ComponentProps, {}> {
   get injected() {
-    return this.props as InjectedProps
+    return this.props as InjectedProps;
   }
 
   deleteTrack = () => {
-    const { trackId } = this.props
-    const { trackStore } = this.injected
-    trackStore.deleteTrack(trackId)
-  }
+    const { trackId } = this.props;
+    const { trackStore } = this.injected;
+    trackStore.deleteTrack(trackId);
+  };
 
   createClip = () => {
-    const { trackId, offsetX } = this.props
-    const { clipStore } = this.injected
-    const position = sequencerPositionService.getTimelineVector(offsetX)
+    const { trackId, offsetX } = this.props;
+    const { clipStore } = this.injected;
+    const position = sequencerPositionService.getTimelineVector(offsetX);
 
-    clipStore.createClip({ trackId, position })
-  }
+    clipStore.createClip({ trackId, position });
+  };
 
   render() {
     return (
@@ -46,6 +46,6 @@ export class TrackContextMenu extends React.Component<ComponentProps, {}> {
         <MenuItem onClick={this.createClip} icon="insert" text="New Clip" />
         <MenuItem onClick={this.deleteTrack} icon="cross" text="Delete Track" />
       </Menu>
-    )
+    );
   }
 }

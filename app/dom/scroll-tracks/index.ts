@@ -1,48 +1,48 @@
-import { clamp } from 'lodash'
-import { sequencerDOM } from 'core/dom/sequencer'
+import { clamp } from 'lodash';
+import { sequencerDOM } from 'core/dom/sequencer';
 
 interface IScrollTracks {
-  x?: number
-  y?: number
+  x?: number;
+  y?: number;
 }
 
 export const scrollTracks = (params: IScrollTracks) => {
-  const { x: ratioX, y: ratioY } = params
-  const { xy, x, y } = sequencerDOM.getTrackScrollElements()
+  const { x: ratioX, y: ratioY } = params;
+  const { xy, x, y } = sequencerDOM.getTrackScrollElements();
 
-  let element: HTMLElement
+  let element: HTMLElement;
   for (element of xy) {
-    setScrollX(element, ratioX)
-    setScrollY(element, ratioY)
+    setScrollX(element, ratioX);
+    setScrollY(element, ratioY);
   }
 
   for (element of x) {
-    setScrollX(element, ratioX)
+    setScrollX(element, ratioX);
   }
 
   for (element of y) {
-    setScrollY(element, ratioY)
+    setScrollY(element, ratioY);
   }
-}
+};
 
 function setScrollX(element: HTMLElement, ratioX: number | undefined): void {
   if (ratioX == undefined) {
-    return
+    return;
   }
-  ratioX = clamp(ratioX, 0, 1)
-  const { clientWidth, scrollWidth } = element
-  const nextX = Math.round(ratioX * (scrollWidth - clientWidth))
+  ratioX = clamp(ratioX, 0, 1);
+  const { clientWidth, scrollWidth } = element;
+  const nextX = Math.round(ratioX * (scrollWidth - clientWidth));
 
-  element.scrollLeft = nextX
+  element.scrollLeft = nextX;
 }
 
 function setScrollY(element: HTMLElement, ratioY: number | undefined): void {
   if (ratioY === undefined) {
-    return
+    return;
   }
-  ratioY = clamp(ratioY, 0, 1)
-  const { clientHeight, scrollHeight } = element
-  const nextY = Math.round(ratioY * (scrollHeight - clientHeight))
+  ratioY = clamp(ratioY, 0, 1);
+  const { clientHeight, scrollHeight } = element;
+  const nextY = Math.round(ratioY * (scrollHeight - clientHeight));
 
-  element.scrollTop = nextY
+  element.scrollTop = nextY;
 }

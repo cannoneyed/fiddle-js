@@ -1,26 +1,26 @@
-import { action } from 'mobx'
+import { action } from 'mobx';
 
-import { ZoomLevel } from 'core/models/zoom-level'
+import { ZoomLevel } from 'core/models/zoom-level';
 
 export class ZoomView {
   horizontal = new ZoomLevel({
     min: 0.15,
-  })
+  });
 
   vertical = new ZoomLevel({
     min: 0.15,
-  })
+  });
 
   // Actions
   @action
   zoomInHorizontal = () => {
-    this.horizontal.zoomIn()
-  }
+    this.horizontal.zoomIn();
+  };
 
   @action
   zoomOutHorizontal = () => {
-    this.horizontal.zoomOut()
-  }
+    this.horizontal.zoomOut();
+  };
 }
 
-export const zoomView = new ZoomView()
+export const zoomView = new ZoomView();
