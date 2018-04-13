@@ -25,7 +25,7 @@ class ClipDragInteraction {
 
   @observable handleClip: Clip
   @observable handleClipScreenPosition: ScreenVector
-  @observable relativePositions = observable.map<ScreenVector>({})
+  @observable relativePositions = observable.map<string, ScreenVector>({})
 
   @observable dropTargetPosition: TimelineVector | null
   @observable dropTargetTrack: string | null

@@ -7,7 +7,7 @@ import clipSelect from 'core/stores/interactions/clips/select'
 
 class ClipStore {
   // The main store for clips (by id)
-  @observable clips = observable.map<Clip>({})
+  @observable clips = observable.map<string, Clip>({})
 
   constructor() {
     this.createClip({
@@ -44,7 +44,12 @@ class ClipStore {
       }
     })
   }
+
+  @observable
+  getClips = () => {
+    return Array.from(this.clips.values())
+  }
 }
 
 export default new ClipStore()
-export { ClipStore }
+export { Clip, ClipStore }

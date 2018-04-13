@@ -5,7 +5,7 @@ import clipStore from 'core/stores/clips'
 
 class TrackStore {
   // The main store for tracks (by id)
-  @observable tracks = observable.map<Track>({})
+  @observable tracks = observable.map<string, Track>({})
 
   // The main page list of recipe ids
   @observable trackList = observable.array<Track>([])

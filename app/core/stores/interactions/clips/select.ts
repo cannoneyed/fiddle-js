@@ -6,7 +6,7 @@ import clipStore from 'core/stores/clips'
 class ClipSelectInteraction {
   @computed
   get selectedClips() {
-    return clipStore.clips.values().filter(clip => clip.isSelected)
+    return clipStore.getClips().filter(clip => clip.isSelected)
   }
 
   // Selects a single clip, removing previously selected

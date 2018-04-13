@@ -13,7 +13,7 @@ class Track {
 
   @computed
   get clips() {
-    return clipStore.clips.values().filter(clip => clip.trackId === this.id)
+    return clipStore.getClips().filter(clip => clip.trackId === this.id)
   }
 }
 
