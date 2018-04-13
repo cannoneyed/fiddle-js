@@ -1,4 +1,3 @@
-// @flow
 const { app, Menu, shell, BrowserWindow } = require('electron');
 
 export default class MenuBuilder {

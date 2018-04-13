@@ -1,4 +1,6 @@
 {
+  "editor.formatOnSave": true,
+  "eslint.enable": false,
   "javascript.validate.enable": false,
   "search.exclude": {
     ".git": true,
@@ -14,6 +16,5 @@
     "npm-debug.log.*": true,
     "test/**/__snapshots__": true,
     "yarn.lock": true
-  },
-  "editor.formatOnSave": true
+  }
 }
