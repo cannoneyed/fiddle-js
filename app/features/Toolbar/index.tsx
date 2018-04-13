@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-// import { Button } from '@blueprintjs/core'
+import { Button } from '@blueprintjs/core'
 
 import SelectSnapToGrid from 'components/SelectSnapToGrid'
 
@@ -27,17 +27,17 @@ export default class ToolbarContainer extends Component<ComponentProps, {}> {
   }
 
   render() {
-    // const { trackStore, sequencerViewStore } = this.injected
-    // const { zoomInHorizontal, zoomOutHorizontal } = sequencerViewStore.zoom
-    // const { createTrack } = trackStore
+    const { trackStore, sequencerViewStore } = this.injected
+    const { zoomInHorizontal, zoomOutHorizontal } = sequencerViewStore.zoom
+    const { createTrack } = trackStore
 
     return (
       <div className={styles.toolbarContainer}>
-        {/* <Button icon="add" onClick={() => createTrack()}>
+        <Button icon="add" onClick={() => createTrack()}>
           Add Track
         </Button>
         <Button icon="zoom-in" onClick={() => zoomInHorizontal()} />
-        <Button icon="zoom-out" onClick={() => zoomOutHorizontal()} /> */}
+        <Button icon="zoom-out" onClick={() => zoomOutHorizontal()} />
         <SelectSnapToGrid />
       </div>
     )
