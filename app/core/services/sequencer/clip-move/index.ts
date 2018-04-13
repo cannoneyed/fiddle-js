@@ -1,5 +1,5 @@
 import { Clip } from 'core/models/clip';
-import { TimelineVector } from 'core/classes/timeline-vector';
+import { TimelineVector } from 'core/primitives/timeline-vector';
 
 export class ClipMoveService {
   moveClip(clip: Clip, deltaTimeline: TimelineVector) {

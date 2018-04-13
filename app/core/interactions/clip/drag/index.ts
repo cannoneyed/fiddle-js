@@ -1,8 +1,8 @@
 import { action, computed, observable } from 'mobx';
 
 import { Clip } from 'core/models/clip';
-import { ScreenVector } from 'core/classes/screen-vector';
-import { TimelineVector } from 'core/classes/timeline-vector';
+import { ScreenVector } from 'core/primitives/screen-vector';
+import { TimelineVector } from 'core/primitives/timeline-vector';
 import { clipSelect } from 'core/interactions/clip/select';
 
 export const DRAG_DELAY: number = 200;

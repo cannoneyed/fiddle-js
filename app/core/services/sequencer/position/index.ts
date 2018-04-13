@@ -1,4 +1,4 @@
-import { TimelineVector } from 'core/classes/timeline-vector';
+import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { gridView } from 'core/stores/sequencer/view/grid';
 

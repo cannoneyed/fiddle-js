@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 
 import { SnapToGrid } from 'core/models/snap-to-grid';
-import { TimeSignature } from 'core/classes/time-signature';
+import { TimeSignature } from 'core/primitives/time-signature';
 
 export class SequencerState {
   @observable tempo = 120;

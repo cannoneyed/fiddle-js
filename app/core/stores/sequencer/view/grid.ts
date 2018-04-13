@@ -1,7 +1,7 @@
 import { computed } from 'mobx';
 import * as defaults from 'defaults/view';
 
-import { Fraction } from 'core/classes/fraction';
+import { Fraction } from 'core/primitives/fraction';
 
 import { timelineState } from 'core/stores/sequencer/state/timeline';
 

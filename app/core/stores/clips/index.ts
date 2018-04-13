@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx';
 
 import { Clip, IClipConstructorParams } from 'core/models/clip';
-import { TimelineVector } from 'core/classes/timeline-vector';
+import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { clipSelect } from 'core/interactions/clip/select';
 

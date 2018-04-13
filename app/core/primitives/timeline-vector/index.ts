@@ -1,4 +1,4 @@
-import { Fraction } from 'core/classes/fraction';
+import { Fraction } from 'core/primitives/fraction';
 
 export class TimelineVector {
   bar: number;
