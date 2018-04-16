@@ -16,5 +16,6 @@
     "npm-debug.log.*": true,
     "test/**/__snapshots__": true,
     "yarn.lock": true
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
