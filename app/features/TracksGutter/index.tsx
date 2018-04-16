@@ -1,32 +1,23 @@
 import * as React from 'react';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
+import { inject } from 'utils/inject';
 
 import { TrackHeader } from 'features/TrackHeader';
 
-import { trackStore, TrackStore } from 'core/stores/tracks';
-import { sequencerLayout, SequencerLayout } from 'core/stores/sequencer/layout';
+import { TrackStore } from 'core/stores/tracks';
+import { SequencerLayout } from 'core/stores/sequencer/layout';
 
 const styles = require('./styles.less');
 
-interface ComponentProps {}
-
-interface InjectedProps extends ComponentProps {
+interface ComponentProps {
   sequencerLayout: SequencerLayout;
   trackStore: TrackStore;
 }
 
-@inject(() => ({
-  trackStore,
-  sequencerLayout,
-}))
 @observer
-export class TracksGutter extends React.Component<ComponentProps, {}> {
-  get injected() {
-    return this.props as InjectedProps;
-  }
-
+class _TracksGutter extends React.Component<ComponentProps, {}> {
   render() {
-    const { trackStore, sequencerLayout } = this.injected;
+    const { trackStore, sequencerLayout } = this.props;
     const { trackList } = trackStore;
     const { gutterWidth } = sequencerLayout;
 
@@ -41,3 +32,5 @@ export class TracksGutter extends React.Component<ComponentProps, {}> {
     );
   }
 }
+
+export const TracksGutter = inject(_TracksGutter, 'sequencerLayout', 'trackStore');

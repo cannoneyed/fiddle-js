@@ -21,7 +21,7 @@ export class TrackStore {
   };
 
   // Actions
-  @action.bound
+  @action
   createTrack = () => {
     const track = new Track();
 
@@ -29,7 +29,7 @@ export class TrackStore {
     this.trackList.unshift(track);
   };
 
-  @action.bound
+  @action
   deleteTrack = (trackId: string) => {
     this.trackList.replace(this.trackList.filter(track => track.id !== trackId));
 
