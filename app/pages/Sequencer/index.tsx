@@ -14,7 +14,13 @@ import TracksArea from 'features/TracksArea';
 
 import { SequencerLayout } from 'core/stores/sequencer/layout';
 
-const styles = require('./styles.less');
+import {
+  PageWrapper,
+  ToolbarWrapper,
+  MinimapWrapper,
+  TimelineWrapper,
+  TracksAreaWrapper,
+} from './styled-components';
 
 interface ComponentProps {
   sequencerLayout: SequencerLayout;
@@ -39,39 +45,23 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
     const { sequencerLayout } = this.props;
     const { minimapHeight, timelineHeight, toolbarHeight, tracksAreaHeight } = sequencerLayout;
 
-    const toolbarWrapperStyle = {
-      height: toolbarHeight,
-    };
-
-    const timelineWrapperStyle = {
-      height: timelineHeight,
-    };
-
-    const tracksAreaWrapperStyle = {
-      height: tracksAreaHeight,
-    };
-
-    const minimapWrapperStyle = {
-      height: minimapHeight,
-    };
-
     return (
-      <div className={styles.pageWrapper} id="sequencerPage">
-        <div className={styles.toolbarWrapper} style={toolbarWrapperStyle}>
+      <PageWrapper id="sequencerPage">
+        <ToolbarWrapper height={toolbarHeight}>
           <Toolbar />
-        </div>
-        <div className={styles.minimapWrapper} style={minimapWrapperStyle}>
+        </ToolbarWrapper>
+        <MinimapWrapper height={minimapHeight}>
           <Minimap />
-        </div>
-        <div className={styles.timelineWrapper} style={timelineWrapperStyle}>
+        </MinimapWrapper>
+        <TimelineWrapper height={timelineHeight}>
           <TimelineGutter />
           <Timeline />
-        </div>
-        <div className={styles.tracksAreaWrapper} style={tracksAreaWrapperStyle}>
+        </TimelineWrapper>
+        <TracksAreaWrapper height={tracksAreaHeight}>
           <TracksGutter />
           <TracksArea />
-        </div>
-      </div>
+        </TracksAreaWrapper>
+      </PageWrapper>
     );
   }
 }
