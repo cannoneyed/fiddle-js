@@ -4,12 +4,11 @@ import { connect } from 'utils/connect';
 import { map } from 'lodash';
 
 import { snapToGridValues } from 'core/models/snap-to-grid';
+import { SequencerState } from 'core/stores/sequencer/state';
 
 import Select from 'components/Select';
 
-import { SequencerState } from 'core/stores/sequencer/state';
-
-const styles = require('./styles.less');
+import { Container } from './styled-components';
 
 interface Props {
   sequencerState: SequencerState;
@@ -28,14 +27,14 @@ export class SelectSnapToGrid extends React.Component<Props, {}> {
     });
 
     return (
-      <div className={styles.selectSnapToGridContainer}>
+      <Container>
         <Select
           options={options}
           onSelect={key => {
             snapToGrid.setSnapToGridValue(key);
           }}
         />
-      </div>
+      </Container>
     );
   }
 }
