@@ -1,7 +1,7 @@
 export type Unregister = () => void;
 export type EventHandler = (event: MouseEvent) => void;
 
-export type DragCallback = (deltaX: number, deltaY: number) => void;
+export type DragCallback = (deltaPercentX: number, deltaPercentY: number) => void;
 export type StartCallback = () => void;
 export type EndCallback = () => void;
 
@@ -38,7 +38,16 @@ export class Draggable {
           const deltaX = mouseMove.pageX - lastX;
           const deltaY = mouseMove.pageY - lastY;
 
-          this.dragCallback(deltaX, deltaY);
+          const containerWidth = container.clientWidth;
+          const containerHeight = container.clientHeight;
+          const thumbWidth = thumb.clientWidth;
+          const thumbHeight = thumb.clientHeight;
+          const scrollableWidth = containerWidth - thumbWidth;
+          const scrollableHeight = containerHeight - thumbHeight;
+          const deltaPercentX = deltaX / scrollableWidth;
+          const deltaPercentY = deltaY / scrollableHeight;
+
+          this.dragCallback(deltaPercentX, deltaPercentY);
 
           lastX = mouseMove.pageX;
           lastY = mouseMove.pageY;

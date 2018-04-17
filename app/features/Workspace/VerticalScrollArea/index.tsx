@@ -12,8 +12,12 @@ interface Props {
 
 @observer
 export class VerticalScrollArea extends React.Component<Props, {}> {
-  handleScrolLDrag = (deltaX: number, deltaY: number) => {
-    console.log(deltaY);
+  handleThumbDrag = (deltaPercentX: number, deltaPercentY: number) => {
+    const { sequencerView } = this.props;
+    const { tracksScrollPercentY } = sequencerView.tracks;
+
+    const nextScrollPercentY = tracksScrollPercentY - deltaPercentY;
+    sequencerView.tracks.setTracksScroll({ y: nextScrollPercentY });
   };
 
   render() {
@@ -25,7 +29,7 @@ export class VerticalScrollArea extends React.Component<Props, {}> {
       <VerticalScroll
         scrollPositionPercent={tracksScrollPercentY}
         scrollViewPercent={tracksViewPercentY}
-        onDrag={this.handleScrolLDrag}
+        onDrag={this.handleThumbDrag}
       />
     );
   }

@@ -1,28 +1,28 @@
-import { sequencerDOM } from 'core/dom/sequencer';
-import { sequencerView } from 'core/stores/sequencer/view';
+// import { sequencerDOM } from 'core/dom/sequencer';
+// import { sequencerView } from 'core/stores/sequencer/view';
 
-import { getNextScrollPercentX } from '../helpers';
+// import { getNextScrollPercentX } from '../helpers';
 
-export type Unregister = () => void;
-export type EventHandler = (event: WheelEvent) => void;
+// export type Unregister = () => void;
+// export type EventHandler = (event: WheelEvent) => void;
 
-export const register = (): Unregister => {
-  const { minimap } = sequencerDOM;
+// export const register = (): Unregister => {
+//   const { minimap } = sequencerDOM;
 
-  if (!minimap) {
-    return () => {};
-  }
+//   if (!minimap) {
+//     return () => {};
+//   }
 
-  const eventHandler = (event: WheelEvent) => {
-    event.preventDefault();
-    const { deltaX } = event;
+//   const eventHandler = (event: WheelEvent) => {
+//     event.preventDefault();
+//     const { deltaX } = event;
 
-    const nextScrollPercentX = getNextScrollPercentX(deltaX);
-    sequencerView.tracks.setTracksScroll({ x: nextScrollPercentX });
-  };
-  minimap.addEventListener('mousewheel', eventHandler);
+//     const nextScrollPercentX = getNextScrollPercentX(deltaX);
+//     sequencerView.tracks.setTracksScroll({ x: nextScrollPercentX });
+//   };
+//   minimap.addEventListener('mousewheel', eventHandler);
 
-  return function unregisterHandlers(): void {
-    minimap.removeEventListener('mousewheel', eventHandler);
-  };
-};
+//   return function unregisterHandlers(): void {
+//     minimap.removeEventListener('mousewheel', eventHandler);
+//   };
+// };

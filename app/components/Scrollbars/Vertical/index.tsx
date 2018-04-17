@@ -13,7 +13,7 @@ import {
 interface Props {
   scrollPositionPercent: number;
   scrollViewPercent: number;
-  onDrag: (deltaX: number, deltaY: number) => void;
+  onDrag: (deltaPercentX: number, deltaPercentY: number) => void;
   onDragStart?: () => void;
   onDragEnd?: () => void;
   onThumbResize?: (delta: number) => void;

@@ -4,7 +4,6 @@ import { connect } from 'utils/connect';
 
 import { Draggable, Unregister } from 'core/interactions/handlers/draggable';
 import { MinimapDragInteraction } from 'core/interactions/minimap/drag';
-import { getNextScrollPercentX } from 'core/interactions/minimap/helpers';
 
 import { SequencerView } from 'core/stores/sequencer/view';
 
@@ -20,7 +19,7 @@ export class Minimap extends React.Component<Props, {}> {
   draggable = new Draggable();
   unregisterDragHandlers: Unregister;
 
-  containerRef: HTMLDivElement;
+  minimapRef: HTMLDivElement;
   thumbRef: HTMLDivElement;
 
   componentDidMount() {
@@ -28,16 +27,18 @@ export class Minimap extends React.Component<Props, {}> {
     draggable.onDrag(this.handleThumbDrag);
     draggable.onDragStart(this.handleThumbDragStart);
     draggable.onDragEnd(this.handleThumbDragEnd);
-    this.unregisterDragHandlers = this.draggable.register(this.containerRef!, this.thumbRef!);
+    this.unregisterDragHandlers = this.draggable.register(this.minimapRef!, this.thumbRef!);
   }
 
   componentWillUnmount() {
     this.unregisterDragHandlers();
   }
 
-  handleThumbDrag = (deltaX: number, deltaY: number) => {
+  handleThumbDrag = (deltaPercentX: number, deltaPercentY: number) => {
     const { sequencerView } = this.props;
-    const nextScrollPercentX = getNextScrollPercentX(deltaX);
+    const { tracksScrollPercentX } = sequencerView.tracks;
+
+    const nextScrollPercentX = tracksScrollPercentX - deltaPercentX;
     sequencerView.tracks.setTracksScroll({ x: nextScrollPercentX });
   };
 
@@ -64,7 +65,7 @@ export class Minimap extends React.Component<Props, {}> {
     };
 
     return (
-      <MinimapContainer id="minimap" innerRef={ref => (this.containerRef = ref)}>
+      <MinimapContainer id="minimap" innerRef={ref => (this.minimapRef = ref)}>
         <MinimapThumb
           innerRef={ref => (this.thumbRef = ref)}
           id="minimapScroll"

@@ -24,7 +24,6 @@ export const register = (): Unregister => {
       }
 
       const syn = (event: WheelEvent) => {
-        event.preventDefault();
         const { deltaX, deltaY } = event;
 
         const { scrollLeft, scrollTop } = element;
