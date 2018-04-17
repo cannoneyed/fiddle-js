@@ -11,7 +11,13 @@ interface Props {
 
 export class HorizontalScrollbar extends React.Component<Props, {}> {
   render() {
-    return <div className={styles.horizontalScrollbarWrapper} />;
+    return (
+      <div className={styles.horizontalScrollbarWrapper}>
+        <div className={styles.scrollLeftButton} />
+        <div className={styles.scrollBarArea} />
+        <div className={styles.scrollRightButton} />
+      </div>
+    );
   }
 }
 
