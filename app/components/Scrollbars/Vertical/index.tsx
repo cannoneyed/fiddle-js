@@ -29,8 +29,6 @@ export class VerticalScrollbar extends React.Component<Props, {}> {
       height: `${scrollViewPercent * 100}%`,
     };
 
-    console.log(scrollViewPercent);
-
     return (
       <ScrollbarWrapper>
         <ScrollBackButton />
