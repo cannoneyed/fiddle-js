@@ -4,7 +4,7 @@ import { connect } from 'utils/connect';
 
 import DraggedClips from 'features/DraggedClips';
 import Track from 'features/Track';
-import VerticalGrid from 'features/VerticalGrid';
+import VerticalGrid from 'features/TracksSection/VerticalGrid';
 
 import { ClipDragInteraction } from 'core/interactions/clip/drag';
 import { TrackStore } from 'core/stores/tracks';

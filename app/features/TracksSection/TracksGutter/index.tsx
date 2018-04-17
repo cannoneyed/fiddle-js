@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'utils/connect';
 
-import TrackHeader from 'features/TrackHeader';
+import TrackHeader from 'features/TracksSection/TrackHeader';
 
 import { TrackStore } from 'core/stores/tracks';
 import { SequencerLayout } from 'core/stores/sequencer/layout';

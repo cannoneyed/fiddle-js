@@ -55,7 +55,7 @@ export const WorkspaceWrapper = styled<HeightProps, 'div'>('div')`
   position: relative;
 `;
 
-export const VerticalScrollAreaWrapper = styled<SizeProps, 'div'>('div')`
+export const VerticalScrollbarWrapper = styled<SizeProps, 'div'>('div')`
   height: ${props => props.height}px;
   width: ${props => props.width}px;
   position: absolute;

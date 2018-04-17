@@ -10,7 +10,7 @@ export class SequencerLayout {
   @observable toolbarHeight = 40;
   @observable tracksAreaHeight = 500;
 
-  @observable workspaceVerticalScrollWidth = 14;
+  @observable tracksVerticalScrollbarWidth = 14;
 
   @computed
   get workspaceAreaHeight() {
@@ -19,8 +19,8 @@ export class SequencerLayout {
 
   @computed
   get workspaceAreaWidth() {
-    const { workspaceVerticalScrollWidth } = this;
-    return windowStore.width - workspaceVerticalScrollWidth;
+    const { tracksVerticalScrollbarWidth } = this;
+    return windowStore.width - tracksVerticalScrollbarWidth;
   }
 
   @computed

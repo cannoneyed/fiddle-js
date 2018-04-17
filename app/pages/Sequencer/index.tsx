@@ -10,10 +10,10 @@ import Minimap from 'features/Minimap';
 import Timeline from 'features/Timeline';
 import TimelineGutter from 'features/TimelineGutter';
 import Toolbar from 'features/Toolbar';
-import TracksGutter from 'features/TracksGutter';
-import TracksArea from 'features/TracksArea';
+import TracksGutter from 'features/TracksSection/TracksGutter';
+import TracksArea from 'features/TracksSection/TracksArea';
 
-import VerticalScrollArea from 'features/Workspace/VerticalScrollArea';
+import VerticalScrollbar from 'features/TracksSection/VerticalScrollbar';
 
 import { SequencerLayout } from 'core/stores/sequencer/layout';
 
@@ -25,7 +25,7 @@ import {
   ToolbarWrapper,
   TracksAreaWrapper,
   WorkspaceWrapper,
-  VerticalScrollAreaWrapper,
+  VerticalScrollbarWrapper,
 } from './styled-components';
 
 interface ComponentProps {
@@ -57,7 +57,7 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
       tracksAreaHeight,
       workspaceAreaHeight,
       workspaceAreaWidth,
-      workspaceVerticalScrollWidth,
+      tracksVerticalScrollbarWidth,
     } = sequencerLayout;
 
     return (
@@ -77,12 +77,12 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
             <TracksGutter />
             <TracksArea />
           </TracksAreaWrapper>
-          <VerticalScrollAreaWrapper
+          <VerticalScrollbarWrapper
             height={workspaceAreaHeight}
-            width={workspaceVerticalScrollWidth}
+            width={tracksVerticalScrollbarWidth}
           >
-            <VerticalScrollArea />
-          </VerticalScrollAreaWrapper>
+            <VerticalScrollbar />
+          </VerticalScrollbarWrapper>
         </WorkspaceWrapper>
         <EditAreaWrapper height={editAreaHeight}>
           <EditArea />
