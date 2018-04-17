@@ -1,40 +1,28 @@
 import * as React from 'react';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
+import { connect } from 'utils/connect';
 import { Menu, MenuItem } from '@blueprintjs/core';
 
-import { trackStore, TrackStore } from 'core/stores/tracks';
-import { clipStore, ClipStore } from 'core/stores/clips';
+import { TrackStore } from 'core/stores/tracks';
+import { ClipStore } from 'core/stores/clips';
 import { sequencerPositionService } from 'core/services/sequencer/position';
 
-interface ComponentProps {
+interface Props {
   trackId: string;
   offsetX: number;
-}
-
-interface InjectedProps extends ComponentProps {
   trackStore: TrackStore;
   clipStore: ClipStore;
 }
 
-@inject(() => ({
-  trackStore,
-  clipStore,
-}))
 @observer
-export class TrackContextMenu extends React.Component<ComponentProps, {}> {
-  get injected() {
-    return this.props as InjectedProps;
-  }
-
+export class TrackContextMenu extends React.Component<Props, {}> {
   deleteTrack = () => {
-    const { trackId } = this.props;
-    const { trackStore } = this.injected;
+    const { trackId, trackStore } = this.props;
     trackStore.deleteTrack(trackId);
   };
 
   createClip = () => {
-    const { trackId, offsetX } = this.props;
-    const { clipStore } = this.injected;
+    const { clipStore, trackId, offsetX } = this.props;
     const position = sequencerPositionService.getTimelineVector(offsetX);
 
     clipStore.createClip({ trackId, position });
@@ -49,3 +37,5 @@ export class TrackContextMenu extends React.Component<ComponentProps, {}> {
     );
   }
 }
+
+export default connect(TrackContextMenu, 'clipStore', 'trackStore');

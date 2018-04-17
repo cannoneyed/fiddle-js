@@ -1,30 +1,22 @@
 import * as React from 'react';
 import { noop, range } from 'lodash';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
+import { connect } from 'utils/connect';
 
-import { DragToMarker } from './DragToMarker';
+import DragToMarker from './DragToMarker';
 
-import { gridView, GridView } from 'core/stores/sequencer/view/grid';
+import { GridView } from 'core/stores/sequencer/view/grid';
 
 const styles = require('./styles.less');
 
-interface ComponentProps {}
-
-interface InjectedProps extends ComponentProps {
+interface Props {
   gridView: GridView;
 }
 
-@inject(() => ({
-  gridView,
-}))
 @observer
-export class Timeline extends React.Component<ComponentProps, {}> {
-  get injected() {
-    return this.props as InjectedProps;
-  }
-
+export class Timeline extends React.Component<Props, {}> {
   renderTimelineSegments() {
-    const { gridView } = this.injected;
+    const { gridView } = this.props;
     const { division, divisionWidth, nDivisions } = gridView;
 
     return range(nDivisions).map(n => {
@@ -68,3 +60,5 @@ export class Timeline extends React.Component<ComponentProps, {}> {
     );
   }
 }
+
+export default connect(Timeline, 'gridView');

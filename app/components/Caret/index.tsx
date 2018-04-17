@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-interface ComponentProps {
+interface Props {
   size?: number;
   fillColor?: string;
   strokeColor?: string;
   strokeWidth?: number;
 }
 
-export class Caret extends React.Component<ComponentProps, {}> {
+export class Caret extends React.Component<Props, {}> {
   static defaultProps = {
     size: 10,
     fillColor: 'black',
@@ -36,3 +36,5 @@ export class Caret extends React.Component<ComponentProps, {}> {
     );
   }
 }
+
+export default Caret;

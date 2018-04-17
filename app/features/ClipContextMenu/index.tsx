@@ -1,37 +1,26 @@
 import * as React from 'react';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
+import { connect } from 'utils/connect';
 import { Menu, MenuItem } from '@blueprintjs/core';
 
-import { clipStore, ClipStore } from 'core/stores/clips';
-import { clipSelect, ClipSelect } from 'core/interactions/clip/select';
+import { ClipStore } from 'core/stores/clips';
+import { ClipSelect } from 'core/interactions/clip/select';
 
-interface ComponentProps {
+interface Props {
   clipId: string;
-}
-
-interface InjectedProps extends ComponentProps {
   clipStore: ClipStore;
   clipSelect: ClipSelect;
 }
 
-@inject(() => ({
-  clipStore,
-  clipSelect,
-}))
 @observer
-export class ClipContextMenu extends React.Component<ComponentProps, {}> {
-  get injected() {
-    return this.props as InjectedProps;
-  }
-
+export class ClipContextMenu extends React.Component<Props, {}> {
   deleteClip = () => {
-    const { clipId } = this.props;
-    const { clipStore } = this.injected;
+    const { clipId, clipStore } = this.props;
     clipStore.deleteClip(clipId);
   };
 
   render() {
-    const { clipStore, clipSelect } = this.injected;
+    const { clipStore, clipSelect } = this.props;
     const { deleteSelectedClips } = clipStore;
     const nSelectedClips = clipSelect.selectedClips.length;
     const deleteAction = nSelectedClips > 1 ? deleteSelectedClips : this.deleteClip;
@@ -44,3 +33,5 @@ export class ClipContextMenu extends React.Component<ComponentProps, {}> {
     );
   }
 }
+
+export default connect(ClipContextMenu, 'clipStore', 'clipSelect');

@@ -1,19 +1,15 @@
 import React from 'react';
 import DevTools from 'mobx-react-devtools';
 import { Provider } from 'mobx-react';
-import { SequencerPage } from 'pages/Sequencer';
 import { hot } from 'react-hot-loader';
 
-import { sequencerLayout } from 'core/stores/sequencer/layout';
-import { trackStore } from 'core/stores/tracks';
+import SequencerPage from 'pages/Sequencer';
 
-const stores = {
-  sequencerLayout,
-  trackStore,
-};
+import * as interactions from 'core/interactions';
+import * as stores from 'core/stores';
 
 export const Root = () => (
-  <Provider {...stores}>
+  <Provider {...stores} {...interactions}>
     <div className="pt-dark">
       <SequencerPage />
       <DevTools />

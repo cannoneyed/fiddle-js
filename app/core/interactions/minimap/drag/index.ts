@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
 
-export class MinimapDrag {
+export class MinimapDragInteraction {
   @observable isDragging: boolean = false;
 
   @action
@@ -9,4 +9,4 @@ export class MinimapDrag {
   }
 }
 
-export const minimapDrag = new MinimapDrag();
+export const minimapDragInteraction = new MinimapDragInteraction();

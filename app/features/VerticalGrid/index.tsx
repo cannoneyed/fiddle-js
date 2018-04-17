@@ -3,12 +3,12 @@ import { range } from 'lodash';
 
 const styles = require('./styles.less');
 
-interface ComponentProps {
+interface Props {
   gridCount: number;
   gridSegmentWidth: number;
 }
 
-export class VerticalGrid extends React.Component<ComponentProps, {}> {
+export class VerticalGrid extends React.Component<Props, {}> {
   render() {
     const { gridCount, gridSegmentWidth } = this.props;
 
@@ -25,3 +25,5 @@ export class VerticalGrid extends React.Component<ComponentProps, {}> {
     );
   }
 }
+
+export default VerticalGrid;

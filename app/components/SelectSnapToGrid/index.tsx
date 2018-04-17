@@ -1,31 +1,24 @@
 import * as React from 'react';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
+import { connect } from 'utils/connect';
 import { map } from 'lodash';
 
 import { snapToGridValues } from 'core/models/snap-to-grid';
 
-import { Select } from 'components/Select';
+import Select from 'components/Select';
 
-import { sequencerState, SequencerState } from 'core/stores/sequencer/state';
+import { SequencerState } from 'core/stores/sequencer/state';
 
 const styles = require('./styles.less');
 
-interface ComponentProps {}
-
-interface InjectedProps extends ComponentProps {
+interface Props {
   sequencerState: SequencerState;
 }
 
-@inject(() => ({
-  sequencerState,
-}))
 @observer
-export class SelectSnapToGrid extends React.Component<ComponentProps, {}> {
-  get injected() {
-    return this.props as InjectedProps;
-  }
-
+export class SelectSnapToGrid extends React.Component<Props, {}> {
   render() {
+    const { sequencerState } = this.props;
     const snapToGrid = sequencerState.snapToGrid;
 
     const options = map(snapToGridValues, (snapToGridValue, key) => {
@@ -46,3 +39,5 @@ export class SelectSnapToGrid extends React.Component<ComponentProps, {}> {
     );
   }
 }
+
+export default connect(SelectSnapToGrid, 'sequencerState');

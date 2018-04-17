@@ -1,43 +1,32 @@
 import * as React from 'react';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
+import { connect } from 'utils/connect';
 import { ContextMenu } from '@blueprintjs/core';
 
-import { TrackContextMenu } from 'features/TrackContextMenu';
+import TrackContextMenu from 'features/TrackContextMenu';
 import { Clip } from 'features/Clip';
 
 import { Track as TrackModel } from 'core/models/track';
-import { sequencerView, SequencerView } from 'core/stores/sequencer/view';
-import { trackMouseInteraction, TrackMouseInteraction } from 'core/interactions/tracks/mouse';
+import { SequencerView } from 'core/stores/sequencer/view';
+import { TrackMouseInteraction } from 'core/interactions/tracks/mouse';
 
 const styles = require('./styles.less');
 
 interface Props {
   track: TrackModel;
   index: number;
+  sequencerView: SequencerView;
+  trackMouseInteraction: TrackMouseInteraction;
 }
 
 interface State {
   isContextMenuOpen: boolean;
 }
 
-interface InjectedProps extends Props {
-  sequencerView: SequencerView;
-  trackMouseInteraction: TrackMouseInteraction;
-}
-
-@inject(() => ({
-  trackMouseInteraction,
-  sequencerView,
-}))
 @observer
 export class Track extends React.Component<Props, State> {
-  get injected() {
-    return this.props as InjectedProps;
-  }
-
   handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    const { track } = this.props;
-    const { trackMouseInteraction } = this.injected;
+    const { track, trackMouseInteraction } = this.props;
     trackMouseInteraction.handleTrackClick(track, event);
   };
 
@@ -56,8 +45,7 @@ export class Track extends React.Component<Props, State> {
   };
 
   render() {
-    const { track } = this.props;
-    const { sequencerView } = this.injected;
+    const { track, sequencerView } = this.props;
     const { trackHeight, trackWidth } = sequencerView.tracks;
 
     const trackStyle = {
@@ -77,3 +65,5 @@ export class Track extends React.Component<Props, State> {
     );
   }
 }
+
+export default connect(Track, 'sequencerView', 'trackMouseInteraction');

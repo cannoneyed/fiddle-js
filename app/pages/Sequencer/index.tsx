@@ -1,40 +1,29 @@
 import * as React from 'react';
 import { IReactionDisposer } from 'mobx';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
+import { connect } from 'utils/connect';
 import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
 import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
-import { Minimap } from 'features/Minimap';
-import { Timeline } from 'features/Timeline';
-import { TimelineGutter } from 'features/TimelineGutter';
-import { Toolbar } from 'features/Toolbar';
-import { TracksGutter } from 'features/TracksGutter';
-import { TracksArea } from 'features/TracksArea';
+import Minimap from 'features/Minimap';
+import Timeline from 'features/Timeline';
+import TimelineGutter from 'features/TimelineGutter';
+import Toolbar from 'features/Toolbar';
+import TracksGutter from 'features/TracksGutter';
+import TracksArea from 'features/TracksArea';
 
-import { sequencerLayout, SequencerLayout } from 'core/stores/sequencer/layout';
-import { sequencerView, SequencerView } from 'core/stores/sequencer/view';
+import { SequencerLayout } from 'core/stores/sequencer/layout';
 
 const styles = require('./styles.less');
 
-interface ComponentProps {}
-
-interface InjectedProps extends ComponentProps {
+interface ComponentProps {
   sequencerLayout: SequencerLayout;
-  sequencerView: SequencerView;
 }
 
-@inject(() => ({
-  sequencerLayout,
-  sequencerView,
-}))
 @observer
 export class SequencerPage extends React.Component<ComponentProps, {}> {
   disposeObserver: IReactionDisposer;
   disposeHandlers: trackScrollHandlers.Unregister;
-
-  get injected() {
-    return this.props as InjectedProps;
-  }
 
   componentDidMount() {
     this.disposeHandlers = trackScrollHandlers.register();
@@ -47,7 +36,7 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
   }
 
   render() {
-    const { sequencerLayout } = this.injected;
+    const { sequencerLayout } = this.props;
     const { minimapHeight, timelineHeight, toolbarHeight, tracksAreaHeight } = sequencerLayout;
 
     const toolbarWrapperStyle = {
@@ -86,3 +75,5 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
     );
   }
 }
+
+export default connect(SequencerPage, 'sequencerLayout');

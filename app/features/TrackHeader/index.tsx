@@ -1,32 +1,22 @@
 import * as React from 'react';
-import { inject, observer } from 'mobx-react';
+import { connect } from 'utils/connect';
+import { observer } from 'mobx-react';
 
 import { Track } from 'core/models/track';
-import { sequencerView, SequencerView } from 'core/stores/sequencer/view';
+import { SequencerView } from 'core/stores/sequencer/view';
 
 const styles = require('./styles.less');
 
-interface ComponentProps {
+interface Props {
   index: number;
   track: Track;
-}
-
-interface InjectedProps extends ComponentProps {
   sequencerView: SequencerView;
 }
 
-@inject(() => ({
-  sequencerView,
-}))
 @observer
-export class TrackHeader extends React.Component<ComponentProps, {}> {
-  get injected() {
-    return this.props as InjectedProps;
-  }
-
+export class TrackHeader extends React.Component<Props, {}> {
   render() {
-    const { index, track } = this.props;
-    const { sequencerView } = this.injected;
+    const { index, track, sequencerView } = this.props;
     const { trackHeight } = sequencerView.tracks;
 
     const headerStyle = {
@@ -40,3 +30,5 @@ export class TrackHeader extends React.Component<ComponentProps, {}> {
     );
   }
 }
+
+export default connect(TrackHeader, 'sequencerView');

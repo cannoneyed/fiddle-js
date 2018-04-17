@@ -2,7 +2,7 @@ import { Clip } from 'core/models/clip';
 
 import { clipMoveService } from 'core/services/sequencer/clip-move';
 
-import { clipDrag, DRAG_DELAY } from 'core/interactions/clip/drag';
+import { clipDragInteraction, DRAG_DELAY } from 'core/interactions/clip/drag';
 import { clipSelect } from 'core/interactions/clip/select';
 
 export const register = (clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) => {
@@ -10,23 +10,23 @@ export const register = (clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) =
   const startY = mouseDown.pageY;
   const begin = Date.now();
 
-  clipDrag.setStartPosition(startX, startY);
+  clipDragInteraction.setStartPosition(startX, startY);
 
   const mouseMove = (mouseMove: MouseEvent): void => {
     if (Date.now() < begin + DRAG_DELAY) {
       return;
     }
-    if (!clipDrag.isDragging) {
-      clipDrag.beginDrag(clip);
+    if (!clipDragInteraction.isDragging) {
+      clipDragInteraction.beginDrag(clip);
     }
 
-    const deltaX = mouseMove.pageX - clipDrag.startX;
-    const deltaY = mouseMove.pageY - clipDrag.startY;
-    clipDrag.setDelta(deltaX, deltaY);
+    const deltaX = mouseMove.pageX - clipDragInteraction.startX;
+    const deltaY = mouseMove.pageY - clipDragInteraction.startY;
+    clipDragInteraction.setDelta(deltaX, deltaY);
   };
 
   const mouseUp = (mouseUp: MouseEvent): void => {
-    if (Date.now() >= begin + DRAG_DELAY && clipDrag.isDragging) {
+    if (Date.now() >= begin + DRAG_DELAY && clipDragInteraction.isDragging) {
       endDrag();
     }
     removeEventHandlers();
@@ -46,11 +46,11 @@ export const register = (clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) =
 };
 
 function endDrag() {
-  const { handleClip, dropTargetPosition } = clipDrag;
+  const { handleClip, dropTargetPosition } = clipDragInteraction;
   if (dropTargetPosition) {
     const { selectedClips } = clipSelect;
     const deltaTimeline = dropTargetPosition.subtract(handleClip.position);
     clipMoveService.moveClips(selectedClips, deltaTimeline);
   }
-  clipDrag.endDrag();
+  clipDragInteraction.endDrag();
 }

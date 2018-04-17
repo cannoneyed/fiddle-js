@@ -1,21 +1,19 @@
 import * as React from 'react';
-import { observer } from 'mobx-react';
-import { inject } from 'utils/inject';
+import { connect } from 'utils/connect';
 
-import { TrackHeader } from 'features/TrackHeader';
+import TrackHeader from 'features/TrackHeader';
 
 import { TrackStore } from 'core/stores/tracks';
 import { SequencerLayout } from 'core/stores/sequencer/layout';
 
 const styles = require('./styles.less');
 
-interface ComponentProps {
+interface Props {
   sequencerLayout: SequencerLayout;
   trackStore: TrackStore;
 }
 
-@observer
-class _TracksGutter extends React.Component<ComponentProps, {}> {
+export class TracksGutter extends React.Component<Props, {}> {
   render() {
     const { trackStore, sequencerLayout } = this.props;
     const { trackList } = trackStore;
@@ -33,4 +31,4 @@ class _TracksGutter extends React.Component<ComponentProps, {}> {
   }
 }
 
-export const TracksGutter = inject(_TracksGutter, 'sequencerLayout', 'trackStore');
+export default connect(TracksGutter, 'sequencerLayout', 'trackStore');

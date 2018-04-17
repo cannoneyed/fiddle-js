@@ -7,7 +7,7 @@ import { clipSelect } from 'core/interactions/clip/select';
 
 export const DRAG_DELAY: number = 200;
 
-export class ClipDrag {
+export class ClipDragInteraction {
   static mobxLoggerConfig = {
     methods: {
       setDelta: false,
@@ -88,4 +88,4 @@ export class ClipDrag {
   }
 }
 
-export const clipDrag = new ClipDrag();
+export const clipDragInteraction = new ClipDragInteraction();

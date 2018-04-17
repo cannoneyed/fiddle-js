@@ -1,38 +1,29 @@
 import * as React from 'react';
 import { IReactionDisposer } from 'mobx';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
+import { connect } from 'utils/connect';
 
 import { Clip } from 'core/models/clip';
 
-import { Clip as ClipView } from 'components/Clip';
-import { Portal } from 'components/Portal';
+import ClipView from 'components/Clip';
+import Portal from 'components/Portal';
 
 import { observeClipsDrag } from 'core/observers/clips-drag';
 
-import { clipDrag, ClipDrag } from 'core/interactions/clip/drag';
-import { clipSelect, ClipSelect } from 'core/interactions/clip/select';
+import { ClipDragInteraction } from 'core/interactions/clip/drag';
+import { ClipSelect } from 'core/interactions/clip/select';
 import { sequencerPortalDOM } from 'core/dom/sequencer/portal';
 
 const styles = require('./styles.less');
 
-interface ComponentProps {}
-
-interface InjectedProps extends ComponentProps {
-  clipDrag: ClipDrag;
+interface Props {
+  clipDragInteraction: ClipDragInteraction;
   clipSelect: ClipSelect;
 }
 
-@inject(() => ({
-  clipDrag,
-  clipSelect,
-}))
 @observer
-export class DraggedClips extends React.Component<ComponentProps, {}> {
+export class DraggedClips extends React.Component<Props, {}> {
   disposeObserver: IReactionDisposer;
-
-  get injected() {
-    return this.props as InjectedProps;
-  }
 
   componentDidMount() {
     this.disposeObserver = observeClipsDrag();
@@ -43,8 +34,8 @@ export class DraggedClips extends React.Component<ComponentProps, {}> {
   }
 
   renderDraggedClip = (clip: Clip) => {
-    const { clipDrag } = this.injected;
-    const relativePosition = clipDrag.getRelativePosition(clip);
+    const { clipDragInteraction } = this.props;
+    const relativePosition = clipDragInteraction.getRelativePosition(clip);
     const { x, y } = relativePosition;
 
     const clipWrapperStyle = {
@@ -60,7 +51,7 @@ export class DraggedClips extends React.Component<ComponentProps, {}> {
   };
 
   render() {
-    const { clipSelect } = this.injected;
+    const { clipSelect } = this.props;
     const { selectedClips } = clipSelect;
 
     const { draggedClipsRoot } = sequencerPortalDOM;
@@ -77,3 +68,5 @@ export class DraggedClips extends React.Component<ComponentProps, {}> {
     );
   }
 }
+
+export default connect(DraggedClips, 'clipDragInteraction', 'clipSelect');

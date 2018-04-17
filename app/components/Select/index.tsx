@@ -7,14 +7,14 @@ export interface IOption {
   selected: boolean;
 }
 
-export interface ComponentProps {
+export interface Props {
   options: IOption[];
   disabled?: boolean;
   fill?: boolean;
   onSelect(value: string | number): void;
 }
 
-export class Select extends React.Component<ComponentProps, {}> {
+export class Select extends React.Component<Props, {}> {
   static defaultProps = {
     fill: true,
     disabled: false,
@@ -45,3 +45,5 @@ export class Select extends React.Component<ComponentProps, {}> {
     );
   }
 }
+
+export default Select;

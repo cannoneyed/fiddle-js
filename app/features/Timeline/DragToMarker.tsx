@@ -1,34 +1,25 @@
 import * as React from 'react';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react';
+import { connect } from 'utils/connect';
 
 import { Caret } from 'components/Caret';
 
 import { sequencerPositionService } from 'core/services/sequencer/position';
 
-import { sequencerLayout, SequencerLayout } from 'core/stores/sequencer/layout';
-import { timelineView, TimelineView } from 'core/stores/sequencer/view/timeline';
+import { SequencerLayout } from 'core/stores/sequencer/layout';
+import { TimelineView } from 'core/stores/sequencer/view/timeline';
 
 const styles = require('./styles.less');
 
-interface ComponentProps {}
-
-interface InjectedProps extends ComponentProps {
+interface Props {
   sequencerLayout: SequencerLayout;
   timelineView: TimelineView;
 }
 
-@inject(() => ({
-  sequencerLayout,
-  timelineView,
-}))
 @observer
-export class DragToMarker extends React.Component<ComponentProps, {}> {
-  get injected() {
-    return this.props as InjectedProps;
-  }
-
+export class DragToMarker extends React.Component<Props, {}> {
   render() {
-    const { sequencerLayout, timelineView } = this.injected;
+    const { sequencerLayout, timelineView } = this.props;
     const { dropTargetPosition } = timelineView;
 
     if (!dropTargetPosition) {
@@ -52,3 +43,5 @@ export class DragToMarker extends React.Component<ComponentProps, {}> {
     );
   }
 }
+
+export default connect(DragToMarker, 'sequencerLayout', 'timelineView');

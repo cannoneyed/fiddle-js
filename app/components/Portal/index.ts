@@ -1,12 +1,14 @@
 import * as React from 'react';
-const ReactDOM = require('react-dom');
+import * as ReactDOM from 'react-dom';
 
-interface ComponentProps {
+interface Props {
   domNode: HTMLElement;
 }
 
-export class Portal extends React.Component<ComponentProps, {}> {
+export class Portal extends React.Component<Props, {}> {
   render() {
-    return (ReactDOM as any).createPortal(this.props.children, this.props.domNode);
+    return ReactDOM.createPortal(this.props.children, this.props.domNode);
   }
 }
+
+export default Portal;
