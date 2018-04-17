@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 import { connect } from 'utils/connect';
 
 import { Draggable, Unregister } from 'core/interactions/handlers/draggable';
-import { MinimapDragInteraction } from 'core/interactions/minimap/drag';
 
 import { SequencerView } from 'core/stores/sequencer/view';
 
@@ -11,7 +10,6 @@ import { MinimapContainer, MinimapThumb } from './styled-components';
 
 interface Props {
   sequencerView: SequencerView;
-  minimapDragInteraction: MinimapDragInteraction;
 }
 
 @observer
@@ -25,8 +23,6 @@ export class Minimap extends React.Component<Props, {}> {
   componentDidMount() {
     const { draggable } = this;
     draggable.onDrag(this.handleThumbDrag);
-    draggable.onDragStart(this.handleThumbDragStart);
-    draggable.onDragEnd(this.handleThumbDragEnd);
     this.unregisterDragHandlers = this.draggable.register(this.minimapRef!, this.thumbRef!);
   }
 
@@ -40,14 +36,6 @@ export class Minimap extends React.Component<Props, {}> {
 
     const nextScrollPercentX = tracksScrollPercentX - deltaPercentX;
     sequencerView.tracks.setTracksScroll({ x: nextScrollPercentX });
-  };
-
-  handleThumbDragStart = () => {
-    this.props.minimapDragInteraction.setIsDragging(true);
-  };
-
-  handleThumbDragEnd = () => {
-    this.props.minimapDragInteraction.setIsDragging(false);
   };
 
   render() {
@@ -76,4 +64,4 @@ export class Minimap extends React.Component<Props, {}> {
   }
 }
 
-export default connect(Minimap, 'sequencerView', 'minimapDragInteraction');
+export default connect(Minimap, 'sequencerView');
