@@ -41,7 +41,7 @@ export const register = (): Unregister => {
         sequencerView.tracks.setTracksScroll({ x: ratioX, y: ratioY });
       };
 
-      element.addEventListener('mousewheel', syn);
+      element.addEventListener('mousewheel', syn, { passive: true });
       eventHandlers.set(element, syn);
     });
   });

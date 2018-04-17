@@ -2,8 +2,9 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { connect } from 'utils/connect';
 
-import * as minimapScrollHandlers from 'core/interactions/minimap/scroll/handlers';
-import * as minimapDragHandlers from 'core/interactions/minimap/drag/handlers';
+import { Draggable, Unregister } from 'core/interactions/handlers/draggable';
+import { MinimapDragInteraction } from 'core/interactions/minimap/drag';
+import { getNextScrollPercentX } from 'core/interactions/minimap/helpers';
 
 import { SequencerView } from 'core/stores/sequencer/view';
 
@@ -11,22 +12,42 @@ import { MinimapContainer, MinimapThumb } from './styled-components';
 
 interface Props {
   sequencerView: SequencerView;
+  minimapDragInteraction: MinimapDragInteraction;
 }
 
 @observer
 export class Minimap extends React.Component<Props, {}> {
-  unregisterScrollHandlers: minimapScrollHandlers.Unregister;
-  unregisterDragHandlers: minimapDragHandlers.Unregister;
+  draggable = new Draggable();
+  unregisterDragHandlers: Unregister;
+
+  containerRef: HTMLDivElement;
+  thumbRef: HTMLDivElement;
 
   componentDidMount() {
-    this.unregisterScrollHandlers = minimapScrollHandlers.register();
-    this.unregisterDragHandlers = minimapDragHandlers.register();
+    const { draggable } = this;
+    draggable.onDrag(this.handleThumbDrag);
+    draggable.onDragStart(this.handleThumbDragStart);
+    draggable.onDragEnd(this.handleThumbDragEnd);
+    this.unregisterDragHandlers = this.draggable.register(this.containerRef!, this.thumbRef!);
   }
 
   componentWillUnmount() {
-    this.unregisterScrollHandlers();
     this.unregisterDragHandlers();
   }
+
+  handleThumbDrag = (deltaX: number, deltaY: number) => {
+    const { sequencerView } = this.props;
+    const nextScrollPercentX = getNextScrollPercentX(deltaX);
+    sequencerView.tracks.setTracksScroll({ x: nextScrollPercentX });
+  };
+
+  handleThumbDragStart = () => {
+    this.props.minimapDragInteraction.setIsDragging(true);
+  };
+
+  handleThumbDragEnd = () => {
+    this.props.minimapDragInteraction.setIsDragging(false);
+  };
 
   render() {
     const { sequencerView } = this.props;
@@ -43,11 +64,15 @@ export class Minimap extends React.Component<Props, {}> {
     };
 
     return (
-      <MinimapContainer id="minimap">
-        <MinimapThumb id="minimapScroll" style={thumbStyle} />
+      <MinimapContainer id="minimap" innerRef={ref => (this.containerRef = ref)}>
+        <MinimapThumb
+          innerRef={ref => (this.thumbRef = ref)}
+          id="minimapScroll"
+          style={thumbStyle}
+        />
       </MinimapContainer>
     );
   }
 }
 
-export default connect(Minimap, 'sequencerView');
+export default connect(Minimap, 'sequencerView', 'minimapDragInteraction');

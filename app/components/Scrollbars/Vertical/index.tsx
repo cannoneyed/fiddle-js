@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { Draggable, Unregister } from 'core/interactions/handlers/draggable';
+
 import {
   ScrollbarArea,
   ScrollBackButton,
@@ -11,11 +13,37 @@ import {
 interface Props {
   scrollPositionPercent: number;
   scrollViewPercent: number;
-  onThumbDrag?: (delta: number) => void;
+  onDrag: (deltaX: number, deltaY: number) => void;
+  onDragStart?: () => void;
+  onDragEnd?: () => void;
   onThumbResize?: (delta: number) => void;
 }
 
 export class VerticalScrollbar extends React.Component<Props, {}> {
+  draggable = new Draggable();
+  unregisterDragHandlers: Unregister;
+
+  containerRef: HTMLDivElement;
+  thumbRef: HTMLDivElement;
+
+  static defaultProps = {
+    onDragStart: () => {},
+    onDragEnd: () => {},
+  };
+
+  componentDidMount() {
+    const { draggable } = this;
+    const { onDrag, onDragStart, onDragEnd } = this.props;
+    draggable.onDrag(onDrag);
+    draggable.onDragStart(onDragStart!);
+    draggable.onDragEnd(onDragEnd!);
+    this.unregisterDragHandlers = this.draggable.register(this.containerRef!, this.thumbRef!);
+  }
+
+  componentWillUnmount() {
+    this.unregisterDragHandlers();
+  }
+
   render() {
     const { scrollPositionPercent, scrollViewPercent } = this.props;
 
@@ -32,8 +60,8 @@ export class VerticalScrollbar extends React.Component<Props, {}> {
     return (
       <ScrollbarWrapper>
         <ScrollBackButton />
-        <ScrollbarArea>
-          <ScrollbarThumb style={thumbStyle} />
+        <ScrollbarArea innerRef={ref => (this.containerRef = ref)}>
+          <ScrollbarThumb innerRef={ref => (this.thumbRef = ref)} style={thumbStyle} />
         </ScrollbarArea>
         <ScrollForwardButton />
       </ScrollbarWrapper>

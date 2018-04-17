@@ -194,7 +194,7 @@
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-transition-group": "^2.3.0",
-    "styled-components": "^3.2.5"
+    "styled-components": "^3.2.6"
   },
   "devEngines": {
     "node": ">=7.x",
