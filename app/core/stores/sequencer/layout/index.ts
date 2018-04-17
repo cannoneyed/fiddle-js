@@ -11,6 +11,13 @@ export class SequencerLayout {
   @observable tracksAreaHeight: number = 500;
 
   @computed
+  get editAreaHeight() {
+    const { tracksAreaHeight, timelineHeight, minimapHeight, toolbarHeight } = this;
+    const sum = tracksAreaHeight + timelineHeight + minimapHeight + toolbarHeight;
+    return windowStore.height - sum;
+  }
+
+  @computed
   get tracksAreaWidth() {
     return windowStore.width - this.gutterWidth;
   }

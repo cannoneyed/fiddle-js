@@ -5,6 +5,7 @@ import { connect } from 'utils/connect';
 import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
 import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
+import EditArea from 'features/EditArea';
 import Minimap from 'features/Minimap';
 import Timeline from 'features/Timeline';
 import TimelineGutter from 'features/TimelineGutter';
@@ -37,7 +38,13 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
 
   render() {
     const { sequencerLayout } = this.props;
-    const { minimapHeight, timelineHeight, toolbarHeight, tracksAreaHeight } = sequencerLayout;
+    const {
+      editAreaHeight,
+      minimapHeight,
+      timelineHeight,
+      toolbarHeight,
+      tracksAreaHeight,
+    } = sequencerLayout;
 
     const toolbarWrapperStyle = {
       height: toolbarHeight,
@@ -55,6 +62,10 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
       height: minimapHeight,
     };
 
+    const editAreaStyle = {
+      height: editAreaHeight,
+    };
+
     return (
       <div className={styles.pageWrapper} id="sequencerPage">
         <div className={styles.toolbarWrapper} style={toolbarWrapperStyle}>
@@ -70,6 +81,9 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
         <div className={styles.tracksAreaWrapper} style={tracksAreaWrapperStyle}>
           <TracksGutter />
           <TracksArea />
+        </div>
+        <div className={styles.editAreaWrapper} style={editAreaStyle}>
+          <EditArea />
         </div>
       </div>
     );
