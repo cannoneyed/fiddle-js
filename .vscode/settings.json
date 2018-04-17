@@ -1,5 +1,8 @@
 {
   "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
   "eslint.enable": false,
   "javascript.validate.enable": false,
   "search.exclude": {
