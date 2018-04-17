@@ -7,7 +7,7 @@ import * as minimapDragHandlers from 'core/interactions/minimap/drag/handlers';
 
 import { SequencerView } from 'core/stores/sequencer/view';
 
-const styles = require('./styles.less');
+import { MinimapContainer, MinimapThumb } from './styled-components';
 
 interface Props {
   sequencerView: SequencerView;
@@ -36,19 +36,16 @@ export class Minimap extends React.Component<Props, {}> {
     // is a normalized 0 to 1 value.
     const leftPercent = tracksScrollPercentX * (1 - tracksViewPercentX);
 
-    const minimapScrollContainerStyle = {
+    // Use inline style because it's much faster than using styled components
+    const thumbStyle = {
       left: `${leftPercent * 100}%`,
       width: `${tracksViewPercentX * 100}%`,
     };
 
     return (
-      <div className={styles.minimapContainer} id="minimap">
-        <div
-          className={styles.minimapScrollContainer}
-          id="minimapScroll"
-          style={minimapScrollContainerStyle}
-        />
-      </div>
+      <MinimapContainer id="minimap">
+        <MinimapThumb id="minimapScroll" style={thumbStyle} />
+      </MinimapContainer>
     );
   }
 }

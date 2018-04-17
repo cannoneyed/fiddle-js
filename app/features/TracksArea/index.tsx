@@ -11,7 +11,7 @@ import { TrackStore } from 'core/stores/tracks';
 import { SequencerLayout } from 'core/stores/sequencer/layout';
 import { SequencerView } from 'core/stores/sequencer/view';
 
-const styles = require('./styles.less');
+import { TracksAreaContainer, GridContainer, TracksContainer } from './styled-components';
 
 interface Props {
   clipDragInteraction: ClipDragInteraction;
@@ -30,22 +30,18 @@ export class TracksArea extends React.Component<Props, {}> {
     const { gridCount, gridSegmentWidth } = sequencerView.grid;
 
     const gridHeight = Math.max(trackList.length * trackHeight, tracksAreaHeight);
-    const gridContainerStyle = {
-      height: gridHeight,
-    };
-
     const { isDragging } = clipDragInteraction;
 
     return (
-      <div className={styles.tracksAreaContainer} id="tracksArea">
-        <div className={styles.gridContainer} style={gridContainerStyle}>
+      <TracksAreaContainer id="tracksArea">
+        <GridContainer height={gridHeight}>
           <VerticalGrid gridCount={gridCount} gridSegmentWidth={gridSegmentWidth} />
-        </div>
-        <div className={styles.tracksContainer}>
+        </GridContainer>
+        <TracksContainer>
           {trackList.map((track, index) => <Track track={track} index={index} key={index} />)}
-        </div>
+        </TracksContainer>
         {isDragging && <DraggedClips />}
-      </div>
+      </TracksAreaContainer>
     );
   }
 }

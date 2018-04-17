@@ -13,15 +13,19 @@ import Toolbar from 'features/Toolbar';
 import TracksGutter from 'features/TracksGutter';
 import TracksArea from 'features/TracksArea';
 
+import VerticalScrollArea from 'features/Workspace/VerticalScrollArea';
+
 import { SequencerLayout } from 'core/stores/sequencer/layout';
 
 import {
   EditAreaWrapper,
   PageWrapper,
-  ToolbarWrapper,
   MinimapWrapper,
   TimelineWrapper,
+  ToolbarWrapper,
   TracksAreaWrapper,
+  WorkspaceWrapper,
+  VerticalScrollAreaWrapper,
 } from './styled-components';
 
 interface ComponentProps {
@@ -51,6 +55,9 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
       timelineHeight,
       toolbarHeight,
       tracksAreaHeight,
+      workspaceAreaHeight,
+      workspaceAreaWidth,
+      workspaceVerticalScrollWidth,
     } = sequencerLayout;
 
     return (
@@ -61,14 +68,22 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
         <MinimapWrapper height={minimapHeight}>
           <Minimap />
         </MinimapWrapper>
-        <TimelineWrapper height={timelineHeight}>
-          <TimelineGutter />
-          <Timeline />
-        </TimelineWrapper>
-        <TracksAreaWrapper height={tracksAreaHeight}>
-          <TracksGutter />
-          <TracksArea />
-        </TracksAreaWrapper>
+        <WorkspaceWrapper height={workspaceAreaHeight}>
+          <TimelineWrapper height={timelineHeight} width={workspaceAreaWidth}>
+            <TimelineGutter />
+            <Timeline />
+          </TimelineWrapper>
+          <TracksAreaWrapper height={tracksAreaHeight} width={workspaceAreaWidth}>
+            <TracksGutter />
+            <TracksArea />
+          </TracksAreaWrapper>
+          <VerticalScrollAreaWrapper
+            height={workspaceAreaHeight}
+            width={workspaceVerticalScrollWidth}
+          >
+            <VerticalScrollArea />
+          </VerticalScrollAreaWrapper>
+        </WorkspaceWrapper>
         <EditAreaWrapper height={editAreaHeight}>
           <EditArea />
         </EditAreaWrapper>

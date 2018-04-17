@@ -10,5 +10,5 @@
     "stage-0",
     "react"
   ],
-  "plugins": ["react-hot-loader/babel"]
+  "plugins": ["babel-plugin-styled-components", "react-hot-loader/babel"]
 }

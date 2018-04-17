@@ -8,13 +8,21 @@ export const PageWrapper = styled.div`
   background-image: linear-gradient(45deg, rgba(0, 216, 255, 0.5) 10%, rgba(0, 1, 127, 0.7));
 `;
 
-export interface HeightProps {
+interface HeightProps {
   height: number;
 }
 
-export const ToolbarWrapper = styled<HeightProps, 'div'>('div')`
+interface WidthProps {
+  width: number;
+}
+
+type SizeProps = HeightProps & WidthProps;
+
+export const EditAreaWrapper = styled<HeightProps, 'div'>('div')`
   height: ${props => props.height}px;
   width: 100%;
+  display: flex;
+  flex-direction: row;
 `;
 
 export const MinimapWrapper = styled<HeightProps, 'div'>('div')`
@@ -22,23 +30,35 @@ export const MinimapWrapper = styled<HeightProps, 'div'>('div')`
   width: 100%;
 `;
 
-export const TimelineWrapper = styled<HeightProps, 'div'>('div')`
+export const TimelineWrapper = styled<SizeProps, 'div'>('div')`
   height: ${props => props.height}px;
-  width: 100%;
+  width: ${props => props.width}px;
   display: flex;
   flex-direction: row;
 `;
 
-export const TracksAreaWrapper = styled<HeightProps, 'div'>('div')`
+export const ToolbarWrapper = styled<HeightProps, 'div'>('div')`
   height: ${props => props.height}px;
   width: 100%;
+`;
+
+export const TracksAreaWrapper = styled<SizeProps, 'div'>('div')`
+  height: ${props => props.height}px;
+  width: ${props => props.width}px;
   display: flex;
   flex-direction: row;
 `;
 
-export const EditAreaWrapper = styled<HeightProps, 'div'>('div')`
+export const WorkspaceWrapper = styled<HeightProps, 'div'>('div')`
   height: ${props => props.height}px;
   width: 100%;
-  display: flex;
-  flex-direction: row;
+  position: relative;
+`;
+
+export const VerticalScrollAreaWrapper = styled<SizeProps, 'div'>('div')`
+  height: ${props => props.height}px;
+  width: ${props => props.width}px;
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
