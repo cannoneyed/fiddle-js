@@ -4,20 +4,20 @@ import { connect } from 'utils/connect';
 import TrackHeader from 'features/TracksSection/TrackHeader';
 
 import { TrackStore } from 'core/stores/tracks';
-import { SequencerLayout } from 'core/stores/sequencer/layout';
+import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 
 const styles = require('./styles.less');
 
 interface Props {
-  sequencerLayout: SequencerLayout;
+  sequencerPageLayout: SequencerPageLayout;
   trackStore: TrackStore;
 }
 
 export class TracksGutter extends React.Component<Props, {}> {
   render() {
-    const { trackStore, sequencerLayout } = this.props;
+    const { trackStore, sequencerPageLayout } = this.props;
     const { trackList } = trackStore;
-    const { gutterWidth } = sequencerLayout;
+    const { gutterWidth } = sequencerPageLayout;
 
     const tracksGutterStyle = {
       minWidth: gutterWidth,
@@ -31,4 +31,4 @@ export class TracksGutter extends React.Component<Props, {}> {
   }
 }
 
-export default connect(TracksGutter, 'sequencerLayout', 'trackStore');
+export default connect(TracksGutter, 'sequencerPageLayout', 'trackStore');

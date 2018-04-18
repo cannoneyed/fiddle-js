@@ -3,21 +3,21 @@ import { connect } from 'utils/connect';
 import { observer } from 'mobx-react';
 
 import { Track } from 'core/models/track';
-import { SequencerView } from 'core/stores/sequencer/view';
+import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 const styles = require('./styles.less');
 
 interface Props {
   index: number;
   track: Track;
-  sequencerView: SequencerView;
+  tracksSectionLayout: TracksSectionLayout;
 }
 
 @observer
 export class TrackHeader extends React.Component<Props, {}> {
   render() {
-    const { index, track, sequencerView } = this.props;
-    const { trackHeight } = sequencerView.tracks;
+    const { index, track, tracksSectionLayout } = this.props;
+    const { trackHeight } = tracksSectionLayout.tracks;
 
     const headerStyle = {
       height: trackHeight,
@@ -31,4 +31,4 @@ export class TrackHeader extends React.Component<Props, {}> {
   }
 }
 
-export default connect(TrackHeader, 'sequencerView');
+export default connect(TrackHeader, 'tracksSectionLayout');

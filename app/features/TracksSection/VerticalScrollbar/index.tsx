@@ -4,26 +4,26 @@ import { connect } from 'utils/connect';
 
 import VerticalScroll from 'components/Scrollbars/Vertical';
 
-import { SequencerView } from 'core/stores/sequencer/view';
+import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 interface Props {
-  sequencerView: SequencerView;
+  tracksSectionLayout: TracksSectionLayout;
 }
 
 @observer
 export class VerticalScrollArea extends React.Component<Props, {}> {
   handleThumbDrag = (deltaPercentX: number, deltaPercentY: number) => {
-    const { sequencerView } = this.props;
-    const { tracksScrollPercentY } = sequencerView.tracks;
+    const { tracksSectionLayout } = this.props;
+    const { tracksScrollPercentY } = tracksSectionLayout.tracks;
 
     const nextScrollPercentY = tracksScrollPercentY - deltaPercentY;
-    sequencerView.tracks.setTracksScroll({ y: nextScrollPercentY });
+    tracksSectionLayout.tracks.setTracksScroll({ y: nextScrollPercentY });
   };
 
   render() {
-    const { sequencerView } = this.props;
+    const { tracksSectionLayout } = this.props;
 
-    const { tracksScrollPercentY, tracksViewPercentY } = sequencerView.tracks;
+    const { tracksScrollPercentY, tracksViewPercentY } = tracksSectionLayout.tracks;
 
     return (
       <VerticalScroll
@@ -35,4 +35,4 @@ export class VerticalScrollArea extends React.Component<Props, {}> {
   }
 }
 
-export default connect(VerticalScrollArea, 'sequencerView');
+export default connect(VerticalScrollArea, 'tracksSectionLayout');

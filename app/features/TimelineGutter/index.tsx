@@ -2,19 +2,19 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { connect } from 'utils/connect';
 
-import { SequencerLayout } from 'core/stores/sequencer/layout';
+import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 
 const styles = require('./styles.less');
 
 interface Props {
-  sequencerLayout: SequencerLayout;
+  sequencerPageLayout: SequencerPageLayout;
 }
 
 @observer
 export class TimelineGutter extends React.Component<Props, {}> {
   render() {
-    const { sequencerLayout } = this.props;
-    const { gutterWidth } = sequencerLayout;
+    const { sequencerPageLayout } = this.props;
+    const { gutterWidth } = sequencerPageLayout;
 
     const style = {
       minWidth: gutterWidth,
@@ -24,4 +24,4 @@ export class TimelineGutter extends React.Component<Props, {}> {
   }
 }
 
-export default connect(TimelineGutter, 'sequencerLayout');
+export default connect(TimelineGutter, 'sequencerPageLayout');

@@ -2,24 +2,20 @@ import { action, computed, observable } from 'mobx';
 import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
 
-import { sequencerLayout } from 'core/stores/sequencer/layout';
-import { timelineState } from 'core/stores/sequencer/state/timeline';
+import { sequencerPageLayout } from 'core/layouts/sequencer/page';
+import { timelineState } from 'core/stores/sequencer/timeline';
 import { trackStore } from 'core/stores/tracks';
 
-import { gridView } from './grid';
-import { zoomView } from './zoom';
+import { gridLayout } from './grid';
+import { zoomLayout } from './zoom';
 
 interface ISetTracksScroll {
   x?: number;
   y?: number;
 }
 
-export class TracksView {
-  static mobxLoggerConfig = {
-    methods: {
-      setTracksScroll: false,
-    },
-  };
+export class TracksLayout {
+  static mobxLoggerConfig = getMobxLoggerConfig();
 
   @observable tracksScrollPercentX = 0;
   @observable tracksScrollPercentY = 0;
@@ -38,12 +34,12 @@ export class TracksView {
   // Computed Fields
   @computed
   get trackHeight() {
-    return zoomView.vertical.level * defaults.trackHeight;
+    return zoomLayout.vertical.level * defaults.trackHeight;
   }
 
   @computed
   get trackWidth() {
-    return timelineState.length * gridView.barWidth;
+    return timelineState.length * gridLayout.barWidth;
   }
 
   @computed
@@ -53,17 +49,17 @@ export class TracksView {
 
   @computed
   get tracksScrollableWidth() {
-    return this.trackWidth - sequencerLayout.tracksAreaWidth;
+    return this.trackWidth - sequencerPageLayout.tracksAreaWidth;
   }
 
   @computed
   get tracksScrollableHeight() {
-    return this.tracksHeight - sequencerLayout.tracksAreaHeight;
+    return this.tracksHeight - sequencerPageLayout.tracksAreaHeight;
   }
 
   @computed
   get tracksViewPercentX() {
-    const { tracksAreaWidth } = sequencerLayout;
+    const { tracksAreaWidth } = sequencerPageLayout;
     return tracksAreaWidth / this.trackWidth;
   }
 
@@ -74,7 +70,7 @@ export class TracksView {
 
   @computed
   get tracksViewPercentY() {
-    const { tracksAreaHeight } = sequencerLayout;
+    const { tracksAreaHeight } = sequencerPageLayout;
     return tracksAreaHeight / this.tracksHeight;
   }
 
@@ -84,4 +80,12 @@ export class TracksView {
   }
 }
 
-export const tracksView = new TracksView();
+export const tracksLayout = new TracksLayout();
+
+function getMobxLoggerConfig() {
+  return {
+    methods: {
+      setTracksScroll: false,
+    },
+  };
+}

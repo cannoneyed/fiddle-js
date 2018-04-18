@@ -2,7 +2,7 @@ import { action } from 'mobx';
 
 import { ZoomLevel } from 'core/models/zoom-level';
 
-export class ZoomView {
+export class ZoomLayout {
   horizontal = new ZoomLevel({
     min: 0.15,
   });
@@ -23,4 +23,4 @@ export class ZoomView {
   };
 }
 
-export const zoomView = new ZoomView();
+export const zoomLayout = new ZoomLayout();

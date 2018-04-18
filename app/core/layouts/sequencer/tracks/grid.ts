@@ -3,20 +3,20 @@ import * as defaults from 'defaults/view';
 
 import { Fraction } from 'core/primitives/fraction';
 
-import { timelineState } from 'core/stores/sequencer/state/timeline';
+import { timelineState } from 'core/stores/sequencer/timeline';
 
-import { zoomView } from './zoom';
+import { zoomLayout } from './zoom';
 
 const MIN_DIVISION_WIDTH = 15;
 const MAX_DIVISION_WIDTH = 25;
 
-export class GridView {
+export class GridLayout {
   barsPerGridSegment = 1;
 
   // Computed Fields
   @computed
   get barWidth() {
-    return Math.round(zoomView.horizontal.level * defaults.barWidth);
+    return Math.round(zoomLayout.horizontal.level * defaults.barWidth);
   }
 
   @computed
@@ -66,4 +66,4 @@ export class GridView {
   }
 }
 
-export const gridView = new GridView();
+export const gridLayout = new GridLayout();

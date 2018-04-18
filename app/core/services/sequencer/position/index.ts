@@ -1,16 +1,16 @@
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { gridView } from 'core/stores/sequencer/view/grid';
+import { gridLayout } from 'core/layouts/sequencer/tracks/grid';
 
 export class SequencerPositionService {
   getTimelineVector = (offsetX: number) => {
-    const { barWidth } = gridView;
+    const { barWidth } = gridLayout;
     const nearestBar = Math.floor(offsetX / barWidth);
     return new TimelineVector(nearestBar);
   };
 
   getOffsetX = (position: TimelineVector) => {
-    const { barWidth } = gridView;
+    const { barWidth } = gridLayout;
     const bar = position.bar * barWidth;
     const beats = position.beats.multiplyScalar(barWidth);
 

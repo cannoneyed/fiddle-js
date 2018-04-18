@@ -4,12 +4,12 @@ import { connect } from 'utils/connect';
 
 import { Draggable, Unregister } from 'core/interactions/handlers/draggable';
 
-import { SequencerView } from 'core/stores/sequencer/view';
+import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 import { MinimapContainer, MinimapThumb } from './styled-components';
 
 interface Props {
-  sequencerView: SequencerView;
+  tracksSectionLayout: TracksSectionLayout;
 }
 
 @observer
@@ -31,16 +31,16 @@ export class Minimap extends React.Component<Props, {}> {
   }
 
   handleThumbDrag = (deltaPercentX: number, deltaPercentY: number) => {
-    const { sequencerView } = this.props;
-    const { tracksScrollPercentX } = sequencerView.tracks;
+    const { tracksSectionLayout } = this.props;
+    const { tracksScrollPercentX } = tracksSectionLayout.tracks;
 
     const nextScrollPercentX = tracksScrollPercentX - deltaPercentX;
-    sequencerView.tracks.setTracksScroll({ x: nextScrollPercentX });
+    tracksSectionLayout.tracks.setTracksScroll({ x: nextScrollPercentX });
   };
 
   render() {
-    const { sequencerView } = this.props;
-    const { tracksScrollPercentX, tracksViewPercentX } = sequencerView.tracks;
+    const { tracksSectionLayout } = this.props;
+    const { tracksScrollPercentX, tracksViewPercentX } = tracksSectionLayout.tracks;
 
     // We need to compute the relative left position of the minimap container's since the scrollPercentX
     // is a normalized 0 to 1 value.
@@ -64,4 +64,4 @@ export class Minimap extends React.Component<Props, {}> {
   }
 }
 
-export default connect(Minimap, 'sequencerView');
+export default connect(Minimap, 'tracksSectionLayout');

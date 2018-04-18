@@ -4,7 +4,7 @@ import { connect } from 'utils/connect';
 import { map } from 'lodash';
 
 import { snapToGridValues } from 'core/models/snap-to-grid';
-import { SequencerState } from 'core/stores/sequencer/state';
+import { SequencerState } from 'core/stores/sequencer';
 
 import Select from 'components/Select';
 

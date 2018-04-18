@@ -6,27 +6,27 @@ import { Caret } from 'components/Caret';
 
 import { sequencerPositionService } from 'core/services/sequencer/position';
 
-import { SequencerLayout } from 'core/stores/sequencer/layout';
-import { TimelineView } from 'core/stores/sequencer/view/timeline';
+import { SequencerPageLayout } from 'core/layouts/sequencer/page';
+import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 const styles = require('./styles.less');
 
 interface Props {
-  sequencerLayout: SequencerLayout;
-  timelineView: TimelineView;
+  sequencerPageLayout: SequencerPageLayout;
+  tracksSectionLayout: TracksSectionLayout;
 }
 
 @observer
 export class DragToMarker extends React.Component<Props, {}> {
   render() {
-    const { sequencerLayout, timelineView } = this.props;
-    const { dropTargetPosition } = timelineView;
+    const { sequencerPageLayout, tracksSectionLayout } = this.props;
+    const { dropTargetPosition } = tracksSectionLayout.timeline;
 
     if (!dropTargetPosition) {
       return null;
     }
 
-    const timelineHeight = sequencerLayout.timelineHeight;
+    const timelineHeight = sequencerPageLayout.timelineHeight;
     const offsetX = sequencerPositionService.getOffsetX(dropTargetPosition);
 
     const caretSize = 10;
@@ -44,4 +44,4 @@ export class DragToMarker extends React.Component<Props, {}> {
   }
 }
 
-export default connect(DragToMarker, 'sequencerLayout', 'timelineView');
+export default connect(DragToMarker, 'sequencerPageLayout', 'tracksSectionLayout');

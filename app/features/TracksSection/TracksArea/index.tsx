@@ -8,26 +8,31 @@ import VerticalGrid from 'features/TracksSection/VerticalGrid';
 
 import { ClipDragInteraction } from 'core/interactions/clip/drag';
 import { TrackStore } from 'core/stores/tracks';
-import { SequencerLayout } from 'core/stores/sequencer/layout';
-import { SequencerView } from 'core/stores/sequencer/view';
+import { SequencerPageLayout } from 'core/layouts/sequencer/page';
+import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 import { TracksAreaContainer, GridContainer, TracksContainer } from './styled-components';
 
 interface Props {
   clipDragInteraction: ClipDragInteraction;
   trackStore: TrackStore;
-  sequencerLayout: SequencerLayout;
-  sequencerView: SequencerView;
+  sequencerPageLayout: SequencerPageLayout;
+  tracksSectionLayout: TracksSectionLayout;
 }
 
 @observer
 export class TracksArea extends React.Component<Props, {}> {
   render() {
-    const { clipDragInteraction, sequencerLayout, sequencerView, trackStore } = this.props;
+    const {
+      clipDragInteraction,
+      sequencerPageLayout,
+      tracksSectionLayout,
+      trackStore,
+    } = this.props;
     const { trackList } = trackStore;
-    const { tracksAreaHeight } = sequencerLayout;
-    const { trackHeight } = sequencerView.tracks;
-    const { gridCount, gridSegmentWidth } = sequencerView.grid;
+    const { tracksAreaHeight } = sequencerPageLayout;
+    const { trackHeight } = tracksSectionLayout.tracks;
+    const { gridCount, gridSegmentWidth } = tracksSectionLayout.grid;
 
     const gridHeight = Math.max(trackList.length * trackHeight, tracksAreaHeight);
     const { isDragging } = clipDragInteraction;
@@ -50,6 +55,6 @@ export default connect(
   TracksArea,
   'clipDragInteraction',
   'trackStore',
-  'sequencerLayout',
-  'sequencerView'
+  'sequencerPageLayout',
+  'tracksSectionLayout'
 );

@@ -16,7 +16,7 @@ import TracksArea from 'features/TracksSection/TracksArea';
 
 import VerticalScrollbar from 'features/TracksSection/VerticalScrollbar';
 
-import { SequencerLayout } from 'core/stores/sequencer/layout';
+import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 
 import {
   EditSectionWrapper,
@@ -30,7 +30,7 @@ import {
 } from './styled-components';
 
 interface ComponentProps {
-  sequencerLayout: SequencerLayout;
+  sequencerPageLayout: SequencerPageLayout;
 }
 
 @observer
@@ -49,42 +49,42 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
   }
 
   handleTracksSectionDividerDrag = (deltaY: number) => {
-    const { sequencerLayout } = this.props;
-    sequencerLayout.deltaTracksAreaHeight(deltaY);
+    const { sequencerPageLayout } = this.props;
+    sequencerPageLayout.deltaTracksAreaHeight(deltaY);
   };
 
   render() {
-    const { sequencerLayout } = this.props;
+    const { sequencerPageLayout } = this.props;
 
     const toolbarWrapperStyle = {
-      height: sequencerLayout.toolbarHeight,
+      height: sequencerPageLayout.toolbarHeight,
     };
 
     const minimapWrapperStyle = {
-      height: sequencerLayout.minimapHeight,
+      height: sequencerPageLayout.minimapHeight,
     };
 
     const tracksSectionStyle = {
-      height: sequencerLayout.tracksSectionHeight,
+      height: sequencerPageLayout.tracksSectionHeight,
     };
 
     const timelineWrapperStyle = {
-      height: sequencerLayout.timelineHeight,
-      width: sequencerLayout.tracksSectionWidth,
+      height: sequencerPageLayout.timelineHeight,
+      width: sequencerPageLayout.tracksSectionWidth,
     };
 
     const tracksAreaWrapperStyle = {
-      height: sequencerLayout.tracksAreaHeight,
-      width: sequencerLayout.tracksSectionWidth,
+      height: sequencerPageLayout.tracksAreaHeight,
+      width: sequencerPageLayout.tracksSectionWidth,
     };
 
     const verticalScrollbarWrapperStyle = {
-      height: sequencerLayout.tracksSectionHeight,
-      width: sequencerLayout.tracksVerticalScrollbarWidth,
+      height: sequencerPageLayout.tracksSectionHeight,
+      width: sequencerPageLayout.tracksVerticalScrollbarWidth,
     };
 
     const editSectionWrapperStyle = {
-      height: sequencerLayout.editSectionHeight,
+      height: sequencerPageLayout.editSectionHeight,
     };
 
     return (
@@ -117,4 +117,4 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
   }
 }
 
-export default connect(SequencerPage, 'sequencerLayout');
+export default connect(SequencerPage, 'sequencerPageLayout');

@@ -1,7 +1,7 @@
 import { map } from 'lodash';
 
 import { sequencerDOM } from 'core/dom/sequencer';
-import { sequencerView } from 'core/stores/sequencer/view';
+import { tracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 export type Unregister = () => void;
 export type EventHandler = (event: WheelEvent) => void;
@@ -37,7 +37,7 @@ export const register = (): Unregister => {
 
         // Set the scroll amount in the mobx sequencer view store (for reactive elements) as well as imperatively
         // scrolling the scroll areas
-        sequencerView.tracks.setTracksScroll({ x: ratioX, y: ratioY });
+        tracksSectionLayout.tracks.setTracksScroll({ x: ratioX, y: ratioY });
       };
 
       element.addEventListener('mousewheel', syn, { passive: true });

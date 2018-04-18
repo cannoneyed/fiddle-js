@@ -7,7 +7,7 @@ import TrackContextMenu from 'features/TrackContextMenu';
 import { Clip } from 'features/Clip';
 
 import { Track as TrackModel } from 'core/models/track';
-import { SequencerView } from 'core/stores/sequencer/view';
+import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 import { TrackMouseInteraction } from 'core/interactions/tracks/mouse';
 
 const styles = require('./styles.less');
@@ -15,7 +15,7 @@ const styles = require('./styles.less');
 interface Props {
   track: TrackModel;
   index: number;
-  sequencerView: SequencerView;
+  tracksSectionLayout: TracksSectionLayout;
   trackMouseInteraction: TrackMouseInteraction;
 }
 
@@ -45,8 +45,8 @@ export class Track extends React.Component<Props, State> {
   };
 
   render() {
-    const { track, sequencerView } = this.props;
-    const { trackHeight, trackWidth } = sequencerView.tracks;
+    const { track, tracksSectionLayout } = this.props;
+    const { trackHeight, trackWidth } = tracksSectionLayout.tracks;
 
     const trackStyle = {
       height: trackHeight,
@@ -66,4 +66,4 @@ export class Track extends React.Component<Props, State> {
   }
 }
 
-export default connect(Track, 'sequencerView', 'trackMouseInteraction');
+export default connect(Track, 'tracksSectionLayout', 'trackMouseInteraction');

@@ -5,19 +5,19 @@ import { connect } from 'utils/connect';
 
 import DragToMarker from './DragToMarker';
 
-import { GridView } from 'core/stores/sequencer/view/grid';
+import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 const styles = require('./styles.less');
 
 interface Props {
-  gridView: GridView;
+  tracksSectionLayout: TracksSectionLayout;
 }
 
 @observer
 export class Timeline extends React.Component<Props, {}> {
   renderTimelineSegments() {
-    const { gridView } = this.props;
-    const { division, divisionWidth, nDivisions } = gridView;
+    const { tracksSectionLayout } = this.props;
+    const { division, divisionWidth, nDivisions } = tracksSectionLayout.grid;
 
     return range(nDivisions).map(n => {
       const { numerator, denominator } = division.multiply(n, 1).reduce();
@@ -61,4 +61,4 @@ export class Timeline extends React.Component<Props, {}> {
   }
 }
 
-export default connect(Timeline, 'gridView');
+export default connect(Timeline, 'tracksSectionLayout');

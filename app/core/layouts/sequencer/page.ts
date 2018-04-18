@@ -3,12 +3,8 @@ import { observable, action } from 'mobx';
 import { computed } from 'mobx';
 import { windowStore } from 'core/stores/window';
 
-export class SequencerLayout {
-  static mobxLoggerConfig = {
-    methods: {
-      deltaTracksAreaHeight: false,
-    },
-  };
+export class SequencerPageLayout {
+  static mobxLoggerConfig = getMobxLoggerConfig();
 
   @observable minimapHeight = 30;
   @observable gutterWidth = 100;
@@ -52,4 +48,12 @@ export class SequencerLayout {
   }
 }
 
-export const sequencerLayout = new SequencerLayout();
+export const sequencerPageLayout = new SequencerPageLayout();
+
+function getMobxLoggerConfig() {
+  return {
+    methods: {
+      deltaTracksAreaHeight: false,
+    },
+  };
+}

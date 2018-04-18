@@ -1,10 +1,10 @@
-import { tracksView } from 'core/stores/sequencer/view/tracks';
-import { sequencerLayout } from 'core/stores/sequencer/layout';
+import { tracksLayout } from 'core/layouts/sequencer/tracks/tracks';
+import { sequencerPageLayout } from 'core/layouts/sequencer/page';
 
 export class TracksPositionService {
   getOffsetXFromScreenX = (screenX: number) => {
-    const leftEdge = sequencerLayout.tracksAreaLeft;
-    const scrolledX = tracksView.tracksScrolledX;
+    const leftEdge = sequencerPageLayout.tracksAreaLeft;
+    const scrolledX = tracksLayout.tracksScrolledX;
 
     const offsetX = screenX - leftEdge + scrolledX;
     return offsetX;

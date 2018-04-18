@@ -6,20 +6,20 @@ import { Button } from '@blueprintjs/core';
 import SelectSnapToGrid from 'components/SelectSnapToGrid';
 
 import { TrackStore } from 'core/stores/tracks';
-import { SequencerView } from 'core/stores/sequencer/view';
+import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 const styles = require('./styles.less');
 
 interface Props {
-  sequencerView: SequencerView;
+  tracksSectionLayout: TracksSectionLayout;
   trackStore: TrackStore;
 }
 
 @observer
 export class Toolbar extends React.Component<Props, {}> {
   render() {
-    const { trackStore, sequencerView } = this.props;
-    const { zoomInHorizontal, zoomOutHorizontal } = sequencerView.zoom;
+    const { trackStore, tracksSectionLayout } = this.props;
+    const { zoomInHorizontal, zoomOutHorizontal } = tracksSectionLayout.zoom;
     const { createTrack } = trackStore;
 
     return (
@@ -35,4 +35,4 @@ export class Toolbar extends React.Component<Props, {}> {
   }
 }
 
-export default connect(Toolbar, 'trackStore', 'sequencerView');
+export default connect(Toolbar, 'trackStore', 'tracksSectionLayout');

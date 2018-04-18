@@ -1,7 +1,7 @@
 import { Fraction } from 'core/primitives/fraction';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { gridView } from 'core/stores/sequencer/view/grid';
+import { gridLayout } from 'core/layouts/sequencer/tracks/grid';
 
 export enum DivisionType {
   primary,
@@ -12,7 +12,7 @@ export enum DivisionType {
 
 export class GridService {
   getNearestSnapPosition = (offsetX: number) => {
-    const { divisionWidth, division } = gridView;
+    const { divisionWidth, division } = gridLayout;
 
     const prevDivision = Math.floor(offsetX / divisionWidth);
     const nextDivision = prevDivision + 1;

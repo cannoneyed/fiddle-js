@@ -1,11 +1,13 @@
-import { sequencerLayout } from './layout';
-import { sequencerState } from './state';
-import { sequencerView } from './view';
+import { observable } from 'mobx';
 
-class SequencerStore {
-  layout = sequencerLayout;
-  state = sequencerState;
-  view = sequencerView;
+import { SnapToGrid } from 'core/models/snap-to-grid';
+import { TimeSignature } from 'core/primitives/time-signature';
+
+export class SequencerState {
+  @observable tempo = 120;
+
+  @observable timeSignature = new TimeSignature();
+  @observable snapToGrid = new SnapToGrid();
 }
 
-export const sequencerStore = new SequencerStore();
+export const sequencerState = new SequencerState();
