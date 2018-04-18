@@ -18,7 +18,7 @@ interface WidthProps {
 
 type SizeProps = HeightProps & WidthProps;
 
-export const EditAreaWrapper = styled<HeightProps, 'div'>('div')`
+export const EditSectionWrapper = styled<HeightProps, 'div'>('div')`
   height: ${props => props.height}px;
   width: 100%;
   display: flex;
@@ -49,7 +49,7 @@ export const TracksAreaWrapper = styled<SizeProps, 'div'>('div')`
   flex-direction: row;
 `;
 
-export const WorkspaceWrapper = styled<HeightProps, 'div'>('div')`
+export const TracksSectionWrapper = styled<HeightProps, 'div'>('div')`
   height: ${props => props.height}px;
   width: 100%;
   position: relative;

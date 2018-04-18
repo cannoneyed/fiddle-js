@@ -13,18 +13,18 @@ export class SequencerLayout {
   @observable tracksVerticalScrollbarWidth = 14;
 
   @computed
-  get workspaceAreaHeight() {
+  get tracksSectionHeight() {
     return this.timelineHeight + this.tracksAreaHeight;
   }
 
   @computed
-  get workspaceAreaWidth() {
+  get tracksSectionWidth() {
     const { tracksVerticalScrollbarWidth } = this;
     return windowStore.width - tracksVerticalScrollbarWidth;
   }
 
   @computed
-  get editAreaHeight() {
+  get editSectionHeight() {
     const { tracksAreaHeight, timelineHeight, minimapHeight, toolbarHeight } = this;
     const sum = tracksAreaHeight + timelineHeight + minimapHeight + toolbarHeight;
     return windowStore.height - sum;

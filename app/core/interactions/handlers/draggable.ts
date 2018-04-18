@@ -1,11 +1,30 @@
 export type Unregister = () => void;
 export type EventHandler = (event: MouseEvent) => void;
 
-export type DragCallback = (deltaPercentX: number, deltaPercentY: number) => void;
+export type DragCallback = (deltaX: number, deltaY: number) => void;
 export type StartCallback = () => void;
 export type EndCallback = () => void;
 
+export const enum DragMode {
+  absolute = 'absolute',
+  percent = 'percent',
+}
+
+export interface Options {
+  mode: DragMode;
+}
+
+const defaultOptions = {
+  mode: DragMode.percent,
+};
+
 export class Draggable {
+  mode: DragMode;
+
+  constructor(options: Options = defaultOptions) {
+    this.mode = options.mode;
+  }
+
   dragCallback: DragCallback = () => {};
   startCallback: StartCallback = () => {};
   endCallback: EndCallback = () => {};
@@ -25,19 +44,19 @@ export class Draggable {
   register = (thumb: HTMLElement, container: HTMLElement): Unregister => {
     let mouseDown: EventHandler;
 
-    if (thumb && container) {
-      mouseDown = (mouseDown: MouseEvent) => {
-        this.startCallback();
-        let lastX = mouseDown.pageX;
-        let lastY = mouseDown.pageY;
+    mouseDown = (mouseDown: MouseEvent) => {
+      this.startCallback();
+      let lastX = mouseDown.pageX;
+      let lastY = mouseDown.pageY;
 
-        const mouseMove = (mouseMove: MouseEvent): void => {
-          if (!thumb || !container) {
-            return;
-          }
-          const deltaX = mouseMove.pageX - lastX;
-          const deltaY = mouseMove.pageY - lastY;
+      const mouseMove = (mouseMove: MouseEvent): void => {
+        if (!thumb || !container) {
+          return;
+        }
+        const deltaX = mouseMove.pageX - lastX;
+        const deltaY = mouseMove.pageY - lastY;
 
+        if (this.mode === DragMode.percent) {
           const containerWidth = container.clientWidth;
           const containerHeight = container.clientHeight;
           const thumbWidth = thumb.clientWidth;
@@ -48,33 +67,35 @@ export class Draggable {
           const deltaPercentY = deltaY / scrollableHeight;
 
           this.dragCallback(deltaPercentX, deltaPercentY);
+        } else if (this.mode === DragMode.absolute) {
+          this.dragCallback(deltaX, deltaY);
+        }
 
-          lastX = mouseMove.pageX;
-          lastY = mouseMove.pageY;
-        };
-
-        const mouseUp = (mouseUp: MouseEvent): void => {
-          this.endCallback();
-          removeEventHandlers();
-        };
-
-        const removeEventHandlers = () => {
-          window.removeEventListener('mouseup', mouseUp);
-          window.removeEventListener('mousemove', mouseMove);
-        };
-
-        const addEventHandlers = () => {
-          window.addEventListener('mouseup', mouseUp);
-          window.addEventListener('mousemove', mouseMove);
-        };
-
-        mouseDown.stopPropagation();
-        mouseDown.preventDefault();
-        addEventHandlers();
+        lastX = mouseMove.pageX;
+        lastY = mouseMove.pageY;
       };
 
-      thumb.addEventListener('mousedown', mouseDown);
-    }
+      const mouseUp = (mouseUp: MouseEvent): void => {
+        this.endCallback();
+        removeEventHandlers();
+      };
+
+      const removeEventHandlers = () => {
+        window.removeEventListener('mouseup', mouseUp);
+        window.removeEventListener('mousemove', mouseMove);
+      };
+
+      const addEventHandlers = () => {
+        window.addEventListener('mouseup', mouseUp);
+        window.addEventListener('mousemove', mouseMove);
+      };
+
+      mouseDown.stopPropagation();
+      mouseDown.preventDefault();
+      addEventHandlers();
+    };
+
+    thumb.addEventListener('mousedown', mouseDown);
 
     return function unregisterHandlers(): void {
       if (thumb && container) {

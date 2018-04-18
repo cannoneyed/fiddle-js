@@ -5,8 +5,9 @@ import { connect } from 'utils/connect';
 import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
 import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
-import EditArea from 'features/EditArea';
+import EditArea from 'features/EditSection/EditArea';
 import Minimap from 'features/Minimap';
+import SectionDivider from 'features/SectionDivider';
 import Timeline from 'features/Timeline';
 import TimelineGutter from 'features/TimelineGutter';
 import Toolbar from 'features/Toolbar';
@@ -18,13 +19,13 @@ import VerticalScrollbar from 'features/TracksSection/VerticalScrollbar';
 import { SequencerLayout } from 'core/stores/sequencer/layout';
 
 import {
-  EditAreaWrapper,
+  EditSectionWrapper,
   PageWrapper,
   MinimapWrapper,
   TimelineWrapper,
   ToolbarWrapper,
   TracksAreaWrapper,
-  WorkspaceWrapper,
+  TracksSectionWrapper,
   VerticalScrollbarWrapper,
 } from './styled-components';
 
@@ -50,13 +51,13 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
   render() {
     const { sequencerLayout } = this.props;
     const {
-      editAreaHeight,
+      editSectionHeight,
       minimapHeight,
       timelineHeight,
       toolbarHeight,
       tracksAreaHeight,
-      workspaceAreaHeight,
-      workspaceAreaWidth,
+      tracksSectionHeight,
+      tracksSectionWidth,
       tracksVerticalScrollbarWidth,
     } = sequencerLayout;
 
@@ -68,25 +69,26 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
         <MinimapWrapper height={minimapHeight}>
           <Minimap />
         </MinimapWrapper>
-        <WorkspaceWrapper height={workspaceAreaHeight}>
-          <TimelineWrapper height={timelineHeight} width={workspaceAreaWidth}>
+        <TracksSectionWrapper height={tracksSectionHeight}>
+          <TimelineWrapper height={timelineHeight} width={tracksSectionWidth}>
             <TimelineGutter />
             <Timeline />
           </TimelineWrapper>
-          <TracksAreaWrapper height={tracksAreaHeight} width={workspaceAreaWidth}>
+          <TracksAreaWrapper height={tracksAreaHeight} width={tracksSectionWidth}>
             <TracksGutter />
             <TracksArea />
           </TracksAreaWrapper>
           <VerticalScrollbarWrapper
-            height={workspaceAreaHeight}
+            height={tracksSectionHeight}
             width={tracksVerticalScrollbarWidth}
           >
             <VerticalScrollbar />
           </VerticalScrollbarWrapper>
-        </WorkspaceWrapper>
-        <EditAreaWrapper height={editAreaHeight}>
+        </TracksSectionWrapper>
+        <SectionDivider handleDrag={(deltaY: number) => {}} />
+        <EditSectionWrapper height={editSectionHeight}>
           <EditArea />
-        </EditAreaWrapper>
+        </EditSectionWrapper>
       </PageWrapper>
     );
   }
