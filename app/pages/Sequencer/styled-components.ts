@@ -8,56 +8,36 @@ export const PageWrapper = styled.div`
   background-image: linear-gradient(45deg, rgba(0, 216, 255, 0.5) 10%, rgba(0, 1, 127, 0.7));
 `;
 
-interface HeightProps {
-  height: number;
-}
-
-interface WidthProps {
-  width: number;
-}
-
-type SizeProps = HeightProps & WidthProps;
-
-export const EditSectionWrapper = styled<HeightProps, 'div'>('div')`
-  height: ${props => props.height}px;
+export const EditSectionWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
 `;
 
-export const MinimapWrapper = styled<HeightProps, 'div'>('div')`
-  height: ${props => props.height}px;
+export const MinimapWrapper = styled.div`
   width: 100%;
 `;
 
-export const TimelineWrapper = styled<SizeProps, 'div'>('div')`
-  height: ${props => props.height}px;
-  width: ${props => props.width}px;
+export const TimelineWrapper = styled.div`
   display: flex;
   flex-direction: row;
 `;
 
-export const ToolbarWrapper = styled<HeightProps, 'div'>('div')`
-  height: ${props => props.height}px;
+export const ToolbarWrapper = styled.div`
   width: 100%;
 `;
 
-export const TracksAreaWrapper = styled<SizeProps, 'div'>('div')`
-  height: ${props => props.height}px;
-  width: ${props => props.width}px;
+export const TracksAreaWrapper = styled.div`
   display: flex;
   flex-direction: row;
 `;
 
-export const TracksSectionWrapper = styled<HeightProps, 'div'>('div')`
-  height: ${props => props.height}px;
+export const TracksSectionWrapper = styled.div`
   width: 100%;
   position: relative;
 `;
 
-export const VerticalScrollbarWrapper = styled<SizeProps, 'div'>('div')`
-  height: ${props => props.height}px;
-  width: ${props => props.width}px;
+export const VerticalScrollbarWrapper = styled.div`
   position: absolute;
   top: 0;
   right: 0;

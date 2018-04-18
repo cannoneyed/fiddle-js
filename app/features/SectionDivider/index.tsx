@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Draggable, DragMode, Unregister } from 'core/interactions/handlers/draggable';
 
 interface Props {
-  handleDrag: (deltaY: number) => void;
+  onDrag: (deltaY: number) => void;
 }
 
 export class SectionDivider extends React.Component<Props, {}> {
@@ -15,7 +15,7 @@ export class SectionDivider extends React.Component<Props, {}> {
 
   componentDidMount() {
     const { draggable } = this;
-    draggable.onDrag(this.handleDrag);
+    draggable.onDrag(this.onDrag);
     this.unregisterDragHandler = this.draggable.register(this.dividerRef!, this.dividerRef!);
   }
 
@@ -23,8 +23,8 @@ export class SectionDivider extends React.Component<Props, {}> {
     this.unregisterDragHandler();
   }
 
-  handleDrag = (deltaX: number, deltaY: number) => {
-    this.props.handleDrag(deltaY);
+  onDrag = (deltaX: number, deltaY: number) => {
+    this.props.onDrag(deltaY);
   };
 
   render() {

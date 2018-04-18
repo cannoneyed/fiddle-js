@@ -48,45 +48,68 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
     this.disposeObserver();
   }
 
+  handleTracksSectionDividerDrag = (deltaY: number) => {
+    const { sequencerLayout } = this.props;
+    sequencerLayout.deltaTracksAreaHeight(deltaY);
+  };
+
   render() {
     const { sequencerLayout } = this.props;
-    const {
-      editSectionHeight,
-      minimapHeight,
-      timelineHeight,
-      toolbarHeight,
-      tracksAreaHeight,
-      tracksSectionHeight,
-      tracksSectionWidth,
-      tracksVerticalScrollbarWidth,
-    } = sequencerLayout;
+
+    const toolbarWrapperStyle = {
+      height: sequencerLayout.toolbarHeight,
+    };
+
+    const minimapWrapperStyle = {
+      height: sequencerLayout.minimapHeight,
+    };
+
+    const tracksSectionStyle = {
+      height: sequencerLayout.tracksSectionHeight,
+    };
+
+    const timelineWrapperStyle = {
+      height: sequencerLayout.timelineHeight,
+      width: sequencerLayout.tracksSectionWidth,
+    };
+
+    const tracksAreaWrapperStyle = {
+      height: sequencerLayout.tracksAreaHeight,
+      width: sequencerLayout.tracksSectionWidth,
+    };
+
+    const verticalScrollbarWrapperStyle = {
+      height: sequencerLayout.tracksSectionHeight,
+      width: sequencerLayout.tracksVerticalScrollbarWidth,
+    };
+
+    const editSectionWrapperStyle = {
+      height: sequencerLayout.editSectionHeight,
+    };
 
     return (
       <PageWrapper id="sequencerPage">
-        <ToolbarWrapper height={toolbarHeight}>
+        <ToolbarWrapper style={toolbarWrapperStyle}>
           <Toolbar />
         </ToolbarWrapper>
-        <MinimapWrapper height={minimapHeight}>
+        <MinimapWrapper style={minimapWrapperStyle}>
           <Minimap />
         </MinimapWrapper>
-        <TracksSectionWrapper height={tracksSectionHeight}>
-          <TimelineWrapper height={timelineHeight} width={tracksSectionWidth}>
+        <TracksSectionWrapper style={tracksSectionStyle}>
+          <TimelineWrapper style={timelineWrapperStyle}>
             <TimelineGutter />
             <Timeline />
           </TimelineWrapper>
-          <TracksAreaWrapper height={tracksAreaHeight} width={tracksSectionWidth}>
+          <TracksAreaWrapper style={tracksAreaWrapperStyle}>
             <TracksGutter />
             <TracksArea />
           </TracksAreaWrapper>
-          <VerticalScrollbarWrapper
-            height={tracksSectionHeight}
-            width={tracksVerticalScrollbarWidth}
-          >
+          <VerticalScrollbarWrapper style={verticalScrollbarWrapperStyle}>
             <VerticalScrollbar />
           </VerticalScrollbarWrapper>
         </TracksSectionWrapper>
-        <SectionDivider handleDrag={(deltaY: number) => {}} />
-        <EditSectionWrapper height={editSectionHeight}>
+        <SectionDivider onDrag={this.handleTracksSectionDividerDrag} />
+        <EditSectionWrapper style={editSectionWrapperStyle}>
           <EditArea />
         </EditSectionWrapper>
       </PageWrapper>

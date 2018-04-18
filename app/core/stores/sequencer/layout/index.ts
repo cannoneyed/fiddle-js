@@ -1,9 +1,15 @@
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 
 import { computed } from 'mobx';
 import { windowStore } from 'core/stores/window';
 
 export class SequencerLayout {
+  static mobxLoggerConfig = {
+    methods: {
+      deltaTracksAreaHeight: false,
+    },
+  };
+
   @observable minimapHeight = 60;
   @observable gutterWidth = 200;
   @observable timelineHeight = 30;
@@ -38,6 +44,11 @@ export class SequencerLayout {
   @computed
   get tracksAreaLeft() {
     return this.gutterWidth;
+  }
+
+  @action
+  deltaTracksAreaHeight(deltaHeight: number) {
+    this.tracksAreaHeight += deltaHeight;
   }
 }
 
