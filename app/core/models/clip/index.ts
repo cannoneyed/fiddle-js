@@ -7,7 +7,7 @@ import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 import { trackStore } from 'core/stores/tracks';
 
-export interface IClipConstructorParams {
+export interface ClipParams {
   trackId: string;
   position: TimelineVector;
 }
@@ -22,7 +22,7 @@ export class Clip {
 
   @observable isSelected = false;
 
-  constructor(params: IClipConstructorParams) {
+  constructor(params: ClipParams) {
     const { trackId, position } = params;
     this.id = generateId();
     this.domId = `clip_${this.id}`;

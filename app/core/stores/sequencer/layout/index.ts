@@ -10,11 +10,11 @@ export class SequencerLayout {
     },
   };
 
-  @observable minimapHeight = 60;
-  @observable gutterWidth = 200;
+  @observable minimapHeight = 30;
+  @observable gutterWidth = 100;
   @observable timelineHeight = 30;
   @observable toolbarHeight = 40;
-  @observable tracksAreaHeight = 500;
+  @observable tracksAreaHeight = 400;
 
   @observable tracksVerticalScrollbarWidth = 14;
 

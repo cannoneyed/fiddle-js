@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
 
-import { Clip, IClipConstructorParams } from 'core/models/clip';
+import { Clip, ClipParams } from 'core/models/clip';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { clipSelect } from 'core/interactions/clip/select';
@@ -17,26 +17,26 @@ export class ClipStore {
   }
 
   // Actions
-  @action.bound
-  createClip = (params: IClipConstructorParams) => {
+  @action
+  createClip = (params: ClipParams) => {
     const { trackId, position } = params;
     const clip = new Clip({ trackId, position });
     this.clips.set(clip.id, clip);
   };
 
-  @action.bound
+  @action
   deleteClip = (clipId: string) => {
     this.clips.delete(clipId);
   };
 
-  @action.bound
+  @action
   deleteSelectedClips = () => {
     clipSelect.selectedClips.forEach((clip: Clip) => {
       this.clips.delete(clip.id);
     });
   };
 
-  @action.bound
+  @action
   deleteClipsByTrackId = (trackId: string) => {
     this.clips.forEach((clip: Clip, clipId) => {
       if (clip.trackId === trackId) {
