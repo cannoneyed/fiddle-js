@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
-import { connect } from 'utils/connect';
+// import { connect } from 'utils/connect';
+import { provide } from 'utils/provide';
 import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
 import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
@@ -117,4 +118,8 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
   }
 }
 
-export default connect(SequencerPage, 'sequencerPageLayout');
+// export default connect(SequencerPage, 'sequencerPageLayout');
+
+export default provide(SequencerPage, {
+  sequencerPageLayout: SequencerPageLayout,
+});

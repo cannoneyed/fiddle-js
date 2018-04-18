@@ -1,9 +1,11 @@
+import 'reflect-metadata';
 import React from 'react';
 import { render } from 'react-dom';
 import { configure } from 'mobx';
 import { configureDevtool } from 'mobx-react-devtools';
 import { logFilter } from 'utils/mobx-log-filter';
 import { logStores } from 'utils/log-stores';
+import 'utils/provide';
 
 import Root from './pages/Root';
 
