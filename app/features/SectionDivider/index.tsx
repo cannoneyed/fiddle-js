@@ -36,7 +36,7 @@ export default SectionDivider;
 
 const Divider = styled.div`
   width: 100%;
-  height: 10px;
+  height: 3px;
   background-color: black;
   cursor: row-resize;
 `;
