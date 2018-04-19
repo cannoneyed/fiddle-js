@@ -7,8 +7,8 @@ import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 import { timelineState } from 'core/stores/sequencer/timeline';
 import { trackStore } from 'core/stores/tracks';
 
-import { gridLayout } from './grid';
-import { zoomLayout } from './zoom';
+import { GridLayout } from './grid';
+import { ZoomLayout } from './zoom';
 
 interface ISetTracksScroll {
   x?: number;
@@ -19,7 +19,10 @@ interface ISetTracksScroll {
 export class TracksLayout {
   static mobxLoggerConfig = getMobxLoggerConfig();
 
+  gridLayout = Container.get(GridLayout);
   sequencerPageLayout = Container.get(SequencerPageLayout);
+  zoomLayout = Container.get(ZoomLayout);
+
   @observable tracksScrollPercentX = 0;
   @observable tracksScrollPercentY = 0;
 
@@ -37,12 +40,12 @@ export class TracksLayout {
   // Computed Fields
   @computed
   get trackHeight() {
-    return zoomLayout.vertical.level * defaults.trackHeight;
+    return this.zoomLayout.vertical.level * defaults.trackHeight;
   }
 
   @computed
   get trackWidth() {
-    return timelineState.length * gridLayout.barWidth;
+    return timelineState.length * this.gridLayout.barWidth;
   }
 
   @computed

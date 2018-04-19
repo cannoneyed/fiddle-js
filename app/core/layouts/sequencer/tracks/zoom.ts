@@ -1,7 +1,9 @@
+import { Service } from 'typedi';
 import { action } from 'mobx';
 
 import { ZoomLevel } from 'core/models/zoom-level';
 
+@Service()
 export class ZoomLayout {
   horizontal = new ZoomLevel({
     min: 0.15,
@@ -22,5 +24,3 @@ export class ZoomLayout {
     this.horizontal.zoomOut();
   };
 }
-
-export const zoomLayout = new ZoomLayout();
