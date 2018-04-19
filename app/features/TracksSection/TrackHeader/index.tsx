@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { connect } from 'utils/connect';
+import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
 import { Track } from 'core/models/track';
@@ -10,14 +10,15 @@ const styles = require('./styles.less');
 interface Props {
   index: number;
   track: Track;
-  tracksSectionLayout: TracksSectionLayout;
 }
 
 @observer
-export class TrackHeader extends React.Component<Props, {}> {
+export default class TrackHeader extends React.Component<Props, {}> {
+  tracksSectionLayout = Container.get(TracksSectionLayout);
+
   render() {
-    const { index, track, tracksSectionLayout } = this.props;
-    const { trackHeight } = tracksSectionLayout.tracks;
+    const { index, track } = this.props;
+    const { trackHeight } = this.tracksSectionLayout.tracks;
 
     const headerStyle = {
       height: trackHeight,
@@ -30,5 +31,3 @@ export class TrackHeader extends React.Component<Props, {}> {
     );
   }
 }
-
-export default connect(TrackHeader, 'tracksSectionLayout');

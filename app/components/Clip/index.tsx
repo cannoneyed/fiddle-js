@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { Container } from 'typedi';
 import { observer } from 'mobx-react';
-import { connect } from 'utils/connect';
 
 import { ClipContainer } from './styled-components';
 
@@ -11,14 +11,15 @@ interface Props {
   clip: ClipModel;
   onMouseDown?: (event: React.MouseEvent<HTMLElement>) => any;
   isDragging?: boolean;
-  tracksSectionLayout: TracksSectionLayout;
 }
 
 @observer
-export class Clip extends React.Component<Props, {}> {
+export default class Clip extends React.Component<Props, {}> {
+  tracksSectionLayout = Container.get(TracksSectionLayout);
+
   render() {
-    const { clip, onMouseDown, tracksSectionLayout } = this.props;
-    const { trackHeight } = tracksSectionLayout.tracks;
+    const { clip, onMouseDown } = this.props;
+    const { trackHeight } = this.tracksSectionLayout.tracks;
 
     return (
       <ClipContainer
@@ -31,5 +32,3 @@ export class Clip extends React.Component<Props, {}> {
     );
   }
 }
-
-export default connect(Clip, 'tracksSectionLayout');

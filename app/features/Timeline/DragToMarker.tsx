@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
-import { connect } from 'utils/connect';
 
 import { Caret } from 'components/Caret';
 
@@ -12,16 +11,15 @@ import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 const styles = require('./styles.less');
 
-interface Props {
-  tracksSectionLayout: TracksSectionLayout;
-}
+interface Props {}
 
 @observer
-export class DragToMarker extends React.Component<Props, {}> {
+export default class DragToMarker extends React.Component<Props, {}> {
   sequencerPageLayout = Container.get(SequencerPageLayout);
+  tracksSectionLayout = Container.get(TracksSectionLayout);
 
   render() {
-    const { tracksSectionLayout } = this.props;
+    const { tracksSectionLayout } = this;
     const { dropTargetPosition } = tracksSectionLayout.timeline;
 
     if (!dropTargetPosition) {
@@ -45,5 +43,3 @@ export class DragToMarker extends React.Component<Props, {}> {
     );
   }
 }
-
-export default connect(DragToMarker, 'tracksSectionLayout');

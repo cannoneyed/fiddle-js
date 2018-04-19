@@ -17,15 +17,16 @@ import { TracksAreaContainer, GridContainer, TracksContainer } from './styled-co
 interface Props {
   clipDragInteraction: ClipDragInteraction;
   trackStore: TrackStore;
-  tracksSectionLayout: TracksSectionLayout;
 }
 
 @observer
 export class TracksArea extends React.Component<Props, {}> {
   sequencerPageLayout = Container.get(SequencerPageLayout);
+  tracksSectionLayout = Container.get(TracksSectionLayout);
 
   render() {
-    const { clipDragInteraction, tracksSectionLayout, trackStore } = this.props;
+    const { clipDragInteraction, trackStore } = this.props;
+    const { tracksSectionLayout } = this;
     const { trackList } = trackStore;
     const { tracksAreaHeight } = this.sequencerPageLayout;
     const { trackHeight } = tracksSectionLayout.tracks;
@@ -48,4 +49,4 @@ export class TracksArea extends React.Component<Props, {}> {
   }
 }
 
-export default connect(TracksArea, 'clipDragInteraction', 'trackStore', 'tracksSectionLayout');
+export default connect(TracksArea, 'clipDragInteraction', 'trackStore');

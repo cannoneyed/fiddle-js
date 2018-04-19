@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { connect } from 'utils/connect';
 import { ContextMenu } from '@blueprintjs/core';
@@ -15,7 +16,6 @@ const styles = require('./styles.less');
 interface Props {
   track: TrackModel;
   index: number;
-  tracksSectionLayout: TracksSectionLayout;
   trackMouseInteraction: TrackMouseInteraction;
 }
 
@@ -25,6 +25,8 @@ interface State {
 
 @observer
 export class Track extends React.Component<Props, State> {
+  tracksSectionLayout = Container.get(TracksSectionLayout);
+
   handleClick = (event: React.MouseEvent<HTMLElement>) => {
     const { track, trackMouseInteraction } = this.props;
     trackMouseInteraction.handleTrackClick(track, event);
@@ -45,8 +47,8 @@ export class Track extends React.Component<Props, State> {
   };
 
   render() {
-    const { track, tracksSectionLayout } = this.props;
-    const { trackHeight, trackWidth } = tracksSectionLayout.tracks;
+    const { track } = this.props;
+    const { trackHeight, trackWidth } = this.tracksSectionLayout.tracks;
 
     const trackStyle = {
       height: trackHeight,
@@ -66,4 +68,4 @@ export class Track extends React.Component<Props, State> {
   }
 }
 
-export default connect(Track, 'tracksSectionLayout', 'trackMouseInteraction');
+export default connect(Track, 'trackMouseInteraction');

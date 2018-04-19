@@ -12,5 +12,3 @@ export class TracksSectionLayout {
   tracks = Container.get(TracksLayout);
   zoom = Container.get(ZoomLayout);
 }
-
-export const tracksSectionLayout = Container.get(TracksSectionLayout);

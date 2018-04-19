@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { Container } from 'typedi';
 import { noop, range } from 'lodash';
 import { observer } from 'mobx-react';
-import { connect } from 'utils/connect';
 
 import DragToMarker from './DragToMarker';
 
@@ -9,14 +9,14 @@ import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 const styles = require('./styles.less');
 
-interface Props {
-  tracksSectionLayout: TracksSectionLayout;
-}
+interface Props {}
 
 @observer
-export class Timeline extends React.Component<Props, {}> {
+export default class Timeline extends React.Component<Props, {}> {
+  tracksSectionLayout = Container.get(TracksSectionLayout);
+
   renderTimelineSegments() {
-    const { tracksSectionLayout } = this.props;
+    const { tracksSectionLayout } = this;
     const { division, divisionWidth, nDivisions } = tracksSectionLayout.grid;
 
     return range(nDivisions).map(n => {
@@ -60,5 +60,3 @@ export class Timeline extends React.Component<Props, {}> {
     );
   }
 }
-
-export default connect(Timeline, 'tracksSectionLayout');
