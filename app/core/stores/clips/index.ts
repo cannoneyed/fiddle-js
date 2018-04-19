@@ -1,3 +1,4 @@
+import { Container, Service } from 'typedi';
 import { action, observable } from 'mobx';
 
 import { Clip, ClipParams } from 'core/models/clip';
@@ -5,6 +6,7 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { clipSelect } from 'core/interactions/clip/select';
 
+@Service()
 export class ClipStore {
   // The main store for clips (by id)
   @observable clips = observable.map<string, Clip>({});
@@ -51,4 +53,4 @@ export class ClipStore {
   };
 }
 
-export const clipStore = new ClipStore();
+export const clipStore = Container.get(ClipStore);
