@@ -1,8 +1,9 @@
+import { Container } from 'typedi';
 import { action, computed, observable } from 'mobx';
 import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
 
-import { sequencerPageLayout } from 'core/layouts/sequencer/page';
+import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 import { timelineState } from 'core/stores/sequencer/timeline';
 import { trackStore } from 'core/stores/tracks';
 
@@ -17,6 +18,7 @@ interface ISetTracksScroll {
 export class TracksLayout {
   static mobxLoggerConfig = getMobxLoggerConfig();
 
+  sequencerPageLayout = Container.get(SequencerPageLayout);
   @observable tracksScrollPercentX = 0;
   @observable tracksScrollPercentY = 0;
 
@@ -49,17 +51,17 @@ export class TracksLayout {
 
   @computed
   get tracksScrollableWidth() {
-    return this.trackWidth - sequencerPageLayout.tracksAreaWidth;
+    return this.trackWidth - this.sequencerPageLayout.tracksAreaWidth;
   }
 
   @computed
   get tracksScrollableHeight() {
-    return this.tracksHeight - sequencerPageLayout.tracksAreaHeight;
+    return this.tracksHeight - this.sequencerPageLayout.tracksAreaHeight;
   }
 
   @computed
   get tracksViewPercentX() {
-    const { tracksAreaWidth } = sequencerPageLayout;
+    const { tracksAreaWidth } = this.sequencerPageLayout;
     return tracksAreaWidth / this.trackWidth;
   }
 
@@ -70,7 +72,7 @@ export class TracksLayout {
 
   @computed
   get tracksViewPercentY() {
-    const { tracksAreaHeight } = sequencerPageLayout;
+    const { tracksAreaHeight } = this.sequencerPageLayout;
     return tracksAreaHeight / this.tracksHeight;
   }
 

@@ -1,19 +1,19 @@
 import * as React from 'react';
+import { Container } from 'typedi';
 import { observer } from 'mobx-react';
-import { connect } from 'utils/connect';
 
 import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 
 const styles = require('./styles.less');
 
-interface Props {
-  sequencerPageLayout: SequencerPageLayout;
-}
+interface Props {}
 
 @observer
-export class TimelineGutter extends React.Component<Props, {}> {
+export default class TimelineGutter extends React.Component<Props, {}> {
+  sequencerPageLayout = Container.get(SequencerPageLayout);
+
   render() {
-    const { sequencerPageLayout } = this.props;
+    const { sequencerPageLayout } = this;
     const { gutterWidth } = sequencerPageLayout;
 
     const style = {
@@ -23,5 +23,3 @@ export class TimelineGutter extends React.Component<Props, {}> {
     return <div style={style} className={styles.timelineGutterContainer} />;
   }
 }
-
-export default connect(TimelineGutter, 'sequencerPageLayout');

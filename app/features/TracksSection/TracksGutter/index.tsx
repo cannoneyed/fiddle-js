@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Container } from 'typedi';
 import { connect } from 'utils/connect';
 
 import TrackHeader from 'features/TracksSection/TrackHeader';
@@ -9,15 +10,16 @@ import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 const styles = require('./styles.less');
 
 interface Props {
-  sequencerPageLayout: SequencerPageLayout;
   trackStore: TrackStore;
 }
 
 export class TracksGutter extends React.Component<Props, {}> {
+  sequencerPageLayout = Container.get(SequencerPageLayout);
+
   render() {
-    const { trackStore, sequencerPageLayout } = this.props;
+    const { trackStore } = this.props;
     const { trackList } = trackStore;
-    const { gutterWidth } = sequencerPageLayout;
+    const { gutterWidth } = this.sequencerPageLayout;
 
     const tracksGutterStyle = {
       minWidth: gutterWidth,
@@ -31,4 +33,4 @@ export class TracksGutter extends React.Component<Props, {}> {
   }
 }
 
-export default connect(TracksGutter, 'sequencerPageLayout', 'trackStore');
+export default connect(TracksGutter, 'trackStore');

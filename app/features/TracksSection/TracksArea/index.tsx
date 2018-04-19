@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { connect } from 'utils/connect';
 
@@ -16,21 +17,17 @@ import { TracksAreaContainer, GridContainer, TracksContainer } from './styled-co
 interface Props {
   clipDragInteraction: ClipDragInteraction;
   trackStore: TrackStore;
-  sequencerPageLayout: SequencerPageLayout;
   tracksSectionLayout: TracksSectionLayout;
 }
 
 @observer
 export class TracksArea extends React.Component<Props, {}> {
+  sequencerPageLayout = Container.get(SequencerPageLayout);
+
   render() {
-    const {
-      clipDragInteraction,
-      sequencerPageLayout,
-      tracksSectionLayout,
-      trackStore,
-    } = this.props;
+    const { clipDragInteraction, tracksSectionLayout, trackStore } = this.props;
     const { trackList } = trackStore;
-    const { tracksAreaHeight } = sequencerPageLayout;
+    const { tracksAreaHeight } = this.sequencerPageLayout;
     const { trackHeight } = tracksSectionLayout.tracks;
     const { gridCount, gridSegmentWidth } = tracksSectionLayout.grid;
 
@@ -51,10 +48,4 @@ export class TracksArea extends React.Component<Props, {}> {
   }
 }
 
-export default connect(
-  TracksArea,
-  'clipDragInteraction',
-  'trackStore',
-  'sequencerPageLayout',
-  'tracksSectionLayout'
-);
+export default connect(TracksArea, 'clipDragInteraction', 'trackStore', 'tracksSectionLayout');

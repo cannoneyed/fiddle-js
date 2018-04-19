@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx';
-import { Container, Service } from 'typedi';
+import { Service } from 'typedi';
 
 import { computed } from 'mobx';
 import { windowStore } from 'core/stores/window';
@@ -49,8 +49,6 @@ export class SequencerPageLayout {
     this.tracksAreaHeight += deltaHeight;
   }
 }
-
-export const sequencerPageLayout = Container.get(SequencerPageLayout);
 
 function getMobxLoggerConfig() {
   return {
