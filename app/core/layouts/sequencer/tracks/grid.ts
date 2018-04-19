@@ -1,3 +1,4 @@
+import { Service } from 'typedi';
 import { computed } from 'mobx';
 import * as defaults from 'defaults/view';
 
@@ -10,6 +11,7 @@ import { zoomLayout } from './zoom';
 const MIN_DIVISION_WIDTH = 15;
 const MAX_DIVISION_WIDTH = 25;
 
+@Service()
 export class GridLayout {
   barsPerGridSegment = 1;
 
