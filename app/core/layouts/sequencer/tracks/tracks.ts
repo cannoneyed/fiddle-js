@@ -1,11 +1,11 @@
-import { Container, Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { action, computed, observable } from 'mobx';
 import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
 
 import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 import { timelineState } from 'core/stores/sequencer/timeline';
-import { trackStore } from 'core/stores/tracks';
+import { TrackStore } from 'core/stores/tracks';
 
 import { GridLayout } from './grid';
 import { ZoomLayout } from './zoom';
@@ -19,9 +19,11 @@ interface ISetTracksScroll {
 export class TracksLayout {
   static mobxLoggerConfig = getMobxLoggerConfig();
 
-  gridLayout = Container.get(GridLayout);
-  sequencerPageLayout = Container.get(SequencerPageLayout);
-  zoomLayout = Container.get(ZoomLayout);
+  @Inject(type => TrackStore)
+  trackStore: TrackStore;
+  @Inject() gridLayout: GridLayout;
+  @Inject() sequencerPageLayout: SequencerPageLayout;
+  @Inject() zoomLayout: ZoomLayout;
 
   @observable tracksScrollPercentX = 0;
   @observable tracksScrollPercentY = 0;
@@ -50,7 +52,7 @@ export class TracksLayout {
 
   @computed
   get tracksHeight() {
-    return this.trackHeight * trackStore.trackList.length;
+    return this.trackHeight * this.trackStore.trackList.length;
   }
 
   @computed
