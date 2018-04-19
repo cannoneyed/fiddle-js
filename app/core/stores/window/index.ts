@@ -1,5 +1,7 @@
+import { Service } from 'typedi';
 import { action, observable } from 'mobx';
 
+@Service()
 export class WindowStore {
   @observable width = window.innerWidth;
   @observable height = window.innerHeight;
@@ -14,5 +16,3 @@ export class WindowStore {
     this.height = window.innerHeight;
   };
 }
-
-export const windowStore = new WindowStore();

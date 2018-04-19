@@ -1,13 +1,18 @@
 import { action, computed, observable } from 'mobx';
+import { Inject, Service } from 'typedi';
 
 import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
-import { clipSelect } from 'core/interactions/clip/select';
+import { ClipSelect } from 'core/interactions/clip/select';
 
 export const DRAG_DELAY: number = 200;
 
+@Service()
 export class ClipDragInteraction {
+  @Inject(type => ClipSelect)
+  clipSelect: ClipSelect;
+
   static mobxLoggerConfig = {
     methods: {
       setDelta: false,
@@ -67,7 +72,7 @@ export class ClipDragInteraction {
 
     // Set the relative screen positions of the other selected clips, so that they can be positioned
     // correctly in the DraggedClips container div
-    const { selectedClips } = clipSelect;
+    const { selectedClips } = this.clipSelect;
     selectedClips.forEach(selectedClip => {
       const clipScreenPosition = selectedClip.getScreenVector();
       const relativePosition = clipScreenPosition.subtract(this.handleClipScreenPosition);

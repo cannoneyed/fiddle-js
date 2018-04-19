@@ -1,5 +1,11 @@
-export { clipStore } from './clips';
-export { trackStore } from './tracks';
-export { windowStore } from './window';
+import { Container } from 'typedi';
 
-export { sequencerState } from './sequencer';
+import { ClipStore } from './clips';
+import { TrackStore } from './tracks';
+import { WindowStore } from './window';
+import { SequencerState } from './sequencer';
+
+export const clipStore = Container.get(ClipStore);
+export const trackStore = Container.get(TrackStore);
+export const windowStore = Container.get(WindowStore);
+export const sequencerState = Container.get(SequencerState);

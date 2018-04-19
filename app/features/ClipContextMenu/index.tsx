@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { Container } from 'typedi';
 import { inject, observer } from 'mobx-react';
 import { Menu, MenuItem } from '@blueprintjs/core';
 
-import { clipStore, ClipStore } from 'core/stores/clips';
+import { ClipStore } from 'core/stores/clips';
 import { clipSelect, ClipSelect } from 'core/interactions/clip/select';
 
 interface Props {
@@ -10,30 +11,30 @@ interface Props {
 }
 
 interface Injected extends Props {
-  clipStore: ClipStore;
   clipSelect: ClipSelect;
 }
 
 // Use the old state injection system because the blueprint context menu portal breaks app context
 @inject(() => ({
-  clipStore,
   clipSelect,
 }))
 @observer
 export class ClipContextMenu extends React.Component<Props, {}> {
+  clipStore = Container.get(ClipStore);
+
   get injected() {
     return this.props as Injected;
   }
 
   deleteClip = () => {
     const { clipId } = this.props;
-    const { clipStore } = this.injected;
+    const { clipStore } = this;
     clipStore.deleteClip(clipId);
   };
 
   render() {
-    const { clipStore, clipSelect } = this.injected;
-    const { deleteSelectedClips } = clipStore;
+    const { clipSelect } = this.injected;
+    const { deleteSelectedClips } = this.clipStore;
     const nSelectedClips = clipSelect.selectedClips.length;
     const deleteAction = nSelectedClips > 1 ? deleteSelectedClips : this.deleteClip;
     const deleteText = nSelectedClips > 1 ? 'Delete Clips' : 'Delete Clip';

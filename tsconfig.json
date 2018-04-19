@@ -24,6 +24,6 @@
     "outDir": "dist"
   },
   "files": ["app/index.tsx"],
-  "include": ["app/**/*.ts", "app/**/*.tsx", "node_modules/@types/**/*.d.ts"],
+  "include": ["node_modules/@types/**/*.d.ts"],
   "exclude": ["dist"]
 }

@@ -1,12 +1,16 @@
+import { Container, Service } from 'typedi';
 import { action, computed } from 'mobx';
 
 import { Clip } from 'core/models/Clip';
-import { clipStore } from 'core/stores/clips';
+import { ClipStore } from 'core/stores/clips';
 
+@Service()
 export class ClipSelect {
+  clipStore = Container.get(ClipStore);
+
   @computed
   get selectedClips() {
-    return clipStore.getClips().filter(clip => clip.isSelected);
+    return this.clipStore.getClips().filter(clip => clip.isSelected);
   }
 
   // Selects a single clip, removing previously selected
@@ -36,5 +40,3 @@ export class ClipSelect {
     });
   };
 }
-
-export const clipSelect = new ClipSelect();

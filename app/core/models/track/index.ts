@@ -1,9 +1,12 @@
+import { Container } from 'typedi';
 import { computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 
-import { clipStore } from 'core/stores/clips';
+import { ClipStore } from 'core/stores/clips';
 
 export class Track {
+  clipStore = Container.get(ClipStore);
+
   @observable id: string;
   @observable type = 'osc';
 
@@ -13,6 +16,6 @@ export class Track {
 
   @computed
   get clips() {
-    return clipStore.getClips().filter(clip => clip.trackId === this.id);
+    return this.clipStore.getClips().filter(clip => clip.trackId === this.id);
   }
 }
