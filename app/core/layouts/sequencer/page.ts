@@ -1,8 +1,10 @@
 import { observable, action } from 'mobx';
+import { Container, Service } from 'typedi';
 
 import { computed } from 'mobx';
 import { windowStore } from 'core/stores/window';
 
+@Service()
 export class SequencerPageLayout {
   static mobxLoggerConfig = getMobxLoggerConfig();
 
@@ -48,7 +50,7 @@ export class SequencerPageLayout {
   }
 }
 
-export const sequencerPageLayout = new SequencerPageLayout();
+export const sequencerPageLayout = Container.get(SequencerPageLayout);
 
 function getMobxLoggerConfig() {
   return {

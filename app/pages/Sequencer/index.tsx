@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { Container } from 'typedi';
 import { IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
-import { connect } from 'utils/connect';
 import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
 import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
@@ -29,12 +29,12 @@ import {
   VerticalScrollbarWrapper,
 } from './styled-components';
 
-interface ComponentProps {
-  sequencerPageLayout: SequencerPageLayout;
-}
+interface ComponentProps {}
 
 @observer
-export class SequencerPage extends React.Component<ComponentProps, {}> {
+export default class SequencerPage extends React.Component<ComponentProps, {}> {
+  sequencerPageLayout = Container.get(SequencerPageLayout);
+
   disposeObserver: IReactionDisposer;
   disposeHandlers: trackScrollHandlers.Unregister;
 
@@ -49,12 +49,12 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
   }
 
   handleTracksSectionDividerDrag = (deltaY: number) => {
-    const { sequencerPageLayout } = this.props;
+    const { sequencerPageLayout } = this;
     sequencerPageLayout.deltaTracksAreaHeight(deltaY);
   };
 
   render() {
-    const { sequencerPageLayout } = this.props;
+    const { sequencerPageLayout } = this;
 
     const toolbarWrapperStyle = {
       height: sequencerPageLayout.toolbarHeight,
@@ -116,5 +116,3 @@ export class SequencerPage extends React.Component<ComponentProps, {}> {
     );
   }
 }
-
-export default connect(SequencerPage, 'sequencerPageLayout');
