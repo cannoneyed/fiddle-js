@@ -1,4 +1,4 @@
-import { Container } from 'typedi';
+import { Container, Service } from 'typedi';
 import { action, computed, observable } from 'mobx';
 import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
@@ -15,6 +15,7 @@ interface ISetTracksScroll {
   y?: number;
 }
 
+@Service()
 export class TracksLayout {
   static mobxLoggerConfig = getMobxLoggerConfig();
 
@@ -81,8 +82,6 @@ export class TracksLayout {
     return this.tracksScrollableHeight * this.tracksScrollPercentY;
   }
 }
-
-export const tracksLayout = new TracksLayout();
 
 function getMobxLoggerConfig() {
   return {
