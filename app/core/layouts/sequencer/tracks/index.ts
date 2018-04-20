@@ -1,4 +1,4 @@
-import { Container, Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 
 import { GridLayout } from './grid';
 import { TimelineLayout } from './timeline';
@@ -7,8 +7,8 @@ import { ZoomLayout } from './zoom';
 
 @Service()
 export class TracksSectionLayout {
-  grid = Container.get(GridLayout);
-  timeline = Container.get(TimelineLayout);
-  tracks = Container.get(TracksLayout);
-  zoom = Container.get(ZoomLayout);
+  @Inject(type => GridLayout) grid: GridLayout
+  @Inject(type => TimelineLayout) timeline: TimelineLayout
+  @Inject(type => TracksLayout) tracks: TracksLayout
+  @Inject(type => ZoomLayout) zoom: ZoomLayout
 }

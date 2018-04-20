@@ -5,9 +5,9 @@ import { observer } from 'mobx-react';
 import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
 import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
-// import EditArea from 'features/EditSection/EditArea';
+import EditArea from 'features/EditSection/EditArea';
 import Minimap from 'features/Minimap';
-// import SectionDivider from 'features/SectionDivider';
+import SectionDivider from 'features/SectionDivider';
 import Timeline from 'features/Timeline';
 import TimelineGutter from 'features/TimelineGutter';
 import Toolbar from 'features/Toolbar';
@@ -18,7 +18,7 @@ import VerticalScrollbar from 'features/TracksSection/VerticalScrollbar';
 import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 
 import {
-  // EditSectionWrapper,
+  EditSectionWrapper,
   PageWrapper,
   MinimapWrapper,
   TimelineWrapper,
@@ -28,10 +28,8 @@ import {
   VerticalScrollbarWrapper,
 } from './styled-components';
 
-interface ComponentProps {}
-
 @observer
-export default class SequencerPage extends React.Component<ComponentProps, {}> {
+export default class SequencerPage extends React.Component<{}, {}> {
   sequencerPageLayout = Container.get(SequencerPageLayout);
 
   disposeObserver: IReactionDisposer;
@@ -82,9 +80,9 @@ export default class SequencerPage extends React.Component<ComponentProps, {}> {
       width: sequencerPageLayout.tracksVerticalScrollbarWidth,
     };
 
-    // const editSectionWrapperStyle = {
-    //   height: sequencerPageLayout.editSectionHeight,
-    // };
+    const editSectionWrapperStyle = {
+      height: sequencerPageLayout.editSectionHeight,
+    };
 
     return (
       <PageWrapper id="sequencerPage">
@@ -108,10 +106,10 @@ export default class SequencerPage extends React.Component<ComponentProps, {}> {
             <VerticalScrollbar />
           </VerticalScrollbarWrapper>
         </TracksSectionWrapper>
-        {/* <SectionDivider onDrag={this.handleTracksSectionDividerDrag} /> */}
-        {/* <EditSectionWrapper style={editSectionWrapperStyle}>
+        <SectionDivider onDrag={this.handleTracksSectionDividerDrag} />
+        <EditSectionWrapper style={editSectionWrapperStyle}>
           <EditArea />
-        </EditSectionWrapper> */}
+        </EditSectionWrapper>
       </PageWrapper>
     );
   }

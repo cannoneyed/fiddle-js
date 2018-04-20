@@ -13,7 +13,7 @@ import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 import { TracksAreaContainer, GridContainer, TracksContainer } from './styled-components';
 
-interface Props {}
+interface Props { }
 
 @observer
 export default class TracksArea extends React.Component<Props, {}> {
@@ -30,8 +30,6 @@ export default class TracksArea extends React.Component<Props, {}> {
 
     const gridHeight = Math.max(trackList.length * trackHeight, tracksAreaHeight);
     const { isDragging } = this.clipDragInteraction;
-
-    console.log('🐸', trackList.length, this.clipDragInteraction.isDragging);
 
     return (
       <TracksAreaContainer id="tracksArea">
