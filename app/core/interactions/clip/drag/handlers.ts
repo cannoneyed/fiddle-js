@@ -1,11 +1,15 @@
+import { Container } from 'typedi';
 import { Clip } from 'core/models/clip';
 
-import { clipMoveService } from 'core/services/sequencer/clip-move';
-
-import { clipDragInteraction, DRAG_DELAY } from 'core/interactions/clip/drag';
-import { clipSelect } from 'core/interactions/clip/select';
+import { ClipMoveService } from 'core/services/sequencer/clip-move';
+import { ClipDragInteraction, DRAG_DELAY } from 'core/interactions/clip/drag';
+import { ClipSelect } from 'core/interactions/clip/select';
 
 export const register = (clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) => {
+  const clipDragInteraction = Container.get(ClipDragInteraction);
+  const clipMoveService = Container.get(ClipMoveService);
+  const clipSelect = Container.get(ClipSelect);
+
   const startX = mouseDown.pageX;
   const startY = mouseDown.pageY;
   const begin = Date.now();
@@ -43,14 +47,14 @@ export const register = (clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) =
   };
 
   addEventHandlers();
-};
 
-function endDrag() {
-  const { handleClip, dropTargetPosition } = clipDragInteraction;
-  if (dropTargetPosition) {
-    const { selectedClips } = clipSelect;
-    const deltaTimeline = dropTargetPosition.subtract(handleClip.position);
-    clipMoveService.moveClips(selectedClips, deltaTimeline);
+  function endDrag() {
+    const { handleClip, dropTargetPosition } = clipDragInteraction;
+    if (dropTargetPosition) {
+      const { selectedClips } = clipSelect;
+      const deltaTimeline = dropTargetPosition.subtract(handleClip.position);
+      clipMoveService.moveClips(selectedClips, deltaTimeline);
+    }
+    clipDragInteraction.endDrag();
   }
-  clipDragInteraction.endDrag();
-}
+};

@@ -1,6 +1,9 @@
+import { Service } from 'typedi';
+
 import { Clip } from 'core/models/clip';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
+@Service()
 export class ClipMoveService {
   moveClip(clip: Clip, deltaTimeline: TimelineVector) {
     this.moveClips([clip], deltaTimeline);
@@ -12,5 +15,3 @@ export class ClipMoveService {
     });
   }
 }
-
-export const clipMoveService = new ClipMoveService();

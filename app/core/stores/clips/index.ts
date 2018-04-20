@@ -10,6 +10,7 @@ import { ClipSelect } from 'core/interactions/clip/select';
 export class ClipStore {
   @Inject(type => ClipSelect)
   clipSelect: ClipSelect;
+
   // The main store for clips (by id)
   @observable clips = observable.map<string, Clip>({});
 

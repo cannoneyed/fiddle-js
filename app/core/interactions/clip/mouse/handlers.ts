@@ -1,10 +1,13 @@
+import { Container } from 'typedi';
 import { Clip } from 'core/models/clip';
-import { clipSelect } from 'core/interactions/clip/select';
+import { ClipSelect } from 'core/interactions/clip/select';
 
 import * as clipDragHandlers from 'core/interactions/clip/drag/handlers';
 
 export const handleClipMouseDown = (clip: Clip, event: React.MouseEvent<HTMLElement>) => {
   event.stopPropagation();
+
+  const clipSelect = Container.get(ClipSelect);
 
   // If left-click, do nothing (delegate to context menus)
   if (event.ctrlKey) {

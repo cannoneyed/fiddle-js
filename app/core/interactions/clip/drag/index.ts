@@ -10,15 +10,15 @@ export const DRAG_DELAY: number = 200;
 
 @Service()
 export class ClipDragInteraction {
-  @Inject(type => ClipSelect)
-  clipSelect: ClipSelect;
-
   static mobxLoggerConfig = {
     methods: {
       setDelta: false,
       setStart: false,
     },
   };
+
+  @Inject(type => ClipSelect)
+  clipSelect: ClipSelect;
 
   @observable isDragging: boolean = false;
 
@@ -34,6 +34,11 @@ export class ClipDragInteraction {
 
   @observable dropTargetPosition: TimelineVector | null;
   @observable dropTargetTrack: string | null;
+
+  @action
+  setIsDragging(isDragging: boolean) {
+    this.isDragging = true;
+  }
 
   @computed
   get draggedClipsPosition() {
@@ -61,7 +66,7 @@ export class ClipDragInteraction {
     this.deltaY = y;
   }
 
-  @action
+  @action.bound
   beginDrag(handleClip: Clip) {
     this.isDragging = true;
     this.handleClip = handleClip;
@@ -73,6 +78,7 @@ export class ClipDragInteraction {
     // Set the relative screen positions of the other selected clips, so that they can be positioned
     // correctly in the DraggedClips container div
     const { selectedClips } = this.clipSelect;
+
     selectedClips.forEach(selectedClip => {
       const clipScreenPosition = selectedClip.getScreenVector();
       const relativePosition = clipScreenPosition.subtract(this.handleClipScreenPosition);
@@ -92,5 +98,3 @@ export class ClipDragInteraction {
     this.relativePositions.clear();
   }
 }
-
-export const clipDragInteraction = new ClipDragInteraction();

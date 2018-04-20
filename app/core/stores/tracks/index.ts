@@ -20,7 +20,7 @@ export class TrackStore {
   };
 
   // Actions
-  @action
+  @action.bound
   createTrack = () => {
     const track = new Track();
 

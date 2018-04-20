@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { Container } from 'typedi';
 import { IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
-import { connect } from 'utils/connect';
 
 import { Clip } from 'core/models/clip';
 
@@ -16,13 +16,13 @@ import { sequencerPortalDOM } from 'core/dom/sequencer/portal';
 
 const styles = require('./styles.less');
 
-interface Props {
-  clipDragInteraction: ClipDragInteraction;
-  clipSelect: ClipSelect;
-}
+interface Props {}
 
 @observer
-export class DraggedClips extends React.Component<Props, {}> {
+export default class DraggedClips extends React.Component<Props, {}> {
+  clipDragInteraction = Container.get(ClipDragInteraction);
+  clipSelect = Container.get(ClipSelect);
+
   disposeObserver: IReactionDisposer;
 
   componentDidMount() {
@@ -34,7 +34,7 @@ export class DraggedClips extends React.Component<Props, {}> {
   }
 
   renderDraggedClip = (clip: Clip) => {
-    const { clipDragInteraction } = this.props;
+    const { clipDragInteraction } = this;
     const relativePosition = clipDragInteraction.getRelativePosition(clip);
     const { x, y } = relativePosition;
 
@@ -51,7 +51,7 @@ export class DraggedClips extends React.Component<Props, {}> {
   };
 
   render() {
-    const { clipSelect } = this.props;
+    const { clipSelect } = this;
     const { selectedClips } = clipSelect;
 
     const { draggedClipsRoot } = sequencerPortalDOM;
@@ -68,5 +68,3 @@ export class DraggedClips extends React.Component<Props, {}> {
     );
   }
 }
-
-export default connect(DraggedClips, 'clipDragInteraction', 'clipSelect');

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
-import { connect } from 'utils/connect';
 import { Button } from '@blueprintjs/core';
 
 import SelectSnapToGrid from 'components/SelectSnapToGrid';
@@ -11,18 +10,16 @@ import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 const styles = require('./styles.less');
 
-interface Props {
-  trackStore: TrackStore;
-}
+interface Props {}
 
 @observer
-export class Toolbar extends React.Component<Props, {}> {
+export default class Toolbar extends React.Component<Props, {}> {
   tracksSectionLayout = Container.get(TracksSectionLayout);
+  trackStore = Container.get(TrackStore);
 
   render() {
-    const { trackStore } = this.props;
     const { zoomInHorizontal, zoomOutHorizontal } = this.tracksSectionLayout.zoom;
-    const { createTrack } = trackStore;
+    const { createTrack } = this.trackStore;
 
     return (
       <div className={styles.toolbarContainer}>
@@ -36,5 +33,3 @@ export class Toolbar extends React.Component<Props, {}> {
     );
   }
 }
-
-export default connect(Toolbar, 'trackStore');
