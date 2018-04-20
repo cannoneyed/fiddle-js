@@ -28,14 +28,12 @@ export class Clip extends React.Component<Props, State> {
   state = { isContextMenuOpen: false };
 
   handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
-    const { clip, clipSelect } = this.props;
-
     event.preventDefault();
     event.stopPropagation();
 
-    console.log(event.ctrlKey, event);
+    const { clip, clipSelect } = this.props;
 
-    // If left-click, do nothing (delegate to context menus)
+    // If left-click, do delegate to context menus
     if (event.ctrlKey) {
       return this.showContextMenu(event);
     } else if (clip.isSelected) {
