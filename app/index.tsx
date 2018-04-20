@@ -1,8 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { configure } from 'mobx';
-import { configureDevtool } from 'mobx-react-devtools';
-import { logFilter } from 'utils/mobx-log-filter';
+import { enableLogging } from 'mobx-logger';
 import { logStores } from 'utils/log-stores';
 
 import Root from './pages/Root';
@@ -13,11 +12,12 @@ import './app.global.css';
 // central stores
 logStores();
 
-// Any configurations are optional
-configureDevtool({
-  logEnabled: true,
-  updatesEnabled: false,
-  logFilter,
+// Configure mobx logging
+enableLogging({
+  action: true,
+  reaction: false,
+  transaction: false,
+  compute: false
 });
 
 // Configure mobx

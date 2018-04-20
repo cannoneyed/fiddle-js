@@ -1,4 +1,5 @@
 import { action, computed, observable } from 'mobx';
+import { logMethods } from 'utils/log-filter';
 
 import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
@@ -8,12 +9,7 @@ import { clipSelect } from 'core/interactions/clip/select';
 export const DRAG_DELAY: number = 200;
 
 export class ClipDragInteraction {
-  static mobxLoggerConfig = {
-    methods: {
-      setDelta: false,
-      setStart: false,
-    },
-  };
+  static mobxLoggerConfig = logMethods('beginDrag', 'endDrag');
 
   @observable isDragging: boolean = false;
 
