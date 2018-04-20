@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { Container } from 'typedi';
 import { observer } from 'mobx-react';
-import { connect } from 'utils/connect';
 
 import DraggedClips from 'features/DraggedClips';
 import Track from 'features/Track';
@@ -13,29 +13,23 @@ import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 import { TracksAreaContainer, GridContainer, TracksContainer } from './styled-components';
 
-interface Props {
-  clipDragInteraction: ClipDragInteraction;
-  trackStore: TrackStore;
-  sequencerPageLayout: SequencerPageLayout;
-  tracksSectionLayout: TracksSectionLayout;
-}
+interface Props { }
 
 @observer
-export class TracksArea extends React.Component<Props, {}> {
+export default class TracksArea extends React.Component<Props, {}> {
+  clipDragInteraction = Container.get(ClipDragInteraction);
+  sequencerPageLayout = Container.get(SequencerPageLayout);
+  tracksSectionLayout = Container.get(TracksSectionLayout);
+  trackStore = Container.get(TrackStore);
+
   render() {
-    const {
-      clipDragInteraction,
-      sequencerPageLayout,
-      tracksSectionLayout,
-      trackStore,
-    } = this.props;
-    const { trackList } = trackStore;
-    const { tracksAreaHeight } = sequencerPageLayout;
-    const { trackHeight } = tracksSectionLayout.tracks;
-    const { gridCount, gridSegmentWidth } = tracksSectionLayout.grid;
+    const { trackList } = this.trackStore;
+    const { tracksAreaHeight } = this.sequencerPageLayout;
+    const { trackHeight } = this.tracksSectionLayout.tracks;
+    const { gridCount, gridSegmentWidth } = this.tracksSectionLayout.grid;
 
     const gridHeight = Math.max(trackList.length * trackHeight, tracksAreaHeight);
-    const { isDragging } = clipDragInteraction;
+    const { isDragging } = this.clipDragInteraction;
 
     return (
       <TracksAreaContainer id="tracksArea">
@@ -50,11 +44,3 @@ export class TracksArea extends React.Component<Props, {}> {
     );
   }
 }
-
-export default connect(
-  TracksArea,
-  'clipDragInteraction',
-  'trackStore',
-  'sequencerPageLayout',
-  'tracksSectionLayout'
-);

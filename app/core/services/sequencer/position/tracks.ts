@@ -1,14 +1,20 @@
-import { tracksLayout } from 'core/layouts/sequencer/tracks/tracks';
-import { sequencerPageLayout } from 'core/layouts/sequencer/page';
+import { Container, Service } from 'typedi';
 
+import { TracksLayout } from 'core/layouts/sequencer/tracks/tracks';
+import { SequencerPageLayout } from 'core/layouts/sequencer/page';
+
+@Service()
 export class TracksPositionService {
+  sequencerPageLayout = Container.get(SequencerPageLayout);
+  tracksLayout = Container.get(TracksLayout);
+
   getOffsetXFromScreenX = (screenX: number) => {
-    const leftEdge = sequencerPageLayout.tracksAreaLeft;
-    const scrolledX = tracksLayout.tracksScrolledX;
+    const leftEdge = this.sequencerPageLayout.tracksAreaLeft;
+    const scrolledX = this.tracksLayout.tracksScrolledX;
 
     const offsetX = screenX - leftEdge + scrolledX;
     return offsetX;
   };
 }
 
-export const tracksPositionService = new TracksPositionService();
+export const tracksPositionService = Container.get(TracksPositionService);

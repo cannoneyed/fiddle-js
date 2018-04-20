@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { Container } from 'typedi';
 import { observer } from 'mobx-react';
-import { connect } from 'utils/connect';
 
 import { Draggable, Unregister } from 'core/interactions/handlers/draggable';
 
@@ -8,12 +8,12 @@ import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 import { MinimapContainer, MinimapThumb } from './styled-components';
 
-interface Props {
-  tracksSectionLayout: TracksSectionLayout;
-}
+interface Props {}
 
 @observer
-export class Minimap extends React.Component<Props, {}> {
+export default class Minimap extends React.Component<Props, {}> {
+  tracksSectionLayout = Container.get(TracksSectionLayout);
+
   draggable = new Draggable();
   unregisterDragHandlers: Unregister;
 
@@ -31,7 +31,7 @@ export class Minimap extends React.Component<Props, {}> {
   }
 
   handleThumbDrag = (deltaPercentX: number, deltaPercentY: number) => {
-    const { tracksSectionLayout } = this.props;
+    const { tracksSectionLayout } = this;
     const { tracksScrollPercentX } = tracksSectionLayout.tracks;
 
     const nextScrollPercentX = tracksScrollPercentX - deltaPercentX;
@@ -39,7 +39,7 @@ export class Minimap extends React.Component<Props, {}> {
   };
 
   render() {
-    const { tracksSectionLayout } = this.props;
+    const { tracksSectionLayout } = this;
     const { tracksScrollPercentX, tracksViewPercentX } = tracksSectionLayout.tracks;
 
     // We need to compute the relative left position of the minimap container's since the scrollPercentX
@@ -63,5 +63,3 @@ export class Minimap extends React.Component<Props, {}> {
     );
   }
 }
-
-export default connect(Minimap, 'tracksSectionLayout');

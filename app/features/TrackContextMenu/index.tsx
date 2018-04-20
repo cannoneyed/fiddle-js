@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { inject, observer } from 'mobx-react';
+import { Container } from 'typedi';
+import { observer } from 'mobx-react';
 import { Menu, MenuItem } from '@blueprintjs/core';
 
-import { trackStore, TrackStore } from 'core/stores/tracks';
-import { clipStore, ClipStore } from 'core/stores/clips';
+import { TrackStore } from 'core/stores/tracks';
+import { ClipStore } from 'core/stores/clips';
 import { sequencerPositionService } from 'core/services/sequencer/position';
 
 interface Props {
@@ -11,31 +12,20 @@ interface Props {
   offsetX: number;
 }
 
-interface InjectedProps extends Props {
-  trackStore: TrackStore;
-  clipStore: ClipStore;
-}
-
-// Use the old state injection system because the blueprint context menu portal breaks app context
-@inject(() => ({
-  clipStore,
-  trackStore,
-}))
 @observer
-export class TrackContextMenu extends React.Component<Props, {}> {
-  get injected() {
-    return this.props as InjectedProps;
-  }
+export default class TrackContextMenu extends React.Component<Props, {}> {
+  clipStore = Container.get(ClipStore);
+  trackStore = Container.get(TrackStore);
 
   deleteTrack = () => {
     const { trackId } = this.props;
-    const { trackStore } = this.injected;
+    const { trackStore } = this;
     trackStore.deleteTrack(trackId);
   };
 
   createClip = () => {
     const { trackId, offsetX } = this.props;
-    const { clipStore } = this.injected;
+    const { clipStore } = this;
     const position = sequencerPositionService.getTimelineVector(offsetX);
 
     clipStore.createClip({ trackId, position });
@@ -50,5 +40,3 @@ export class TrackContextMenu extends React.Component<Props, {}> {
     );
   }
 }
-
-export default TrackContextMenu;

@@ -1,3 +1,4 @@
+import { Container } from 'typedi';
 import { action, computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 
@@ -5,7 +6,7 @@ import { sequencerPositionService } from 'core/services/sequencer/position';
 
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
-import { trackStore } from 'core/stores/tracks';
+import { TrackStore } from 'core/stores/tracks';
 
 export interface ClipParams {
   trackId: string;
@@ -13,6 +14,8 @@ export interface ClipParams {
 }
 
 export class Clip {
+  trackStore = Container.get(TrackStore);
+
   id: string;
   domId: string;
 
@@ -49,7 +52,7 @@ export class Clip {
 
   @computed
   get track() {
-    return trackStore.getTrackById(this.trackId);
+    return this.trackStore.getTrackById(this.trackId);
   }
 
   getScreenVector = () => {
@@ -64,7 +67,7 @@ export class Clip {
   @action
   delete = () => {
     // Delete reference from the track
-    const track = trackStore.getTrackById(this.trackId);
+    const track = this.trackStore.getTrackById(this.trackId);
     if (track) {
       // track.removeClip(this.id)
     }

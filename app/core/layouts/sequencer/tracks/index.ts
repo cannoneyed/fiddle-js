@@ -1,13 +1,14 @@
-import { gridLayout } from './grid';
-import { timelineLayout } from './timeline';
-import { tracksLayout } from './tracks';
-import { zoomLayout } from './zoom';
+import { Inject, Service } from 'typedi';
 
+import { GridLayout } from './grid';
+import { TimelineLayout } from './timeline';
+import { TracksLayout } from './tracks';
+import { ZoomLayout } from './zoom';
+
+@Service()
 export class TracksSectionLayout {
-  grid = gridLayout;
-  timeline = timelineLayout;
-  tracks = tracksLayout;
-  zoom = zoomLayout;
+  @Inject(type => GridLayout) grid: GridLayout
+  @Inject(type => TimelineLayout) timeline: TimelineLayout
+  @Inject(type => TracksLayout) tracks: TracksLayout
+  @Inject(type => ZoomLayout) zoom: ZoomLayout
 }
-
-export const tracksSectionLayout = new TracksSectionLayout();

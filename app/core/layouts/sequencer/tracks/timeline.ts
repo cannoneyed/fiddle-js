@@ -1,12 +1,15 @@
+import { Inject, Service } from 'typedi';
 import { computed } from 'mobx';
 
-import { clipDragInteraction } from 'core/interactions/clip/drag';
+import { ClipDragInteraction } from 'core/interactions/clip/drag';
 
+@Service()
 export class TimelineLayout {
+  @Inject(type => ClipDragInteraction)
+  clipDragInteraction: ClipDragInteraction;
+
   @computed
   get dropTargetPosition() {
-    return clipDragInteraction.isDragging ? clipDragInteraction.dropTargetPosition : null;
+    return this.clipDragInteraction.isDragging ? this.clipDragInteraction.dropTargetPosition : null;
   }
 }
-
-export const timelineLayout = new TimelineLayout();

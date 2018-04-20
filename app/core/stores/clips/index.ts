@@ -1,11 +1,16 @@
+import { Inject, Service } from 'typedi';
 import { action, observable } from 'mobx';
 
 import { Clip, ClipParams } from 'core/models/clip';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { clipSelect } from 'core/interactions/clip/select';
+import { ClipSelect } from 'core/interactions/clip/select';
 
+@Service()
 export class ClipStore {
+  @Inject(type => ClipSelect)
+  clipSelect: ClipSelect;
+
   // The main store for clips (by id)
   @observable clips = observable.map<string, Clip>({});
 
@@ -31,7 +36,7 @@ export class ClipStore {
 
   @action
   deleteSelectedClips = () => {
-    clipSelect.selectedClips.forEach((clip: Clip) => {
+    this.clipSelect.selectedClips.forEach((clip: Clip) => {
       this.clips.delete(clip.id);
     });
   };
@@ -50,5 +55,3 @@ export class ClipStore {
     return Array.from(this.clips.values());
   };
 }
-
-export const clipStore = new ClipStore();

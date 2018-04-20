@@ -1,5 +1,4 @@
-export { clipStore } from './clips';
-export { trackStore } from './tracks';
-export { windowStore } from './window';
-
-export { sequencerState } from './sequencer';
+export { ClipStore } from './clips';
+export { TrackStore } from './tracks';
+export { WindowStore } from './window';
+export { SequencerState } from './sequencer';

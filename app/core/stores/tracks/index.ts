@@ -1,27 +1,26 @@
+import { Inject, Service } from 'typedi';
 import { action, observable } from 'mobx';
 
 import { Track } from 'core/models/track';
-import { clipStore } from 'core/stores/clips';
+import { ClipStore } from 'core/stores/clips';
 
+@Service()
 export class TrackStore {
+  @Inject(type => ClipStore)
+  clipStore: ClipStore;
+
   // The main store for tracks (by id)
   @observable tracks = observable.map<string, Track>({});
 
   // The main page list of recipe ids
   @observable trackList = observable.array<Track>([]);
 
-  constructor() {
-    for (let i = 0; i < 20; i++) {
-      this.createTrack();
-    }
-  }
-
   getTrackById = (trackId: string) => {
     return this.tracks.get(trackId);
   };
 
   // Actions
-  @action
+  @action.bound
   createTrack = () => {
     const track = new Track();
 
@@ -33,9 +32,7 @@ export class TrackStore {
   deleteTrack = (trackId: string) => {
     this.trackList.replace(this.trackList.filter(track => track.id !== trackId));
 
-    clipStore.deleteClipsByTrackId(trackId);
+    this.clipStore.deleteClipsByTrackId(trackId);
     this.tracks.delete(trackId);
   };
 }
-
-export const trackStore = new TrackStore();

@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { Container } from 'typedi';
 import { observer } from 'mobx-react';
-import { connect } from 'utils/connect'
 
 import { ContextMenu } from '@blueprintjs/core';
 
@@ -16,7 +16,6 @@ const styles = require('./styles.less');
 
 interface Props {
   clip: ClipModel;
-  clipSelect: ClipSelect;
 }
 
 interface State {
@@ -24,14 +23,16 @@ interface State {
 }
 
 @observer
-export class Clip extends React.Component<Props, State> {
+export default class Clip extends React.Component<Props, State> {
+  clipSelect = Container.get(ClipSelect);
+
   state = { isContextMenuOpen: false };
 
   handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     event.stopPropagation();
 
-    const { clip, clipSelect } = this.props;
+    const { clip } = this.props;
 
     // If left-click, do delegate to context menus
     if (event.ctrlKey) {
@@ -39,14 +40,14 @@ export class Clip extends React.Component<Props, State> {
     } else if (clip.isSelected) {
       // no op, still set up handlers below
     } else if (event.shiftKey) {
-      clipSelect.selectClip(clip);
+      this.clipSelect.selectClip(clip);
     } else {
-      clipSelect.selectOnlyClip(clip);
+      this.clipSelect.selectOnlyClip(clip);
     }
 
     clipDragHandlers.register(clip, event);
     return false;
-  }
+  };
 
   renderContextMenu = () => {
     const { clip } = this.props;
@@ -54,9 +55,9 @@ export class Clip extends React.Component<Props, State> {
   };
 
   showContextMenu = (event: React.MouseEvent<HTMLElement>) => {
-    const props = { left: event.clientX, top: event.clientY };
-    const callback = () => this.setState({ isContextMenuOpen: false });
-    ContextMenu.show(this.renderContextMenu(), props, callback);
+    const closeContextMenu = () => this.setState({ isContextMenuOpen: false });
+    const props = { left: event.clientX, top: event.clientY, closeContextMenu };
+    ContextMenu.show(this.renderContextMenu(), props);
     this.setState({ isContextMenuOpen: true });
   };
 
@@ -78,5 +79,3 @@ export class Clip extends React.Component<Props, State> {
     );
   }
 }
-
-export default connect(Clip, 'clipSelect');

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { connect } from 'utils/connect';
+import { Container } from 'typedi';
+import { observer } from 'mobx-react';
 
 import TrackHeader from 'features/TracksSection/TrackHeader';
 
@@ -8,16 +9,16 @@ import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 
 const styles = require('./styles.less');
 
-interface Props {
-  sequencerPageLayout: SequencerPageLayout;
-  trackStore: TrackStore;
-}
+interface Props {}
 
-export class TracksGutter extends React.Component<Props, {}> {
+@observer
+export default class TracksGutter extends React.Component<Props, {}> {
+  sequencerPageLayout = Container.get(SequencerPageLayout);
+  trackStore = Container.get(TrackStore);
+
   render() {
-    const { trackStore, sequencerPageLayout } = this.props;
-    const { trackList } = trackStore;
-    const { gutterWidth } = sequencerPageLayout;
+    const { trackList } = this.trackStore;
+    const { gutterWidth } = this.sequencerPageLayout;
 
     const tracksGutterStyle = {
       minWidth: gutterWidth,
@@ -30,5 +31,3 @@ export class TracksGutter extends React.Component<Props, {}> {
     );
   }
 }
-
-export default connect(TracksGutter, 'sequencerPageLayout', 'trackStore');

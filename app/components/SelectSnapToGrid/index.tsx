@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { Container } from 'typedi';
 import { observer } from 'mobx-react';
-import { connect } from 'utils/connect';
 import { map } from 'lodash';
 
 import { snapToGridValues } from 'core/models/snap-to-grid';
@@ -8,16 +8,16 @@ import { SequencerState } from 'core/stores/sequencer';
 
 import Select from 'components/Select';
 
-import { Container } from './styled-components';
+import { SelectContainer } from './styled-components';
 
-interface Props {
-  sequencerState: SequencerState;
-}
+interface Props {}
 
 @observer
-export class SelectSnapToGrid extends React.Component<Props, {}> {
+export default class SelectSnapToGrid extends React.Component<Props, {}> {
+  sequencerState = Container.get(SequencerState);
+
   render() {
-    const { sequencerState } = this.props;
+    const { sequencerState } = this;
     const snapToGrid = sequencerState.snapToGrid;
 
     const options = map(snapToGridValues, (snapToGridValue, key) => {
@@ -27,16 +27,14 @@ export class SelectSnapToGrid extends React.Component<Props, {}> {
     });
 
     return (
-      <Container>
+      <SelectContainer>
         <Select
           options={options}
           onSelect={key => {
             snapToGrid.setSnapToGridValue(key);
           }}
         />
-      </Container>
+      </SelectContainer>
     );
   }
 }
-
-export default connect(SelectSnapToGrid, 'sequencerState');

@@ -1,10 +1,15 @@
 import { observable, action } from 'mobx';
+import { Inject, Service } from 'typedi';
 
 import { computed } from 'mobx';
-import { windowStore } from 'core/stores/window';
+import { WindowStore } from 'core/stores/window';
 
+@Service()
 export class SequencerPageLayout {
   static mobxLoggerConfig = getMobxLoggerConfig();
+
+  @Inject(type => WindowStore)
+  windowStore: WindowStore;
 
   @observable minimapHeight = 30;
   @observable gutterWidth = 100;
@@ -22,19 +27,19 @@ export class SequencerPageLayout {
   @computed
   get tracksSectionWidth() {
     const { tracksVerticalScrollbarWidth } = this;
-    return windowStore.width - tracksVerticalScrollbarWidth;
+    return this.windowStore.width - tracksVerticalScrollbarWidth;
   }
 
   @computed
   get editSectionHeight() {
     const { tracksAreaHeight, timelineHeight, minimapHeight, toolbarHeight } = this;
     const sum = tracksAreaHeight + timelineHeight + minimapHeight + toolbarHeight;
-    return windowStore.height - sum;
+    return this.windowStore.height - sum;
   }
 
   @computed
   get tracksAreaWidth() {
-    return windowStore.width - this.gutterWidth;
+    return this.windowStore.width - this.gutterWidth;
   }
 
   @computed
@@ -47,8 +52,6 @@ export class SequencerPageLayout {
     this.tracksAreaHeight += deltaHeight;
   }
 }
-
-export const sequencerPageLayout = new SequencerPageLayout();
 
 function getMobxLoggerConfig() {
   return {

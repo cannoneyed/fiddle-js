@@ -1,9 +1,7 @@
-import * as stores from 'core/stores';
-import * as layouts from 'core/layouts';
+import { Container } from 'typedi';
 
 export const logStores = () => {
   (window as any).logStores = () => ({
-    stores,
-    layouts,
+    Container,
   });
 };

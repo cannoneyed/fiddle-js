@@ -1,12 +1,15 @@
+import { Container } from 'typedi';
 import { map } from 'lodash';
 
 import { sequencerDOM } from 'core/dom/sequencer';
-import { tracksSectionLayout } from 'core/layouts/sequencer/tracks';
+import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 export type Unregister = () => void;
 export type EventHandler = (event: WheelEvent) => void;
 
 export const register = (): Unregister => {
+  const tracksSectionLayout = Container.get(TracksSectionLayout);
+
   const { xy, x, y } = sequencerDOM.getTrackScrollElements();
   const eventHandlers = new WeakMap<HTMLElement, EventHandler>();
 
