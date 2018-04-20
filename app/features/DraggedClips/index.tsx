@@ -44,7 +44,7 @@ export default class DraggedClips extends React.Component<Props, {}> {
     };
 
     return (
-      <div className={styles.draggedClipWrapper} style={clipWrapperStyle}>
+      <div className={styles.draggedClipWrapper} style={clipWrapperStyle} key={clip.id}>
         <ClipView clip={clip} isDragging />
       </div>
     );

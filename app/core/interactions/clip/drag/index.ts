@@ -1,5 +1,6 @@
 import { action, computed, observable } from 'mobx';
 import { Inject, Service } from 'typedi';
+import { logMethods } from 'utils/log-filter';
 
 import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
@@ -10,12 +11,7 @@ export const DRAG_DELAY: number = 200;
 
 @Service()
 export class ClipDragInteraction {
-  static mobxLoggerConfig = {
-    methods: {
-      setDelta: false,
-      setStart: false,
-    },
-  };
+  static mobxLoggerConfig = logMethods('beginDrag', 'endDrag');
 
   @Inject(type => ClipSelect)
   clipSelect: ClipSelect;
