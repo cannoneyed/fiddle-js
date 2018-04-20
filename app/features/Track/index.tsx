@@ -4,7 +4,7 @@ import { connect } from 'utils/connect';
 import { ContextMenu } from '@blueprintjs/core';
 
 import TrackContextMenu from 'features/TrackContextMenu';
-import { Clip } from 'features/Clip';
+import Clip from 'features/Clip';
 
 import { Track as TrackModel } from 'core/models/track';
 import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
