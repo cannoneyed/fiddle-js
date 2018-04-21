@@ -29,7 +29,9 @@ const Theme = {
     darkGray: tinycolor({ r: 39, g: 40, b: 34 }),
     darkerGray: tinycolor({ r: 37, g: 37, b: 38 }),
     black: tinycolor({ r: 30, g: 31, b: 28 }),
+
     sliderThumb: tinycolor({ r: 121, g: 121, b: 121, a: 0.4 }),
+    sliderThumbHighlight: tinycolor({ r: 121, g: 121, b: 121, a: 0.5 }),
   },
 };
 
