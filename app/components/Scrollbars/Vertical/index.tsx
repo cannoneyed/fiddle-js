@@ -14,29 +14,32 @@ interface Props {
   scrollPositionPercent: number;
   scrollViewPercent: number;
   onDrag: (deltaPercentX: number, deltaPercentY: number) => void;
-  onDragStart?: () => void;
-  onDragEnd?: () => void;
   onThumbResize?: (delta: number) => void;
 }
 
-export class VerticalScrollbar extends React.Component<Props, {}> {
+interface State {
+  dragging: boolean;
+  mouseover: boolean;
+}
+
+export class VerticalScrollbar extends React.Component<Props, State> {
+  state = {
+    dragging: false,
+    mouseover: false,
+  };
+
   draggable = new Draggable();
   unregisterDragHandlers: Unregister;
 
   containerRef: HTMLDivElement;
   thumbRef: HTMLDivElement;
 
-  static defaultProps = {
-    onDragStart: () => {},
-    onDragEnd: () => {},
-  };
-
   componentDidMount() {
     const { draggable } = this;
-    const { onDrag, onDragStart, onDragEnd } = this.props;
+    const { onDrag } = this.props;
     draggable.onDrag(onDrag);
-    draggable.onDragStart(onDragStart!);
-    draggable.onDragEnd(onDragEnd!);
+    draggable.onDragStart(() => this.setState({ dragging: true }));
+    draggable.onDragEnd(() => this.setState({ dragging: false }));
     this.unregisterDragHandlers = this.draggable.register(this.containerRef!, this.thumbRef!);
   }
 
@@ -57,11 +60,19 @@ export class VerticalScrollbar extends React.Component<Props, {}> {
       height: `${scrollViewPercent * 100}%`,
     };
 
+    const highlight = this.state.dragging || this.state.mouseover;
+
     return (
       <ScrollbarWrapper>
         <ScrollBackButton />
         <ScrollbarArea innerRef={ref => (this.containerRef = ref)}>
-          <ScrollbarThumb innerRef={ref => (this.thumbRef = ref)} style={thumbStyle} />
+          <ScrollbarThumb
+            innerRef={ref => (this.thumbRef = ref)}
+            style={thumbStyle}
+            highlight={highlight}
+            onMouseOver={() => this.setState({ mouseover: true })}
+            onMouseLeave={() => this.setState({ mouseover: false })}
+          />
         </ScrollbarArea>
         <ScrollForwardButton />
       </ScrollbarWrapper>
