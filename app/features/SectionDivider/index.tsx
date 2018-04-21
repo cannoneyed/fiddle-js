@@ -28,7 +28,11 @@ export class SectionDivider extends React.Component<Props, {}> {
   };
 
   render() {
-    return <Divider innerRef={ref => (this.dividerRef = ref)} />;
+    return (
+      <Divider innerRef={ref => (this.dividerRef = ref)}>
+        <Handle id="handle" size={20} />
+      </Divider>
+    );
   }
 }
 
@@ -36,7 +40,21 @@ export default SectionDivider;
 
 const Divider = styled.div`
   width: 100%;
-  height: 3px;
-  background-color: black;
+  height: ${props => props.theme.sectionDividers.dividerSize};
+  background-color: white;
+`;
+
+interface HandleProps {
+  size: number;
+}
+const Handle = styled<HandleProps, 'div'>('div')`
+  position: absolute;
+  z-index: 99;
+  height: ${props => props.theme.sectionDividers.thumbSize};
+  width: 100%;
+  margin-top: ${props => {
+    const { thumbSize, dividerSize } = props.theme.sectionDividers;
+    return thumbSize.divide(-2).add(dividerSize.divide(2));
+  }};
   cursor: row-resize;
 `;
