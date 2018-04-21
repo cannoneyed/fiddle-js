@@ -1,7 +1,9 @@
+import { Service } from 'typedi';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { gridLayout } from 'core/layouts/sequencer/tracks/grid';
 
+@Service()
 export class SequencerPositionService {
   getTimelineVector = (offsetX: number) => {
     const { barWidth } = gridLayout;
@@ -17,5 +19,3 @@ export class SequencerPositionService {
     return bar + beats;
   };
 }
-
-export const sequencerPositionService = new SequencerPositionService();

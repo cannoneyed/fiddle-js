@@ -5,7 +5,7 @@ import { Menu, MenuItem } from '@blueprintjs/core';
 
 import { TrackStore } from 'core/stores/tracks';
 import { ClipStore } from 'core/stores/clips';
-import { sequencerPositionService } from 'core/services/sequencer/position';
+import { SequencerPositionService } from 'core/services/sequencer/position';
 
 interface Props {
   trackId: string;
@@ -16,6 +16,7 @@ interface Props {
 export default class TrackContextMenu extends React.Component<Props, {}> {
   clipStore = Container.get(ClipStore);
   trackStore = Container.get(TrackStore);
+  sequencerPositionService = Container.get(SequencerPositionService);
 
   deleteTrack = () => {
     const { trackId } = this.props;
@@ -26,7 +27,7 @@ export default class TrackContextMenu extends React.Component<Props, {}> {
   createClip = () => {
     const { trackId, offsetX } = this.props;
     const { clipStore } = this;
-    const position = sequencerPositionService.getTimelineVector(offsetX);
+    const position = this.sequencerPositionService.getTimelineVector(offsetX);
 
     clipStore.createClip({ trackId, position });
   };

@@ -2,7 +2,7 @@ import { Container } from 'typedi';
 import { action, computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 
-import { sequencerPositionService } from 'core/services/sequencer/position';
+import { SequencerPositionService } from 'core/services/sequencer/position';
 
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
@@ -15,6 +15,7 @@ export interface ClipParams {
 
 export class Clip {
   trackStore = Container.get(TrackStore);
+  sequencerPositionService = Container.get(SequencerPositionService);
 
   id: string;
   domId: string;
@@ -37,12 +38,12 @@ export class Clip {
 
   @computed
   get width() {
-    return sequencerPositionService.getOffsetX(this.length);
+    return this.sequencerPositionService.getOffsetX(this.length);
   }
 
   @computed
   get offsetX() {
-    return sequencerPositionService.getOffsetX(this.position);
+    return this.sequencerPositionService.getOffsetX(this.position);
   }
 
   @computed

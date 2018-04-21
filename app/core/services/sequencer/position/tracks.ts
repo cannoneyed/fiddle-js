@@ -16,5 +16,3 @@ export class TracksPositionService {
     return offsetX;
   };
 }
-
-export const tracksPositionService = Container.get(TracksPositionService);

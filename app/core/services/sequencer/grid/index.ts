@@ -1,3 +1,5 @@
+import { Service } from 'typedi';
+
 import { Fraction } from 'core/primitives/fraction';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
@@ -10,6 +12,7 @@ export enum DivisionType {
   quaternary,
 }
 
+@Service()
 export class GridService {
   getNearestSnapPosition = (offsetX: number) => {
     const { divisionWidth, division } = gridLayout;
@@ -37,5 +40,3 @@ export class GridService {
     return DivisionType.primary;
   }
 }
-
-export const gridService = new GridService();

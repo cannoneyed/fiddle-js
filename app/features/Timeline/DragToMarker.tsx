@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 
 import { Caret } from 'components/Caret';
 
-import { sequencerPositionService } from 'core/services/sequencer/position';
+import { SequencerPositionService } from 'core/services/sequencer/position';
 
 import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
@@ -17,6 +17,7 @@ interface Props {}
 export default class DragToMarker extends React.Component<Props, {}> {
   sequencerPageLayout = Container.get(SequencerPageLayout);
   tracksSectionLayout = Container.get(TracksSectionLayout);
+  sequencerPositionService = Container.get(SequencerPositionService);
 
   render() {
     const { tracksSectionLayout } = this;
@@ -27,7 +28,7 @@ export default class DragToMarker extends React.Component<Props, {}> {
     }
 
     const timelineHeight = this.sequencerPageLayout.timelineHeight;
-    const offsetX = sequencerPositionService.getOffsetX(dropTargetPosition);
+    const offsetX = this.sequencerPositionService.getOffsetX(dropTargetPosition);
 
     const caretSize = 10;
 
