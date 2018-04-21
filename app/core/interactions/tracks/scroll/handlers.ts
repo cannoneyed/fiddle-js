@@ -35,8 +35,15 @@ export const register = (): Unregister => {
         const scrollX = canScrollX ? scrollLeft + deltaX : scrollLeft;
         const scrollY = canScrollY ? scrollTop + deltaY : scrollTop;
 
-        const ratioX = canScrollX ? scrollX / (scrollWidth - clientWidth) : undefined;
-        const ratioY = canScrollY ? scrollY / (scrollHeight - clientHeight) : undefined;
+        let ratioX;
+        if (canScrollX) {
+          ratioX = scrollWidth === clientWidth ? 0 : scrollX / (scrollWidth - clientWidth);
+        }
+
+        let ratioY;
+        if (canScrollY) {
+          ratioY = scrollHeight === clientHeight ? 0 : scrollY / (scrollHeight - clientHeight);
+        }
 
         // Set the scroll amount in the mobx sequencer view store (for reactive elements) as well as imperatively
         // scrolling the scroll areas
