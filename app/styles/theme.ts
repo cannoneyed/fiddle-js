@@ -1,19 +1,26 @@
+import { px, percent } from './helpers';
+
 const Theme = {
   // Toolbar
-  toolbarHeight: '40px',
+  toolbarHeight: px(40),
 
   // Track Headers
-  trackHeadersWidth: '20%',
+  trackHeadersWidth: percent(20),
 
   // TracksTimelineSection
-  tracksTimelineHeight: '50%',
+  tracksTimelineHeight: percent(20),
 
   // Timeline
-  timelineHeight: '30px',
+  timelineHeight: px(30),
 
   // z-indices
   verticalGridZIndex: 10,
   tracksZIndex: 20,
+
+  sectionDividers: {
+    dividerSize: px(2),
+    thumbSize: px(12),
+  },
 };
 
 export default Theme;
