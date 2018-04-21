@@ -8,15 +8,15 @@ export class Numeric {
     return new (<any>this.constructor)(this.number + this.getOtherNumber(other));
   }
 
-  subtract(other: Numeric) {
+  subtract(other: number | Numeric) {
     return new (<any>this.constructor)(this.number - this.getOtherNumber(other));
   }
 
-  multiply(other: Numeric) {
+  multiply(other: number | Numeric) {
     return new (<any>this.constructor)(this.number * this.getOtherNumber(other));
   }
 
-  divide(other: Numeric) {
+  divide(other: number | Numeric) {
     return new (<any>this.constructor)(this.number / this.getOtherNumber(other));
   }
 }
