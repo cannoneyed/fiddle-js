@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import theme from 'styles/theme';
 
 import { Draggable, DragMode, Unregister } from 'core/interactions/handlers/draggable';
 
@@ -40,7 +41,7 @@ export default SectionDivider;
 
 const Divider = styled.div`
   width: 100%;
-  height: ${props => props.theme.sectionDividers.dividerSize};
+  height: ${() => theme.sectionDividers.dividerSize.toString()};
   background-color: white;
 `;
 
@@ -50,11 +51,14 @@ interface HandleProps {
 const Handle = styled<HandleProps, 'div'>('div')`
   position: absolute;
   z-index: 99;
-  height: ${props => props.theme.sectionDividers.thumbSize};
+  height: ${theme.sectionDividers.thumbSize.toString()};
   width: 100%;
-  margin-top: ${props => {
-    const { thumbSize, dividerSize } = props.theme.sectionDividers;
-    return thumbSize.divide(-2).add(dividerSize.divide(2));
+  margin-top: ${() => {
+    const { thumbSize, dividerSize } = theme.sectionDividers;
+    return thumbSize
+      .divide(-2)
+      .add(dividerSize.divide(2))
+      .toString();
   }};
   cursor: row-resize;
 `;

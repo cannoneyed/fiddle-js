@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import theme from 'styles/theme';
 
 export const TracksAreaContainer = styled.div`
   overflow: hidden;
@@ -16,7 +17,7 @@ interface GridContainerProps {
 export const GridContainer = styled<GridContainerProps, 'div'>('div')`
   position: absolute;
   top: 0;
-  z-index: ${props => props.theme.verticalGridZIndex};
+  z-index: ${theme.verticalGridZIndex};
 
   height: ${props => props.height}px;
 `;
@@ -24,6 +25,6 @@ export const GridContainer = styled<GridContainerProps, 'div'>('div')`
 export const TracksContainer = styled.div`
   position: absolute;
   top: 0;
-  z-index: ${props => props.theme.tracksZIndex};
+  z-index: ${theme.tracksZIndex};
   width: 100%;
 `;

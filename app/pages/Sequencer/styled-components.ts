@@ -1,11 +1,11 @@
 import styled from 'styled-components';
+import theme from 'styles/theme';
 
 export const PageWrapper = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #232c39;
-  background-image: linear-gradient(45deg, rgba(0, 216, 255, 0.5) 10%, rgba(0, 1, 127, 0.7));
+  background-color: ${theme.colors.darkGray.toRgbString()};
 `;
 
 export const EditSectionWrapper = styled.div`
