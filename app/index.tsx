@@ -4,6 +4,7 @@ import { Container } from 'typedi';
 import { render } from 'react-dom';
 import { configure } from 'mobx';
 import { enableLogging } from 'mobx-logger';
+import { configureDevtool } from 'mobx-react-devtools';
 import { logStores } from 'utils/log-stores';
 
 import { LoadService } from 'core/services/load';
@@ -22,6 +23,11 @@ enableLogging({
   reaction: false,
   transaction: false,
   compute: false,
+});
+
+// Configure react devtool
+configureDevtool({
+  logEnabled: false,
 });
 
 // Configure mobx
