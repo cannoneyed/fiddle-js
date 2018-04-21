@@ -1,9 +1,12 @@
 import 'reflect-metadata';
 import React from 'react';
+import { Container } from 'typedi';
 import { render } from 'react-dom';
 import { configure } from 'mobx';
 import { enableLogging } from 'mobx-logger';
 import { logStores } from 'utils/log-stores';
+
+import { LoadService } from 'core/services/load';
 
 import Root from './pages/Root';
 
@@ -18,7 +21,7 @@ enableLogging({
   action: true,
   reaction: false,
   transaction: false,
-  compute: false
+  compute: false,
 });
 
 // Configure mobx
@@ -27,5 +30,8 @@ configure({
 });
 
 const rootEl = document.getElementById('root');
+
+const loadService = Container.get(LoadService);
+loadService.loadSession();
 
 render(<Root />, rootEl);

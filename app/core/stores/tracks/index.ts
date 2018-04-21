@@ -26,6 +26,7 @@ export class TrackStore {
 
     this.tracks.set(track.id, track);
     this.trackList.unshift(track);
+    return track;
   };
 
   @action

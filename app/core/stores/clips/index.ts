@@ -55,3 +55,5 @@ export class ClipStore {
     return Array.from(this.clips.values());
   };
 }
+
+export { ClipParams };
