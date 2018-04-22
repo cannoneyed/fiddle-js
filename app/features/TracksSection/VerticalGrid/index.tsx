@@ -37,8 +37,4 @@ const VerticalGridContainer = styled.div`
 const GridSegment = styled.div`
   border-right: solid 1px ${theme.colors.mediumGray.toRgbString()};
   padding-left: 5px;
-
-  :first-child {
-    border-left: solid 1px ${theme.colors.mediumGray.toRgbString()};
-  }
 `;

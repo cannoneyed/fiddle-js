@@ -3,7 +3,7 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
 import DraggedClips from 'features/DraggedClips';
-import Track from 'features/Track';
+import Track from 'features/TracksSection/Track';
 import VerticalGrid from 'features/TracksSection/VerticalGrid';
 
 import { ClipDragInteraction } from 'core/interactions/clip/drag';
@@ -13,7 +13,7 @@ import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
 import { TracksAreaContainer, GridContainer, TracksContainer } from './styled-components';
 
-interface Props { }
+interface Props {}
 
 @observer
 export default class TracksArea extends React.Component<Props, {}> {

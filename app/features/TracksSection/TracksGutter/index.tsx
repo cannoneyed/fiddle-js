@@ -32,9 +32,11 @@ interface TracksGutterProps {
 const TracksGutterContainer = styled<TracksGutterProps, 'div'>('div')`
   position: relative;
   padding: 0;
-  min-width: ${props => props.width}px;
+  width: ${props => props.width}px;
 
-  background-color: red;
+  box-sizing: border-box;
+  background-color: ${theme.colors.black.toRgbString()};
+  border-right: 1px solid ${theme.colors.mediumGray.toRgbString()};
   overflow: hidden;
   flex-grow: 0;
   z-index: ${theme.tracksZIndex};

@@ -3,7 +3,7 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { ContextMenu } from '@blueprintjs/core';
 
-import TrackContextMenu from 'features/TrackContextMenu';
+import TrackContextMenu from 'features/TracksSection/TrackContextMenu';
 import Clip from 'features/Clip';
 
 import { Track as TrackModel } from 'core/models/track';

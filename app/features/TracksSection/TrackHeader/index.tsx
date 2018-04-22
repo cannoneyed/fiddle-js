@@ -1,11 +1,11 @@
 import * as React from 'react';
+import styled from 'styled-components';
+import theme from 'styles/theme';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
 import { Track } from 'core/models/track';
 import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
-
-const styles = require('./styles.less');
 
 interface Props {
   index: number;
@@ -25,9 +25,16 @@ export default class TrackHeader extends React.Component<Props, {}> {
     };
 
     return (
-      <div className={styles.trackHeader} style={headerStyle}>
+      <TrackHeaderContainer style={headerStyle}>
         {index} : {track.id}
-      </div>
+      </TrackHeaderContainer>
     );
   }
 }
+
+const TrackHeaderContainer = styled.div`
+  width: 100%;
+  background-color: ${theme.colors.darkGray.toRgbString()};
+  border-bottom: 1px solid ${theme.colors.lightGray.toRgbString()};
+  color: ${theme.colors.lightGray.toRgbString()};
+`;

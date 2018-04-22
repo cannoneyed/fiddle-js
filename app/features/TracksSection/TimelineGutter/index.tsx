@@ -28,5 +28,6 @@ const TimelineGutterContainer = styled.div`
   padding: 0;
   z-index: ${theme.tracksZIndex};
   flex-grow: 0;
-  background-color: ${theme.colors.darkGray.toRgbString()};
+  background-color: ${theme.colors.black.toRgbString()};
+  border-right: 1px solid ${theme.colors.mediumGray.toRgbString()};
 `;
