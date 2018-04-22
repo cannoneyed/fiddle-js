@@ -42,7 +42,7 @@ export default SectionDivider;
 const Divider = styled.div`
   width: 100%;
   height: ${() => theme.sectionDividers.dividerSize.toString()};
-  background-color: white;
+  background-color: ${theme.colors.lightGray.toRgbString()};
 `;
 
 interface HandleProps {
