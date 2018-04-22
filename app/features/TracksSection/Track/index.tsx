@@ -1,16 +1,16 @@
 import * as React from 'react';
+import styled from 'styled-components';
+import theme from 'styles/theme';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { ContextMenu } from '@blueprintjs/core';
 
-import TrackContextMenu from 'features/TrackContextMenu';
+import TrackContextMenu from 'features/TracksSection/TrackContextMenu';
 import Clip from 'features/Clip';
 
 import { Track as TrackModel } from 'core/models/track';
 import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 import { TrackMouseInteraction } from 'core/interactions/tracks/mouse';
-
-const styles = require('./styles.less');
 
 interface Props {
   track: TrackModel;
@@ -55,14 +55,18 @@ export default class Track extends React.Component<Props, State> {
     };
 
     return (
-      <div
-        className={styles.trackContainer}
+      <TrackContainer
         style={trackStyle}
         onMouseDown={this.handleClick}
         onContextMenu={this.showContextMenu}
       >
         {track.clips.map((clip, index) => <Clip clip={clip} key={index} />)}
-      </div>
+      </TrackContainer>
     );
   }
 }
+
+const TrackContainer = styled.div`
+  border-bottom: solid 1px ${theme.colors.mediumGray.toRgbString()};
+  width: 100%;
+`;

@@ -2,6 +2,7 @@ import { Inject, Service } from 'typedi';
 import { action, computed, observable } from 'mobx';
 import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
+import { filterMethods } from 'utils/log-filter';
 
 import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 import { timelineState } from 'core/stores/sequencer/timeline';
@@ -17,7 +18,7 @@ interface ISetTracksScroll {
 
 @Service()
 export class TracksLayout {
-  static mobxLoggerConfig = getMobxLoggerConfig();
+  static mobxLoggerConfig = filterMethods('setTracksScroll');
 
   @Inject(type => TrackStore)
   trackStore: TrackStore;
@@ -86,12 +87,4 @@ export class TracksLayout {
   get tracksScrolledY() {
     return this.tracksScrollableHeight * this.tracksScrollPercentY;
   }
-}
-
-function getMobxLoggerConfig() {
-  return {
-    methods: {
-      setTracksScroll: false,
-    },
-  };
 }

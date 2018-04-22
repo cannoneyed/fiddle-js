@@ -10,9 +10,19 @@ import { MinimapContainer, MinimapThumb } from './styled-components';
 
 interface Props {}
 
+interface ComponentState {
+  dragging: boolean;
+  mouseover: boolean;
+}
+
 @observer
-export default class Minimap extends React.Component<Props, {}> {
+export default class Minimap extends React.Component<Props, ComponentState> {
   tracksSectionLayout = Container.get(TracksSectionLayout);
+
+  state = {
+    dragging: false,
+    mouseover: false,
+  };
 
   draggable = new Draggable();
   unregisterDragHandlers: Unregister;
@@ -23,6 +33,8 @@ export default class Minimap extends React.Component<Props, {}> {
   componentDidMount() {
     const { draggable } = this;
     draggable.onDrag(this.handleThumbDrag);
+    draggable.onDragStart(() => this.setState({ dragging: true }));
+    draggable.onDragEnd(() => this.setState({ dragging: false }));
     this.unregisterDragHandlers = this.draggable.register(this.minimapRef!, this.thumbRef!);
   }
 
@@ -52,12 +64,17 @@ export default class Minimap extends React.Component<Props, {}> {
       width: `${tracksViewPercentX * 100}%`,
     };
 
+    const highlight = this.state.dragging || this.state.mouseover;
+
     return (
       <MinimapContainer id="minimap" innerRef={ref => (this.minimapRef = ref)}>
         <MinimapThumb
           innerRef={ref => (this.thumbRef = ref)}
           id="minimapScroll"
           style={thumbStyle}
+          highlight={highlight}
+          onMouseEnter={() => this.setState({ mouseover: true })}
+          onMouseLeave={() => this.setState({ mouseover: false })}
         />
       </MinimapContainer>
     );

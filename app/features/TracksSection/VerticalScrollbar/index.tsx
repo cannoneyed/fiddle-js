@@ -22,7 +22,6 @@ export default class VerticalScrollArea extends React.Component<Props, {}> {
 
   render() {
     const { tracksSectionLayout } = this;
-
     const { tracksScrollPercentY, tracksViewPercentY } = tracksSectionLayout.tracks;
 
     return (

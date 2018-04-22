@@ -1,9 +1,11 @@
 import styled from 'styled-components';
+import theme from 'styles/theme';
 
 export const ScrollbarWrapper = styled.div`
   height: 100%;
   width: 100%;
-  background-color: red;
+  border-left: 1px solid ${theme.colors.lightGray.toRgbString()};
+  background-color: ${theme.colors.mediumGray.toRgbString()};
 `;
 
 export const ScrollBackButton = styled.div`
@@ -21,8 +23,16 @@ export const ScrollForwardButton = styled.div`
   height: 0;
 `;
 
-export const ScrollbarThumb = styled.div`
+export interface ThumbProps {
+  highlight: boolean;
+}
+export const ScrollbarThumb = styled<ThumbProps, 'div'>('div')`
   width: 100%;
-  border: 1px solid darkblue;
   position: relative;
+
+  background-color: ${({ highlight }) => {
+    return highlight
+      ? theme.colors.sliderThumbHighlight.toRgbString()
+      : theme.colors.sliderThumb.toRgbString();
+  }};
 `;
