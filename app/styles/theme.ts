@@ -24,9 +24,10 @@ const Theme = {
   },
 
   colors: {
-    lightGray: tinycolor({ r: 65, g: 67, b: 57 }),
-    mediumGray: tinycolor({ r: 39, g: 40, b: 34 }),
-    darkGray: tinycolor({ r: 37, g: 37, b: 38 }),
+    white: tinycolor({ r: 204, g: 204, b: 204 }),
+    lightGray: tinycolor({ r: 144, g: 144, b: 138 }),
+    mediumGray: tinycolor({ r: 65, g: 67, b: 57 }),
+    darkGray: tinycolor({ r: 39, g: 40, b: 34 }),
     black: tinycolor({ r: 30, g: 31, b: 28 }),
 
     sliderThumb: tinycolor({ r: 121, g: 121, b: 121, a: 0.4 }),

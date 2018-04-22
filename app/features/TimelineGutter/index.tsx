@@ -1,15 +1,13 @@
 import * as React from 'react';
+import styled from 'styled-components';
+import theme from 'styles/theme';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
 import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 
-const styles = require('./styles.less');
-
-interface Props {}
-
 @observer
-export default class TimelineGutter extends React.Component<Props, {}> {
+export default class TimelineGutter extends React.Component<{}, {}> {
   sequencerPageLayout = Container.get(SequencerPageLayout);
 
   render() {
@@ -20,6 +18,15 @@ export default class TimelineGutter extends React.Component<Props, {}> {
       minWidth: gutterWidth,
     };
 
-    return <div style={style} className={styles.timelineGutterContainer} />;
+    return <TimelineGutterContainer style={style} />;
   }
 }
+
+const TimelineGutterContainer = styled.div`
+  position: relative;
+  height: ${theme.timelineHeight.toString()};
+  padding: 0;
+  z-index: ${theme.tracksZIndex};
+  flex-grow: 0;
+  background-color: ${theme.colors.darkGray.toRgbString()};
+`;

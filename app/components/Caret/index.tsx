@@ -1,4 +1,5 @@
 import * as React from 'react';
+import theme from 'styles/theme';
 
 interface Props {
   size?: number;
@@ -7,11 +8,11 @@ interface Props {
   strokeWidth?: number;
 }
 
-export class Caret extends React.Component<Props, {}> {
+export default class Caret extends React.Component<Props, {}> {
   static defaultProps = {
     size: 10,
-    fillColor: 'black',
-    strokeColor: 'black',
+    fillColor: theme.colors.white.toRgbString(),
+    strokeColor: theme.colors.white.toRgbString(),
     strokeWidth: 1,
   };
 
@@ -36,5 +37,3 @@ export class Caret extends React.Component<Props, {}> {
     );
   }
 }
-
-export default Caret;

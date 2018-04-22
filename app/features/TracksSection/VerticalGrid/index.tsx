@@ -27,7 +27,7 @@ export default class VerticalGrid extends React.Component<Props, {}> {
 }
 
 const VerticalGridContainer = styled.div`
-  background-color: ${theme.colors.mediumGray.toRgbString()};
+  background-color: ${theme.colors.darkGray.toRgbString()};
   display: flex;
   flex-direction: row;
   z-index: ${theme.verticalGridZIndex};
@@ -35,10 +35,10 @@ const VerticalGridContainer = styled.div`
 `;
 
 const GridSegment = styled.div`
-  border-right: solid 1px ${theme.colors.lightGray.toRgbString()};
+  border-right: solid 1px ${theme.colors.mediumGray.toRgbString()};
   padding-left: 5px;
 
   :first-child {
-    border-left: solid 1px ${theme.colors.lightGray.toRgbString()};
+    border-left: solid 1px ${theme.colors.mediumGray.toRgbString()};
   }
 `;
