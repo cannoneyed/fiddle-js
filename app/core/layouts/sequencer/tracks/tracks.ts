@@ -75,18 +75,18 @@ export class TracksLayout {
   @computed
   get tracksViewPercentX() {
     const { tracksAreaWidth } = this.sequencerPageLayout;
-    return tracksAreaWidth / this.trackWidth;
-  }
-
-  @computed
-  get tracksScrolledX() {
-    return this.tracksScrollableWidth * this.tracksScrollPercentX;
+    return clamp(tracksAreaWidth / this.trackWidth, 0, 1);
   }
 
   @computed
   get tracksViewPercentY() {
     const { tracksAreaHeight } = this.sequencerPageLayout;
-    return tracksAreaHeight / this.tracksHeight;
+    return clamp(tracksAreaHeight / this.tracksHeight, 0, 1);
+  }
+
+  @computed
+  get tracksScrolledX() {
+    return this.tracksScrollableWidth * this.tracksScrollPercentX;
   }
 
   @computed

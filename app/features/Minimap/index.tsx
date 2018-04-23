@@ -46,7 +46,7 @@ export default class Minimap extends React.Component<Props, ComponentState> {
     const { tracksSectionLayout } = this;
     const { tracksScrollPercentX } = tracksSectionLayout.tracks;
 
-    const nextScrollPercentX = tracksScrollPercentX - deltaPercentX;
+    const nextScrollPercentX = tracksScrollPercentX + deltaPercentX;
     tracksSectionLayout.tracks.setTracksScroll({ x: nextScrollPercentX });
   };
 

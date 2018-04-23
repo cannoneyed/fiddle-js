@@ -36,8 +36,7 @@ export class VerticalScrollbar extends React.Component<Props, State> {
 
   componentDidMount() {
     const { draggable } = this;
-    const { onDrag } = this.props;
-    draggable.onDrag(onDrag);
+    draggable.onDrag(this.props.onDrag);
     draggable.onDragStart(() => this.setState({ dragging: true }));
     draggable.onDragEnd(() => this.setState({ dragging: false }));
     this.unregisterDragHandlers = this.draggable.register(this.containerRef!, this.thumbRef!);

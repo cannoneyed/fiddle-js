@@ -41,7 +41,7 @@ export class Draggable {
     this.endCallback = callback;
   };
 
-  register = (thumb: HTMLElement, container: HTMLElement): Unregister => {
+  register = (container: HTMLElement, thumb: HTMLElement): Unregister => {
     let mouseDown: EventHandler;
 
     mouseDown = (mouseDown: MouseEvent) => {
@@ -63,8 +63,8 @@ export class Draggable {
           const thumbHeight = thumb.clientHeight;
           const scrollableWidth = containerWidth - thumbWidth;
           const scrollableHeight = containerHeight - thumbHeight;
-          const deltaPercentX = deltaX / scrollableWidth;
-          const deltaPercentY = deltaY / scrollableHeight;
+          const deltaPercentX = scrollableWidth > 0 ? deltaX / scrollableWidth : 0;
+          const deltaPercentY = scrollableHeight > 0 ? deltaY / scrollableHeight : 0;
 
           this.dragCallback(deltaPercentX, deltaPercentY);
         } else if (this.mode === DragMode.absolute) {
