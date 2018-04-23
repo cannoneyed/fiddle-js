@@ -29,7 +29,7 @@ export class ClipDragInteraction {
   @observable relativePositions = observable.map<string, ScreenVector>({});
 
   @observable dropTargetPosition: TimelineVector | null;
-  @observable dropTargetTrack: string | null;
+  @observable dropTargetTrackId: string | null;
 
   @action
   setIsDragging(isDragging: boolean) {
@@ -48,6 +48,11 @@ export class ClipDragInteraction {
   @action
   setDropTargetPosition(position: TimelineVector) {
     this.dropTargetPosition = position;
+  }
+
+  @action
+  setDropTargetTrackId(trackId: string | null) {
+    this.dropTargetTrackId = trackId;
   }
 
   @action

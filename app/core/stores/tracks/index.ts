@@ -25,7 +25,7 @@ export class TrackStore {
     const track = new Track();
 
     this.tracks.set(track.id, track);
-    this.trackList.unshift(track);
+    this.trackList.push(track);
     return track;
   };
 

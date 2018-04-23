@@ -1,12 +1,13 @@
 import { observable, action } from 'mobx';
 import { Inject, Service } from 'typedi';
+import { filterMethods } from 'utils/log-filter';
 
 import { computed } from 'mobx';
 import { WindowStore } from 'core/stores/window';
 
 @Service()
 export class SequencerPageLayout {
-  static mobxLoggerConfig = getMobxLoggerConfig();
+  static mobxLoggerConfig = filterMethods('deltaTracksAreaHeight');
 
   @Inject(type => WindowStore)
   windowStore: WindowStore;
@@ -47,16 +48,13 @@ export class SequencerPageLayout {
     return this.gutterWidth;
   }
 
+  @computed
+  get tracksAreaTop() {
+    return this.toolbarHeight + this.minimapHeight + this.timelineHeight;
+  }
+
   @action
   deltaTracksAreaHeight(deltaHeight: number) {
     this.tracksAreaHeight += deltaHeight;
   }
-}
-
-function getMobxLoggerConfig() {
-  return {
-    methods: {
-      deltaTracksAreaHeight: false,
-    },
-  };
 }

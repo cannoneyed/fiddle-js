@@ -15,4 +15,12 @@ export class TracksPositionService {
     const offsetX = screenX - leftEdge + scrolledX;
     return offsetX;
   };
+
+  getOffsetYFromScreenY = (screenY: number) => {
+    const topEdge = this.sequencerPageLayout.tracksAreaTop;
+    const scrolledY = this.tracksLayout.tracksScrolledY;
+
+    const offsetY = screenY - topEdge + scrolledY;
+    return offsetY;
+  };
 }

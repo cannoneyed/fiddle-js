@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
-import Caret from 'components/Caret';
-
 import { SequencerPositionService } from 'core/services/sequencer/position';
 
 import { SequencerPageLayout } from 'core/layouts/sequencer/page';
@@ -17,32 +15,28 @@ export default class DragToMarker extends React.Component<{}, {}> {
   sequencerPositionService = Container.get(SequencerPositionService);
 
   render() {
-    const { tracksSectionLayout } = this;
-    const { dropTargetPosition } = tracksSectionLayout.timeline;
+    const tracksLayout = this.tracksSectionLayout.tracks;
+    const { dropTargetPosition } = tracksLayout;
 
     if (!dropTargetPosition) {
       return null;
     }
 
-    const timelineHeight = this.sequencerPageLayout.timelineHeight;
+    const trackHeight = tracksLayout.trackHeight;
     const offsetX = this.sequencerPositionService.getOffsetX(dropTargetPosition);
 
-    const caretSize = 10;
-
     const style = {
-      left: offsetX - caretSize / 2 - 1,
-      top: timelineHeight - caretSize + 2,
+      left: offsetX - 1,
+      height: trackHeight,
     };
 
-    return (
-      <DragToMarkerContainer style={style}>
-        <Caret size={caretSize} />
-      </DragToMarkerContainer>
-    );
+    return <DragToMarkerContainer className="trackDragToMarker" style={style} />;
   }
 }
 
 const DragToMarkerContainer = styled.div`
   position: absolute;
   display: flex;
+  width: 2px;
+  background-color: yellow;
 `;

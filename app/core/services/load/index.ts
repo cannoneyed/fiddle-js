@@ -1,5 +1,6 @@
 import { Inject, Service } from 'typedi';
 import { action } from 'mobx';
+import { range } from 'lodash';
 
 import { ClipStore } from 'core/stores/clips';
 import { TrackStore } from 'core/stores/tracks';
@@ -15,9 +16,9 @@ export class LoadService {
 
   @action
   loadSession() {
-    const track = this.trackStore.createTrack();
+    const tracks = range(3).map(() => this.trackStore.createTrack());
     this.clipStore.createClip({
-      trackId: track.id,
+      trackId: tracks[0].id,
       position: new TimelineVector(4),
     });
   }

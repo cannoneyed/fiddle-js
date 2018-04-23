@@ -19,11 +19,6 @@ export const TimelineSegmentsContainer = styled.div`
   height: 100%;
 `;
 
-export const DragToMarkerContainer = styled.div`
-  position: absolute;
-  display: flex;
-`;
-
 export const TimelineSegment = styled.div`
   display: flex;
   flex-direction: row;

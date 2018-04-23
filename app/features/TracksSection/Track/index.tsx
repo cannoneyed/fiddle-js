@@ -5,12 +5,14 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { ContextMenu } from '@blueprintjs/core';
 
+import DragToMarker from './DragToMarker';
 import TrackContextMenu from 'features/TracksSection/TrackContextMenu';
 import Clip from 'features/Clip';
 
 import { Track as TrackModel } from 'core/models/track';
 import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 import { TrackMouseInteraction } from 'core/interactions/tracks/mouse';
+import { ClipDragInteraction } from 'core/interactions/clip/drag';
 
 interface Props {
   track: TrackModel;
@@ -23,13 +25,9 @@ interface State {
 
 @observer
 export default class Track extends React.Component<Props, State> {
+  clipDragInteraction = Container.get(ClipDragInteraction);
   tracksSectionLayout = Container.get(TracksSectionLayout);
   trackMouseInteraction = Container.get(TrackMouseInteraction);
-
-  handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    const { track } = this.props;
-    this.trackMouseInteraction.handleTrackClick(track, event);
-  };
 
   renderContextMenu = (offsetX: number) => {
     const { track } = this.props;
@@ -46,6 +44,7 @@ export default class Track extends React.Component<Props, State> {
   };
 
   render() {
+    const { trackMouseInteraction } = this;
     const { track } = this.props;
     const { trackHeight, trackWidth } = this.tracksSectionLayout.tracks;
 
@@ -54,12 +53,17 @@ export default class Track extends React.Component<Props, State> {
       width: trackWidth,
     };
 
+    const isDragging = this.clipDragInteraction.isDragging;
+
     return (
       <TrackContainer
         style={trackStyle}
-        onMouseDown={this.handleClick}
+        onMouseDown={e => trackMouseInteraction.handleTrackClick(track, e)}
+        onMouseEnter={e => trackMouseInteraction.handleMouseEnter(track, e)}
+        onMouseLeave={e => trackMouseInteraction.handleMouseLeave(track, e)}
         onContextMenu={this.showContextMenu}
       >
+        {isDragging && track.isMouseOver && <DragToMarker />}
         {track.clips.map((clip, index) => <Clip clip={clip} key={index} />)}
       </TrackContainer>
     );
