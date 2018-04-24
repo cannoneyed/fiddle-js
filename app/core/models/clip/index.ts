@@ -80,4 +80,9 @@ export class Clip {
   setPosition(position: TimelineVector) {
     this.position = position;
   }
+
+  @action
+  setTrackId(trackId: string) {
+    this.trackId = trackId;
+  }
 }

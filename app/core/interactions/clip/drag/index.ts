@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx';
 import { Service } from 'typedi';
 import { logMethods } from 'utils/log-filter';
-import { min, max } from 'lodash';
+import { clamp, min, max } from 'lodash';
 
 import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
@@ -48,35 +48,35 @@ export class ClipDragInteraction {
   upperTrackIndexBound: number;
 
   @action
-  setIsDragging(isDragging: boolean) {
+  setIsDragging = (isDragging: boolean) => {
     this.isDragging = true;
-  }
+  };
 
   @action
-  setDropTargetTimelinePosition(position: TimelineVector) {
+  setDropTargetTimelinePosition = (position: TimelineVector) => {
     this.dropTargetTimelinePosition = position;
-  }
+  };
 
   @action
-  setDropTargetTrackIndex(trackIndex: number) {
+  setDropTargetTrackIndex = (trackIndex: number) => {
     this.dropTargetTrackIndex = trackIndex;
-  }
+  };
 
   @action
-  setStartPosition(x: number, y: number) {
+  setStartPosition = (x: number, y: number) => {
     this.startX = x;
     this.startY = y;
-  }
+  };
 
   @action
-  setDelta(deltaX: number, deltaY: number) {
+  setDelta = (deltaX: number, deltaY: number) => {
     this.deltaX = deltaX;
     this.deltaY = deltaY;
     this.computeDragTargets();
-  }
+  };
 
   @action
-  computeDragTargets() {
+  computeDragTargets = () => {
     const x = this.startX + this.deltaX;
 
     // Compute the timeline position where the clip is being dragged to
@@ -85,12 +85,14 @@ export class ClipDragInteraction {
     this.setDropTargetTimelinePosition(snapToGridPosition);
 
     const dropTargetTrack = this.tracksMouseInteraction.trackMouseOver;
-    const dropTargetTrackIndex = dropTargetTrack ? dropTargetTrack.index : 0;
+    let dropTargetTrackIndex = dropTargetTrack ? dropTargetTrack.index : 0;
+    const { lowerTrackIndexBound, upperTrackIndexBound } = this;
+    dropTargetTrackIndex = clamp(dropTargetTrackIndex, lowerTrackIndexBound, upperTrackIndexBound);
     this.setDropTargetTrackIndex(dropTargetTrackIndex);
-  }
+  };
 
-  @action.bound
-  beginDrag(handleClip: Clip) {
+  @action
+  beginDrag = (handleClip: Clip) => {
     this.isDragging = true;
     this.handleClip = handleClip;
 
@@ -107,18 +109,19 @@ export class ClipDragInteraction {
     const maxIndex = this.trackStore.trackList.length - 1;
     this.lowerTrackIndexBound = handleClip.track.index - minSelectedTrackIndex;
     this.upperTrackIndexBound = maxIndex - (maxSelectedTrackIndex - handleClip.track.index);
-  }
+  };
 
   @action
-  endDrag() {
-    const { handleClip, dropTargetTimelinePosition } = this;
+  endDrag = () => {
+    const { handleClip, dropTargetTimelinePosition, dropTargetTrackIndex } = this;
     if (dropTargetTimelinePosition) {
       const { selectedClips } = this.clipSelect;
       const deltaTimeline = dropTargetTimelinePosition.subtract(handleClip.position);
-      this.clipMoveService.moveClips(selectedClips, deltaTimeline);
+      const deltaTrackIndex = dropTargetTrackIndex - handleClip.track.index;
+      this.clipMoveService.moveClips(selectedClips, deltaTimeline, deltaTrackIndex);
     }
 
     this.isDragging = false;
     this.relativePositions.clear();
-  }
+  };
 }

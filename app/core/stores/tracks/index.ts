@@ -19,6 +19,10 @@ export class TrackStore {
     return this.tracks.get(trackId);
   };
 
+  getTrackByIndex = (trackIndex: number) => {
+    return this.trackList[trackIndex];
+  };
+
   @action
   updateTrackIndices = () => {
     this.trackList.forEach((track, index) => (track.index = index));
