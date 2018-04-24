@@ -8,6 +8,7 @@ export const register = (clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) =
 
   const startX = mouseDown.pageX;
   const startY = mouseDown.pageY;
+
   const begin = Date.now();
 
   clipDragInteraction.setStartPosition(startX, startY);

@@ -75,8 +75,8 @@ export class ClipDragInteraction {
 
   @action
   computeDragTargets = () => {
-    const x = this.startX + this.deltaX;
-    const y = this.startY + this.deltaY;
+    const x = this.handleClipScreenPosition.x + this.deltaX;
+    const y = this.handleClipScreenPosition.y + this.deltaY;
 
     // Compute the timeline position where the clip is being dragged to
     const offsetX = this.tracksPositionService.getOffsetXFromScreenX(x);
