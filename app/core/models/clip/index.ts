@@ -53,7 +53,7 @@ export class Clip {
 
   @computed
   get track() {
-    return this.trackStore.getTrackById(this.trackId);
+    return this.trackStore.getTrackById(this.trackId)!;
   }
 
   getScreenVector = () => {

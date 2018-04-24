@@ -1,16 +1,18 @@
 import { action, observable } from 'mobx';
 import { Service } from 'typedi';
 import { logMethods } from 'utils/log-filter';
+import { min, max } from 'lodash';
 
 import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { ClipSelect } from 'core/interactions/clip/select';
 import { ClipMoveService } from 'core/services/sequencer/clip-move';
-import { TracksPositionService } from 'core/services/sequencer/position/tracks';
+import { ClipSelect } from 'core/interactions/clip/select';
 import { TracksMouseInteraction } from 'core/interactions/tracks/mouse';
+import { TracksPositionService } from 'core/services/sequencer/position/tracks';
 import { GridService } from 'core/services/sequencer/grid';
+import { TrackStore } from 'core/stores/tracks';
 
 export const DRAG_DELAY: number = 200;
 
@@ -23,7 +25,8 @@ export class ClipDragInteraction {
     private clipMoveService: ClipMoveService,
     private gridService: GridService,
     private tracksPositionService: TracksPositionService,
-    private tracksMouseInteraction: TracksMouseInteraction
+    private tracksMouseInteraction: TracksMouseInteraction,
+    private trackStore: TrackStore
   ) {}
 
   @observable isDragging: boolean = false;
@@ -40,6 +43,9 @@ export class ClipDragInteraction {
 
   @observable dropTargetTimelinePosition: TimelineVector | null;
   @observable dropTargetTrackIndex: number;
+
+  private lowerTrackIndexBound: number;
+  private upperTrackIndexBound: number;
 
   @action
   setIsDragging(isDragging: boolean) {
@@ -92,21 +98,15 @@ export class ClipDragInteraction {
     // DraggedClips container div
     this.handleClipScreenPosition = handleClip.getScreenVector();
 
-    // Set the relative screen positions of the other selected clips, so that they can be positioned
-    // correctly in the DraggedClips container div
+    // Compute the range of track indices of the selected clips so that the clips can't be dragged
+    // above or below the maximum or minimum clip
     const { selectedClips } = this.clipSelect;
+    const minSelectedTrackIndex = min(selectedClips.map(clip => clip.track.index)) || 0;
+    const maxSelectedTrackIndex = max(selectedClips.map(clip => clip.track.index)) || 0;
 
-    selectedClips.forEach(selectedClip => {
-      const clipScreenPosition = selectedClip.getScreenVector();
-      const relativePosition = clipScreenPosition.subtract(this.handleClipScreenPosition);
-      this.relativePositions.set(selectedClip.id, relativePosition);
-    });
-  }
-
-  getRelativePosition(clip: Clip) {
-    const { id } = clip;
-    const relativePosition = this.relativePositions.get(id);
-    return relativePosition || new ScreenVector();
+    const maxIndex = this.trackStore.trackList.length - 1;
+    this.lowerTrackIndexBound = handleClip.track.index - minSelectedTrackIndex;
+    this.upperTrackIndexBound = maxIndex - (maxSelectedTrackIndex - handleClip.track.index);
   }
 
   @action
