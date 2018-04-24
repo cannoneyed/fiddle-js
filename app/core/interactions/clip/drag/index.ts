@@ -9,6 +9,7 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { ClipMoveService } from 'core/services/sequencer/clip-move';
 import { ClipSelect } from 'core/interactions/clip/select';
+import { SequencerPositionService } from 'core/services/sequencer/position';
 import { TracksPositionService } from 'core/services/sequencer/position/tracks';
 import { GridService } from 'core/services/sequencer/grid';
 import { TrackStore } from 'core/stores/tracks';
@@ -23,6 +24,7 @@ export class ClipDragInteraction {
     private clipSelect: ClipSelect,
     private clipMoveService: ClipMoveService,
     private gridService: GridService,
+    private sequencerPositionService: SequencerPositionService,
     private tracksPositionService: TracksPositionService,
     private trackStore: TrackStore
   ) {}
@@ -42,6 +44,8 @@ export class ClipDragInteraction {
   @observable dropTargetTimelinePosition: TimelineVector | null;
   @observable dropTargetTrackIndex: number;
 
+  lowerTimelineTicksBound: number;
+  upperTimelineTicksBound: number;
   lowerTrackIndexBound: number;
   upperTrackIndexBound: number;
 
@@ -76,17 +80,17 @@ export class ClipDragInteraction {
   @action
   computeDragTargets = () => {
     const x = this.handleClipScreenPosition.x + this.deltaX;
-    const y = this.handleClipScreenPosition.y + this.deltaY;
+    const y = this.startY + this.deltaY;
 
     // Compute the timeline position where the clip is being dragged to
     const offsetX = this.tracksPositionService.getOffsetXFromScreenX(x);
     const snapToGridPosition = this.gridService.getNearestSnapPosition(offsetX);
     this.setDropTargetTimelinePosition(snapToGridPosition);
 
+    // Compute the track where the clip is being dragged to
     const offsetY = this.tracksPositionService.getOffsetYFromScreenY(y);
     const dropTargetTrack = this.tracksPositionService.getTrackFromOffsetY(offsetY);
 
-    // const dropTargetTrack = this.tracksMouseInteraction.trackMouseOver;
     let dropTargetTrackIndex = dropTargetTrack ? dropTargetTrack.index : 0;
     const { lowerTrackIndexBound, upperTrackIndexBound } = this;
     dropTargetTrackIndex = clamp(dropTargetTrackIndex, lowerTrackIndexBound, upperTrackIndexBound);
@@ -102,9 +106,21 @@ export class ClipDragInteraction {
     // DraggedClips container div
     this.handleClipScreenPosition = handleClip.getScreenVector();
 
+    const { selectedClips } = this.clipSelect;
+    // Compute the range of positions so that the clips can't be dragged out of the timeline
+    const { getTicks } = this.sequencerPositionService;
+    const startTicks = selectedClips.map(clip => getTicks(clip.position));
+    const endTicks = selectedClips.map(clip => getTicks(clip.position) + getTicks(clip.length));
+    const minTimelineDragTicks = min(startTicks) || 0;
+    const maxTimelineDragTicks = max(endTicks) || 0;
+
+    this.lowerTimelineTicksBound = getTicks(handleClip.position) - minTimelineDragTicks;
+    this.upperTimelineTicksBound =
+      maxTimelineDragTicks -
+      (getTicks(handleClip.position.add(handleClip.length)) - maxTimelineDragTicks);
+
     // Compute the range of track indices of the selected clips so that the clips can't be dragged
     // above or below the maximum or minimum clip
-    const { selectedClips } = this.clipSelect;
     const minSelectedTrackIndex = min(selectedClips.map(clip => clip.track.index)) || 0;
     const maxSelectedTrackIndex = max(selectedClips.map(clip => clip.track.index)) || 0;
 
