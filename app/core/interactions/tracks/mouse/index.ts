@@ -26,11 +26,11 @@ export class TracksMouseInteraction {
 
   @action
   handleMouseEnter = (track: Track, event: React.MouseEvent<HTMLElement>) => {
-    track.setIsMouseOver(true);
+    this.trackMouseOver = track;
   };
 
   @action
   handleMouseLeave = (track: Track, event: React.MouseEvent<HTMLElement>) => {
-    track.setIsMouseOver(false);
+    this.trackMouseOver = null;
   };
 }

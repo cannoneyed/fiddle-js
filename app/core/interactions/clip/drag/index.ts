@@ -39,7 +39,7 @@ export class ClipDragInteraction {
   @observable relativePositions = observable.map<string, ScreenVector>({});
 
   @observable dropTargetTimelinePosition: TimelineVector | null;
-  @observable dropTargetTrackId: string | null;
+  @observable dropTargetTrackIndex: number;
 
   @action
   setIsDragging(isDragging: boolean) {
@@ -52,8 +52,8 @@ export class ClipDragInteraction {
   }
 
   @action
-  setDropTargetTrackId(trackId: string | null) {
-    this.dropTargetTrackId = trackId;
+  setDropTargetTrackIndex(trackIndex: number) {
+    this.dropTargetTrackIndex = trackIndex;
   }
 
   @action
@@ -66,7 +66,11 @@ export class ClipDragInteraction {
   setDelta(deltaX: number, deltaY: number) {
     this.deltaX = deltaX;
     this.deltaY = deltaY;
+    this.computeDragTargets();
+  }
 
+  @action
+  computeDragTargets() {
     const x = this.startX + this.deltaX;
 
     // Compute the timeline position where the clip is being dragged to
@@ -75,8 +79,8 @@ export class ClipDragInteraction {
     this.setDropTargetTimelinePosition(snapToGridPosition);
 
     const dropTargetTrack = this.tracksMouseInteraction.trackMouseOver;
-    const dropTargetTrackId = dropTargetTrack ? dropTargetTrack.id : null;
-    this.setDropTargetTrackId(dropTargetTrackId);
+    const dropTargetTrackIndex = dropTargetTrack ? dropTargetTrack.index : 0;
+    this.setDropTargetTrackIndex(dropTargetTrackIndex);
   }
 
   @action.bound

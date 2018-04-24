@@ -11,6 +11,7 @@ export class Track {
   clipStore = Container.get(ClipStore);
 
   @observable id: string;
+  @observable index: number;
   @observable type = 'osc';
 
   // View properties
@@ -24,15 +25,6 @@ export class Track {
   get clips() {
     return this.clipStore.getClips().filter(clip => clip.trackId === this.id);
   }
-
-  // @computed
-  // get draggedClips() {
-  //   return this.clipStore.getDraggedClips().filter({clip, trackId} => {
-  //     if (trackId === this.index) {
-  //       return clip
-  //     }
-  //   });
-  // }
 
   @action
   setIsMouseOver(isMouseOver: boolean) {
