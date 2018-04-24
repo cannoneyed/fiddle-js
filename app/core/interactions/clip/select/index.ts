@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi';
+import { Service } from 'typedi';
 import { action, computed } from 'mobx';
 
 import { Clip } from 'core/models/Clip';
@@ -6,8 +6,7 @@ import { ClipStore } from 'core/stores/clips';
 
 @Service()
 export class ClipSelect {
-  @Inject(type => ClipStore)
-  clipStore: ClipStore;
+  constructor(private clipStore: ClipStore) {}
 
   @computed
   get selectedClips() {

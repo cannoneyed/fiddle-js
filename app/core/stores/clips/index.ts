@@ -1,15 +1,10 @@
-import { Inject, Service } from 'typedi';
+import { Service } from 'typedi';
 import { action, observable } from 'mobx';
 
 import { Clip, ClipParams } from 'core/models/clip';
 
-import { ClipSelect } from 'core/interactions/clip/select';
-
 @Service()
 export class ClipStore {
-  @Inject(type => ClipSelect)
-  clipSelect: ClipSelect;
-
   // The main store for clips (by id)
   @observable clips = observable.map<string, Clip>({});
 
@@ -22,13 +17,13 @@ export class ClipStore {
   };
 
   @action
-  deleteClip = (clipId: string) => {
-    this.clips.delete(clipId);
+  deleteClip = (clip: Clip) => {
+    this.clips.delete(clip.id);
   };
 
   @action
-  deleteSelectedClips = () => {
-    this.clipSelect.selectedClips.forEach((clip: Clip) => {
+  deleteClips = (clips: Clip[]) => {
+    clips.forEach(clip => {
       this.clips.delete(clip.id);
     });
   };

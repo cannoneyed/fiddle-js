@@ -51,7 +51,7 @@ export default class Clip extends React.Component<Props, State> {
 
   renderContextMenu = () => {
     const { clip } = this.props;
-    return <ClipContextMenu clipId={clip.id} />;
+    return <ClipContextMenu clip={clip} />;
   };
 
   showContextMenu = (event: React.MouseEvent<HTMLElement>) => {
