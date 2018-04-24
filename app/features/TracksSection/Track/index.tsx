@@ -59,7 +59,7 @@ export default class Track extends React.Component<Props, State> {
       <TrackContainer
         style={trackStyle}
         onMouseDown={e => trackMouseInteraction.handleTrackClick(track, e)}
-        onMouseEnter={e => trackMouseInteraction.handleMouseEnter(track, e)}
+        onMouseOver={e => trackMouseInteraction.handleMouseEnter(track, e)}
         onMouseLeave={e => trackMouseInteraction.handleMouseLeave(track, e)}
         onContextMenu={this.showContextMenu}
       >

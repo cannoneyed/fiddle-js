@@ -1,10 +1,13 @@
 import { Container } from 'typedi';
 import { action, computed, observable } from 'mobx';
+import { filterMethods } from 'utils/log-filter';
 import { generateId } from 'utils/generate-id';
 
 import { ClipStore } from 'core/stores/clips';
 
 export class Track {
+  static mobxLoggerConfig = filterMethods('setIsMouseOver');
+
   clipStore = Container.get(ClipStore);
 
   @observable id: string;

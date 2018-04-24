@@ -5,7 +5,9 @@ import { logMethods } from 'utils/log-filter';
 import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
+
 import { ClipSelect } from 'core/interactions/clip/select';
+import { ClipMoveService } from 'core/services/sequencer/clip-move';
 
 export const DRAG_DELAY: number = 200;
 
@@ -15,6 +17,9 @@ export class ClipDragInteraction {
 
   @Inject(type => ClipSelect)
   clipSelect: ClipSelect;
+
+  @Inject(type => ClipMoveService)
+  clipMoveService: ClipMoveService;
 
   @observable isDragging: boolean = false;
 
@@ -95,6 +100,13 @@ export class ClipDragInteraction {
 
   @action
   endDrag() {
+    const { handleClip, dropTargetPosition } = this;
+    if (dropTargetPosition) {
+      const { selectedClips } = this.clipSelect;
+      const deltaTimeline = dropTargetPosition.subtract(handleClip.position);
+      this.clipMoveService.moveClips(selectedClips, deltaTimeline);
+    }
+
     this.isDragging = false;
     this.relativePositions.clear();
   }
