@@ -1,12 +1,16 @@
-import { Container, Service } from 'typedi';
+import { Service } from 'typedi';
 
-import { TracksLayout } from 'core/layouts/sequencer/tracks/tracks';
 import { SequencerPageLayout } from 'core/layouts/sequencer/page';
+import { TracksLayout } from 'core/layouts/sequencer/tracks/tracks';
+import { TrackStore } from 'core/stores/tracks';
 
 @Service()
 export class TracksPositionService {
-  sequencerPageLayout = Container.get(SequencerPageLayout);
-  tracksLayout = Container.get(TracksLayout);
+  constructor(
+    private sequencerPageLayout: SequencerPageLayout,
+    private tracksLayout: TracksLayout,
+    private trackStore: TrackStore
+  ) {}
 
   getOffsetXFromScreenX = (screenX: number) => {
     const leftEdge = this.sequencerPageLayout.tracksAreaLeft;
@@ -22,5 +26,24 @@ export class TracksPositionService {
 
     const offsetY = screenY - topEdge + scrolledY;
     return offsetY;
+  };
+
+  getTrackFromOffsetY = (offsetY: number) => {
+    if (offsetY <= 0) {
+      return this.trackStore.firstTrack;
+    } else if (offsetY >= this.tracksLayout.tracksHeight) {
+      return this.trackStore.lastTrack;
+    }
+
+    let trackTop = 0;
+    for (const track of this.trackStore.trackList) {
+      const trackBottom = trackTop + this.tracksLayout.trackHeight;
+      if (offsetY >= trackTop && offsetY < trackBottom) {
+        return track;
+      }
+      trackTop = trackBottom;
+    }
+
+    return this.trackStore.firstTrack;
   };
 }

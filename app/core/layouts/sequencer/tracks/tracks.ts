@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi';
+import { Service } from 'typedi';
 import { action, computed, observable } from 'mobx';
 import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
@@ -12,31 +12,23 @@ import { TrackStore } from 'core/stores/tracks';
 import { GridLayout } from './grid';
 import { ZoomLayout } from './zoom';
 
-interface ISetTracksScroll {
-  x?: number;
-  y?: number;
-}
-
 @Service()
 export class TracksLayout {
   static mobxLoggerConfig = filterMethods('setTracksScroll');
 
-  @Inject(type => ClipDragInteraction)
-  clipDragInteraction: ClipDragInteraction;
-  @Inject(type => TrackStore)
-  trackStore: TrackStore;
-  @Inject(type => GridLayout)
-  gridLayout: GridLayout;
-  @Inject(type => SequencerPageLayout)
-  sequencerPageLayout: SequencerPageLayout;
-  @Inject(type => ZoomLayout)
-  zoomLayout: ZoomLayout;
+  constructor(
+    private clipDragInteraction: ClipDragInteraction,
+    private gridLayout: GridLayout,
+    private sequencerPageLayout: SequencerPageLayout,
+    private trackStore: TrackStore,
+    private zoomLayout: ZoomLayout
+  ) {}
 
   @observable tracksScrollPercentX = 0;
   @observable tracksScrollPercentY = 0;
 
   @action.bound
-  setTracksScroll = (tracksScroll: ISetTracksScroll) => {
+  setTracksScroll = (tracksScroll: { x?: number; y?: number }) => {
     const { x, y } = tracksScroll;
     if (x !== undefined) {
       this.tracksScrollPercentX = clamp(x, 0, 1);

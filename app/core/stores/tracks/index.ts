@@ -1,6 +1,7 @@
 import { Service } from 'typedi';
-import { action, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { filterMethods } from 'utils/log-filter';
+import { first, last } from 'lodash';
 
 import { Track } from 'core/models/track';
 import { ClipStore } from 'core/stores/clips';
@@ -22,6 +23,16 @@ export class TrackStore {
   getTrackByIndex = (trackIndex: number) => {
     return this.trackList[trackIndex];
   };
+
+  @computed
+  get firstTrack() {
+    return first(this.trackList);
+  }
+
+  @computed
+  get lastTrack() {
+    return last(this.trackList);
+  }
 
   @action
   updateTrackIndices = () => {

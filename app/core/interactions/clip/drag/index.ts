@@ -9,7 +9,6 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { ClipMoveService } from 'core/services/sequencer/clip-move';
 import { ClipSelect } from 'core/interactions/clip/select';
-import { TracksMouseInteraction } from 'core/interactions/tracks/mouse';
 import { TracksPositionService } from 'core/services/sequencer/position/tracks';
 import { GridService } from 'core/services/sequencer/grid';
 import { TrackStore } from 'core/stores/tracks';
@@ -25,7 +24,6 @@ export class ClipDragInteraction {
     private clipMoveService: ClipMoveService,
     private gridService: GridService,
     private tracksPositionService: TracksPositionService,
-    private tracksMouseInteraction: TracksMouseInteraction,
     private trackStore: TrackStore
   ) {}
 
@@ -78,13 +76,17 @@ export class ClipDragInteraction {
   @action
   computeDragTargets = () => {
     const x = this.startX + this.deltaX;
+    const y = this.startY + this.deltaY;
 
     // Compute the timeline position where the clip is being dragged to
     const offsetX = this.tracksPositionService.getOffsetXFromScreenX(x);
     const snapToGridPosition = this.gridService.getNearestSnapPosition(offsetX);
     this.setDropTargetTimelinePosition(snapToGridPosition);
 
-    const dropTargetTrack = this.tracksMouseInteraction.trackMouseOver;
+    const offsetY = this.tracksPositionService.getOffsetYFromScreenY(y);
+    const dropTargetTrack = this.tracksPositionService.getTrackFromOffsetY(offsetY);
+
+    // const dropTargetTrack = this.tracksMouseInteraction.trackMouseOver;
     let dropTargetTrackIndex = dropTargetTrack ? dropTargetTrack.index : 0;
     const { lowerTrackIndexBound, upperTrackIndexBound } = this;
     dropTargetTrackIndex = clamp(dropTargetTrackIndex, lowerTrackIndexBound, upperTrackIndexBound);
