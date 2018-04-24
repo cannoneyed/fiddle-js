@@ -2,11 +2,9 @@ import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
-import DraggedClips from 'features/DraggedClips';
 import Track from 'features/TracksSection/Track';
 import VerticalGrid from 'features/TracksSection/VerticalGrid';
 
-import { ClipDragInteraction } from 'core/interactions/clip/drag';
 import { TrackStore } from 'core/stores/tracks';
 import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
@@ -17,7 +15,6 @@ interface Props {}
 
 @observer
 export default class TracksArea extends React.Component<Props, {}> {
-  clipDragInteraction = Container.get(ClipDragInteraction);
   sequencerPageLayout = Container.get(SequencerPageLayout);
   tracksSectionLayout = Container.get(TracksSectionLayout);
   trackStore = Container.get(TrackStore);
@@ -29,7 +26,6 @@ export default class TracksArea extends React.Component<Props, {}> {
     const { gridCount, gridSegmentWidth } = this.tracksSectionLayout.grid;
 
     const gridHeight = Math.max(trackList.length * trackHeight, tracksAreaHeight);
-    const { isDragging } = this.clipDragInteraction;
 
     return (
       <TracksAreaContainer id="tracksArea">
@@ -39,7 +35,6 @@ export default class TracksArea extends React.Component<Props, {}> {
         <TracksContainer>
           {trackList.map((track, index) => <Track track={track} index={index} key={index} />)}
         </TracksContainer>
-        {isDragging && <DraggedClips />}
       </TracksAreaContainer>
     );
   }
