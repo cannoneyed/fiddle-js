@@ -9,6 +9,7 @@ import { TrackStore } from 'core/stores/tracks';
 import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
+import DragToMarker from './DragToMarker';
 import { TracksAreaContainer, GridContainer, TracksContainer } from './styled-components';
 
 interface Props {}
@@ -29,6 +30,7 @@ export default class TracksArea extends React.Component<Props, {}> {
 
     return (
       <TracksAreaContainer id="tracksArea">
+        <DragToMarker />
         <GridContainer height={gridHeight}>
           <VerticalGrid gridCount={gridCount} gridSegmentWidth={gridSegmentWidth} />
         </GridContainer>

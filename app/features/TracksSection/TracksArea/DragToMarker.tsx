@@ -1,9 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import theme from 'styles/theme';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
-
-import Caret from 'components/Caret';
 
 import { SequencerPositionService } from 'core/services/sequencer/position';
 
@@ -24,25 +23,24 @@ export default class DragToMarker extends React.Component<{}, {}> {
       return null;
     }
 
-    const timelineHeight = this.sequencerPageLayout.timelineHeight;
+    const tracksAreaHeight = this.sequencerPageLayout.tracksAreaHeight;
     const offsetX = this.sequencerPositionService.getOffsetX(dropTargetPosition);
 
-    const caretSize = 10;
+    // const caretSize = 10;
 
     const style = {
-      left: offsetX - caretSize / 2 - 0.75,
-      top: timelineHeight - caretSize + 2,
+      left: offsetX - 1,
+      height: tracksAreaHeight,
     };
 
-    return (
-      <DragToMarkerContainer style={style}>
-        <Caret size={caretSize} />
-      </DragToMarkerContainer>
-    );
+    return <DragToMarkerBar style={style} />;
   }
 }
 
-const DragToMarkerContainer = styled.div`
+const DragToMarkerBar = styled.div`
   position: absolute;
-  display: flex;
+  z-index: 999;
+  position: absolute;
+  width: 1px;
+  background-color: ${theme.colors.white.toRgbString()};
 `;

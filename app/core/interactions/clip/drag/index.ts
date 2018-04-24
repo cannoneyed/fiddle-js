@@ -44,8 +44,8 @@ export class ClipDragInteraction {
   @observable dropTargetTimelinePosition: TimelineVector | null;
   @observable dropTargetTrackIndex: number;
 
-  private lowerTrackIndexBound: number;
-  private upperTrackIndexBound: number;
+  lowerTrackIndexBound: number;
+  upperTrackIndexBound: number;
 
   @action
   setIsDragging(isDragging: boolean) {
