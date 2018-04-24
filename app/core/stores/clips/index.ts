@@ -2,7 +2,6 @@ import { Inject, Service } from 'typedi';
 import { action, observable } from 'mobx';
 
 import { Clip, ClipParams } from 'core/models/clip';
-import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { ClipSelect } from 'core/interactions/clip/select';
 
@@ -13,13 +12,6 @@ export class ClipStore {
 
   // The main store for clips (by id)
   @observable clips = observable.map<string, Clip>({});
-
-  constructor() {
-    this.createClip({
-      trackId: '20',
-      position: new TimelineVector(4),
-    });
-  }
 
   // Actions
   @action
@@ -53,6 +45,12 @@ export class ClipStore {
   @observable
   getClips = () => {
     return Array.from(this.clips.values());
+  };
+
+  @observable
+  getDraggedClips = () => {
+    const clips = Array.from(this.clips.values());
+    return clips;
   };
 }
 

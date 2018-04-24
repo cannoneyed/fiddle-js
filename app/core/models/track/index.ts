@@ -25,6 +25,15 @@ export class Track {
     return this.clipStore.getClips().filter(clip => clip.trackId === this.id);
   }
 
+  // @computed
+  // get draggedClips() {
+  //   return this.clipStore.getDraggedClips().filter({clip, trackId} => {
+  //     if (trackId === this.index) {
+  //       return clip
+  //     }
+  //   });
+  // }
+
   @action
   setIsMouseOver(isMouseOver: boolean) {
     this.isMouseOver = isMouseOver;

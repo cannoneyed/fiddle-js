@@ -1,5 +1,5 @@
-import { action, computed, observable } from 'mobx';
-import { Inject, Service } from 'typedi';
+import { action, observable } from 'mobx';
+import { Service } from 'typedi';
 import { logMethods } from 'utils/log-filter';
 
 import { Clip } from 'core/models/clip';
@@ -8,6 +8,9 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { ClipSelect } from 'core/interactions/clip/select';
 import { ClipMoveService } from 'core/services/sequencer/clip-move';
+import { TracksPositionService } from 'core/services/sequencer/position/tracks';
+import { TracksMouseInteraction } from 'core/interactions/tracks/mouse';
+import { GridService } from 'core/services/sequencer/grid';
 
 export const DRAG_DELAY: number = 200;
 
@@ -15,11 +18,13 @@ export const DRAG_DELAY: number = 200;
 export class ClipDragInteraction {
   static mobxLoggerConfig = logMethods('beginDrag', 'endDrag');
 
-  @Inject(type => ClipSelect)
-  clipSelect: ClipSelect;
-
-  @Inject(type => ClipMoveService)
-  clipMoveService: ClipMoveService;
+  constructor(
+    private clipSelect: ClipSelect,
+    private clipMoveService: ClipMoveService,
+    private gridService: GridService,
+    private tracksPositionService: TracksPositionService,
+    private tracksMouseInteraction: TracksMouseInteraction
+  ) {}
 
   @observable isDragging: boolean = false;
 
@@ -33,7 +38,7 @@ export class ClipDragInteraction {
   @observable handleClipScreenPosition: ScreenVector;
   @observable relativePositions = observable.map<string, ScreenVector>({});
 
-  @observable dropTargetPosition: TimelineVector | null;
+  @observable dropTargetTimelinePosition: TimelineVector | null;
   @observable dropTargetTrackId: string | null;
 
   @action
@@ -41,18 +46,9 @@ export class ClipDragInteraction {
     this.isDragging = true;
   }
 
-  @computed
-  get draggedClipsPosition() {
-    const { x, y } = this.handleClipScreenPosition;
-    return {
-      x: x + this.deltaX,
-      y: y + this.deltaY,
-    };
-  }
-
   @action
-  setDropTargetPosition(position: TimelineVector) {
-    this.dropTargetPosition = position;
+  setDropTargetTimelinePosition(position: TimelineVector) {
+    this.dropTargetTimelinePosition = position;
   }
 
   @action
@@ -67,9 +63,20 @@ export class ClipDragInteraction {
   }
 
   @action
-  setDelta(x: number, y: number) {
-    this.deltaX = x;
-    this.deltaY = y;
+  setDelta(deltaX: number, deltaY: number) {
+    this.deltaX = deltaX;
+    this.deltaY = deltaY;
+
+    const x = this.startX + this.deltaX;
+
+    // Compute the timeline position where the clip is being dragged to
+    const offsetX = this.tracksPositionService.getOffsetXFromScreenX(x);
+    const snapToGridPosition = this.gridService.getNearestSnapPosition(offsetX);
+    this.setDropTargetTimelinePosition(snapToGridPosition);
+
+    const dropTargetTrack = this.tracksMouseInteraction.trackMouseOver;
+    const dropTargetTrackId = dropTargetTrack ? dropTargetTrack.id : null;
+    this.setDropTargetTrackId(dropTargetTrackId);
   }
 
   @action.bound
@@ -100,10 +107,10 @@ export class ClipDragInteraction {
 
   @action
   endDrag() {
-    const { handleClip, dropTargetPosition } = this;
-    if (dropTargetPosition) {
+    const { handleClip, dropTargetTimelinePosition } = this;
+    if (dropTargetTimelinePosition) {
       const { selectedClips } = this.clipSelect;
-      const deltaTimeline = dropTargetPosition.subtract(handleClip.position);
+      const deltaTimeline = dropTargetTimelinePosition.subtract(handleClip.position);
       this.clipMoveService.moveClips(selectedClips, deltaTimeline);
     }
 

@@ -96,6 +96,8 @@ export class TracksLayout {
 
   @computed
   get dropTargetPosition() {
-    return this.clipDragInteraction.isDragging ? this.clipDragInteraction.dropTargetPosition : null;
+    return this.clipDragInteraction.isDragging
+      ? this.clipDragInteraction.dropTargetTimelinePosition
+      : null;
   }
 }

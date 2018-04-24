@@ -1,14 +1,15 @@
-import { Container } from 'typedi';
+import { Service } from 'typedi';
 import { action, observable } from 'mobx';
 import { filterMethods } from 'utils/log-filter';
 
 import { Track } from 'core/models/Track';
 import { ClipSelect } from 'core/interactions/clip/select';
 
-export class TrackMouseInteraction {
+@Service()
+export class TracksMouseInteraction {
   static mobxLoggerConfig = filterMethods('handleMouseEnter', 'handleMouseLeave');
 
-  clipSelect = Container.get(ClipSelect);
+  constructor(private clipSelect: ClipSelect) {}
 
   @observable trackMouseOver: Track | null;
 
@@ -33,5 +34,3 @@ export class TrackMouseInteraction {
     track.setIsMouseOver(false);
   };
 }
-
-export const trackMouseInteraction = new TrackMouseInteraction();

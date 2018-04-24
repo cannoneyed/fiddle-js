@@ -11,7 +11,7 @@ import Clip from 'features/Clip';
 
 import { Track as TrackModel } from 'core/models/track';
 import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
-import { TrackMouseInteraction } from 'core/interactions/tracks/mouse';
+import { TracksMouseInteraction } from 'core/interactions/tracks/mouse';
 import { ClipDragInteraction } from 'core/interactions/clip/drag';
 
 interface Props {
@@ -27,7 +27,7 @@ interface State {
 export default class Track extends React.Component<Props, State> {
   clipDragInteraction = Container.get(ClipDragInteraction);
   tracksSectionLayout = Container.get(TracksSectionLayout);
-  trackMouseInteraction = Container.get(TrackMouseInteraction);
+  trackMouseInteraction = Container.get(TracksMouseInteraction);
 
   renderContextMenu = (offsetX: number) => {
     const { track } = this.props;
