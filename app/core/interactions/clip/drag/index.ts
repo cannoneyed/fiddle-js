@@ -7,6 +7,7 @@ import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
+import { ClipStore } from 'core/stores/clips';
 import { ClipMoveService } from 'core/services/sequencer/clip-move';
 import { ClipSelect } from 'core/interactions/clip/select';
 import { SequencerPositionService } from 'core/services/sequencer/position';
@@ -22,6 +23,7 @@ export class ClipDragInteraction {
 
   constructor(
     private clipSelect: ClipSelect,
+    private clipStore: ClipStore,
     private clipMoveService: ClipMoveService,
     private gridService: GridService,
     private sequencerPositionService: SequencerPositionService,
@@ -41,8 +43,12 @@ export class ClipDragInteraction {
   @observable handleClipScreenPosition: ScreenVector;
   @observable relativePositions = observable.map<string, ScreenVector>({});
 
-  @observable dropTargetTimelinePosition: TimelineVector | null;
+  @observable dropTargetTimelinePosition: TimelineVector;
   @observable dropTargetTrackIndex: number;
+
+  shouldUpdateDraggedClips = false;
+  deltaTimelinePosition: TimelineVector;
+  deltaTrackIndex: number;
 
   lowerPositionBound: TimelineVector;
   upperPositionBound: TimelineVector;
@@ -75,6 +81,7 @@ export class ClipDragInteraction {
     this.deltaX = deltaX;
     this.deltaY = deltaY;
     this.computeDragTargets();
+    this.updateDraggedClips();
   };
 
   @action
@@ -101,7 +108,34 @@ export class ClipDragInteraction {
     const { lowerTrackIndexBound, upperTrackIndexBound } = this;
     dropTargetTrackIndex = clamp(dropTargetTrackIndex, lowerTrackIndexBound, upperTrackIndexBound);
     this.setDropTargetTrackIndex(dropTargetTrackIndex);
+
+    const deltaTrackIndex = dropTargetTrackIndex - this.handleClip.track.index;
+    const deltaTimelinePosition = position.subtract(this.handleClip.position);
+
+    if (
+      deltaTrackIndex !== this.deltaTrackIndex ||
+      !this.deltaTimelinePosition.isEqualTo(deltaTimelinePosition)
+    ) {
+      this.deltaTrackIndex = deltaTrackIndex;
+      this.deltaTimelinePosition = deltaTimelinePosition;
+      this.shouldUpdateDraggedClips = true;
+    }
   };
+
+  @action
+  updateDraggedClips() {
+    if (this.shouldUpdateDraggedClips) {
+      this.clipStore.draggedClips.forEach(draggedClip => {
+        const originalClip = this.clipStore.clips.get(draggedClip.id)!;
+        draggedClip.position = originalClip.position.add(this.deltaTimelinePosition);
+
+        const nextIndex = originalClip.track.index + this.deltaTrackIndex;
+        const nextTrack = this.trackStore.getTrackByIndex(nextIndex);
+        draggedClip.trackId = nextTrack.id;
+      });
+    }
+    this.shouldUpdateDraggedClips = false;
+  }
 
   @action
   beginDrag = (handleClip: Clip) => {
@@ -112,7 +146,10 @@ export class ClipDragInteraction {
     // DraggedClips container div
     this.handleClipScreenPosition = handleClip.getScreenVector();
 
+    // Set all temporary dragging clips for rendering in the tracks
     const { selectedClips } = this.clipSelect;
+    this.clipStore.setDraggedClips(selectedClips);
+
     // Compute the range of positions so that the clips can't be dragged out of the timeline
     const startPositions = selectedClips.map(clip => clip.position);
     const endPositions = selectedClips.map(clip => clip.end);
@@ -124,11 +161,6 @@ export class ClipDragInteraction {
 
     this.lowerPositionBound = handleClip.position.subtract(minStartPosition);
     this.upperPositionBound = timelineEnd.subtract(maxEndPosition.subtract(handleClip.position));
-
-    // // TODO: We'll probably want to clamp this not via
-    // const { getOffsetX } = this.sequencerPositionService;
-    // this.lowerTimelineOffsetXBound = getOffsetX(lowerTimelinePositionBound;
-    // this.upperTimelineOffsetXBound = getOffsetX(upperTimelinePositionBound;
 
     // Compute the range of track indices of the selected clips so that the clips can't be dragged
     // above or below the maximum or minimum clip
@@ -155,5 +187,7 @@ export class ClipDragInteraction {
 
     this.isDragging = false;
     this.relativePositions.clear();
+
+    this.clipStore.clearDraggedClips();
   };
 }

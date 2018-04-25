@@ -10,6 +10,7 @@ import { TrackStore } from 'core/stores/tracks';
 
 export interface ClipParams {
   trackId: string;
+  length: TimelineVector;
   position: TimelineVector;
 }
 
@@ -28,13 +29,13 @@ export class Clip {
   @observable isDragging = false;
 
   constructor(params: ClipParams) {
-    const { trackId, position } = params;
+    const { trackId, position, length } = params;
     this.id = generateId();
     this.domId = `clip_${this.id}`;
 
     this.trackId = trackId;
     this.position = position;
-    this.length = new TimelineVector(2);
+    this.length = length || new TimelineVector(2);
   }
 
   @computed
@@ -90,5 +91,13 @@ export class Clip {
   @action
   setTrackId(trackId: string) {
     this.trackId = trackId;
+  }
+
+  static copy(clip: Clip) {
+    return new Clip({
+      trackId: clip.trackId,
+      length: clip.length,
+      position: clip.position,
+    });
   }
 }

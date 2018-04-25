@@ -23,7 +23,12 @@ export class Track {
 
   @computed
   get clips() {
-    return this.clipStore.getClips().filter(clip => clip.trackId === this.id);
+    return this.clipStore.getClips().filter(clip => clip.track === this);
+  }
+
+  @computed
+  get draggedClips() {
+    return this.clipStore.getDraggedClips().filter(clip => clip.track === this);
   }
 
   @action

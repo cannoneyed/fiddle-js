@@ -2,17 +2,20 @@ import { Service } from 'typedi';
 import { action, observable } from 'mobx';
 
 import { Clip, ClipParams } from 'core/models/clip';
+import { TimelineVector } from '../../primitives/timeline-vector';
 
 @Service()
 export class ClipStore {
   // The main store for clips (by id)
   @observable clips = observable.map<string, Clip>({});
 
+  // The temporary store for clips being dragged in the sequencer
+  @observable draggedClips = observable.map<string, Clip>({});
+
   // Actions
   @action
   createClip = (params: ClipParams) => {
-    const { trackId, position } = params;
-    const clip = new Clip({ trackId, position });
+    const clip = new Clip(params);
     this.clips.set(clip.id, clip);
   };
 
@@ -44,8 +47,24 @@ export class ClipStore {
 
   @observable
   getDraggedClips = () => {
-    const clips = Array.from(this.clips.values());
-    return clips;
+    return Array.from(this.draggedClips.values());
+  };
+
+  @action
+  setDraggedClips = (clips: Clip[]) => {
+    clips.forEach(clip => {
+      const draggedClip = Clip.copy(clip);
+      draggedClip.isDragging = true;
+      draggedClip.isSelected = true;
+      draggedClip.id = clip.id;
+      draggedClip.position = draggedClip.position.add(new TimelineVector(1));
+      this.draggedClips.set(draggedClip.id, draggedClip);
+    });
+  };
+
+  @action
+  clearDraggedClips = () => {
+    this.draggedClips.clear();
   };
 }
 

@@ -3,6 +3,7 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { Menu, MenuItem } from '@blueprintjs/core';
 
+import { TimelineVector } from 'core/primitives/timeline-vector';
 import { TrackStore } from 'core/stores/tracks';
 import { ClipStore } from 'core/stores/clips';
 import { SequencerPositionService } from 'core/services/sequencer/position';
@@ -29,7 +30,8 @@ export default class TrackContextMenu extends React.Component<Props, {}> {
     const { clipStore } = this;
     const position = this.sequencerPositionService.getTimelineVectorFromOffsetX(offsetX);
 
-    clipStore.createClip({ trackId, position });
+    const length = new TimelineVector(2);
+    clipStore.createClip({ trackId, length, position });
   };
 
   render() {

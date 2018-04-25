@@ -5,7 +5,6 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { ContextMenu } from '@blueprintjs/core';
 
-import DragToMarker from './DragToMarker';
 import TrackContextMenu from 'features/TracksSection/TrackContextMenu';
 import Clip from 'features/Clip';
 
@@ -53,8 +52,6 @@ export default class Track extends React.Component<Props, State> {
       width: trackWidth,
     };
 
-    const isDragging = this.clipDragInteraction.isDragging;
-
     return (
       <TrackContainer
         style={trackStyle}
@@ -63,8 +60,8 @@ export default class Track extends React.Component<Props, State> {
         onMouseLeave={e => trackMouseInteraction.handleMouseLeave(track, e)}
         onContextMenu={this.showContextMenu}
       >
-        {isDragging && track.isMouseOver && <DragToMarker />}
         {track.clips.map((clip, index) => <Clip clip={clip} key={index} />)}
+        {track.draggedClips.map((clip, index) => <Clip clip={clip} key={index} />)}
       </TrackContainer>
     );
   }
