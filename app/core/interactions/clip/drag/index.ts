@@ -138,6 +138,8 @@ export class ClipDragInteraction {
     const maxIndex = this.trackStore.trackList.length - 1;
     this.lowerTrackIndexBound = handleClip.track.index - minSelectedTrackIndex;
     this.upperTrackIndexBound = maxIndex - (maxSelectedTrackIndex - handleClip.track.index);
+
+    selectedClips.forEach(clip => (clip.isDragging = true));
   };
 
   @action
@@ -148,6 +150,7 @@ export class ClipDragInteraction {
       const deltaTimeline = dropTargetTimelinePosition.subtract(handleClip.position);
       const deltaTrackIndex = dropTargetTrackIndex - handleClip.track.index;
       this.clipMoveService.moveClips(selectedClips, deltaTimeline, deltaTrackIndex);
+      selectedClips.forEach(clip => (clip.isDragging = false));
     }
 
     this.isDragging = false;

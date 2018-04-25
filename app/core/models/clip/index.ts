@@ -25,6 +25,7 @@ export class Clip {
   @observable position: TimelineVector;
 
   @observable isSelected = false;
+  @observable isDragging = false;
 
   constructor(params: ClipParams) {
     const { trackId, position } = params;
