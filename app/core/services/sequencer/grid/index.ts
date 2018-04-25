@@ -3,7 +3,7 @@ import { Service } from 'typedi';
 import { Fraction } from 'core/primitives/fraction';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { gridLayout } from 'core/layouts/sequencer/tracks/grid';
+import { GridLayout } from 'core/layouts/sequencer/tracks/grid';
 
 export enum DivisionType {
   primary,
@@ -14,8 +14,10 @@ export enum DivisionType {
 
 @Service()
 export class GridService {
+  constructor(private gridLayout: GridLayout) {}
+
   getNearestSnapPosition = (offsetX: number) => {
-    const { divisionWidth, division } = gridLayout;
+    const { divisionWidth, division } = this.gridLayout;
 
     const prevDivision = Math.floor(offsetX / divisionWidth);
     const nextDivision = prevDivision + 1;

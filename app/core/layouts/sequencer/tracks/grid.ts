@@ -1,10 +1,10 @@
-import { Container, Service } from 'typedi';
+import { Service } from 'typedi';
 import { computed } from 'mobx';
 import * as defaults from 'defaults/view';
 
 import { Fraction } from 'core/primitives/fraction';
 
-import { timelineState } from 'core/stores/sequencer/timeline';
+import { TimelineState } from 'core/stores/sequencer/timeline';
 
 import { ZoomLayout } from './zoom';
 
@@ -13,7 +13,7 @@ const MAX_DIVISION_WIDTH = 25;
 
 @Service()
 export class GridLayout {
-  zoomLayout = Container.get(ZoomLayout);
+  constructor(private timelineState: TimelineState, private zoomLayout: ZoomLayout) {}
 
   barsPerGridSegment = 1;
 
@@ -25,7 +25,7 @@ export class GridLayout {
 
   @computed
   get gridCount() {
-    return timelineState.length;
+    return this.timelineState.length;
   }
 
   @computed
@@ -61,7 +61,7 @@ export class GridLayout {
 
   @computed
   get nDivisions() {
-    return this.division.inverse().multiplyScalar(timelineState.length);
+    return this.division.inverse().multiplyScalar(this.timelineState.length);
   }
 
   @computed
@@ -69,5 +69,3 @@ export class GridLayout {
     return this.division.multiplyScalar(this.barWidth);
   }
 }
-
-export const gridLayout = new GridLayout();

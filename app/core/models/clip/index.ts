@@ -37,6 +37,11 @@ export class Clip {
   }
 
   @computed
+  get end() {
+    return this.position.add(this.length);
+  }
+
+  @computed
   get width() {
     return this.sequencerPositionService.getOffsetX(this.length);
   }

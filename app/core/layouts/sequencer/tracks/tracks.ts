@@ -6,7 +6,7 @@ import { filterMethods } from 'utils/log-filter';
 
 import { ClipDragInteraction } from 'core/interactions/clip/drag';
 import { SequencerPageLayout } from 'core/layouts/sequencer/page';
-import { timelineState } from 'core/stores/sequencer/timeline';
+import { TimelineState } from 'core/stores/sequencer/timeline';
 import { TrackStore } from 'core/stores/tracks';
 
 import { GridLayout } from './grid';
@@ -21,6 +21,7 @@ export class TracksLayout {
     private gridLayout: GridLayout,
     private sequencerPageLayout: SequencerPageLayout,
     private trackStore: TrackStore,
+    private timelineState: TimelineState,
     private zoomLayout: ZoomLayout
   ) {}
 
@@ -46,7 +47,7 @@ export class TracksLayout {
 
   @computed
   get trackWidth() {
-    return timelineState.length * this.gridLayout.barWidth;
+    return this.timelineState.length * this.gridLayout.barWidth;
   }
 
   @computed

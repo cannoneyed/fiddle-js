@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx';
 import { Service } from 'typedi';
 import { logMethods } from 'utils/log-filter';
-import { clamp, min, max } from 'lodash';
+import { clamp, first, last, min, max } from 'lodash';
 
 import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
@@ -44,8 +44,8 @@ export class ClipDragInteraction {
   @observable dropTargetTimelinePosition: TimelineVector | null;
   @observable dropTargetTrackIndex: number;
 
-  lowerTimelineTicksBound: number;
-  upperTimelineTicksBound: number;
+  lowerPositionBound: TimelineVector;
+  upperPositionBound: TimelineVector;
   lowerTrackIndexBound: number;
   upperTrackIndexBound: number;
 
@@ -83,9 +83,15 @@ export class ClipDragInteraction {
     const y = this.startY + this.deltaY;
 
     // Compute the timeline position where the clip is being dragged to
-    const offsetX = this.tracksPositionService.getOffsetXFromScreenX(x);
+    let offsetX = this.tracksPositionService.getOffsetXFromScreenX(x);
     const snapToGridPosition = this.gridService.getNearestSnapPosition(offsetX);
-    this.setDropTargetTimelinePosition(snapToGridPosition);
+    const position = TimelineVector.clamp(
+      snapToGridPosition,
+      this.lowerPositionBound,
+      this.upperPositionBound
+    );
+
+    this.setDropTargetTimelinePosition(position);
 
     // Compute the track where the clip is being dragged to
     const offsetY = this.tracksPositionService.getOffsetYFromScreenY(y);
@@ -108,16 +114,21 @@ export class ClipDragInteraction {
 
     const { selectedClips } = this.clipSelect;
     // Compute the range of positions so that the clips can't be dragged out of the timeline
-    const { getTicks } = this.sequencerPositionService;
-    const startTicks = selectedClips.map(clip => getTicks(clip.position));
-    const endTicks = selectedClips.map(clip => getTicks(clip.position) + getTicks(clip.length));
-    const minTimelineDragTicks = min(startTicks) || 0;
-    const maxTimelineDragTicks = max(endTicks) || 0;
+    const startPositions = selectedClips.map(clip => clip.position);
+    const endPositions = selectedClips.map(clip => clip.end);
 
-    this.lowerTimelineTicksBound = getTicks(handleClip.position) - minTimelineDragTicks;
-    this.upperTimelineTicksBound =
-      maxTimelineDragTicks -
-      (getTicks(handleClip.position.add(handleClip.length)) - maxTimelineDragTicks);
+    const timelineStart = this.sequencerPositionService.getTimelineStart();
+    const timelineEnd = this.sequencerPositionService.getTimelineEnd();
+    const minStartPosition = first(TimelineVector.sortAscending(startPositions)) || timelineStart;
+    const maxEndPosition = last(TimelineVector.sortAscending(endPositions)) || timelineEnd;
+
+    this.lowerPositionBound = handleClip.position.subtract(minStartPosition);
+    this.upperPositionBound = timelineEnd.subtract(maxEndPosition.subtract(handleClip.position));
+
+    // // TODO: We'll probably want to clamp this not via
+    // const { getOffsetX } = this.sequencerPositionService;
+    // this.lowerTimelineOffsetXBound = getOffsetX(lowerTimelinePositionBound;
+    // this.upperTimelineOffsetXBound = getOffsetX(upperTimelinePositionBound;
 
     // Compute the range of track indices of the selected clips so that the clips can't be dragged
     // above or below the maximum or minimum clip

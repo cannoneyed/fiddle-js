@@ -78,6 +78,18 @@ export class Fraction {
     return new Fraction(this.numerator / gcd, this.denominator / gcd);
   }
 
+  isLessThan(other: Fraction) {
+    return this.numerator / this.denominator < other.numerator / other.denominator;
+  }
+
+  isGreaterThan(other: Fraction) {
+    return this.numerator / this.denominator > other.numerator / other.denominator;
+  }
+
+  isEqualTo(other: Fraction) {
+    return this.numerator / this.denominator === other.numerator / other.denominator;
+  }
+
   toString() {
     return `${this.numerator} / ${this.denominator}`;
   }

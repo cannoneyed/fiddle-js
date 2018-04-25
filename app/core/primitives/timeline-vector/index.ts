@@ -31,4 +31,50 @@ export class TimelineVector {
   subtract(delta: TimelineVector) {
     return this.add(delta.makeNegative());
   }
+
+  isLessThan(other: TimelineVector) {
+    if (this.bar < other.bar) return true;
+    else if (this.bar === other.bar) {
+      if (this.beats.isLessThan(other.beats)) return true;
+      else if (this.beats.isEqualTo(other.beats)) {
+        if (this.ticks < other.ticks) return true;
+      }
+    }
+    return false;
+  }
+
+  isGreaterThan(other: TimelineVector) {
+    if (this.bar > other.bar) return true;
+    else if (this.bar === other.bar) {
+      if (this.beats.isGreaterThan(other.beats)) return true;
+      else if (this.beats.isEqualTo(other.beats)) {
+        if (this.ticks > other.ticks) return true;
+      }
+    }
+    return false;
+  }
+
+  isEqualTo(other: TimelineVector) {
+    return (
+      this.bar === other.bar && this.beats.isEqualTo(other.beats) && this.ticks === other.ticks
+    );
+  }
+
+  static clamp(position: TimelineVector, min: TimelineVector, max: TimelineVector) {
+    if (position.isLessThan(min)) return min;
+    if (position.isGreaterThan(max)) return max;
+    return position;
+  }
+
+  static sortAscending(timelineVectors: TimelineVector[]) {
+    return timelineVectors.sort((a, b) => {
+      if (a.isLessThan(b)) {
+        return -1;
+      } else if (a.isGreaterThan(b)) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  }
 }
