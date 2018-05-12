@@ -43,7 +43,7 @@ export function hasJsonProperty(obj: any) {
 }
 
 export function canLoadInto(obj: any) {
-  return hasJsonProperty(obj) || (obj && isArray(obj));
+  return hasJsonProperty(obj) || (obj && isArray(obj)) || (obj && isMap(obj));
 }
 
 export function saveObservableArray(obj: IObservableArray) {
@@ -97,5 +97,18 @@ export function load(obj: any, data: any) {
       obj.length = 0;
     }
     return;
+  }
+
+  if (isMap(obj)) {
+    for (const key in data) {
+      if (obj.has(key)) {
+        obj.get(key).json = data[key];
+      }
+    }
+    for (const key of obj.keys()) {
+      if (data[key] === undefined) {
+        obj.delete(key);
+      }
+    }
   }
 }

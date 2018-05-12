@@ -5,32 +5,32 @@ const computedJsonKey = 'SERIALIZABLE_JSON';
 
 function getJsonComputed(that: any) {
   return getOrCreateComputed(that, computedJsonKey, () => ({
-    get(this: any) {
+    get() {
       const data: { [key: string]: any } = {};
       for (const propertyName of that[serializablePropsKey]) {
         data[propertyName] = save(that[propertyName]);
       }
       return data;
     },
-    set(this: any, data: any) {
+    set(data: any) {
       if (!data || typeof data !== 'object') {
         return;
       }
 
-      for (const propertyName of this[serializablePropsKey]) {
+      for (const propertyName of that[serializablePropsKey]) {
         if (!(propertyName in data)) {
           continue;
         }
 
         const source = data[propertyName];
-        const target = this[propertyName];
+        const target = that[propertyName];
 
         if (source !== null && source !== undefined && canLoadInto(target)) {
           load(target, source);
         } else {
-          const desc = Object.getOwnPropertyDescriptor(this, propertyName);
+          const desc = Object.getOwnPropertyDescriptor(that, propertyName);
           if (!desc || desc.set || !desc.get) {
-            this[propertyName] = source;
+            that[propertyName] = source;
           }
         }
       }
@@ -38,7 +38,7 @@ function getJsonComputed(that: any) {
   }));
 }
 
-function jsonImpl<T>(target: T, propertyName: keyof T) {
+export function json<T>(target: T, propertyName: keyof T) {
   if (Object.prototype.hasOwnProperty.call(target, serializablePropsKey)) {
     (target as any)[serializablePropsKey].push(propertyName);
     return;
@@ -62,5 +62,3 @@ function jsonImpl<T>(target: T, propertyName: keyof T) {
     });
   }
 }
-
-export const json = Object.assign(jsonImpl, { load, save });
