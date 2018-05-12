@@ -1,8 +1,9 @@
 import { getGCD } from './helpers';
+import { json } from 'core/serialization/json';
 
 export class Fraction {
-  numerator: number;
-  denominator: number;
+  @json numerator: number;
+  @json denominator: number;
 
   constructor(numerator: number = 1, denominator: number = 1) {
     this.denominator = denominator;

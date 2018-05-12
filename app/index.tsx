@@ -8,6 +8,7 @@ import { configureDevtool } from 'mobx-react-devtools';
 import { logStores } from 'utils/log-stores';
 
 import { LoadService } from 'core/services/load';
+import { UndoService } from 'core/services/undo';
 
 import Root from './pages/Root';
 
@@ -39,5 +40,8 @@ const rootEl = document.getElementById('root');
 
 const loadService = Container.get(LoadService);
 loadService.loadSession();
+
+const undoService = Container.get(UndoService);
+undoService.initialize();
 
 render(<Root />, rootEl);

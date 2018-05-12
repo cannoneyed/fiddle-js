@@ -69,10 +69,6 @@ export class ClipStore {
   clearDraggedClips = () => {
     this.draggedClips.clear();
   };
-
-  get json() {
-    return {};
-  }
 }
 
 export { ClipParams };
