@@ -28,10 +28,14 @@ export default class TracksArea extends React.Component<Props, {}> {
 
     const gridHeight = Math.max(trackList.length * trackHeight, tracksAreaHeight);
 
+    const gridStyle = {
+      height: gridHeight,
+    };
+
     return (
       <TracksAreaContainer id="tracksArea">
         <DragToMarker />
-        <GridContainer height={gridHeight}>
+        <GridContainer style={gridStyle}>
           <VerticalGrid gridCount={gridCount} gridSegmentWidth={gridSegmentWidth} />
         </GridContainer>
         <TracksContainer>

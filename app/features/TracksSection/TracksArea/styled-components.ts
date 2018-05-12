@@ -11,15 +11,10 @@ export const TracksAreaContainer = styled.div`
   backface-visibility: hidden;
 `;
 
-interface GridContainerProps {
-  height: number;
-}
-export const GridContainer = styled<GridContainerProps, 'div'>('div')`
+export const GridContainer = styled.div`
   position: absolute;
   top: 0;
   z-index: ${theme.verticalGridZIndex};
-
-  height: ${props => props.height}px;
 `;
 
 export const TracksContainer = styled.div`
