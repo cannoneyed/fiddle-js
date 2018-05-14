@@ -1,4 +1,10 @@
-export { ClipStore } from './clips';
-export { TrackStore } from './tracks';
-export { WindowStore } from './window';
-export { SequencerState } from './sequencer';
+import { Inject, Service } from 'typedi';
+
+import { ClipStore } from './clips';
+import { TrackStore } from './tracks';
+
+@Service()
+export class AppState {
+  @Inject() clipStore: ClipStore;
+  @Inject() trackStore: TrackStore;
+}
