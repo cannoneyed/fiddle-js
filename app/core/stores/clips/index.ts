@@ -1,5 +1,6 @@
 import { Service } from 'typedi';
 import { action, observable } from 'mobx';
+import { json } from 'core/serialization/json';
 
 import { Clip, ClipParams } from 'core/models/clip';
 import { TimelineVector } from '../../primitives/timeline-vector';
@@ -7,7 +8,9 @@ import { TimelineVector } from '../../primitives/timeline-vector';
 @Service()
 export class ClipStore {
   // The main store for clips (by id)
-  @observable clips = observable.map<string, Clip>({});
+  @json
+  @observable
+  clips = observable.map<string, Clip>({});
 
   // The temporary store for clips being dragged in the sequencer
   @observable draggedClips = observable.map<string, Clip>({});

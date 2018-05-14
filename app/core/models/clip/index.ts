@@ -1,6 +1,7 @@
 import { Container } from 'typedi';
 import { action, computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
+import { json } from 'core/serialization/json';
 
 import { SequencerPositionService } from 'core/services/sequencer/position';
 
@@ -18,12 +19,19 @@ export class Clip {
   trackStore = Container.get(TrackStore);
   sequencerPositionService = Container.get(SequencerPositionService);
 
-  id: string;
-  domId: string;
+  @json id: string;
 
-  @observable trackId: string;
-  @observable length: TimelineVector;
-  @observable position: TimelineVector;
+  @json
+  @observable
+  trackId: string;
+
+  @json
+  @observable
+  length: TimelineVector;
+
+  @json
+  @observable
+  position: TimelineVector;
 
   @observable isSelected = false;
   @observable isDragging = false;
@@ -31,30 +39,33 @@ export class Clip {
   constructor(params: ClipParams) {
     const { trackId, position, length } = params;
     this.id = generateId();
-    this.domId = `clip_${this.id}`;
 
     this.trackId = trackId;
     this.position = position;
     this.length = length || new TimelineVector(2);
   }
 
+  get domId(): string {
+    return `clip_${this.id}`;
+  }
+
   @computed
-  get end() {
+  get end(): TimelineVector {
     return this.position.add(this.length);
   }
 
   @computed
-  get width() {
+  get width(): number {
     return this.sequencerPositionService.getOffsetX(this.length);
   }
 
   @computed
-  get offsetX() {
+  get offsetX(): number {
     return this.sequencerPositionService.getOffsetX(this.position);
   }
 
   @computed
-  get offsetY() {
+  get offsetY(): number {
     return 0;
   }
 
@@ -63,7 +74,7 @@ export class Clip {
     return this.trackStore.getTrackById(this.trackId)!;
   }
 
-  getScreenVector = () => {
+  getScreenVector = (): ScreenVector => {
     const clipElement = document.getElementById(this.domId);
     if (clipElement) {
       const { left, top } = clipElement.getBoundingClientRect();

@@ -1,9 +1,10 @@
 import { Fraction } from 'core/primitives/fraction';
+import { json } from 'core/serialization/json';
 
 export class TimelineVector {
-  bar: number;
-  beats: Fraction;
-  ticks: number;
+  @json bar: number;
+  @json beats: Fraction;
+  @json ticks: number;
 
   constructor(bar = 0, beats?: Fraction, ticks = 0) {
     this.bar = bar;
