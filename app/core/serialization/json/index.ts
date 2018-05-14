@@ -1,23 +1,26 @@
+import 'reflect-metadata';
 import { getOrCreateComputed, save, load, canLoadInto } from './helpers';
 
-const serializablePropsKey = 'SERIALIZABLE_PROPERTIES';
-const computedJsonKey = 'SERIALIZABLE_JSON';
+export const serializablePropsKey = 'SERIALIZABLE_PROPERTIES';
+export const computedJsonKey = 'SERIALIZABLE_JSON';
 
 function getJsonComputed(that: any) {
   return getOrCreateComputed(that, computedJsonKey, () => ({
     get() {
       const data: { [key: string]: any } = {};
-      for (const propertyName of that[serializablePropsKey]) {
+      const serializableProps = Reflect.getMetadata(serializablePropsKey, that);
+      for (const propertyName in serializableProps) {
         data[propertyName] = save(that[propertyName]);
       }
       return data;
     },
     set(data: any) {
+      const serializableProps = Reflect.getMetadata(serializablePropsKey, that);
       if (!data || typeof data !== 'object') {
         return;
       }
 
-      for (const propertyName of that[serializablePropsKey]) {
+      for (const propertyName in serializableProps) {
         if (!(propertyName in data)) {
           continue;
         }
@@ -39,17 +42,12 @@ function getJsonComputed(that: any) {
 }
 
 export function json<T>(target: T, propertyName: keyof T) {
-  if (Object.prototype.hasOwnProperty.call(target, serializablePropsKey)) {
-    (target as any)[serializablePropsKey].push(propertyName);
-    return;
+  const metadata = Reflect.getMetadata(serializablePropsKey, target);
+  if (metadata) {
+    metadata[propertyName] = true;
+  } else {
+    Reflect.defineMetadata(serializablePropsKey, { [propertyName]: true }, target);
   }
-
-  Object.defineProperty(target, serializablePropsKey, {
-    configurable: false,
-    enumerable: false,
-    writable: false,
-    value: [propertyName],
-  });
 
   if (!Object.prototype.hasOwnProperty.call(target, 'json')) {
     Object.defineProperty(target, 'json', {

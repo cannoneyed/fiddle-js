@@ -56,10 +56,10 @@ export function saveObservableArray(obj: IObservableArray) {
 
 export function saveObservableMap(obj: ObservableMap) {
   const pojo: Pojo = {};
+
   obj.forEach((value, key) => {
-    if (value.json) {
-      pojo[key] = value.json;
-    }
+    const json = value.json;
+    pojo[key] = json ? json : value;
   });
   return pojo;
 }
