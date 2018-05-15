@@ -1,49 +1,21 @@
 import * as React from 'react';
 import { Container } from 'typedi';
-import { IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
-import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
-import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
-import EditArea from 'features/EditSection/EditArea';
+import EditSection from './edit-section';
+import TracksSection from './tracks-section';
+
 import Minimap from 'features/Minimap';
 import SectionDivider from 'features/SectionDivider';
-import Timeline from 'features/TracksSection/Timeline';
-import TimelineGutter from 'features/TracksSection/TimelineGutter';
 import Toolbar from 'features/Toolbar';
-import TracksGutter from 'features/TracksSection/TracksGutter';
-import TracksArea from 'features/TracksSection/TracksArea';
-import VerticalScrollbar from 'features/TracksSection/VerticalScrollbar';
 
 import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 
-import {
-  EditSectionWrapper,
-  PageWrapper,
-  MinimapWrapper,
-  TimelineWrapper,
-  ToolbarWrapper,
-  TracksAreaWrapper,
-  TracksSectionWrapper,
-  VerticalScrollbarWrapper,
-} from './styled-components';
+import { PageWrapper, MinimapWrapper, ToolbarWrapper } from './styled-components';
 
 @observer
 export default class SequencerPage extends React.Component<{}, {}> {
   sequencerPageLayout = Container.get(SequencerPageLayout);
-
-  disposeObserver: IReactionDisposer;
-  disposeHandlers: trackScrollHandlers.Unregister;
-
-  componentDidMount() {
-    this.disposeHandlers = trackScrollHandlers.register();
-    this.disposeObserver = observeTracksScroll();
-  }
-
-  componentWillUnmount() {
-    this.disposeHandlers();
-    this.disposeObserver();
-  }
 
   handleTracksSectionDividerDrag = (deltaY: number) => {
     const { sequencerPageLayout } = this;
@@ -61,29 +33,6 @@ export default class SequencerPage extends React.Component<{}, {}> {
       height: sequencerPageLayout.minimapHeight,
     };
 
-    const tracksSectionStyle = {
-      height: sequencerPageLayout.tracksSectionHeight,
-    };
-
-    const timelineWrapperStyle = {
-      height: sequencerPageLayout.timelineHeight,
-      width: sequencerPageLayout.tracksSectionWidth,
-    };
-
-    const tracksAreaWrapperStyle = {
-      height: sequencerPageLayout.tracksAreaHeight,
-      width: sequencerPageLayout.tracksSectionWidth,
-    };
-
-    const verticalScrollbarWrapperStyle = {
-      height: sequencerPageLayout.tracksSectionHeight,
-      width: sequencerPageLayout.tracksVerticalScrollbarWidth,
-    };
-
-    const editSectionWrapperStyle = {
-      height: sequencerPageLayout.editSectionHeight,
-    };
-
     return (
       <PageWrapper id="sequencerPage">
         <ToolbarWrapper style={toolbarWrapperStyle}>
@@ -92,24 +41,9 @@ export default class SequencerPage extends React.Component<{}, {}> {
         <MinimapWrapper style={minimapWrapperStyle}>
           <Minimap />
         </MinimapWrapper>
-        <TracksSectionWrapper style={tracksSectionStyle}>
-          <TimelineWrapper style={timelineWrapperStyle}>
-            <TimelineGutter />
-            <Timeline />
-          </TimelineWrapper>
-          <TracksAreaWrapper style={tracksAreaWrapperStyle}>
-            <TracksGutter />
-            <TracksArea />
-          </TracksAreaWrapper>
-
-          <VerticalScrollbarWrapper style={verticalScrollbarWrapperStyle}>
-            <VerticalScrollbar />
-          </VerticalScrollbarWrapper>
-        </TracksSectionWrapper>
+        <TracksSection />
         <SectionDivider onDrag={this.handleTracksSectionDividerDrag} />
-        <EditSectionWrapper style={editSectionWrapperStyle}>
-          <EditArea />
-        </EditSectionWrapper>
+        <EditSection />
       </PageWrapper>
     );
   }
