@@ -4,6 +4,10 @@ import theme from 'styles/theme';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
+import Toolbar from '../Toolbar';
+
+import Timeline from 'components/Timeline';
+
 import { SequencerPageLayout } from 'core/layouts/sequencer/page';
 import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 
@@ -13,7 +17,15 @@ export default class EditArea extends React.Component<{}, {}> {
   sequencerPageLayout = Container.get(SequencerPageLayout);
 
   render() {
-    return <EditAreaContainer id="editArea" />;
+    const { tracksSectionLayout } = this;
+    const { division, divisionWidth, nDivisions } = tracksSectionLayout.grid;
+
+    return (
+      <EditAreaContainer id="editArea">
+        <Toolbar />
+        <Timeline division={division} divisionWidth={divisionWidth} nDivisions={nDivisions} />
+      </EditAreaContainer>
+    );
   }
 }
 
