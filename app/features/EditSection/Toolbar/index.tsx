@@ -15,8 +15,6 @@ export default class Toolbar extends React.Component<{}, {}> {
 }
 
 const ToolbarContainer = styled.div`
-  position: absolute;
-  top: 0px;
   height: ${theme.toolbarHeight.toString()};
 
   display: flex;
