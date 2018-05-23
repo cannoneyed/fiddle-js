@@ -17,6 +17,7 @@
     "start": "cross-env NODE_ENV=production electron ./app/",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./app/main.dev",
     "start-renderer-dev": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.config.renderer.dev.js",
+    "storybook": "start-storybook -p 9001 -c .storybook",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest",
     "test-watch": "npm test -- --watch"
   },
@@ -109,6 +110,7 @@
     ]
   },
   "devDependencies": {
+    "@storybook/react": "^3.4.5",
     "@types/classnames": "^2.2.3",
     "@types/history": "^4.6.0",
     "@types/jest": "^21.1.4",
@@ -119,6 +121,8 @@
     "@types/react-dom": "^16.0.5",
     "@types/react-hot-loader": "^3.0.6",
     "@types/react-transition-group": "^2.0.8",
+    "@types/storybook__addon-actions": "^3.0.3",
+    "@types/storybook__react": "^3.0.7",
     "@types/tinycolor2": "^1.4.0",
     "awesome-typescript-loader": "^3.5.0",
     "babel-core": "^6.24.1",

@@ -7,9 +7,10 @@ import { ContextMenu } from '@blueprintjs/core';
 import ClipContextMenu from 'features/ClipContextMenu';
 import ClipView from 'components/Clip';
 
-import { ClipSelect } from 'core/interactions/clip/select';
 import { Clip as ClipModel } from 'core/models/clip';
 
+import { ClipSelect } from 'core/interactions/clip/select';
+import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
 import * as clipDragHandlers from 'core/interactions/clip/drag/handlers';
 
 const styles = require('./styles.less');
@@ -25,6 +26,7 @@ interface State {
 @observer
 export default class Clip extends React.Component<Props, State> {
   clipSelect = Container.get(ClipSelect);
+  tracksSectionLayout = Container.get(TracksSectionLayout);
 
   state = { isContextMenuOpen: false };
 
@@ -68,13 +70,15 @@ export default class Clip extends React.Component<Props, State> {
       left: clip.offsetX - 1,
     };
 
+    const height = this.tracksSectionLayout.tracks.trackHeight;
+
     return (
       <div
         className={styles.clipContainer}
         style={clipWrapperStyle}
         onMouseDown={this.handleMouseDown}
       >
-        <ClipView clip={clip} />
+        <ClipView clip={clip} height={height} />
       </div>
     );
   }
