@@ -8,15 +8,15 @@ import { Button } from '@blueprintjs/core';
 import SelectSnapToGrid from 'components/SelectSnapToGrid';
 
 import { TrackStore } from 'core/stores/tracks';
-import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
+import { SequencerLayout } from 'core/layouts/sequencer';
 
 @observer
 export default class Toolbar extends React.Component<{}, {}> {
-  tracksSectionLayout = Container.get(TracksSectionLayout);
+  sequencerLayout = Container.get(SequencerLayout);
   trackStore = Container.get(TrackStore);
 
   render() {
-    const { zoomInHorizontal, zoomOutHorizontal } = this.tracksSectionLayout.zoom;
+    const { zoomInHorizontal, zoomOutHorizontal } = this.sequencerLayout.zoom;
     const { createTrack } = this.trackStore;
 
     return (

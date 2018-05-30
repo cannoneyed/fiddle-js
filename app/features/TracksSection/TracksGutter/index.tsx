@@ -7,16 +7,16 @@ import theme from 'styles/theme';
 import TrackHeader from 'features/TracksSection/TrackHeader';
 
 import { TrackStore } from 'core/stores/tracks';
-import { SequencerPageLayout } from 'core/layouts/sequencer/page';
+import { MainPageLayout } from 'core/layouts/main/page';
 
 @observer
 export default class TracksGutter extends React.Component<{}, {}> {
-  sequencerPageLayout = Container.get(SequencerPageLayout);
+  mainPageLayout = Container.get(MainPageLayout);
   trackStore = Container.get(TrackStore);
 
   render() {
     const { trackList } = this.trackStore;
-    const { gutterWidth } = this.sequencerPageLayout;
+    const { gutterWidth } = this.mainPageLayout;
 
     return (
       <TracksGutterContainer width={gutterWidth} id="tracksGutter">

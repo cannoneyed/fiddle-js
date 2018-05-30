@@ -4,19 +4,19 @@ import { observer } from 'mobx-react';
 
 import EditArea from 'features/EditSection/EditArea';
 
-import { SequencerPageLayout } from 'core/layouts/sequencer/page';
+import { MainPageLayout } from 'core/layouts/main/page';
 
 import { EditSectionWrapper } from './styled-components';
 
 @observer
 export default class EditSection extends React.Component<{}, {}> {
-  sequencerPageLayout = Container.get(SequencerPageLayout);
+  mainPageLayout = Container.get(MainPageLayout);
 
   render() {
-    const { sequencerPageLayout } = this;
+    const { mainPageLayout } = this;
 
     const editSectionWrapperStyle = {
-      height: sequencerPageLayout.editSectionHeight,
+      height: mainPageLayout.editSectionHeight,
     };
 
     return (

@@ -1,19 +1,19 @@
 import { Service } from 'typedi';
 
-import { SequencerPageLayout } from 'core/layouts/sequencer/page';
-import { TracksLayout } from 'core/layouts/sequencer/tracks/tracks';
+import { MainPageLayout } from 'core/layouts/main/page';
+import { TracksLayout } from 'core/layouts/sequencer/tracks';
 import { TrackStore } from 'core/stores/tracks';
 
 @Service()
 export class TracksPositionService {
   constructor(
-    private sequencerPageLayout: SequencerPageLayout,
+    private mainPageLayout: MainPageLayout,
     private tracksLayout: TracksLayout,
     private trackStore: TrackStore
   ) {}
 
   getOffsetXFromScreenX = (screenX: number) => {
-    const leftEdge = this.sequencerPageLayout.tracksAreaLeft;
+    const leftEdge = this.mainPageLayout.tracksAreaLeft;
     const scrolledX = this.tracksLayout.tracksScrolledX;
 
     const offsetX = screenX - leftEdge + scrolledX;
@@ -21,7 +21,7 @@ export class TracksPositionService {
   };
 
   getOffsetYFromScreenY = (screenY: number) => {
-    const topEdge = this.sequencerPageLayout.tracksAreaTop;
+    const topEdge = this.mainPageLayout.tracksAreaTop;
     const scrolledY = this.tracksLayout.tracksScrolledY;
 
     const offsetY = screenY - topEdge + scrolledY;

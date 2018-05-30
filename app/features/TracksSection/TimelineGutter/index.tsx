@@ -4,15 +4,14 @@ import theme from 'styles/theme';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
-import { SequencerPageLayout } from 'core/layouts/sequencer/page';
+import { MainPageLayout } from 'core/layouts/main/page';
 
 @observer
 export default class TimelineGutter extends React.Component<{}, {}> {
-  sequencerPageLayout = Container.get(SequencerPageLayout);
+  mainPageLayout = Container.get(MainPageLayout);
 
   render() {
-    const { sequencerPageLayout } = this;
-    const { gutterWidth } = sequencerPageLayout;
+    const { gutterWidth } = this.mainPageLayout;
 
     const style = {
       minWidth: gutterWidth,

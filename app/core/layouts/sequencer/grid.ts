@@ -4,7 +4,7 @@ import * as defaults from 'defaults/view';
 
 import { Fraction } from 'core/primitives/fraction';
 
-import { TimelineState } from 'core/stores/sequencer/timeline';
+import { TimelineState } from 'core/state/sequencer/timeline';
 
 import { ZoomLayout } from './zoom';
 

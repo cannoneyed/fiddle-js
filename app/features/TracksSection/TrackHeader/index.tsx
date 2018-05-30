@@ -5,7 +5,7 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
 import { Track } from 'core/models/track';
-import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
+import { TracksLayout } from 'core/layouts/sequencer/tracks';
 
 interface Props {
   index: number;
@@ -14,11 +14,11 @@ interface Props {
 
 @observer
 export default class TrackHeader extends React.Component<Props, {}> {
-  tracksSectionLayout = Container.get(TracksSectionLayout);
+  tracksLayout = Container.get(TracksLayout);
 
   render() {
     const { index, track } = this.props;
-    const { trackHeight } = this.tracksSectionLayout.tracks;
+    const { trackHeight } = this.tracksLayout;
 
     const headerStyle = {
       height: trackHeight,

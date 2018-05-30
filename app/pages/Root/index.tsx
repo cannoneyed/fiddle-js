@@ -4,7 +4,7 @@ import { Provider } from 'mobx-react';
 import { ThemeProvider } from 'styled-components';
 import { hot } from 'react-hot-loader';
 
-import SequencerPage from 'pages/Sequencer';
+import MainPage from 'pages/Main';
 
 import theme from 'styles/theme';
 
@@ -12,7 +12,7 @@ export const Root = () => (
   <Provider>
     <ThemeProvider theme={theme}>
       <div className="pt-dark">
-        <SequencerPage />
+        <MainPage />
         <DevTools />
       </div>
     </ThemeProvider>

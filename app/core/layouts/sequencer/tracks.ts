@@ -5,8 +5,8 @@ import * as defaults from 'defaults/view';
 import { filterMethods } from 'utils/log-filter';
 
 import { ClipDragInteraction } from 'core/interactions/clip/drag';
-import { SequencerPageLayout } from 'core/layouts/sequencer/page';
-import { TimelineState } from 'core/stores/sequencer/timeline';
+import { MainPageLayout } from 'core/layouts/main/page';
+import { TimelineState } from 'core/state/sequencer/timeline';
 import { TrackStore } from 'core/stores/tracks';
 
 import { GridLayout } from './grid';
@@ -19,7 +19,7 @@ export class TracksLayout {
   constructor(
     private clipDragInteraction: ClipDragInteraction,
     private gridLayout: GridLayout,
-    private sequencerPageLayout: SequencerPageLayout,
+    private mainPageLayout: MainPageLayout,
     private trackStore: TrackStore,
     private timelineState: TimelineState,
     private zoomLayout: ZoomLayout
@@ -57,23 +57,23 @@ export class TracksLayout {
 
   @computed
   get tracksScrollableWidth() {
-    return this.trackWidth - this.sequencerPageLayout.tracksAreaWidth;
+    return this.trackWidth - this.mainPageLayout.tracksAreaWidth;
   }
 
   @computed
   get tracksScrollableHeight() {
-    return this.tracksHeight - this.sequencerPageLayout.tracksAreaHeight;
+    return this.tracksHeight - this.mainPageLayout.tracksAreaHeight;
   }
 
   @computed
   get tracksViewPercentX() {
-    const { tracksAreaWidth } = this.sequencerPageLayout;
+    const { tracksAreaWidth } = this.mainPageLayout;
     return clamp(tracksAreaWidth / this.trackWidth, 0, 1);
   }
 
   @computed
   get tracksViewPercentY() {
-    const { tracksAreaHeight } = this.sequencerPageLayout;
+    const { tracksAreaHeight } = this.mainPageLayout;
     return clamp(tracksAreaHeight / this.tracksHeight, 0, 1);
   }
 

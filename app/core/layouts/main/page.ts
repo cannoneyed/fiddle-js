@@ -1,16 +1,15 @@
 import { observable, action } from 'mobx';
-import { Inject, Service } from 'typedi';
+import { Service } from 'typedi';
 import { filterMethods } from 'utils/log-filter';
 
 import { computed } from 'mobx';
-import { WindowStore } from 'core/stores/window';
+import { WindowLayout } from 'core/layouts/window';
 
 @Service()
-export class SequencerPageLayout {
+export class MainPageLayout {
   static mobxLoggerConfig = filterMethods('deltaTracksAreaHeight');
 
-  @Inject(type => WindowStore)
-  windowStore: WindowStore;
+  constructor(private windowLayout: WindowLayout) {}
 
   @observable minimapHeight = 30;
   @observable gutterWidth = 100;
@@ -28,19 +27,19 @@ export class SequencerPageLayout {
   @computed
   get tracksSectionWidth() {
     const { tracksVerticalScrollbarWidth } = this;
-    return this.windowStore.width - tracksVerticalScrollbarWidth;
+    return this.windowLayout.width - tracksVerticalScrollbarWidth;
   }
 
   @computed
   get editSectionHeight() {
     const { tracksAreaHeight, timelineHeight, minimapHeight, toolbarHeight } = this;
     const sum = tracksAreaHeight + timelineHeight + minimapHeight + toolbarHeight;
-    return this.windowStore.height - sum;
+    return this.windowLayout.height - sum;
   }
 
   @computed
   get tracksAreaWidth() {
-    return this.windowStore.width - this.gutterWidth;
+    return this.windowLayout.width - this.gutterWidth;
   }
 
   @computed

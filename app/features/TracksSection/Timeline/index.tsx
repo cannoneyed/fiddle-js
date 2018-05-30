@@ -4,15 +4,15 @@ import { observer } from 'mobx-react';
 
 import Timeline from 'components/Timeline';
 
-import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
+import { SequencerLayout } from 'core/layouts/sequencer';
 
 @observer
 export default class TimelineContainer extends React.Component<{}, {}> {
-  tracksSectionLayout = Container.get(TracksSectionLayout);
+  sequencerLayout = Container.get(SequencerLayout);
 
   render() {
-    const { tracksSectionLayout } = this;
-    const { division, divisionWidth, nDivisions } = tracksSectionLayout.grid;
+    const { sequencerLayout } = this;
+    const { division, divisionWidth, nDivisions } = sequencerLayout.grid;
 
     return <Timeline division={division} divisionWidth={divisionWidth} nDivisions={nDivisions} />;
   }

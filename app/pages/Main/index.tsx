@@ -9,28 +9,28 @@ import Minimap from 'features/Minimap';
 import SectionDivider from 'features/SectionDivider';
 import Toolbar from 'features/Toolbar';
 
-import { SequencerPageLayout } from 'core/layouts/sequencer/page';
+import { MainPageLayout } from 'core/layouts/main/page';
 
 import { PageWrapper, MinimapWrapper, ToolbarWrapper } from './styled-components';
 
 @observer
 export default class SequencerPage extends React.Component<{}, {}> {
-  sequencerPageLayout = Container.get(SequencerPageLayout);
+  mainPageLayout = Container.get(MainPageLayout);
 
   handleTracksSectionDividerDrag = (deltaY: number) => {
-    const { sequencerPageLayout } = this;
-    sequencerPageLayout.deltaTracksAreaHeight(deltaY);
+    const { mainPageLayout } = this;
+    mainPageLayout.deltaTracksAreaHeight(deltaY);
   };
 
   render() {
-    const { sequencerPageLayout } = this;
+    const { mainPageLayout } = this;
 
     const toolbarWrapperStyle = {
-      height: sequencerPageLayout.toolbarHeight,
+      height: mainPageLayout.toolbarHeight,
     };
 
     const minimapWrapperStyle = {
-      height: sequencerPageLayout.minimapHeight,
+      height: mainPageLayout.minimapHeight,
     };
 
     return (

@@ -4,7 +4,7 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
 import { Clip as ClipModel } from 'core/models/clip';
-import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
+import { TracksLayout } from 'core/layouts/sequencer/tracks';
 
 interface Props {
   clip: ClipModel;
@@ -14,11 +14,11 @@ interface Props {
 
 @observer
 export default class Clip extends React.Component<Props, {}> {
-  tracksSectionLayout = Container.get(TracksSectionLayout);
+  tracksLayout = Container.get(TracksLayout);
 
   render() {
     const { clip, onMouseDown } = this.props;
-    const { trackHeight } = this.tracksSectionLayout.tracks;
+    const { trackHeight } = this.tracksLayout;
 
     return (
       <ClipContainer

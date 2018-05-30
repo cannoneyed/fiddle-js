@@ -11,7 +11,7 @@ import TracksGutter from 'features/TracksSection/TracksGutter';
 import TracksArea from 'features/TracksSection/TracksArea';
 import VerticalScrollbar from 'features/TracksSection/VerticalScrollbar';
 
-import { SequencerPageLayout } from 'core/layouts/sequencer/page';
+import { MainPageLayout } from 'core/layouts/main/page';
 
 import {
   TimelineWrapper,
@@ -22,7 +22,7 @@ import {
 
 @observer
 export default class TracksSection extends React.Component<{}, {}> {
-  sequencerPageLayout = Container.get(SequencerPageLayout);
+  mainPageLayout = Container.get(MainPageLayout);
 
   disposeObserver: IReactionDisposer;
   disposeHandlers: trackScrollHandlers.Unregister;
@@ -38,30 +38,30 @@ export default class TracksSection extends React.Component<{}, {}> {
   }
 
   handleTracksSectionDividerDrag = (deltaY: number) => {
-    const { sequencerPageLayout } = this;
-    sequencerPageLayout.deltaTracksAreaHeight(deltaY);
+    const { mainPageLayout } = this;
+    mainPageLayout.deltaTracksAreaHeight(deltaY);
   };
 
   render() {
-    const { sequencerPageLayout } = this;
+    const { mainPageLayout } = this;
 
     const tracksSectionStyle = {
-      height: sequencerPageLayout.tracksSectionHeight,
+      height: mainPageLayout.tracksSectionHeight,
     };
 
     const timelineWrapperStyle = {
-      height: sequencerPageLayout.timelineHeight,
-      width: sequencerPageLayout.tracksSectionWidth,
+      height: mainPageLayout.timelineHeight,
+      width: mainPageLayout.tracksSectionWidth,
     };
 
     const tracksAreaWrapperStyle = {
-      height: sequencerPageLayout.tracksAreaHeight,
-      width: sequencerPageLayout.tracksSectionWidth,
+      height: mainPageLayout.tracksAreaHeight,
+      width: mainPageLayout.tracksSectionWidth,
     };
 
     const verticalScrollbarWrapperStyle = {
-      height: sequencerPageLayout.tracksSectionHeight,
-      width: sequencerPageLayout.tracksVerticalScrollbarWidth,
+      height: mainPageLayout.tracksSectionHeight,
+      width: mainPageLayout.tracksVerticalScrollbarWidth,
     };
 
     return (

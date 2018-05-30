@@ -2,13 +2,13 @@ import { Container } from 'typedi';
 import { map } from 'lodash';
 
 import { sequencerDOM } from 'core/dom/sequencer';
-import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
+import { TracksLayout } from 'core/layouts/sequencer/tracks';
 
 export type Unregister = () => void;
 export type EventHandler = (event: WheelEvent) => void;
 
 export const register = (): Unregister => {
-  const tracksSectionLayout = Container.get(TracksSectionLayout);
+  const tracksLayout = Container.get(TracksLayout);
 
   const { xy, x, y } = sequencerDOM.getTrackScrollElements();
   const eventHandlers = new WeakMap<HTMLElement, EventHandler>();
@@ -47,7 +47,7 @@ export const register = (): Unregister => {
 
         // Set the scroll amount in the mobx sequencer view store (for reactive elements) as well as imperatively
         // scrolling the scroll areas
-        tracksSectionLayout.tracks.setTracksScroll({ x: ratioX, y: ratioY });
+        tracksLayout.setTracksScroll({ x: ratioX, y: ratioY });
       };
 
       element.addEventListener('mousewheel', syn, { passive: true });

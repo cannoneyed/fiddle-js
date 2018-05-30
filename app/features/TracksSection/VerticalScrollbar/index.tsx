@@ -4,25 +4,23 @@ import { observer } from 'mobx-react';
 
 import VerticalScroll from 'components/Scrollbars/Vertical';
 
-import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
-
-interface Props {}
+import { TracksLayout } from 'core/layouts/sequencer/tracks';
 
 @observer
-export default class VerticalScrollArea extends React.Component<Props, {}> {
-  tracksSectionLayout = Container.get(TracksSectionLayout);
+export default class VerticalScrollArea extends React.Component<{}, {}> {
+  tracksLayout = Container.get(TracksLayout);
 
   handleThumbDrag = (deltaPercentX: number, deltaPercentY: number) => {
-    const { tracksSectionLayout } = this;
-    const { tracksScrollPercentY } = tracksSectionLayout.tracks;
+    const { tracksLayout } = this;
+    const { tracksScrollPercentY } = tracksLayout;
 
     const nextScrollPercentY = tracksScrollPercentY + deltaPercentY;
-    tracksSectionLayout.tracks.setTracksScroll({ y: nextScrollPercentY });
+    tracksLayout.setTracksScroll({ y: nextScrollPercentY });
   };
 
   render() {
-    const { tracksSectionLayout } = this;
-    const { tracksScrollPercentY, tracksViewPercentY } = tracksSectionLayout.tracks;
+    const { tracksLayout } = this;
+    const { tracksScrollPercentY, tracksViewPercentY } = tracksLayout;
 
     return (
       <VerticalScroll

@@ -9,7 +9,7 @@ import TrackContextMenu from 'features/TracksSection/TrackContextMenu';
 import Clip from 'features/Clip';
 
 import { Track as TrackModel } from 'core/models/track';
-import { TracksSectionLayout } from 'core/layouts/sequencer/tracks';
+import { TracksLayout } from 'core/layouts/sequencer/tracks';
 import { TracksMouseInteraction } from 'core/interactions/tracks/mouse';
 import { ClipDragInteraction } from 'core/interactions/clip/drag';
 
@@ -25,7 +25,7 @@ interface State {
 @observer
 export default class Track extends React.Component<Props, State> {
   clipDragInteraction = Container.get(ClipDragInteraction);
-  tracksSectionLayout = Container.get(TracksSectionLayout);
+  tracksLayout = Container.get(TracksLayout);
   trackMouseInteraction = Container.get(TracksMouseInteraction);
 
   renderContextMenu = (offsetX: number) => {
@@ -45,7 +45,7 @@ export default class Track extends React.Component<Props, State> {
   render() {
     const { trackMouseInteraction } = this;
     const { track } = this.props;
-    const { trackHeight, trackWidth } = this.tracksSectionLayout.tracks;
+    const { trackHeight, trackWidth } = this.tracksLayout;
 
     const trackStyle = {
       height: trackHeight,
