@@ -56,17 +56,6 @@ export class Clip {
   }
 
   @action
-  delete = () => {
-    // Delete reference from the track
-    const track = this.trackStore.getTrackById(this.trackId);
-    if (track) {
-      // track.removeClip(this.id)
-    }
-
-    // Delete from the clipStore store
-  };
-
-  @action
   setPosition(position: TimelineVector) {
     this.position = position;
   }
