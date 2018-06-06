@@ -1,7 +1,7 @@
 import { Container } from 'typedi';
 import { Clip } from 'core/models/clip';
 
-import { ClipDragInteraction, DRAG_DELAY } from 'core/state/interactions/clip/drag';
+import { ClipDragInteraction, DRAG_DELAY } from 'core/interactions//clip/drag';
 
 export const register = (clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) => {
   const clipDragInteraction = Container.get(ClipDragInteraction);

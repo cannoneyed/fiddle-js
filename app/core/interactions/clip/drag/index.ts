@@ -7,7 +7,7 @@ import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { ClipSelect } from 'core/state/interactions/clip/select';
+import { ClipSelect } from 'core/interactions//clip/select';
 import { ClipMoveService } from 'core/services/sequencer/clip-move';
 import { DomPositionService } from 'core/services/dom/position';
 import { GridService } from 'core/services/sequencer/grid';

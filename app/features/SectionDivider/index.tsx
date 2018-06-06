@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
 
-import { Draggable, DragMode, Unregister } from 'core/state/interactions/handlers/draggable';
+import { Draggable, DragMode, Unregister } from 'core/interactions//handlers/draggable';
 
 interface Props {
   onDrag: (deltaY: number) => void;
