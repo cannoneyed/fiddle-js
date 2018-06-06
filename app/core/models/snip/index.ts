@@ -1,7 +1,9 @@
+import { Container } from 'typedi';
 import { action, computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 import { json } from 'core/serialization/json';
 
+import { ClipStore } from 'core/state/stores/clips';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 export interface SnipParams {
@@ -10,6 +12,8 @@ export interface SnipParams {
 }
 
 export class Snip {
+  clipStore = Container.get(ClipStore);
+
   @json id: string;
 
   @json

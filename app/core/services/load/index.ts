@@ -20,7 +20,7 @@ export class LoadService {
     console.log(this.appState);
 
     const tracks = range(3).map(() => this.trackStore.createTrack());
-    this.clipStore.createClip({
+    this.clipStore.create({
       trackId: tracks[0].id,
       length: new TimelineVector(2),
       position: new TimelineVector(4),

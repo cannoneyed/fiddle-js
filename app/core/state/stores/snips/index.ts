@@ -9,13 +9,14 @@ export class SnipStore {
   // The main store for snips (by id)
   @json
   @observable
-  snips = observable.map<string, Snip>({});
+  readonly snips = observable.map<string, Snip>({});
 
   // Actions
   @action
   create = (params: SnipParams) => {
     const snip = new Snip(params);
     this.snips.set(snip.id, snip);
+    return snip;
   };
 
   @action
@@ -28,6 +29,11 @@ export class SnipStore {
     snips.forEach(snip => {
       this.snips.delete(snip.id);
     });
+  };
+
+  @observable
+  getSnip = (id: string) => {
+    return this.snips.get(id);
   };
 
   @observable

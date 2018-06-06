@@ -2,11 +2,14 @@ import { Service } from 'typedi';
 import { action, observable } from 'mobx';
 import { json } from 'core/serialization/json';
 
+import { SnipStore } from 'core/state/stores/snips';
 import { Clip, ClipParams } from 'core/models/clip';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 @Service()
 export class ClipStore {
+  constructor(private snipStore: SnipStore) {}
+
   // The main store for clips (by id)
   @json
   @observable
@@ -17,8 +20,13 @@ export class ClipStore {
 
   // Actions
   @action
-  createClip = (params: ClipParams) => {
+  create = (params: ClipParams) => {
     const clip = new Clip(params);
+
+    // Add a new default snip as well
+    const snip = this.snipStore.create(params);
+    clip.addSnip(snip.id);
+
     this.clips.set(clip.id, clip);
   };
 
@@ -46,6 +54,10 @@ export class ClipStore {
   @observable
   getClips = () => {
     return Array.from(this.clips.values());
+  };
+
+  getClipById = (clipId: string) => {
+    return this.clips.get(clipId);
   };
 
   @observable

@@ -31,7 +31,7 @@ export default class TrackContextMenu extends React.Component<Props, {}> {
     const position = this.sequencerPositionService.getTimelineVectorFromOffsetX(offsetX);
 
     const length = new TimelineVector(2);
-    clipStore.createClip({ trackId, length, position });
+    clipStore.create({ trackId, length, position });
   };
 
   render() {

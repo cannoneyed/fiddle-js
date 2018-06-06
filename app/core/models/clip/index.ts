@@ -4,16 +4,19 @@ import { generateId } from 'utils/generate-id';
 import { json } from 'core/serialization/json';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';
+import { SnipStore } from 'core/state/stores/snips';
 import { TrackStore } from 'core/state/stores/tracks';
 
 export interface ClipParams {
   trackId: string;
   length: TimelineVector;
   position: TimelineVector;
+  snipIds?: string[];
 }
 
 export class Clip {
-  trackStore = Container.get(TrackStore);
+  private readonly snipStore = Container.get(SnipStore);
+  private readonly trackStore = Container.get(TrackStore);
 
   @json id: string;
 
@@ -32,13 +35,16 @@ export class Clip {
   @observable isSelected = false;
   @observable isDragging = false;
 
+  @observable private readonly snipIds: string[] = [];
+
   constructor(params: ClipParams) {
-    const { trackId, position, length } = params;
+    const { trackId, position, length, snipIds } = params;
     this.id = generateId();
 
     this.trackId = trackId;
     this.position = position;
     this.length = length || new TimelineVector(2);
+    this.snipIds = snipIds || [];
   }
 
   get domId(): string {
@@ -53,6 +59,16 @@ export class Clip {
   @computed
   get track() {
     return this.trackStore.getTrackById(this.trackId)!;
+  }
+
+  @computed
+  get snips() {
+    return this.snipIds.map(snipId => this.snipStore.getSnip(snipId)!);
+  }
+
+  @action
+  addSnip(snipId: string) {
+    this.snipIds.push(snipId);
   }
 
   @action
@@ -70,6 +86,7 @@ export class Clip {
       trackId: clip.trackId,
       length: clip.length,
       position: clip.position,
+      snipIds: clip.snipIds,
     });
   }
 }
