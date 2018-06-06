@@ -7,12 +7,13 @@ import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { ClipStore } from 'core/state/stores/clips';
+import { ClipSelect } from 'core/interactions//clip/select';
 import { ClipMoveService } from 'core/services/sequencer/clip-move';
-import { ClipSelect } from 'core/state/interactions/clip/select';
+import { DomPositionService } from 'core/services/dom/position';
+import { GridService } from 'core/services/sequencer/grid';
 import { SequencerPositionService } from 'core/services/sequencer/position';
 import { TracksPositionService } from 'core/services/sequencer/position/tracks';
-import { GridService } from 'core/services/sequencer/grid';
+import { ClipStore } from 'core/state/stores/clips';
 import { TrackStore } from 'core/state/stores/tracks';
 
 export const DRAG_DELAY: number = 200;
@@ -25,6 +26,7 @@ export class ClipDragInteraction {
     private clipSelect: ClipSelect,
     private clipStore: ClipStore,
     private clipMoveService: ClipMoveService,
+    private domPositionService: DomPositionService,
     private gridService: GridService,
     private sequencerPositionService: SequencerPositionService,
     private tracksPositionService: TracksPositionService,
@@ -144,7 +146,7 @@ export class ClipDragInteraction {
 
     // Set the position of the handled clip to relatively position the other selected clips on the
     // DraggedClips container div
-    this.handleClipScreenPosition = handleClip.getScreenVector();
+    this.handleClipScreenPosition = this.domPositionService.getScreenVector(handleClip);
 
     // Set all temporary dragging clips for rendering in the tracks
     const { selectedClips } = this.clipSelect;

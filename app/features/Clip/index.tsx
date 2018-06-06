@@ -7,10 +7,11 @@ import { ContextMenu } from '@blueprintjs/core';
 import ClipContextMenu from 'features/ClipContextMenu';
 import ClipView from 'components/Clip';
 
-import { ClipSelect } from 'core/state/interactions/clip/select';
+import { ClipSelect } from 'core/interactions//clip/select';
 import { Clip as ClipModel } from 'core/models/clip';
 
-import * as clipDragHandlers from 'core/state/interactions/clip/drag/handlers';
+import * as clipDragHandlers from 'core/interactions//clip/drag/handlers';
+import { SequencerPositionService } from 'core/services/sequencer/position';
 
 const styles = require('./styles.less');
 
@@ -25,6 +26,7 @@ interface State {
 @observer
 export default class Clip extends React.Component<Props, State> {
   clipSelect = Container.get(ClipSelect);
+  sequencerPosition = Container.get(SequencerPositionService);
 
   state = { isContextMenuOpen: false };
 
@@ -63,9 +65,10 @@ export default class Clip extends React.Component<Props, State> {
 
   render() {
     const { clip } = this.props;
+    const offsetX = this.sequencerPosition.getOffsetX(clip.position);
 
     const clipWrapperStyle = {
-      left: clip.offsetX - 1,
+      left: offsetX - 1,
     };
 
     return (

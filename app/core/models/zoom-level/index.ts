@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx';
 import { round } from 'lodash';
 
-export interface IOptions {
+export interface ZoomLevelParams {
   level?: number;
   max?: number;
   min?: number;
@@ -14,8 +14,8 @@ export class ZoomLevel {
   min: number;
   ratio: number;
 
-  constructor(options: IOptions = {}) {
-    const { level = 1, max = Infinity, min = 0, ratio = 1.1 } = options;
+  constructor(params: ZoomLevelParams = {}) {
+    const { level = 1, max = Infinity, min = 0, ratio = 1.1 } = params;
     this.level = level;
     this.max = max;
     this.min = min;

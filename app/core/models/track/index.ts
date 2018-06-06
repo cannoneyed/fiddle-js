@@ -1,5 +1,5 @@
 import { Container } from 'typedi';
-import { action, computed, observable } from 'mobx';
+import { computed, observable } from 'mobx';
 import { filterMethods } from 'utils/log-filter';
 import { generateId } from 'utils/generate-id';
 
@@ -14,25 +14,17 @@ export class Track {
   @observable index: number;
   @observable type = 'osc';
 
-  // View properties
-  @observable isMouseOver = false;
-
   constructor() {
     this.id = generateId();
   }
 
   @computed
   get clips() {
-    return this.clipStore.getClips().filter(clip => clip.track === this);
+    return this.clipStore.getClips().filter(clip => clip.trackId === this.id);
   }
 
   @computed
   get draggedClips() {
-    return this.clipStore.getDraggedClips().filter(clip => clip.track === this);
-  }
-
-  @action
-  setIsMouseOver(isMouseOver: boolean) {
-    this.isMouseOver = isMouseOver;
+    return this.clipStore.getDraggedClips().filter(clip => clip.trackId === this.id);
   }
 }

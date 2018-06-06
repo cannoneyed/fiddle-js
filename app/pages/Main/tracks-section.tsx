@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container } from 'typedi';
 import { IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
-import * as trackScrollHandlers from 'core/state/interactions/tracks/scroll/handlers';
+import * as trackScrollHandlers from 'core/interactions//tracks/scroll/handlers';
 import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
 import Timeline from 'features/TracksSection/Timeline';

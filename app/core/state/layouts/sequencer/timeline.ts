@@ -1,7 +1,7 @@
 import { Inject, Service } from 'typedi';
 import { computed } from 'mobx';
 
-import { ClipDragInteraction } from 'core/state/interactions/clip/drag';
+import { ClipDragInteraction } from 'core/interactions//clip/drag';
 
 @Service()
 export class TimelineLayout {

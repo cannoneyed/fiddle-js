@@ -6,7 +6,7 @@ import { Menu, MenuItem } from '@blueprintjs/core';
 
 import { Clip } from 'core/models/clip';
 import { ClipStore } from 'core/state/stores/clips';
-import { ClipSelect } from 'core/state/interactions/clip/select';
+import { ClipSelect } from 'core/interactions//clip/select';
 
 interface Props {
   clip: Clip;

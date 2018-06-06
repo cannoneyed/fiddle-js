@@ -4,7 +4,7 @@ import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
 import { filterMethods } from 'utils/log-filter';
 
-import { ClipDragInteraction } from 'core/state/interactions/clip/drag';
+import { ClipDragInteraction } from 'core/interactions//clip/drag';
 import { MainPageLayout } from 'core/state/layouts/main/page';
 import { TimelineState } from 'core/state/app/sequencer/timeline';
 import { TrackStore } from 'core/state/stores/tracks';
