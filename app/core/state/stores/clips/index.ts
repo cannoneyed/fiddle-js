@@ -3,7 +3,7 @@ import { action, observable } from 'mobx';
 import { json } from 'core/serialization/json';
 
 import { Clip, ClipParams } from 'core/models/clip';
-import { TimelineVector } from '../../primitives/timeline-vector';
+import { TimelineVector } from 'core/primitives/timeline-vector';
 
 @Service()
 export class ClipStore {

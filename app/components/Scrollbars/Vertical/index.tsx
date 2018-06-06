@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Draggable, Unregister } from 'core/interactions/handlers/draggable';
+import { Draggable, Unregister } from 'core/state/interactions/handlers/draggable';
 
 import {
   ScrollbarArea,

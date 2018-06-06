@@ -3,7 +3,7 @@ import { action, computed, observable } from 'mobx';
 import { filterMethods } from 'utils/log-filter';
 import { generateId } from 'utils/generate-id';
 
-import { ClipStore } from 'core/stores/clips';
+import { ClipStore } from 'core/state/stores/clips';
 
 export class Track {
   static mobxLoggerConfig = filterMethods('setIsMouseOver');

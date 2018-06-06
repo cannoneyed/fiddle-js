@@ -3,7 +3,7 @@ import { action, observable } from 'mobx';
 import { filterMethods } from 'utils/log-filter';
 
 import { Track } from 'core/models/Track';
-import { ClipSelect } from 'core/interactions/clip/select';
+import { ClipSelect } from 'core/state/interactions/clip/select';
 
 @Service()
 export class TracksMouseInteraction {

@@ -4,7 +4,7 @@ import { filterMethods } from 'utils/log-filter';
 import { first, last } from 'lodash';
 
 import { Track } from 'core/models/track';
-import { ClipStore } from 'core/stores/clips';
+import { ClipStore } from 'core/state/stores/clips';
 
 @Service()
 export class TrackStore {

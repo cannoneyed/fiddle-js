@@ -3,7 +3,7 @@ import { Service } from 'typedi';
 import { Fraction } from 'core/primitives/fraction';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { GridLayout } from 'core/layouts/sequencer/grid';
+import { GridLayout } from 'core/state/layouts/sequencer/grid';
 
 export enum DivisionType {
   primary,

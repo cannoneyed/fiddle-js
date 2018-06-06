@@ -6,8 +6,8 @@ import theme from 'styles/theme';
 
 import TrackHeader from 'features/TracksSection/TrackHeader';
 
-import { TrackStore } from 'core/stores/tracks';
-import { MainPageLayout } from 'core/layouts/main/page';
+import { TrackStore } from 'core/state/stores/tracks';
+import { MainPageLayout } from 'core/state/layouts/main/page';
 
 @observer
 export default class TracksGutter extends React.Component<{}, {}> {

@@ -5,7 +5,7 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
 import { Track } from 'core/models/track';
-import { TracksLayout } from 'core/layouts/sequencer/tracks';
+import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 
 interface Props {
   index: number;

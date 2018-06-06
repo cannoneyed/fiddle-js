@@ -4,8 +4,8 @@ import { observer } from 'mobx-react';
 import { Menu, MenuItem } from '@blueprintjs/core';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';
-import { TrackStore } from 'core/stores/tracks';
-import { ClipStore } from 'core/stores/clips';
+import { TrackStore } from 'core/state/stores/tracks';
+import { ClipStore } from 'core/state/stores/clips';
 import { SequencerPositionService } from 'core/services/sequencer/position';
 
 interface Props {

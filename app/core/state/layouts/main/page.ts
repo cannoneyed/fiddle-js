@@ -3,7 +3,7 @@ import { Service } from 'typedi';
 import { filterMethods } from 'utils/log-filter';
 
 import { computed } from 'mobx';
-import { WindowLayout } from 'core/layouts/window';
+import { WindowLayout } from 'core/state/layouts/window';
 
 @Service()
 export class MainPageLayout {

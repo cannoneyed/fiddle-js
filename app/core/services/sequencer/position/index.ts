@@ -1,8 +1,8 @@
 import { Service } from 'typedi';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { GridLayout } from 'core/layouts/sequencer/grid';
-import { TimelineState } from 'core/state/sequencer/timeline';
+import { GridLayout } from 'core/state/layouts/sequencer/grid';
+import { TimelineState } from 'core/state/app/sequencer/timeline';
 
 @Service()
 export class SequencerPositionService {

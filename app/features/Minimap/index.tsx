@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
-import { Draggable, Unregister } from 'core/interactions/handlers/draggable';
+import { Draggable, Unregister } from 'core/state/interactions/handlers/draggable';
 
-import { TracksLayout } from 'core/layouts/sequencer/tracks';
+import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 
 import { MinimapContainer, MinimapThumb } from './styled-components';
 

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 
 import EditArea from 'features/EditSection/EditArea';
 
-import { MainPageLayout } from 'core/layouts/main/page';
+import { MainPageLayout } from 'core/state/layouts/main/page';
 
 import { EditSectionWrapper } from './styled-components';
 

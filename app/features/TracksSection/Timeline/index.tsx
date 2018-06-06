@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 
 import Timeline from 'components/Timeline';
 
-import { SequencerLayout } from 'core/layouts/sequencer';
+import { SequencerLayout } from 'core/state/layouts/sequencer';
 
 @observer
 export default class TimelineContainer extends React.Component<{}, {}> {

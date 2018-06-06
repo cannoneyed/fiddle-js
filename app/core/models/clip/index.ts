@@ -7,7 +7,7 @@ import { SequencerPositionService } from 'core/services/sequencer/position';
 
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
-import { TrackStore } from 'core/stores/tracks';
+import { TrackStore } from 'core/state/stores/tracks';
 
 export interface ClipParams {
   trackId: string;

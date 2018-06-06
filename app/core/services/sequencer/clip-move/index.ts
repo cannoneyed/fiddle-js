@@ -3,7 +3,7 @@ import { Service } from 'typedi';
 import { Clip } from 'core/models/clip';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { TrackStore } from 'core/stores/tracks';
+import { TrackStore } from 'core/state/stores/tracks';
 
 @Service()
 export class ClipMoveService {

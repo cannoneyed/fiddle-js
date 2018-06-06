@@ -7,8 +7,8 @@ import { Button } from '@blueprintjs/core';
 
 import SelectSnapToGrid from 'components/SelectSnapToGrid';
 
-import { TrackStore } from 'core/stores/tracks';
-import { SequencerLayout } from 'core/layouts/sequencer';
+import { TrackStore } from 'core/state/stores/tracks';
+import { SequencerLayout } from 'core/state/layouts/sequencer';
 
 @observer
 export default class Toolbar extends React.Component<{}, {}> {

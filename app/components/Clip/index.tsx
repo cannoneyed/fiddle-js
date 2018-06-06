@@ -4,7 +4,7 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
 import { Clip as ClipModel } from 'core/models/clip';
-import { TracksLayout } from 'core/layouts/sequencer/tracks';
+import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 
 interface Props {
   clip: ClipModel;

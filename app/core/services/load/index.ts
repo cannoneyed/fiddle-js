@@ -2,9 +2,9 @@ import { Service } from 'typedi';
 import { action } from 'mobx';
 import { range } from 'lodash';
 
-import { ClipStore } from 'core/stores/clips';
-import { TrackStore } from 'core/stores/tracks';
-import { AppState } from 'core/stores';
+import { ClipStore } from 'core/state/stores/clips';
+import { TrackStore } from 'core/state/stores/tracks';
+import { AppState } from 'core/state/stores';
 import { TimelineVector } from '../../primitives/timeline-vector';
 
 @Service()

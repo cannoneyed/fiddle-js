@@ -4,7 +4,7 @@ import theme from 'styles/theme';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
-import { MainPageLayout } from 'core/layouts/main/page';
+import { MainPageLayout } from 'core/state/layouts/main/page';
 
 @observer
 export default class TimelineGutter extends React.Component<{}, {}> {

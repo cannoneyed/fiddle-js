@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { map } from 'lodash';
 
 import { snapToGridValues } from 'core/models/snap-to-grid';
-import { SequencerState } from 'core/state/sequencer';
+import { SequencerState } from 'core/state/app/sequencer';
 
 import Select from 'components/Select';
 

@@ -7,13 +7,13 @@ import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { ClipStore } from 'core/stores/clips';
+import { ClipStore } from 'core/state/stores/clips';
 import { ClipMoveService } from 'core/services/sequencer/clip-move';
-import { ClipSelect } from 'core/interactions/clip/select';
+import { ClipSelect } from 'core/state/interactions/clip/select';
 import { SequencerPositionService } from 'core/services/sequencer/position';
 import { TracksPositionService } from 'core/services/sequencer/position/tracks';
 import { GridService } from 'core/services/sequencer/grid';
-import { TrackStore } from 'core/stores/tracks';
+import { TrackStore } from 'core/state/stores/tracks';
 
 export const DRAG_DELAY: number = 200;
 

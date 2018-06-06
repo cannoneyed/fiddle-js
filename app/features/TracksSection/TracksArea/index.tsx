@@ -5,10 +5,10 @@ import { observer } from 'mobx-react';
 import Track from 'features/TracksSection/Track';
 import VerticalGrid from 'features/TracksSection/VerticalGrid';
 
-import { TrackStore } from 'core/stores/tracks';
-import { MainPageLayout } from 'core/layouts/main/page';
-import { SequencerLayout } from 'core/layouts/sequencer';
-import { TracksLayout } from 'core/layouts/sequencer/tracks';
+import { TrackStore } from 'core/state/stores/tracks';
+import { MainPageLayout } from 'core/state/layouts/main/page';
+import { SequencerLayout } from 'core/state/layouts/sequencer';
+import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 
 import DragToMarker from './DragToMarker';
 import { TracksAreaContainer, GridContainer, TracksContainer } from './styled-components';

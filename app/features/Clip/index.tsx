@@ -7,10 +7,10 @@ import { ContextMenu } from '@blueprintjs/core';
 import ClipContextMenu from 'features/ClipContextMenu';
 import ClipView from 'components/Clip';
 
-import { ClipSelect } from 'core/interactions/clip/select';
+import { ClipSelect } from 'core/state/interactions/clip/select';
 import { Clip as ClipModel } from 'core/models/clip';
 
-import * as clipDragHandlers from 'core/interactions/clip/drag/handlers';
+import * as clipDragHandlers from 'core/state/interactions/clip/drag/handlers';
 
 const styles = require('./styles.less');
 

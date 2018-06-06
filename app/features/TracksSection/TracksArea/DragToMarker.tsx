@@ -6,8 +6,8 @@ import { observer } from 'mobx-react';
 
 import { SequencerPositionService } from 'core/services/sequencer/position';
 
-import { MainPageLayout } from 'core/layouts/main/page';
-import { SequencerLayout } from 'core/layouts/sequencer';
+import { MainPageLayout } from 'core/state/layouts/main/page';
+import { SequencerLayout } from 'core/state/layouts/sequencer';
 
 @observer
 export default class DragToMarker extends React.Component<{}, {}> {

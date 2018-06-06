@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container } from 'typedi';
 import { IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
-import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
+import * as trackScrollHandlers from 'core/state/interactions/tracks/scroll/handlers';
 import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
 import Timeline from 'features/TracksSection/Timeline';
@@ -11,7 +11,7 @@ import TracksGutter from 'features/TracksSection/TracksGutter';
 import TracksArea from 'features/TracksSection/TracksArea';
 import VerticalScrollbar from 'features/TracksSection/VerticalScrollbar';
 
-import { MainPageLayout } from 'core/layouts/main/page';
+import { MainPageLayout } from 'core/state/layouts/main/page';
 
 import {
   TimelineWrapper,

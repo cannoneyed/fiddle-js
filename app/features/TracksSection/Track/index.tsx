@@ -9,9 +9,9 @@ import TrackContextMenu from 'features/TracksSection/TrackContextMenu';
 import Clip from 'features/Clip';
 
 import { Track as TrackModel } from 'core/models/track';
-import { TracksLayout } from 'core/layouts/sequencer/tracks';
-import { TracksMouseInteraction } from 'core/interactions/tracks/mouse';
-import { ClipDragInteraction } from 'core/interactions/clip/drag';
+import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
+import { TracksMouseInteraction } from 'core/state/interactions/tracks/mouse';
+import { ClipDragInteraction } from 'core/state/interactions/clip/drag';
 
 interface Props {
   track: TrackModel;

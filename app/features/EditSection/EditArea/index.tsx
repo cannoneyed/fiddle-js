@@ -8,8 +8,8 @@ import Toolbar from '../Toolbar';
 
 import Timeline from 'components/Timeline';
 
-import { MainPageLayout } from 'core/layouts/main/page';
-import { SequencerLayout } from 'core/layouts/sequencer';
+import { MainPageLayout } from 'core/state/layouts/main/page';
+import { SequencerLayout } from 'core/state/layouts/sequencer';
 
 @observer
 export default class EditArea extends React.Component<{}, {}> {

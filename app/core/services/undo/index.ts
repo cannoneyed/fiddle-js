@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 
-import { ClipStore } from 'core/stores/clips';
+import { ClipStore } from 'core/state/stores/clips';
 import { UndoManager } from './manager';
 
 @Service()

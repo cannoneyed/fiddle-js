@@ -1,8 +1,8 @@
 import { Service } from 'typedi';
 
-import { MainPageLayout } from 'core/layouts/main/page';
-import { TracksLayout } from 'core/layouts/sequencer/tracks';
-import { TrackStore } from 'core/stores/tracks';
+import { MainPageLayout } from 'core/state/layouts/main/page';
+import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
+import { TrackStore } from 'core/state/stores/tracks';
 
 @Service()
 export class TracksPositionService {

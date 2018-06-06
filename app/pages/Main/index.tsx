@@ -9,7 +9,7 @@ import Minimap from 'features/Minimap';
 import SectionDivider from 'features/SectionDivider';
 import Toolbar from 'features/Toolbar';
 
-import { MainPageLayout } from 'core/layouts/main/page';
+import { MainPageLayout } from 'core/state/layouts/main/page';
 
 import { PageWrapper, MinimapWrapper, ToolbarWrapper } from './styled-components';
 

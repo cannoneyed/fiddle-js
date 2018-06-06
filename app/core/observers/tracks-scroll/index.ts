@@ -1,7 +1,7 @@
 import { Container } from 'typedi';
 import { autorun, IReactionDisposer } from 'mobx';
 
-import { TracksLayout } from 'core/layouts/sequencer/tracks';
+import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 import { scrollTracks } from 'core/dom/scroll-tracks';
 
 export const observeTracksScroll = (): IReactionDisposer => {

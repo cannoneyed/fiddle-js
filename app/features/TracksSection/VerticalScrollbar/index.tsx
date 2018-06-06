@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 
 import VerticalScroll from 'components/Scrollbars/Vertical';
 
-import { TracksLayout } from 'core/layouts/sequencer/tracks';
+import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 
 @observer
 export default class VerticalScrollArea extends React.Component<{}, {}> {

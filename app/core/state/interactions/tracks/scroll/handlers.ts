@@ -2,7 +2,7 @@ import { Container } from 'typedi';
 import { map } from 'lodash';
 
 import { sequencerDOM } from 'core/dom/sequencer';
-import { TracksLayout } from 'core/layouts/sequencer/tracks';
+import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 
 export type Unregister = () => void;
 export type EventHandler = (event: WheelEvent) => void;
