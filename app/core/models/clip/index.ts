@@ -3,9 +3,6 @@ import { action, computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 import { json } from 'core/serialization/json';
 
-import { SequencerPositionService } from 'core/services/sequencer/position';
-
-import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 import { TrackStore } from 'core/state/stores/tracks';
 
@@ -17,7 +14,6 @@ export interface ClipParams {
 
 export class Clip {
   trackStore = Container.get(TrackStore);
-  sequencerPositionService = Container.get(SequencerPositionService);
 
   @json id: string;
 
@@ -55,33 +51,9 @@ export class Clip {
   }
 
   @computed
-  get width(): number {
-    return this.sequencerPositionService.getOffsetX(this.length);
-  }
-
-  @computed
-  get offsetX(): number {
-    return this.sequencerPositionService.getOffsetX(this.position);
-  }
-
-  @computed
-  get offsetY(): number {
-    return 0;
-  }
-
-  @computed
   get track() {
     return this.trackStore.getTrackById(this.trackId)!;
   }
-
-  getScreenVector = (): ScreenVector => {
-    const clipElement = document.getElementById(this.domId);
-    if (clipElement) {
-      const { left, top } = clipElement.getBoundingClientRect();
-      return new ScreenVector(left, top);
-    }
-    return new ScreenVector();
-  };
 
   @action
   delete = () => {

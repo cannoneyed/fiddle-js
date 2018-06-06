@@ -21,6 +21,10 @@ export class SequencerPositionService {
     return bar + beats;
   };
 
+  getWidth = (length: TimelineVector): number => {
+    return this.getOffsetX(length);
+  };
+
   getTimelineStart = () => {
     return new TimelineVector(0);
   };

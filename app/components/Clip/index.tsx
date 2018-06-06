@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 
 import { Clip as ClipModel } from 'core/models/clip';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
+import { SequencerPositionService } from 'core/services/sequencer/position';
 
 interface Props {
   clip: ClipModel;
@@ -15,16 +16,18 @@ interface Props {
 @observer
 export default class Clip extends React.Component<Props, {}> {
   tracksLayout = Container.get(TracksLayout);
+  sequencerPosition = Container.get(SequencerPositionService);
 
   render() {
     const { clip, onMouseDown } = this.props;
     const { trackHeight } = this.tracksLayout;
+    const clipWidth = this.sequencerPosition.getWidth(clip.length);
 
     return (
       <ClipContainer
         id={clip.domId}
         height={trackHeight}
-        width={clip.width}
+        width={clipWidth}
         isSelected={clip.isSelected}
         isDragging={clip.isDragging}
         onMouseDown={onMouseDown}
