@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
 
-import TrackHeader from 'features/TracksSection/TrackHeader';
+import TrackHeader from 'features/SequencerSection/TrackHeader';
 
 import { TrackStore } from 'core/state/stores/tracks';
 import { MainPageLayout } from 'core/state/layouts/main/page';

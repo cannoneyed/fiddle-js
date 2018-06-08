@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 
 import { ContextMenu } from '@blueprintjs/core';
 
-import ClipContextMenu from 'features/ClipContextMenu';
+import ClipContextMenu from 'features/ContextMenus/ClipContextMenu';
 import ClipView from 'components/Clip';
 
 import { ClipSelect } from 'core/interactions//clip/select';

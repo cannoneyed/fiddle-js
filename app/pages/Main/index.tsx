@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
-import EditSection from './edit-section';
-import TracksSection from './tracks-section';
+import ClipSection from './clip-section';
+import SequencerSection from './sequencer-section';
 
 import Minimap from 'features/Minimap';
 import SectionDivider from 'features/SectionDivider';
@@ -17,7 +17,7 @@ import { PageWrapper, MinimapWrapper, ToolbarWrapper } from './styled-components
 export default class SequencerPage extends React.Component<{}, {}> {
   mainPageLayout = Container.get(MainPageLayout);
 
-  handleTracksSectionDividerDrag = (deltaY: number) => {
+  handleSequencerSectionDividerDrag = (deltaY: number) => {
     const { mainPageLayout } = this;
     mainPageLayout.deltaTracksAreaHeight(deltaY);
   };
@@ -41,9 +41,9 @@ export default class SequencerPage extends React.Component<{}, {}> {
         <MinimapWrapper style={minimapWrapperStyle}>
           <Minimap />
         </MinimapWrapper>
-        <TracksSection />
-        <SectionDivider onDrag={this.handleTracksSectionDividerDrag} />
-        <EditSection />
+        <SequencerSection />
+        <SectionDivider onDrag={this.handleSequencerSectionDividerDrag} />
+        <ClipSection />
       </PageWrapper>
     );
   }

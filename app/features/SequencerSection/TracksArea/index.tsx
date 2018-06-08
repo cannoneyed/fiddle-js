@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
-import Track from 'features/TracksSection/Track';
-import VerticalGrid from 'features/TracksSection/VerticalGrid';
+import Track from 'features/SequencerSection/Track';
+import VerticalGrid from 'features/SequencerSection/VerticalGrid';
 
 import { TrackStore } from 'core/state/stores/tracks';
 import { MainPageLayout } from 'core/state/layouts/main/page';

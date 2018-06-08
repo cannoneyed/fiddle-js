@@ -5,8 +5,8 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { ContextMenu } from '@blueprintjs/core';
 
-import TrackContextMenu from 'features/TracksSection/TrackContextMenu';
-import Clip from 'features/Clip';
+import TrackContextMenu from 'features/ContextMenus/TrackContextMenu';
+import Clip from 'features/SequencerSection/Clip';
 
 import { Track as TrackModel } from 'core/models/track';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';

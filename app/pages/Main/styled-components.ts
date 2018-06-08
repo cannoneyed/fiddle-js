@@ -8,7 +8,7 @@ export const PageWrapper = styled.div`
   background-color: ${theme.colors.darkGray.toRgbString()};
 `;
 
-export const EditSectionWrapper = styled.div`
+export const ClipSectionWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -32,7 +32,7 @@ export const TracksAreaWrapper = styled.div`
   flex-direction: row;
 `;
 
-export const TracksSectionWrapper = styled.div`
+export const SequencerSectionWrapper = styled.div`
   width: 100%;
   position: relative;
 `;

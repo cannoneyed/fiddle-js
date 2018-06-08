@@ -5,23 +5,23 @@ import { observer } from 'mobx-react';
 import * as trackScrollHandlers from 'core/interactions//tracks/scroll/handlers';
 import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
-import Timeline from 'features/TracksSection/Timeline';
-import TimelineGutter from 'features/TracksSection/TimelineGutter';
-import TracksGutter from 'features/TracksSection/TracksGutter';
-import TracksArea from 'features/TracksSection/TracksArea';
-import VerticalScrollbar from 'features/TracksSection/VerticalScrollbar';
+import Timeline from 'features/SequencerSection/Timeline';
+import TimelineGutter from 'features/SequencerSection/TimelineGutter';
+import TracksGutter from 'features/SequencerSection/TracksGutter';
+import TracksArea from 'features/SequencerSection/TracksArea';
+import VerticalScrollbar from 'features/SequencerSection/VerticalScrollbar';
 
 import { MainPageLayout } from 'core/state/layouts/main/page';
 
 import {
   TimelineWrapper,
   TracksAreaWrapper,
-  TracksSectionWrapper,
+  SequencerSectionWrapper,
   VerticalScrollbarWrapper,
 } from './styled-components';
 
 @observer
-export default class TracksSection extends React.Component<{}, {}> {
+export default class SequncerSection extends React.Component<{}, {}> {
   mainPageLayout = Container.get(MainPageLayout);
 
   disposeObserver: IReactionDisposer;
@@ -37,7 +37,7 @@ export default class TracksSection extends React.Component<{}, {}> {
     this.disposeObserver();
   }
 
-  handleTracksSectionDividerDrag = (deltaY: number) => {
+  handleSequncerSectionDividerDrag = (deltaY: number) => {
     const { mainPageLayout } = this;
     mainPageLayout.deltaTracksAreaHeight(deltaY);
   };
@@ -65,7 +65,7 @@ export default class TracksSection extends React.Component<{}, {}> {
     };
 
     return (
-      <TracksSectionWrapper style={tracksSectionStyle}>
+      <SequencerSectionWrapper style={tracksSectionStyle}>
         <TimelineWrapper style={timelineWrapperStyle}>
           <TimelineGutter />
           <Timeline />
@@ -77,7 +77,7 @@ export default class TracksSection extends React.Component<{}, {}> {
         <VerticalScrollbarWrapper style={verticalScrollbarWrapperStyle}>
           <VerticalScrollbar />
         </VerticalScrollbarWrapper>
-      </TracksSectionWrapper>
+      </SequencerSectionWrapper>
     );
   }
 }
