@@ -7,7 +7,7 @@ import VerticalGrid from 'features/SequencerSection/VerticalGrid';
 
 import { TrackStore } from 'core/state/stores/tracks';
 import { MainPageLayout } from 'core/state/layouts/main/page';
-import { SequencerLayout } from 'core/state/layouts/sequencer';
+import { GridLayout } from 'core/state/layouts/sequencer/grid';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 
 import DragToMarker from './DragToMarker';
@@ -18,7 +18,7 @@ interface Props {}
 @observer
 export default class TracksArea extends React.Component<Props, {}> {
   tracksLayout = Container.get(TracksLayout);
-  sequencerLayout = Container.get(SequencerLayout);
+  gridLayout = Container.get(GridLayout);
   mainPageLayout = Container.get(MainPageLayout);
   trackStore = Container.get(TrackStore);
 
@@ -26,7 +26,7 @@ export default class TracksArea extends React.Component<Props, {}> {
     const { trackList } = this.trackStore;
     const { tracksAreaHeight } = this.mainPageLayout;
     const { trackHeight } = this.tracksLayout;
-    const { gridCount, gridSegmentWidth } = this.sequencerLayout.grid;
+    const { gridCount, gridSegmentWidth } = this.gridLayout;
 
     const gridHeight = Math.max(trackList.length * trackHeight, tracksAreaHeight);
 

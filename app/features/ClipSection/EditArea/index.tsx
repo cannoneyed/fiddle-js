@@ -8,17 +8,14 @@ import Toolbar from '../Toolbar';
 
 import Timeline from 'components/Timeline';
 
-import { MainPageLayout } from 'core/state/layouts/main/page';
-import { SequencerLayout } from 'core/state/layouts/sequencer';
+import { GridLayout } from 'core/state/layouts/sequencer/grid';
 
 @observer
 export default class EditArea extends React.Component<{}, {}> {
-  sequencerLayout = Container.get(SequencerLayout);
-  sequencerPageLayout = Container.get(MainPageLayout);
+  gridLayout = Container.get(GridLayout);
 
   render() {
-    const { sequencerLayout } = this;
-    const { division, divisionWidth, nDivisions } = sequencerLayout.grid;
+    const { division, divisionWidth, nDivisions } = this.gridLayout;
 
     return (
       <EditAreaContainer id="editArea">

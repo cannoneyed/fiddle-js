@@ -7,17 +7,16 @@ import { observer } from 'mobx-react';
 import { SequencerPositionService } from 'core/services/sequencer/position';
 
 import { MainPageLayout } from 'core/state/layouts/main/page';
-import { SequencerLayout } from 'core/state/layouts/sequencer';
+import { TimelineLayout } from 'core/state/layouts/sequencer/timeline';
 
 @observer
 export default class DragToMarker extends React.Component<{}, {}> {
   sequencerPageLayout = Container.get(MainPageLayout);
-  tracksSectionLayout = Container.get(SequencerLayout);
+  timelineLayout = Container.get(TimelineLayout);
   sequencerPositionService = Container.get(SequencerPositionService);
 
   render() {
-    const { tracksSectionLayout } = this;
-    const { dropTargetPosition } = tracksSectionLayout.timeline;
+    const { dropTargetPosition } = this.timelineLayout;
 
     if (!dropTargetPosition) {
       return null;
