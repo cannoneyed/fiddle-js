@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 
 import { MainPageLayout } from 'core/state/layouts/main/page';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
@@ -6,11 +6,12 @@ import { TrackStore } from 'core/state/stores/tracks';
 
 @Service()
 export class TracksPositionService {
-  constructor(
-    private mainPageLayout: MainPageLayout,
-    private tracksLayout: TracksLayout,
-    private trackStore: TrackStore
-  ) {}
+  @Inject(type => TracksLayout)
+  private tracksLayout: TracksLayout;
+  @Inject(type => MainPageLayout)
+  private mainPageLayout: MainPageLayout;
+  @Inject(type => TrackStore)
+  private trackStore: TrackStore;
 
   getOffsetXFromScreenX = (screenX: number) => {
     const leftEdge = this.mainPageLayout.tracksAreaLeft;

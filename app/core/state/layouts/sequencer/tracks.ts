@@ -4,7 +4,6 @@ import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
 import { filterMethods } from 'utils/log-filter';
 
-import { ClipDragInteraction } from 'core/interactions//clip/drag';
 import { MainPageLayout } from 'core/state/layouts/main/page';
 import { TimelineState } from 'core/state/app/sequencer/timeline';
 import { TrackStore } from 'core/state/stores/tracks';
@@ -17,7 +16,6 @@ export class TracksLayout {
   static mobxLoggerConfig = filterMethods('setTracksScroll');
 
   constructor(
-    private clipDragInteraction: ClipDragInteraction,
     private gridLayout: GridLayout,
     private mainPageLayout: MainPageLayout,
     private trackStore: TrackStore,
@@ -85,12 +83,5 @@ export class TracksLayout {
   @computed
   get tracksScrolledY() {
     return this.tracksScrollableHeight * this.tracksScrollPercentY;
-  }
-
-  @computed
-  get dropTargetPosition() {
-    return this.clipDragInteraction.isDragging
-      ? this.clipDragInteraction.dropTargetTimelinePosition
-      : null;
   }
 }
