@@ -21,7 +21,7 @@ export default class ClipContextMenu extends React.Component<Props, {}> {
 
   editClip = () => {
     const { clip } = this.props;
-    this.clipEditorState.selectClip(clip.id);
+    this.clipEditorState.setClipEditing(clip.id);
   };
 
   deleteClip = () => {

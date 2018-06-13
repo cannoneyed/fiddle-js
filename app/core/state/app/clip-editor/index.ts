@@ -9,7 +9,7 @@ export class ClipEditorState {
   @observable selectedClipId: string | null = null;
 
   @action
-  selectClip(clipId: string) {
+  setClipEditing(clipId: string) {
     this.selectedClipId = clipId;
   }
 }
