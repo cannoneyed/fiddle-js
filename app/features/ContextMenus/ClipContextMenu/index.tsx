@@ -13,32 +13,52 @@ interface Props {
   clip: Clip;
 }
 
+interface InjectedProps {
+  deleteClip: () => void;
+  deleteClips: () => void;
+  editClip: () => void;
+  nSelectedClips: number;
+}
+
 @observer
-export default class ClipContextMenu extends React.Component<Props, {}> {
+export default class ClipContextMenuWrapper extends React.Component<Props, {}> {
+  clipSelect = Container.get(ClipSelectInteraction);
+  clipStore = Container.get(ClipStore);
+  clipEditorState = Container.get(ClipEditorState);
+
+  render() {
+    const { clip } = this.props;
+    const nextProps = {
+      ...this.props,
+      deleteClip: () => this.clipStore.deleteClip(clip),
+      deleteClips: () => this.clipStore.deleteClips(this.clipSelect.selectedClips),
+      editClip: () => this.clipEditorState.setClipEditing(clip.id),
+      nSelectedClips: this.clipSelect.selectedClips.length,
+    };
+    return <ClipContextMenu {...nextProps} />;
+  }
+}
+
+@observer
+export class ClipContextMenu extends React.Component<Props & InjectedProps, {}> {
   clipSelect = Container.get(ClipSelectInteraction);
   clipStore = Container.get(ClipStore);
   clipEditorState = Container.get(ClipEditorState);
 
   editClip = () => {
-    const { clip } = this.props;
-    this.clipEditorState.setClipEditing(clip.id);
+    this.props.editClip();
   };
 
   deleteClip = () => {
-    const { clip } = this.props;
-    const { clipStore } = this;
-    clipStore.deleteClip(clip);
+    this.props.deleteClip();
   };
 
   deleteClips = () => {
-    const { clipSelect, clipStore } = this;
-    clipStore.deleteClips(clipSelect.selectedClips);
+    this.props.deleteClips();
   };
 
   render() {
-    const { clipSelect } = this;
-
-    const nSelectedClips = clipSelect.selectedClips.length;
+    const { nSelectedClips } = this.props;
     const deleteAction = nSelectedClips > 1 ? this.deleteClips : this.deleteClip;
     const deleteText = nSelectedClips > 1 ? 'Delete Clips' : 'Delete Clip';
 

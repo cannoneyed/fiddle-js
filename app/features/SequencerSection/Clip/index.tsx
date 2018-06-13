@@ -15,8 +15,14 @@ import { SequencerPositionService } from 'core/services/sequencer/position';
 
 const styles = require('./styles.less');
 
-interface Props {
+interface ExternalProps {
   clip: ClipModel;
+}
+
+interface InjectedProps {
+  selectClip: () => void;
+  selectOnlyClip: () => void;
+  offsetX: number;
 }
 
 interface State {
@@ -24,10 +30,24 @@ interface State {
 }
 
 @observer
-export default class Clip extends React.Component<Props, State> {
+export default class ClipWrapper extends React.Component<ExternalProps, {}> {
   clipSelect = Container.get(ClipSelectInteraction);
   sequencerPosition = Container.get(SequencerPositionService);
 
+  render() {
+    const { clip } = this.props;
+    const nextProps = {
+      ...this.props,
+      offsetX: this.sequencerPosition.getOffsetX(clip.position),
+      selectClip: () => this.clipSelect.selectClip(clip),
+      selectOnlyClip: () => this.clipSelect.selectOnlyClip(clip),
+    };
+    return <Clip {...nextProps} />;
+  }
+}
+
+@observer
+export class Clip extends React.Component<ExternalProps & InjectedProps, State> {
   state = { isContextMenuOpen: false };
 
   handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
@@ -42,9 +62,9 @@ export default class Clip extends React.Component<Props, State> {
     } else if (clip.isSelected) {
       // no op, still set up handlers below
     } else if (event.shiftKey) {
-      this.clipSelect.selectClip(clip);
+      this.props.selectClip();
     } else {
-      this.clipSelect.selectOnlyClip(clip);
+      this.props.selectOnlyClip();
     }
 
     clipDragHandlers.register(clip, event);
@@ -64,8 +84,7 @@ export default class Clip extends React.Component<Props, State> {
   };
 
   render() {
-    const { clip } = this.props;
-    const offsetX = this.sequencerPosition.getOffsetX(clip.position);
+    const { clip, offsetX } = this.props;
 
     const clipWrapperStyle = {
       left: offsetX - 1,
