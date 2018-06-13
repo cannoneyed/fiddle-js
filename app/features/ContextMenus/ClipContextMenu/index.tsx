@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import { Menu, MenuItem } from '@blueprintjs/core';
 
 import { Clip } from 'core/models/clip';
+import { ClipEditorState } from 'core/state/app/clip-editor';
 import { ClipStore } from 'core/state/stores/clips';
 import { ClipSelectInteraction } from 'core/interactions//clip/select';
 
@@ -16,6 +17,12 @@ interface Props {
 export default class ClipContextMenu extends React.Component<Props, {}> {
   clipSelect = Container.get(ClipSelectInteraction);
   clipStore = Container.get(ClipStore);
+  clipEditorState = Container.get(ClipEditorState);
+
+  editClip = () => {
+    const { clip } = this.props;
+    this.clipEditorState.selectClip(clip.id);
+  };
 
   deleteClip = () => {
     const { clip } = this.props;
@@ -37,6 +44,7 @@ export default class ClipContextMenu extends React.Component<Props, {}> {
 
     return (
       <Menu>
+        <MenuItem onClick={this.editClip} icon="edit" text="edit" />
         <MenuItem onClick={deleteAction} icon="cross" text={deleteText} />
       </Menu>
     );
