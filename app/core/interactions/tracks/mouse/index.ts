@@ -3,13 +3,13 @@ import { action, observable } from 'mobx';
 import { filterMethods } from 'utils/log-filter';
 
 import { Track } from 'core/models/Track';
-import { ClipSelect } from 'core/interactions//clip/select';
+import { ClipSelectInteraction } from 'core/interactions//clip/select';
 
 @Service()
 export class TracksMouseInteraction {
   static mobxLoggerConfig = filterMethods('handleMouseEnter', 'handleMouseLeave');
 
-  constructor(private clipSelect: ClipSelect) {}
+  constructor(private clipSelect: ClipSelectInteraction) {}
 
   @observable trackMouseOver: Track | null;
 

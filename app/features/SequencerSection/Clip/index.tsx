@@ -7,7 +7,7 @@ import { ContextMenu } from '@blueprintjs/core';
 import ClipContextMenu from 'features/ContextMenus/ClipContextMenu';
 import ClipView from 'components/Clip';
 
-import { ClipSelect } from 'core/interactions//clip/select';
+import { ClipSelectInteraction } from 'core/interactions//clip/select';
 import { Clip as ClipModel } from 'core/models/clip';
 
 import * as clipDragHandlers from 'core/interactions//clip/drag/handlers';
@@ -25,7 +25,7 @@ interface State {
 
 @observer
 export default class Clip extends React.Component<Props, State> {
-  clipSelect = Container.get(ClipSelect);
+  clipSelect = Container.get(ClipSelectInteraction);
   sequencerPosition = Container.get(SequencerPositionService);
 
   state = { isContextMenuOpen: false };

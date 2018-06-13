@@ -6,7 +6,7 @@ import { Menu, MenuItem } from '@blueprintjs/core';
 
 import { Clip } from 'core/models/clip';
 import { ClipStore } from 'core/state/stores/clips';
-import { ClipSelect } from 'core/interactions//clip/select';
+import { ClipSelectInteraction } from 'core/interactions//clip/select';
 
 interface Props {
   clip: Clip;
@@ -14,7 +14,7 @@ interface Props {
 
 @observer
 export default class ClipContextMenu extends React.Component<Props, {}> {
-  clipSelect = Container.get(ClipSelect);
+  clipSelect = Container.get(ClipSelectInteraction);
   clipStore = Container.get(ClipStore);
 
   deleteClip = () => {

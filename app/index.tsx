@@ -5,6 +5,8 @@ import { render } from 'react-dom';
 import { configure } from 'mobx';
 import { enableLogging } from 'mobx-logger';
 import { configureDevtool } from 'mobx-react-devtools';
+
+import { registerServices } from 'core/register-services';
 import { logStores } from 'utils/log-stores';
 
 import { LoadService } from 'core/services/load';
@@ -13,6 +15,9 @@ import { UndoService } from 'core/services/undo';
 import Root from './pages/Root';
 
 import './app.global.css';
+
+// Ensure that all services are registered with the DI provider.
+registerServices();
 
 // Set up an ad-hoc logging function for inspecting the state of the
 // central stores

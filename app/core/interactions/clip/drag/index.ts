@@ -7,7 +7,7 @@ import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { ClipSelect } from 'core/interactions//clip/select';
+import { ClipSelectInteraction } from 'core/interactions//clip/select';
 import { ClipMoveService } from 'core/services/sequencer/clip-move';
 import { DomPositionService } from 'core/services/dom/position';
 import { GridService } from 'core/services/sequencer/grid';
@@ -23,7 +23,7 @@ export class ClipDragInteraction {
   static mobxLoggerConfig = logMethods('beginDrag', 'endDrag');
 
   constructor(
-    private clipSelect: ClipSelect,
+    private clipSelect: ClipSelectInteraction,
     private clipStore: ClipStore,
     private clipMoveService: ClipMoveService,
     private domPositionService: DomPositionService,

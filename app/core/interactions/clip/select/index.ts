@@ -5,7 +5,7 @@ import { Clip } from 'core/models/Clip';
 import { ClipStore } from 'core/state/stores/clips';
 
 @Service()
-export class ClipSelect {
+export class ClipSelectInteraction {
   constructor(private clipStore: ClipStore) {}
 
   @computed

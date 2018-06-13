@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { action, observable } from 'mobx';
 import { json } from 'core/serialization/json';
 
@@ -8,7 +8,8 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 
 @Service()
 export class ClipStore {
-  constructor(private snipStore: SnipStore) {}
+  @Inject(type => SnipStore)
+  private snipStore: SnipStore;
 
   // The main store for clips (by id)
   @json
