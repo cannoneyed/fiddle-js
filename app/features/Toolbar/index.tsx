@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
+import { injector } from 'utils/injector';
 import { Button } from '@blueprintjs/core';
 
 import SelectSnapToGrid from 'components/SelectSnapToGrid';
@@ -10,14 +11,28 @@ import SelectSnapToGrid from 'components/SelectSnapToGrid';
 import { TrackStore } from 'core/state/stores/tracks';
 import { ZoomLayout } from 'core/state/layouts/sequencer/zoom';
 
-@observer
-export default class Toolbar extends React.Component<{}, {}> {
-  zoomLayout = Container.get(ZoomLayout);
-  trackStore = Container.get(TrackStore);
+export interface Props {}
+export interface InjectedProps {
+  createTrack: () => void;
+  zoomInHorizontal: () => void;
+  zoomOutHorizontal: () => void;
+}
 
+const inject = injector<Props, InjectedProps>(props => {
+  const zoomLayout = Container.get(ZoomLayout);
+  const trackStore = Container.get(TrackStore);
+
+  return {
+    createTrack: () => trackStore.createTrack(),
+    zoomInHorizontal: () => zoomLayout.zoomInHorizontal(),
+    zoomOutHorizontal: () => zoomLayout.zoomOutHorizontal(),
+  };
+});
+
+@observer
+export class Toolbar extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { zoomInHorizontal, zoomOutHorizontal } = this.zoomLayout;
-    const { createTrack } = this.trackStore;
+    const { createTrack, zoomInHorizontal, zoomOutHorizontal } = this.props;
 
     return (
       <ToolbarContainer>
@@ -31,6 +46,8 @@ export default class Toolbar extends React.Component<{}, {}> {
     );
   }
 }
+
+export default inject(Toolbar);
 
 const ToolbarContainer = styled.div`
   position: absolute;

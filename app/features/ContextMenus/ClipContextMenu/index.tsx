@@ -1,7 +1,7 @@
-import { Container } from 'typedi';
-
 import * as React from 'react';
+import { Container } from 'typedi';
 import { observer } from 'mobx-react';
+import { injector } from 'utils/injector';
 import { Menu, MenuItem } from '@blueprintjs/core';
 
 import { Clip } from 'core/models/clip';
@@ -12,7 +12,6 @@ import { ClipSelectInteraction } from 'core/interactions//clip/select';
 interface Props {
   clip: Clip;
 }
-
 interface InjectedProps {
   deleteClip: () => void;
   deleteClips: () => void;
@@ -20,31 +19,22 @@ interface InjectedProps {
   nSelectedClips: number;
 }
 
-@observer
-export default class ClipContextMenuWrapper extends React.Component<Props, {}> {
-  clipSelect = Container.get(ClipSelectInteraction);
-  clipStore = Container.get(ClipStore);
-  clipEditorState = Container.get(ClipEditorState);
+const inject = injector<Props, InjectedProps>(props => {
+  const { clip } = props;
+  const clipSelect = Container.get(ClipSelectInteraction);
+  const clipStore = Container.get(ClipStore);
+  const clipEditorState = Container.get(ClipEditorState);
 
-  render() {
-    const { clip } = this.props;
-    const nextProps = {
-      ...this.props,
-      deleteClip: () => this.clipStore.deleteClip(clip),
-      deleteClips: () => this.clipStore.deleteClips(this.clipSelect.selectedClips),
-      editClip: () => this.clipEditorState.setClipEditing(clip.id),
-      nSelectedClips: this.clipSelect.selectedClips.length,
-    };
-    return <ClipContextMenu {...nextProps} />;
-  }
-}
+  return {
+    deleteClip: () => clipStore.deleteClip(clip),
+    deleteClips: () => clipStore.deleteClips(clipSelect.selectedClips),
+    editClip: () => clipEditorState.setClipEditing(clip.id),
+    nSelectedClips: clipSelect.selectedClips.length,
+  };
+});
 
 @observer
 export class ClipContextMenu extends React.Component<Props & InjectedProps, {}> {
-  clipSelect = Container.get(ClipSelectInteraction);
-  clipStore = Container.get(ClipStore);
-  clipEditorState = Container.get(ClipEditorState);
-
   editClip = () => {
     this.props.editClip();
   };
@@ -70,3 +60,5 @@ export class ClipContextMenu extends React.Component<Props & InjectedProps, {}> 
     );
   }
 }
+
+export default inject(ClipContextMenu);

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
+import { injector } from 'utils/injector';
 import { ContextMenu } from '@blueprintjs/core';
 
 import TrackContextMenu from 'features/ContextMenus/TrackContextMenu';
@@ -10,24 +11,36 @@ import Clip from 'features/SequencerSection/Clip';
 
 import { Track as TrackModel } from 'core/models/track';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
-import { TracksMouseInteraction } from 'core/interactions//tracks/mouse';
-import { ClipDragInteraction } from 'core/interactions//clip/drag';
+import { TracksMouseInteraction } from 'core/interactions/tracks/mouse';
 
 interface Props {
   track: TrackModel;
   index: number;
 }
-
+interface InjectedProps {
+  handleTrackClick: (e: React.MouseEvent<HTMLDivElement>) => void;
+  height: number;
+  width: number;
+}
 interface State {
   isContextMenuOpen: boolean;
 }
 
-@observer
-export default class Track extends React.Component<Props, State> {
-  clipDragInteraction = Container.get(ClipDragInteraction);
-  tracksLayout = Container.get(TracksLayout);
-  trackMouseInteraction = Container.get(TracksMouseInteraction);
+const inject = injector<Props, InjectedProps>(props => {
+  const { track } = props;
+  const tracksLayout = Container.get(TracksLayout);
+  const trackMouseInteraction = Container.get(TracksMouseInteraction);
 
+  return {
+    handleTrackClick: (e: React.MouseEvent<HTMLDivElement>) =>
+      trackMouseInteraction.handleTrackClick(track, e),
+    height: tracksLayout.trackHeight,
+    width: tracksLayout.trackWidth,
+  };
+});
+
+@observer
+export class Track extends React.Component<Props & InjectedProps, State> {
   renderContextMenu = (offsetX: number) => {
     const { track } = this.props;
 
@@ -43,21 +56,17 @@ export default class Track extends React.Component<Props, State> {
   };
 
   render() {
-    const { trackMouseInteraction } = this;
-    const { track } = this.props;
-    const { trackHeight, trackWidth } = this.tracksLayout;
+    const { track, width, height } = this.props;
 
     const trackStyle = {
-      height: trackHeight,
-      width: trackWidth,
+      height: height,
+      width: width,
     };
 
     return (
       <TrackContainer
         style={trackStyle}
-        onMouseDown={e => trackMouseInteraction.handleTrackClick(track, e)}
-        onMouseOver={e => trackMouseInteraction.handleMouseEnter(track, e)}
-        onMouseLeave={e => trackMouseInteraction.handleMouseLeave(track, e)}
+        onMouseDown={this.props.handleTrackClick}
         onContextMenu={this.showContextMenu}
       >
         {track.clips.map((clip, index) => <Clip clip={clip} key={index} />)}
@@ -66,6 +75,8 @@ export default class Track extends React.Component<Props, State> {
     );
   }
 }
+
+export default inject(Track);
 
 const TrackContainer = styled.div`
   border-bottom: solid 1px ${theme.colors.mediumGray.toRgbString()};

@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { action, observable } from 'mobx';
+import { action } from 'mobx';
 import { filterMethods } from 'utils/log-filter';
 
 import { Track } from 'core/models/Track';
@@ -11,8 +11,6 @@ export class TracksMouseInteraction {
 
   constructor(private clipSelect: ClipSelectInteraction) {}
 
-  @observable trackMouseOver: Track | null;
-
   @action
   handleTrackClick = (track: Track, event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -22,15 +20,5 @@ export class TracksMouseInteraction {
     } else if (this.clipSelect.selectedClips.length > 0) {
       this.clipSelect.deselectAllClips();
     }
-  };
-
-  @action
-  handleMouseEnter = (track: Track, event: React.MouseEvent<HTMLElement>) => {
-    this.trackMouseOver = track;
-  };
-
-  @action
-  handleMouseLeave = (track: Track, event: React.MouseEvent<HTMLElement>) => {
-    this.trackMouseOver = null;
   };
 }

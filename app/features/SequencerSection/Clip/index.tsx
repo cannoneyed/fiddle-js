@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
+import { injector } from 'utils/injector';
 
 import { ContextMenu } from '@blueprintjs/core';
 
@@ -15,39 +16,32 @@ import { SequencerPositionService } from 'core/services/sequencer/position';
 
 const styles = require('./styles.less');
 
-interface ExternalProps {
+interface Props {
   clip: ClipModel;
 }
-
 interface InjectedProps {
   selectClip: () => void;
   selectOnlyClip: () => void;
   offsetX: number;
 }
-
 interface State {
   isContextMenuOpen: boolean;
 }
 
-@observer
-export default class ClipWrapper extends React.Component<ExternalProps, {}> {
-  clipSelect = Container.get(ClipSelectInteraction);
-  sequencerPosition = Container.get(SequencerPositionService);
+const inject = injector<Props, InjectedProps>(props => {
+  const { clip } = props;
+  const clipSelect = Container.get(ClipSelectInteraction);
+  const sequencerPosition = Container.get(SequencerPositionService);
 
-  render() {
-    const { clip } = this.props;
-    const nextProps = {
-      ...this.props,
-      offsetX: this.sequencerPosition.getOffsetX(clip.position),
-      selectClip: () => this.clipSelect.selectClip(clip),
-      selectOnlyClip: () => this.clipSelect.selectOnlyClip(clip),
-    };
-    return <Clip {...nextProps} />;
-  }
-}
+  return {
+    offsetX: sequencerPosition.getOffsetX(clip.position),
+    selectClip: () => clipSelect.selectClip(clip),
+    selectOnlyClip: () => clipSelect.selectOnlyClip(clip),
+  };
+});
 
 @observer
-export class Clip extends React.Component<ExternalProps & InjectedProps, State> {
+export class Clip extends React.Component<Props & InjectedProps, State> {
   state = { isContextMenuOpen: false };
 
   handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
@@ -101,3 +95,5 @@ export class Clip extends React.Component<ExternalProps & InjectedProps, State> 
     );
   }
 }
+
+export default inject(Clip);

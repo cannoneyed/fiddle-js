@@ -3,28 +3,43 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
+import { injector } from 'utils/injector';
 
 import TrackHeader from 'features/SequencerSection/TrackHeader';
 
+import { Track as TrackModel } from 'core/models/track';
 import { TrackStore } from 'core/state/stores/tracks';
 import { MainPageLayout } from 'core/state/layouts/main/page';
 
-@observer
-export default class TracksGutter extends React.Component<{}, {}> {
-  mainPageLayout = Container.get(MainPageLayout);
-  trackStore = Container.get(TrackStore);
+export interface Props {}
+export interface InjectedProps {
+  gutterWidth: number;
+  tracks: TrackModel[];
+}
 
+const inject = injector<Props, InjectedProps>(props => {
+  const mainPageLayout = Container.get(MainPageLayout);
+  const trackStore = Container.get(TrackStore);
+  return {
+    gutterWidth: mainPageLayout.gutterWidth,
+    tracks: trackStore.trackList,
+  };
+});
+
+@observer
+export class TracksGutter extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { trackList } = this.trackStore;
-    const { gutterWidth } = this.mainPageLayout;
+    const { gutterWidth, tracks } = this.props;
 
     return (
       <TracksGutterContainer width={gutterWidth} id="tracksGutter">
-        {trackList.map((track, index) => <TrackHeader track={track} index={index} key={index} />)}
+        {tracks.map((track, index) => <TrackHeader track={track} index={index} key={index} />)}
       </TracksGutterContainer>
     );
   }
 }
+
+export default inject(TracksGutter);
 
 interface TracksGutterProps {
   width: number;

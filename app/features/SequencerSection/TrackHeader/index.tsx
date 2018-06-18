@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
+import { injector } from 'utils/injector';
 
 import { Track } from 'core/models/track';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
@@ -11,17 +12,24 @@ interface Props {
   index: number;
   track: Track;
 }
+interface InjectedProps {
+  height: number;
+}
+
+const inject = injector<Props, InjectedProps>(props => {
+  const tracksLayout = Container.get(TracksLayout);
+  return {
+    height: tracksLayout.trackHeight,
+  };
+});
 
 @observer
-export default class TrackHeader extends React.Component<Props, {}> {
-  tracksLayout = Container.get(TracksLayout);
-
+export class TrackHeader extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { index, track } = this.props;
-    const { trackHeight } = this.tracksLayout;
+    const { index, height, track } = this.props;
 
     const headerStyle = {
-      height: trackHeight,
+      height,
     };
 
     return (
@@ -31,6 +39,8 @@ export default class TrackHeader extends React.Component<Props, {}> {
     );
   }
 }
+
+export default inject(TrackHeader);
 
 const TrackHeaderContainer = styled.div`
   width: 100%;

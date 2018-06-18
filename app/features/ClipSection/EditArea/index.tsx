@@ -3,20 +3,36 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
+import { injector } from 'utils/injector';
+
+import { Fraction } from 'core/primitives/fraction';
 
 import Toolbar from '../Toolbar';
-
 import Timeline from 'components/Timeline';
 
 import { GridLayout } from 'core/state/layouts/sequencer/grid';
 
+export interface Props {}
+export interface InjectedProps {
+  division: Fraction;
+  divisionWidth: number;
+  nDivisions: number;
+}
+
+const inject = injector<Props, InjectedProps>(props => {
+  const gridLayout = Container.get(GridLayout);
+
+  return {
+    division: gridLayout.division,
+    divisionWidth: gridLayout.divisionWidth,
+    nDivisions: gridLayout.nDivisions,
+  };
+});
+
 @observer
-export default class EditArea extends React.Component<{}, {}> {
-  gridLayout = Container.get(GridLayout);
-
+export class EditArea extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { division, divisionWidth, nDivisions } = this.gridLayout;
-
+    const { division, divisionWidth, nDivisions } = this.props;
     return (
       <EditAreaContainer id="editArea">
         <ToolbarContainer>
@@ -32,6 +48,8 @@ export default class EditArea extends React.Component<{}, {}> {
     );
   }
 }
+
+export default inject(EditArea);
 
 const ToolbarContainer = styled.div`
   width: 100%;

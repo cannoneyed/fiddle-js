@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
+import { injector } from 'utils/injector';
 
 import { Draggable, Unregister } from 'core/interactions//handlers/draggable';
 
@@ -9,16 +10,28 @@ import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 import { MinimapContainer, MinimapThumb } from './styled-components';
 
 interface Props {}
-
-interface ComponentState {
+interface InjectedProps {
+  tracksScrollPercentX: number;
+  tracksViewPercentX: number;
+  setTracksScroll: (x: number) => void;
+}
+interface State {
   dragging: boolean;
   mouseover: boolean;
 }
 
-@observer
-export default class Minimap extends React.Component<Props, ComponentState> {
-  tracksLayout = Container.get(TracksLayout);
+const inject = injector<Props, InjectedProps>(props => {
+  const tracksLayout = Container.get(TracksLayout);
 
+  return {
+    tracksScrollPercentX: tracksLayout.tracksScrollPercentX,
+    tracksViewPercentX: tracksLayout.tracksViewPercentX,
+    setTracksScroll: (x: number) => tracksLayout.setTracksScroll({ x }),
+  };
+});
+
+@observer
+export class Minimap extends React.Component<Props & InjectedProps, State> {
   state = {
     dragging: false,
     mouseover: false,
@@ -43,16 +56,14 @@ export default class Minimap extends React.Component<Props, ComponentState> {
   }
 
   handleThumbDrag = (deltaPercentX: number, deltaPercentY: number) => {
-    const { tracksLayout } = this;
-    const { tracksScrollPercentX } = tracksLayout;
+    const { setTracksScroll, tracksScrollPercentX } = this.props;
 
     const nextScrollPercentX = tracksScrollPercentX + deltaPercentX;
-    tracksLayout.setTracksScroll({ x: nextScrollPercentX });
+    setTracksScroll(nextScrollPercentX);
   };
 
   render() {
-    const { tracksLayout } = this;
-    const { tracksScrollPercentX, tracksViewPercentX } = tracksLayout;
+    const { tracksScrollPercentX, tracksViewPercentX } = this.props;
 
     // We need to compute the relative left position of the minimap container's since the scrollPercentX
     // is a normalized 0 to 1 value.
@@ -80,3 +91,5 @@ export default class Minimap extends React.Component<Props, ComponentState> {
     );
   }
 }
+
+export default inject(Minimap);

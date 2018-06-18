@@ -3,38 +3,45 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
+import { injector } from 'utils/injector';
 
 import { SequencerPositionService } from 'core/services/sequencer/position';
 
 import { MainPageLayout } from 'core/state/layouts/main/page';
 import { TimelineLayout } from 'core/state/layouts/sequencer/timeline';
 
+interface Props {}
+interface InjectedProps {
+  height: number;
+  offsetX: number;
+  visible: boolean;
+}
+
+const inject = injector<Props, InjectedProps>(props => {
+  const sequencerPageLayout = Container.get(MainPageLayout);
+  const timelineLayout = Container.get(TimelineLayout);
+  const sequencerPositionService = Container.get(SequencerPositionService);
+  const { dropTargetPosition } = timelineLayout;
+  return {
+    visible: !!dropTargetPosition,
+    offsetX: dropTargetPosition ? sequencerPositionService.getOffsetX(dropTargetPosition) : 0,
+    height: sequencerPageLayout.tracksAreaHeight,
+  };
+});
+
 @observer
-export default class DragToMarker extends React.Component<{}, {}> {
-  sequencerPageLayout = Container.get(MainPageLayout);
-  timelineLayout = Container.get(TimelineLayout);
-  sequencerPositionService = Container.get(SequencerPositionService);
-
+export class DragToMarker extends React.Component<{} & InjectedProps, {}> {
   render() {
-    const { dropTargetPosition } = this.timelineLayout;
-
-    if (!dropTargetPosition) {
-      return null;
-    }
-
-    const tracksAreaHeight = this.sequencerPageLayout.tracksAreaHeight;
-    const offsetX = this.sequencerPositionService.getOffsetX(dropTargetPosition);
-
-    // const caretSize = 10;
-
+    const { height, offsetX, visible } = this.props;
     const style = {
       left: offsetX - 1,
-      height: tracksAreaHeight,
+      height,
     };
-
-    return <DragToMarkerBar style={style} />;
+    return visible ? <DragToMarkerBar style={style} /> : null;
   }
 }
+
+export default inject(DragToMarker);
 
 const DragToMarkerBar = styled.div`
   position: absolute;

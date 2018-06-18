@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
+import { injector } from 'utils/injector';
+
 import { Menu, MenuItem } from '@blueprintjs/core';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';
@@ -12,34 +14,35 @@ interface Props {
   trackId: string;
   offsetX: number;
 }
+interface InjectedProps {
+  createClip: () => void;
+  deleteTrack: () => void;
+}
+
+const inject = injector<Props, InjectedProps>(props => {
+  const { offsetX, trackId } = props;
+  const clipStore = Container.get(ClipStore);
+  const trackStore = Container.get(TrackStore);
+  const sequencerPositionService = Container.get(SequencerPositionService);
+
+  const position = sequencerPositionService.getTimelineVectorFromOffsetX(offsetX);
+  const length = new TimelineVector(2);
+  return {
+    createClip: () => clipStore.create({ trackId, length, position }),
+    deleteTrack: () => trackStore.deleteTrack(trackId),
+  };
+});
 
 @observer
-export default class TrackContextMenu extends React.Component<Props, {}> {
-  clipStore = Container.get(ClipStore);
-  trackStore = Container.get(TrackStore);
-  sequencerPositionService = Container.get(SequencerPositionService);
-
-  deleteTrack = () => {
-    const { trackId } = this.props;
-    const { trackStore } = this;
-    trackStore.deleteTrack(trackId);
-  };
-
-  createClip = () => {
-    const { trackId, offsetX } = this.props;
-    const { clipStore } = this;
-    const position = this.sequencerPositionService.getTimelineVectorFromOffsetX(offsetX);
-
-    const length = new TimelineVector(2);
-    clipStore.create({ trackId, length, position });
-  };
-
+export class TrackContextMenu extends React.Component<Props & InjectedProps, {}> {
   render() {
     return (
       <Menu>
-        <MenuItem onClick={this.createClip} icon="insert" text="New Clip" />
-        <MenuItem onClick={this.deleteTrack} icon="cross" text="Delete Track" />
+        <MenuItem onClick={() => this.props.createClip()} icon="insert" text="New Clip" />
+        <MenuItem onClick={() => this.props.deleteTrack()} icon="cross" text="Delete Track" />
       </Menu>
     );
   }
 }
+
+export default inject(TrackContextMenu);
