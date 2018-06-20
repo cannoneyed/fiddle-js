@@ -11,7 +11,7 @@ import TracksGutter from 'features/SequencerSection/TracksGutter';
 import TracksArea from 'features/SequencerSection/TracksArea';
 import VerticalScrollbar from 'features/SequencerSection/VerticalScrollbar';
 
-import { MainPageLayout } from 'core/state/layouts/main/page';
+import { MainPageLayout } from 'core/state/layouts/pages/main';
 
 import {
   TimelineWrapper,

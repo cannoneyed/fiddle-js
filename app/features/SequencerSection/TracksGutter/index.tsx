@@ -9,7 +9,7 @@ import TrackHeader from 'features/SequencerSection/TrackHeader';
 
 import { Track as TrackModel } from 'core/models/track';
 import { TrackStore } from 'core/state/stores/tracks';
-import { MainPageLayout } from 'core/state/layouts/main/page';
+import { MainPageLayout } from 'core/state/layouts/pages/main';
 
 export interface Props {}
 export interface InjectedProps {

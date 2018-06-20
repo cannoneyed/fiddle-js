@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 
 import EditArea from 'features/ClipSection/EditArea';
 
-import { MainPageLayout } from 'core/state/layouts/main/page';
+import { MainPageLayout } from 'core/state/layouts/pages/main';
 
 import { ClipSectionWrapper } from './styled-components';
 

@@ -5,7 +5,7 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 
-import { MainPageLayout } from 'core/state/layouts/main/page';
+import { MainPageLayout } from 'core/state/layouts/pages/main';
 
 interface Props {}
 interface InjectedProps {

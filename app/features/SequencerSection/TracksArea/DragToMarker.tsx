@@ -7,7 +7,7 @@ import { injector } from 'utils/injector';
 
 import { SequencerPositionService } from 'core/services/sequencer/position';
 
-import { MainPageLayout } from 'core/state/layouts/main/page';
+import { MainPageLayout } from 'core/state/layouts/pages/main';
 import { TimelineLayout } from 'core/state/layouts/sequencer/timeline';
 
 interface Props {}

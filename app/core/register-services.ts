@@ -19,7 +19,7 @@ export { SequencerState } from 'core/state/app/sequencer';
 export { TimelineState as SequencerTimelineState } from 'core/state/app/sequencer/timeline';
 
 // From state/layouts
-export { MainPageLayout } from 'core/state/layouts/main/page';
+export { MainPageLayout } from 'core/state/layouts/pages/main';
 export { GridLayout as SequencerGridLayout } from 'core/state/layouts/sequencer/grid';
 export { TimelineLayout as SequencerTimelineLayout } from 'core/state/layouts/sequencer/timeline';
 export { TracksLayout as SequencerTracksLayout } from 'core/state/layouts/sequencer/tracks';

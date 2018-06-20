@@ -8,7 +8,7 @@ import VerticalGrid from 'features/SequencerSection/VerticalGrid';
 
 import { Track as TrackModel } from 'core/models/track';
 import { TrackStore } from 'core/state/stores/tracks';
-import { MainPageLayout } from 'core/state/layouts/main/page';
+import { MainPageLayout } from 'core/state/layouts/pages/main';
 import { GridLayout } from 'core/state/layouts/sequencer/grid';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 

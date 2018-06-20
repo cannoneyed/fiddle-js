@@ -4,7 +4,7 @@ import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
 import { filterMethods } from 'utils/log-filter';
 
-import { MainPageLayout } from 'core/state/layouts/main/page';
+import { MainPageLayout } from 'core/state/layouts/pages/main';
 import { TimelineState } from 'core/state/app/sequencer/timeline';
 import { TrackStore } from 'core/state/stores/tracks';
 
