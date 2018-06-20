@@ -1,27 +1,35 @@
 import { Inject, Service } from 'typedi';
-import { action, observable } from 'mobx';
+import { observable } from 'mobx';
 import { json } from 'core/serialization/json';
 
+import { DraggedClips } from './dragged';
 import { SnipStore } from 'core/state/stores/snips';
 import { Clip, ClipParams } from 'core/models/clip';
-import { TimelineVector } from 'core/primitives/timeline-vector';
 
 @Service()
 export class ClipStore {
   @Inject(type => SnipStore)
   private snipStore: SnipStore;
 
+  constructor(private draggedClipsStore: DraggedClips) {}
+
   // The main store for clips (by id)
   @json
   @observable
   clips = observable.map<string, Clip>({});
 
-  // The temporary store for clips being dragged in the sequencer
-  @observable draggedClips = observable.map<string, Clip>({});
+  @observable
+  getClips = () => {
+    return Array.from(this.clips.values());
+  };
+
+  @observable
+  getClipById = (clipId: string) => {
+    return this.clips.get(clipId);
+  };
 
   // Actions
-  @action
-  create = (params: ClipParams) => {
+  createClip = (params: ClipParams) => {
     const clip = new Clip(params);
 
     // Add a new default snip as well
@@ -31,19 +39,16 @@ export class ClipStore {
     this.clips.set(clip.id, clip);
   };
 
-  @action
   deleteClip = (clip: Clip) => {
     this.clips.delete(clip.id);
   };
 
-  @action
   deleteClips = (clips: Clip[]) => {
     clips.forEach(clip => {
       this.clips.delete(clip.id);
     });
   };
 
-  @action
   deleteClipsByTrackId = (trackId: string) => {
     this.clips.forEach((clip: Clip, clipId) => {
       if (clip.trackId === trackId) {
@@ -52,36 +57,9 @@ export class ClipStore {
     });
   };
 
-  @observable
-  getClips = () => {
-    return Array.from(this.clips.values());
-  };
-
-  getClipById = (clipId: string) => {
-    return this.clips.get(clipId);
-  };
-
-  @observable
-  getDraggedClips = () => {
-    return Array.from(this.draggedClips.values());
-  };
-
-  @action
-  setDraggedClips = (clips: Clip[]) => {
-    clips.forEach(clip => {
-      const draggedClip = Clip.copy(clip);
-      draggedClip.isDragging = true;
-      draggedClip.isSelected = true;
-      draggedClip.id = clip.id;
-      draggedClip.position = draggedClip.position.add(new TimelineVector(1));
-      this.draggedClips.set(draggedClip.id, draggedClip);
-    });
-  };
-
-  @action
-  clearDraggedClips = () => {
-    this.draggedClips.clear();
-  };
+  getDraggedClips() {
+    return this.draggedClipsStore.getDraggedClips();
+  }
 }
 
 export { ClipParams };

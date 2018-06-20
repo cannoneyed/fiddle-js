@@ -5,8 +5,8 @@ import { injector } from 'utils/injector';
 import { Menu, MenuItem } from '@blueprintjs/core';
 
 import { Clip } from 'core/models/clip';
+import { ClipActions } from 'core/actions/clip';
 import { ClipEditorState } from 'core/state/app/clip-editor';
-import { ClipStore } from 'core/state/stores/clips';
 import { ClipSelectInteraction } from 'core/interactions//clip/select';
 
 interface Props {
@@ -22,12 +22,12 @@ interface InjectedProps {
 const inject = injector<Props, InjectedProps>(props => {
   const { clip } = props;
   const clipSelect = Container.get(ClipSelectInteraction);
-  const clipStore = Container.get(ClipStore);
+  const clipActions = Container.get(ClipActions);
   const clipEditorState = Container.get(ClipEditorState);
 
   return {
-    deleteClip: () => clipStore.deleteClip(clip),
-    deleteClips: () => clipStore.deleteClips(clipSelect.selectedClips),
+    deleteClip: () => clipActions.deleteClip(clip),
+    deleteClips: () => clipActions.deleteClips(clipSelect.selectedClips),
     editClip: () => clipEditorState.setClipEditing(clip.id),
     nSelectedClips: clipSelect.selectedClips.length,
   };

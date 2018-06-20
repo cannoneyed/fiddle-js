@@ -1,3 +1,6 @@
+// From actions
+export { ClipActions } from 'core/actions/clip';
+
 // From interactions
 export { ClipDragInteraction } from 'core/interactions/clip/drag';
 export { ClipSelectInteraction } from 'core/interactions/clip/select';
@@ -32,6 +35,7 @@ export { ZoomLayout as ClipEditorZoomLayout } from 'core/state/layouts/clip-edit
 export { WindowLayout } from 'core/state/layouts/window';
 
 // From state/stores
+export { DraggedClips } from 'core/state/stores/clips/dragged';
 export { ClipStore } from 'core/state/stores/clips';
 export { SnipStore } from 'core/state/stores/snips';
 export { TrackStore } from 'core/state/stores/tracks';

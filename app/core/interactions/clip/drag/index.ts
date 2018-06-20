@@ -7,7 +7,8 @@ import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { ClipSelectInteraction } from 'core/interactions//clip/select';
+import { ClipActions } from 'core/actions/clip';
+import { ClipSelectInteraction } from 'core/interactions/clip/select';
 import { ClipMoveService } from 'core/services/sequencer/clip-move';
 import { DomPositionService } from 'core/services/dom/position';
 import { GridService } from 'core/services/sequencer/grid';
@@ -23,6 +24,7 @@ export class ClipDragInteraction {
   static mobxLoggerConfig = logMethods('beginDrag', 'endDrag');
 
   constructor(
+    private clipActions: ClipActions,
     private clipSelect: ClipSelectInteraction,
     private clipStore: ClipStore,
     private clipMoveService: ClipMoveService,
@@ -127,7 +129,7 @@ export class ClipDragInteraction {
   @action
   updateDraggedClips() {
     if (this.shouldUpdateDraggedClips) {
-      this.clipStore.draggedClips.forEach(draggedClip => {
+      this.clipStore.getDraggedClips().forEach(draggedClip => {
         const originalClip = this.clipStore.clips.get(draggedClip.id)!;
         draggedClip.position = originalClip.position.add(this.deltaTimelinePosition);
 
@@ -150,7 +152,7 @@ export class ClipDragInteraction {
 
     // Set all temporary dragging clips for rendering in the tracks
     const { selectedClips } = this.clipSelect;
-    this.clipStore.setDraggedClips(selectedClips);
+    this.clipActions.setDraggedClips(selectedClips);
 
     // Compute the range of positions so that the clips can't be dragged out of the timeline
     const startPositions = selectedClips.map(clip => clip.position);
@@ -190,6 +192,6 @@ export class ClipDragInteraction {
     this.isDragging = false;
     this.relativePositions.clear();
 
-    this.clipStore.clearDraggedClips();
+    this.clipActions.clearDraggedClips();
   };
 }

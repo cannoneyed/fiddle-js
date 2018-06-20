@@ -8,7 +8,7 @@ import { Button } from '@blueprintjs/core';
 
 import SelectSnapToGrid from 'components/SelectSnapToGrid';
 
-import { TrackStore } from 'core/state/stores/tracks';
+import { TrackActions } from 'core/actions/track';
 import { ZoomLayout } from 'core/state/layouts/sequencer/zoom';
 
 export interface Props {}
@@ -20,10 +20,10 @@ export interface InjectedProps {
 
 const inject = injector<Props, InjectedProps>(props => {
   const zoomLayout = Container.get(ZoomLayout);
-  const trackStore = Container.get(TrackStore);
+  const trackActions = Container.get(TrackActions);
 
   return {
-    createTrack: () => trackStore.createTrack(),
+    createTrack: () => trackActions.createTrack(),
     zoomInHorizontal: () => zoomLayout.zoomInHorizontal(),
     zoomOutHorizontal: () => zoomLayout.zoomOutHorizontal(),
   };
