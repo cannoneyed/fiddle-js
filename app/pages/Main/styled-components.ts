@@ -8,7 +8,7 @@ export const PageWrapper = styled.div`
   background-color: ${theme.colors.darkGray.toRgbString()};
 `;
 
-export const ClipSectionWrapper = styled.div`
+export const ClipEditorSectionWrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;

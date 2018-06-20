@@ -2,14 +2,14 @@ import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
-import EditArea from 'features/ClipSection/EditArea';
+import EditArea from 'features/ClipEditorSection/EditArea';
 
 import { MainPageLayout } from 'core/state/layouts/pages/main';
 
-import { ClipSectionWrapper } from './styled-components';
+import { ClipEditorSectionWrapper } from './styled-components';
 
 @observer
-export default class ClipSection extends React.Component<{}, {}> {
+export default class ClipEditorSection extends React.Component<{}, {}> {
   mainPageLayout = Container.get(MainPageLayout);
 
   render() {
@@ -20,9 +20,9 @@ export default class ClipSection extends React.Component<{}, {}> {
     };
 
     return (
-      <ClipSectionWrapper style={editSectionWrapperStyle}>
+      <ClipEditorSectionWrapper style={editSectionWrapperStyle}>
         <EditArea />
-      </ClipSectionWrapper>
+      </ClipEditorSectionWrapper>
     );
   }
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
-import ClipSection from './clip-section';
+import ClipEditorSection from './clip-editor-section';
 import SequencerSection from './sequencer-section';
 
 import Minimap from 'features/Minimap';
@@ -43,7 +43,7 @@ export default class SequencerPage extends React.Component<{}, {}> {
         </MinimapWrapper>
         <SequencerSection />
         <SectionDivider onDrag={this.handleSequencerSectionDividerDrag} />
-        <ClipSection />
+        <ClipEditorSection />
       </PageWrapper>
     );
   }
