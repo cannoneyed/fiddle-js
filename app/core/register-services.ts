@@ -24,6 +24,11 @@ export { GridLayout as SequencerGridLayout } from 'core/state/layouts/sequencer/
 export { TimelineLayout as SequencerTimelineLayout } from 'core/state/layouts/sequencer/timeline';
 export { TracksLayout as SequencerTracksLayout } from 'core/state/layouts/sequencer/tracks';
 export { ZoomLayout as SequencerZoomLayout } from 'core/state/layouts/sequencer/zoom';
+export { GridLayout as ClipEditorGridLayout } from 'core/state/layouts/clip-editor/grid';
+export {
+  TimelineLayout as ClipEditorTimelineLayout,
+} from 'core/state/layouts/clip-editor/timeline';
+export { ZoomLayout as ClipEditorZoomLayout } from 'core/state/layouts/clip-editor/zoom';
 export { WindowLayout } from 'core/state/layouts/window';
 
 // From state/stores
