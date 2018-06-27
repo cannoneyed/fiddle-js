@@ -4,6 +4,7 @@ import { action } from 'mobx';
 import { Clip, ClipParams } from 'core/models/clip';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
+import { ClipEditorState } from 'core/state/app/clip-editor';
 import { ClipStore } from 'core/state/stores/clips';
 import { DraggedClips } from 'core/state/stores/clips/dragged';
 import { TrackStore } from 'core/state/stores/tracks';
@@ -11,6 +12,7 @@ import { TrackStore } from 'core/state/stores/tracks';
 @Service()
 export class ClipActions {
   constructor(
+    private clipEditorState: ClipEditorState,
     private clipStore: ClipStore,
     private draggedClips: DraggedClips,
     private trackStore: TrackStore
@@ -61,5 +63,10 @@ export class ClipActions {
   @action
   clearDraggedClips = () => {
     this.draggedClips.clearDraggedClips();
+  };
+
+  @action
+  editClip = (clipId: string) => {
+    this.clipEditorState.setClipEditing(clipId);
   };
 }
