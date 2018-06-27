@@ -1,16 +1,12 @@
-import { Inject, Service } from 'typedi';
+import { Service } from 'typedi';
 import { observable } from 'mobx';
 import { json } from 'core/serialization/json';
 
 import { DraggedClips } from './dragged';
-import { SnipStore } from 'core/state/stores/snips';
 import { Clip, ClipParams } from 'core/models/clip';
 
 @Service()
 export class ClipStore {
-  @Inject(type => SnipStore)
-  private snipStore: SnipStore;
-
   constructor(private draggedClipsStore: DraggedClips) {}
 
   // The main store for clips (by id)
@@ -31,12 +27,8 @@ export class ClipStore {
   // Actions
   createClip = (params: ClipParams) => {
     const clip = new Clip(params);
-
-    // Add a new default snip as well
-    const snip = this.snipStore.create(params);
-    clip.addSnip(snip.id);
-
     this.clips.set(clip.id, clip);
+    return clip;
   };
 
   deleteClip = (clip: Clip) => {

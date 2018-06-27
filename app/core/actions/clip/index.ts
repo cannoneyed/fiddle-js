@@ -6,6 +6,7 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { ClipEditorState } from 'core/state/app/clip-editor';
 import { ClipStore } from 'core/state/stores/clips';
+import { SnipStore } from 'core/state/stores/snips';
 import { DraggedClips } from 'core/state/stores/clips/dragged';
 import { TrackStore } from 'core/state/stores/tracks';
 
@@ -15,12 +16,16 @@ export class ClipActions {
     private clipEditorState: ClipEditorState,
     private clipStore: ClipStore,
     private draggedClips: DraggedClips,
+    private snipStore: SnipStore,
     private trackStore: TrackStore
   ) {}
 
   @action
   createClip(params: ClipParams) {
-    this.clipStore.createClip(params);
+    const clip = this.clipStore.createClip(params);
+    const snip = this.snipStore.createSnip(params);
+    clip.addSnip(snip.id);
+    return clip;
   }
 
   @action

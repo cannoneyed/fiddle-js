@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { action, observable } from 'mobx';
+import { observable } from 'mobx';
 import { json } from 'core/serialization/json';
 
 import { Snip, SnipParams } from 'core/models/snip';
@@ -11,20 +11,16 @@ export class SnipStore {
   @observable
   readonly snips = observable.map<string, Snip>({});
 
-  // Actions
-  @action
-  create = (params: SnipParams) => {
+  createSnip = (params: SnipParams) => {
     const snip = new Snip(params);
     this.snips.set(snip.id, snip);
     return snip;
   };
 
-  @action
-  delete = (snip: Snip) => {
+  deleteSnip = (snip: Snip) => {
     this.snips.delete(snip.id);
   };
 
-  @action
   deleteSnips = (snips: Snip[]) => {
     snips.forEach(snip => {
       this.snips.delete(snip.id);
