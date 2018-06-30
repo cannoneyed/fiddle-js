@@ -7,22 +7,26 @@
  * https://webpack.js.org/concepts/hot-module-replacement/
  */
 
-import path from 'path'
-import fs from 'fs'
-import webpack from 'webpack'
-import chalk from 'chalk'
-import merge from 'webpack-merge'
-import { spawn, execSync } from 'child_process'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import baseConfig from './webpack.config.base'
-import CheckNodeEnv from './internals/scripts/CheckNodeEnv'
+import path from 'path';
+import fs from 'fs';
+import webpack from 'webpack';
+import chalk from 'chalk';
+import merge from 'webpack-merge';
+import { spawn, execSync } from 'child_process';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import noop from 'noop-webpack-plugin';
+import baseConfig from './webpack.config.base';
+import CheckNodeEnv from './internals/scripts/CheckNodeEnv';
 
-CheckNodeEnv('development')
+CheckNodeEnv('development');
 
-const port = process.env.PORT || 1212
-const publicPath = `http://localhost:${port}/dist`
-const dll = path.resolve(process.cwd(), 'dll')
-const manifest = path.resolve(dll, 'renderer.json')
+const port = process.env.PORT || 1212;
+const publicPath = process.env.START_ELECTRON
+  ? `http://localhost:${port}/dist`
+  : `http://localhost:${port}`;
+const dll = path.resolve(process.cwd(), 'dll');
+const manifest = path.resolve(dll, 'renderer.json');
 
 /**
  * Warn if the DLL is not built
@@ -32,8 +36,8 @@ if (!(fs.existsSync(dll) && fs.existsSync(manifest))) {
     chalk.black.bgYellow.bold(
       'The DLL files are missing. Sit back while we build them for you with "npm run build-dll"'
     )
-  )
-  execSync('npm run build-dll')
+  );
+  execSync('npm run build-dll');
 }
 
 export default merge.smart(baseConfig, {
@@ -41,7 +45,7 @@ export default merge.smart(baseConfig, {
 
   devtool: 'inline-source-map',
 
-  target: 'electron-renderer',
+  target: process.env.START_ELECTRON ? 'electron-renderer' : 'web',
 
   entry: [
     'react-hot-loader/patch',
@@ -51,7 +55,7 @@ export default merge.smart(baseConfig, {
   ],
 
   output: {
-    publicPath: `http://localhost:${port}/dist/`,
+    publicPath: `${publicPath}/`,
   },
 
   module: {
@@ -199,11 +203,13 @@ export default merge.smart(baseConfig, {
   },
 
   plugins: [
-    new webpack.DllReferencePlugin({
-      context: process.cwd(),
-      manifest: require(manifest),
-      sourceType: 'var',
-    }),
+    process.env.START_ELECTRON
+      ? new webpack.DllReferencePlugin({
+          context: process.cwd(),
+          manifest: require(manifest),
+          sourceType: 'var',
+        })
+      : noop(),
 
     /**
      * https://webpack.js.org/concepts/hot-module-replacement/
@@ -238,6 +244,10 @@ export default merge.smart(baseConfig, {
     new ExtractTextPlugin({
       filename: '[name].css',
     }),
+
+    new HtmlWebpackPlugin({
+      template: 'app/web.html',
+    }),
   ],
 
   node: {
@@ -266,12 +276,12 @@ export default merge.smart(baseConfig, {
       disableDotRule: false,
     },
     setup() {
-      if (process.env.START_HOT) {
-        console.log('Staring Main Process...')
+      if (process.env.START_ELECTRON) {
+        console.log('Staring Main Process...');
         spawn('npm', ['run', 'start-main-dev'], { shell: true, env: process.env, stdio: 'inherit' })
           .on('close', code => process.exit(code))
-          .on('error', spawnError => console.error(spawnError))
+          .on('error', spawnError => console.error(spawnError));
       }
     },
   },
-})
+});
