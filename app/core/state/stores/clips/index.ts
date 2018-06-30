@@ -20,8 +20,9 @@ export class ClipStore {
   };
 
   @observable
-  getClipById = (clipId: string) => {
-    return this.clips.get(clipId);
+  getClipById = (clipId: string | null): Clip | null => {
+    const clip = clipId ? this.clips.get(clipId) : null;
+    return clip || null;
   };
 
   // Actions
@@ -54,4 +55,4 @@ export class ClipStore {
   }
 }
 
-export { ClipParams };
+export { Clip, ClipParams };

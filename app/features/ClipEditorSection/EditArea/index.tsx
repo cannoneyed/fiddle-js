@@ -7,13 +7,17 @@ import { injector } from 'utils/injector';
 
 import { Fraction } from 'core/primitives/fraction';
 
+import ClipEdit from '../ClipEdit';
 import Toolbar from '../Toolbar';
 import Timeline from 'components/Timeline';
 
-import { GridLayout } from 'core/state/layouts/sequencer/grid';
+import { ClipEditorState } from 'core/state/app/clip-editor';
+import { ClipStore, Clip } from 'core/state/stores/clips';
+import { GridLayout } from 'core/state/layouts/clip-editor/grid';
 
 export interface Props {}
 export interface InjectedProps {
+  clip: Clip | null;
   division: Fraction;
   divisionWidth: number;
   nDivisions: number;
@@ -21,8 +25,14 @@ export interface InjectedProps {
 
 const inject = injector<Props, InjectedProps>(props => {
   const gridLayout = Container.get(GridLayout);
+  const clipEditorState = Container.get(ClipEditorState);
+  const clipStore = Container.get(ClipStore);
+
+  const clipId = clipEditorState.selectedClipId;
+  const clip = clipStore.getClipById(clipId);
 
   return {
+    clip,
     division: gridLayout.division,
     divisionWidth: gridLayout.divisionWidth,
     nDivisions: gridLayout.nDivisions,
@@ -32,7 +42,7 @@ const inject = injector<Props, InjectedProps>(props => {
 @observer
 export class EditArea extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { division, divisionWidth, nDivisions } = this.props;
+    const { clip, division, divisionWidth, nDivisions } = this.props;
     return (
       <EditAreaContainer id="editArea">
         <ToolbarContainer>
@@ -42,6 +52,7 @@ export class EditArea extends React.Component<Props & InjectedProps, {}> {
           <LayersPanel />
           <SnipsArea>
             <Timeline division={division} divisionWidth={divisionWidth} nDivisions={nDivisions} />
+            {clip && <ClipEdit clip={clip} />}
           </SnipsArea>
         </EditAreaBody>
       </EditAreaContainer>
