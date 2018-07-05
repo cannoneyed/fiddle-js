@@ -4,6 +4,11 @@ export const MinimapWrapper = styled.div`
   width: 100%;
 `;
 
+export const SequencerSectionWrapper = styled.div`
+  width: 100%;
+  position: relative;
+`;
+
 export const TimelineWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -14,9 +19,8 @@ export const TracksAreaWrapper = styled.div`
   flex-direction: row;
 `;
 
-export const SequencerSectionWrapper = styled.div`
+export const ToolbarWrapper = styled.div`
   width: 100%;
-  position: relative;
 `;
 
 export const VerticalScrollbarWrapper = styled.div`

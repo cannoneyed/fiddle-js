@@ -1,6 +1,5 @@
 import { Inject, Service } from 'typedi';
-import { observable, action } from 'mobx';
-import { filterMethods } from 'utils/log-filter';
+import { observable } from 'mobx';
 
 import { computed } from 'mobx';
 
@@ -11,10 +10,7 @@ export class SequencerSectionLayout {
   @Inject(type => MainPageLayout)
   mainPageLayout: MainPageLayout;
 
-  static mobxLoggerConfig = filterMethods('deltaTracksAreaHeight');
-
-  @observable sectionHeight = 300;
-
+  @observable minimapHeight = 30;
   @observable gutterWidth = 100;
   @observable timelineHeight = 30;
   @observable toolbarHeight = 40;
@@ -23,9 +19,20 @@ export class SequencerSectionLayout {
   @observable tracksVerticalScrollbarWidth = 14;
 
   @computed
+  get sectionHeight() {
+    return this.timelineHeight + this.tracksAreaHeight;
+  }
+
+  @computed
+  get sectionWidth() {
+    const sectionWidth = this.mainPageLayout.getSectionWidth();
+    return sectionWidth - this.tracksVerticalScrollbarWidth;
+  }
+
+  @computed
   get tracksAreaWidth() {
-    // return this.mainPageLayout.sectionsWidth - this.gutterWidth;
-    return 0;
+    const sectionWidth = this.mainPageLayout.getSectionWidth();
+    return sectionWidth - this.gutterWidth;
   }
 
   @computed
@@ -35,12 +42,6 @@ export class SequencerSectionLayout {
 
   @computed
   get tracksAreaTop() {
-    return 0;
-    // return this.toolbarHeight + this.timelineHeight;
-  }
-
-  @action
-  deltaTracksAreaHeight(deltaHeight: number) {
-    this.tracksAreaHeight += deltaHeight;
+    return this.toolbarHeight + this.minimapHeight + this.timelineHeight;
   }
 }

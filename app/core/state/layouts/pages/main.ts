@@ -7,6 +7,11 @@ import { WindowLayout } from 'core/state/layouts/window';
 
 import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 
+export const enum SectionType {
+  sequencer = 'sequencer',
+  clipEditor = 'clipEditor',
+}
+
 @Service()
 export class MainPageLayout {
   @Inject(type => SequencerSectionLayout)
@@ -24,6 +29,10 @@ export class MainPageLayout {
   @observable tracksAreaHeight = 400;
 
   @observable tracksVerticalScrollbarWidth = 14;
+
+  getSectionWidth() {
+    return this.windowLayout.width;
+  }
 
   @computed
   get sequencerSectionHeight() {
