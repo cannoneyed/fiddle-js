@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 import theme from 'styles/theme';
 
-export const MinimapWrapper = styled.div`
-  width: 100%;
-`;
-
 export const PageWrapper = styled.div`
   position: absolute;
   width: 100%;

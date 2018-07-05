@@ -23,6 +23,7 @@ export { TimelineState as SequencerTimelineState } from 'core/state/app/sequence
 
 // From state/layouts
 export { MainPageLayout } from 'core/state/layouts/pages/main';
+export { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 export { GridLayout as SequencerGridLayout } from 'core/state/layouts/sequencer/grid';
 export { TimelineLayout as SequencerTimelineLayout } from 'core/state/layouts/sequencer/timeline';
 export { TracksLayout as SequencerTracksLayout } from 'core/state/layouts/sequencer/tracks';

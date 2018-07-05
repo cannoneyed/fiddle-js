@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const MinimapWrapper = styled.div`
+  width: 100%;
+`;
+
 export const TimelineWrapper = styled.div`
   display: flex;
   flex-direction: row;

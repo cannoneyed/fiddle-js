@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
 import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
+import Minimap from 'features/Minimap';
 import Timeline from 'features/SequencerSection/Timeline';
 import TimelineGutter from 'features/SequencerSection/TimelineGutter';
 import TracksGutter from 'features/SequencerSection/TracksGutter';
@@ -14,6 +15,7 @@ import VerticalScrollbar from 'features/SequencerSection/VerticalScrollbar';
 import { MainPageLayout } from 'core/state/layouts/pages/main';
 
 import {
+  MinimapWrapper,
   TimelineWrapper,
   TracksAreaWrapper,
   SequencerSectionWrapper,
@@ -59,8 +61,15 @@ export default class SequencerSection extends React.Component<{}, {}> {
       width: mainPageLayout.tracksVerticalScrollbarWidth,
     };
 
+    const minimapWrapperStyle = {
+      height: mainPageLayout.minimapHeight,
+    };
+
     return (
       <SequencerSectionWrapper style={sequencerSectionStyle}>
+        <MinimapWrapper style={minimapWrapperStyle}>
+          <Minimap />
+        </MinimapWrapper>
         <TimelineWrapper style={timelineWrapperStyle}>
           <TimelineGutter />
           <Timeline />

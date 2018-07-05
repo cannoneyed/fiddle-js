@@ -1,15 +1,21 @@
 import { observable, action } from 'mobx';
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { filterMethods } from 'utils/log-filter';
 
 import { computed } from 'mobx';
 import { WindowLayout } from 'core/state/layouts/window';
 
+import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
+
 @Service()
 export class MainPageLayout {
-  static mobxLoggerConfig = filterMethods('deltaTracksAreaHeight');
+  @Inject(type => SequencerSectionLayout)
+  sequencerSectionLayout: SequencerSectionLayout;
 
-  constructor(private windowLayout: WindowLayout) {}
+  @Inject(type => WindowLayout)
+  windowLayout: WindowLayout;
+
+  static mobxLoggerConfig = filterMethods('deltaSectionDivider');
 
   @observable minimapHeight = 30;
   @observable gutterWidth = 100;
@@ -53,7 +59,7 @@ export class MainPageLayout {
   }
 
   @action
-  deltaTracksAreaHeight(deltaHeight: number) {
-    this.tracksAreaHeight += deltaHeight;
+  deltaSectionDivider(deltaY: number) {
+    this.tracksAreaHeight += deltaY;
   }
 }
