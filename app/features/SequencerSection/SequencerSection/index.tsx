@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
 import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
-import Minimap from 'features/Minimap';
+import Minimap from 'features/SequencerSection/Minimap';
 import Timeline from 'features/SequencerSection/Timeline';
 import TimelineGutter from 'features/SequencerSection/TimelineGutter';
 import TracksGutter from 'features/SequencerSection/TracksGutter';

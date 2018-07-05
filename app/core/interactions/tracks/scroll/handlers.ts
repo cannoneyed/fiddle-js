@@ -1,5 +1,5 @@
 import { Container } from 'typedi';
-import { map } from 'lodash';
+import { forEach } from 'lodash';
 
 import { sequencerDOM } from 'core/dom/sequencer';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
@@ -13,8 +13,8 @@ export const register = (): Unregister => {
   const { xy, x, y } = sequencerDOM.getTrackScrollElements();
   const eventHandlers = new WeakMap<HTMLElement, EventHandler>();
 
-  map([xy, x, y], group => {
-    map(group, element => {
+  forEach([xy, x, y], group => {
+    forEach(group, element => {
       let canScrollX = false;
       let canScrollY = false;
 
@@ -27,6 +27,7 @@ export const register = (): Unregister => {
       }
 
       const syn = (event: WheelEvent) => {
+        event.preventDefault();
         const { deltaX, deltaY } = event;
 
         const { scrollLeft, scrollTop } = element;
@@ -50,14 +51,14 @@ export const register = (): Unregister => {
         tracksLayout.setTracksScroll({ x: ratioX, y: ratioY });
       };
 
-      element.addEventListener('mousewheel', syn, { passive: true });
+      element.addEventListener('mousewheel', syn, { passive: false });
       eventHandlers.set(element, syn);
     });
   });
 
   return function unregisterHandlers(): void {
-    map([xy, x, y], group => {
-      map(group, element => {
+    forEach([xy, x, y], group => {
+      forEach(group, element => {
         const syn = eventHandlers.get(element)!;
         element.removeEventListener('mousewheel', syn);
         eventHandlers.delete(element);
