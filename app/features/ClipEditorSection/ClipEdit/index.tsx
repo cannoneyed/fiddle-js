@@ -16,7 +16,19 @@ const inject = injector<Props, InjectedProps>(props => {
 @observer
 export class ClipEdit extends React.Component<Props & InjectedProps, {}> {
   render() {
-    return <div>YO</div>;
+    // const { snips } = this.props.clip;
+    return <h1>yo</h1>;
+    // return (
+    //   <ClipEditContainer>
+    //     <DragToMarker />
+    //     <GridContainer style={gridStyle}>
+    //       <VerticalGrid gridCount={gridCount} gridSegmentWidth={gridSegmentWidth} />
+    //     </GridContainer>
+    //     <TracksContainer>
+    //       {tracks.map((track, index) => <Track track={track} index={index} key={index} />)}
+    //     </TracksContainer>
+    //   </ClipEditContainer>
+    // );
   }
 }
 

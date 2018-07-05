@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
-import ClipEditorSection from './clip-editor-section';
-import SequencerSection from './sequencer-section';
+import ClipEditorSection from 'features/ClipEditorSection/ClipEditorSection';
+import SequencerSection from 'features/SequencerSection/SequencerSection';
 
 import Minimap from 'features/Minimap';
 import SectionDivider from 'features/SectionDivider';
@@ -11,7 +11,7 @@ import Toolbar from 'features/Toolbar';
 
 import { MainPageLayout } from 'core/state/layouts/pages/main';
 
-import { PageWrapper, MinimapWrapper, ToolbarWrapper } from './styled-components';
+import { MinimapWrapper, PageWrapper, ToolbarWrapper } from './styled-components';
 
 @observer
 export default class SequencerPage extends React.Component<{}, {}> {

@@ -20,7 +20,7 @@ export class MainPageLayout {
   @observable tracksVerticalScrollbarWidth = 14;
 
   @computed
-  get tracksSectionHeight() {
+  get sequencerSectionHeight() {
     return this.timelineHeight + this.tracksAreaHeight;
   }
 

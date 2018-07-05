@@ -28,6 +28,7 @@ export class Snip {
   @observable type: SnipType = SnipType.container;
   @observable data: SnipData = null;
 
+  @observable parent: Node | null = null;
   @observable nodes: ObservableMap<string, Snip> = observable.map();
 
   @observable isSelected = false;

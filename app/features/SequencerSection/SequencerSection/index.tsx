@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container } from 'typedi';
 import { IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
-import * as trackScrollHandlers from 'core/interactions//tracks/scroll/handlers';
+import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
 import { observeTracksScroll } from 'core/observers/tracks-scroll';
 
 import Timeline from 'features/SequencerSection/Timeline';
@@ -21,7 +21,7 @@ import {
 } from './styled-components';
 
 @observer
-export default class SequncerSection extends React.Component<{}, {}> {
+export default class SequencerSection extends React.Component<{}, {}> {
   mainPageLayout = Container.get(MainPageLayout);
 
   disposeObserver: IReactionDisposer;
@@ -37,16 +37,11 @@ export default class SequncerSection extends React.Component<{}, {}> {
     this.disposeObserver();
   }
 
-  handleSequncerSectionDividerDrag = (deltaY: number) => {
-    const { mainPageLayout } = this;
-    mainPageLayout.deltaTracksAreaHeight(deltaY);
-  };
-
   render() {
     const { mainPageLayout } = this;
 
-    const tracksSectionStyle = {
-      height: mainPageLayout.tracksSectionHeight,
+    const sequencerSectionStyle = {
+      height: mainPageLayout.sequencerSectionHeight,
     };
 
     const timelineWrapperStyle = {
@@ -60,12 +55,12 @@ export default class SequncerSection extends React.Component<{}, {}> {
     };
 
     const verticalScrollbarWrapperStyle = {
-      height: mainPageLayout.tracksSectionHeight,
+      height: mainPageLayout.sequencerSectionHeight,
       width: mainPageLayout.tracksVerticalScrollbarWidth,
     };
 
     return (
-      <SequencerSectionWrapper style={tracksSectionStyle}>
+      <SequencerSectionWrapper style={sequencerSectionStyle}>
         <TimelineWrapper style={timelineWrapperStyle}>
           <TimelineGutter />
           <Timeline />

@@ -13,10 +13,12 @@ export class LoadService {
   @action
   loadSession() {
     const tracks = range(3).map(() => this.trackStore.createTrack());
-    this.clipActions.createClip({
+    const clip = this.clipActions.createClip({
       trackId: tracks[0].id,
       length: new TimelineVector(2),
       position: new TimelineVector(4),
     });
+
+    this.clipActions.editClip(clip.id);
   }
 }
