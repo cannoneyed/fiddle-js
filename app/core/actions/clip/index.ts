@@ -23,7 +23,10 @@ export class ClipActions {
   @action
   createClip(params: ClipParams) {
     const clip = this.clipStore.createClip(params);
-    const snip = this.snipStore.createSnip(params);
+    const snip = this.snipStore.createSnip({
+      length: params.length,
+      position: new TimelineVector(0),
+    });
     clip.addSnip(snip.id);
     return clip;
   }

@@ -1,36 +1,40 @@
-import { Container } from 'typedi';
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, ObservableMap } from 'mobx';
 import { generateId } from 'utils/generate-id';
-import { json } from 'core/serialization/json';
 
-import { ClipStore } from 'core/state/stores/clips';
 import { TimelineVector } from 'core/primitives/timeline-vector';
+
+import { Envelope } from 'core/models/envelope';
 
 export interface SnipParams {
   length: TimelineVector;
   position: TimelineVector;
 }
 
+export const enum SnipType {
+  container = 'container',
+  envelope = 'envelope',
+  notes = 'notes',
+  trigger = 'trigger',
+}
+
+export type SnipData = Envelope | null;
+
 export class Snip {
-  clipStore = Container.get(ClipStore);
+  id = generateId();
 
-  @json id: string;
+  @observable length: TimelineVector;
+  @observable position: TimelineVector;
 
-  @json
-  @observable
-  length: TimelineVector;
+  @observable type: SnipType = SnipType.container;
+  @observable data: SnipData = null;
 
-  @json
-  @observable
-  position: TimelineVector;
+  @observable nodes: ObservableMap<string, Snip> = observable.map();
 
   @observable isSelected = false;
   @observable isDragging = false;
 
   constructor(params: SnipParams) {
     const { position, length } = params;
-    this.id = generateId();
-
     this.position = position;
     this.length = length || new TimelineVector(2);
   }

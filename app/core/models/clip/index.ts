@@ -32,10 +32,12 @@ export class Clip {
   @observable
   position: TimelineVector;
 
+  @json
+  @observable
+  snipIds: string[] = [];
+
   @observable isSelected = false;
   @observable isDragging = false;
-
-  @observable private readonly snipIds: string[] = [];
 
   constructor(params: ClipParams) {
     const { trackId, position, length, snipIds } = params;
