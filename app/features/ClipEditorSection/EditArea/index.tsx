@@ -34,7 +34,6 @@ export class EditArea extends React.Component<Props & InjectedProps, {}> {
     return (
       <EditAreaContainer id="editArea">
         <EditAreaBody>
-          <LayersPanel />
           <SnipsArea>{clip && <ClipEdit clip={clip} />}</SnipsArea>
         </EditAreaBody>
       </EditAreaContainer>
@@ -51,11 +50,6 @@ const EditAreaBody = styled.div`
   height: 100%;
   display: flex;
   flex-direction: row;
-`;
-
-const LayersPanel = styled.div`
-  width: 100px;
-  height: 100%;
 `;
 
 const EditAreaContainer = styled.div`

@@ -1,4 +1,4 @@
-import { action, computed, observable, ObservableMap } from 'mobx';
+import { computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';
@@ -25,14 +25,8 @@ export class Snip {
   @observable length: TimelineVector;
   @observable position: TimelineVector;
 
-  @observable type: SnipType = SnipType.container;
+  @observable type: SnipType = SnipType.envelope;
   @observable data: SnipData = null;
-
-  @observable parent: Node | null = null;
-  @observable nodes: ObservableMap<string, Snip> = observable.map();
-
-  @observable isSelected = false;
-  @observable isDragging = false;
 
   constructor(params: SnipParams) {
     const { position, length } = params;
@@ -43,11 +37,6 @@ export class Snip {
   @computed
   get end(): TimelineVector {
     return this.position.add(this.length);
-  }
-
-  @action
-  setPosition(position: TimelineVector) {
-    this.position = position;
   }
 
   static copy(clip: Snip) {
