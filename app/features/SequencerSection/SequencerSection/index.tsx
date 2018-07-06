@@ -34,6 +34,7 @@ interface InjectedProps {
   timelineHeight: number;
   toolbarHeight: number;
   tracksAreaHeight: number;
+  tracksVerticalScrollbarTop: number;
   tracksVerticalScrollbarWidth: number;
 }
 
@@ -47,6 +48,7 @@ const inject = injector<Props, InjectedProps>(props => {
     timelineHeight: sequencerSectionLayout.timelineHeight,
     toolbarHeight: sequencerSectionLayout.toolbarHeight,
     tracksAreaHeight: sequencerSectionLayout.tracksAreaHeight,
+    tracksVerticalScrollbarTop: sequencerSectionLayout.tracksVerticalScrollbarTop,
     tracksVerticalScrollbarWidth: sequencerSectionLayout.tracksVerticalScrollbarWidth,
   };
 });
@@ -90,6 +92,7 @@ export class SequencerSection extends React.Component<Props & InjectedProps, {}>
     };
 
     const verticalScrollbarWrapperStyle = {
+      top: this.props.tracksVerticalScrollbarTop,
       height: this.props.sectionHeight,
       width: this.props.tracksVerticalScrollbarWidth,
     };

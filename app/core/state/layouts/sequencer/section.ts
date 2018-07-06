@@ -19,6 +19,11 @@ export class SequencerSectionLayout {
   @observable tracksVerticalScrollbarWidth = 14;
 
   @computed
+  get tracksVerticalScrollbarTop() {
+    return this.toolbarHeight + this.minimapHeight;
+  }
+
+  @computed
   get sectionHeight() {
     return this.timelineHeight + this.tracksAreaHeight;
   }
