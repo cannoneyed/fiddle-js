@@ -1,26 +1,23 @@
 import { observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
-import { json } from 'core/serialization/json';
 
 import { Point } from './point';
 import { Connection } from './connection';
+import { TimelineVector } from 'core/primitives/timeline-vector';
 
 export class Envelope {
-  @json id = generateId();
+  id = generateId();
 
-  @json
-  @observable
-  points = observable.array<Point>([]);
+  @observable length: TimelineVector;
 
-  @json
-  @observable
-  connections = observable.array<Connection>([]);
+  @observable points = observable.array<Point>([]);
+  @observable connections = observable.array<Connection>([]);
 
-  @json
-  @observable
-  minimum: number = 0;
+  constructor(length?: TimelineVector) {
+    this.length = length || new TimelineVector(2);
+  }
 
-  @json
-  @observable
-  maximum: number = 1;
+  @observable minimum: number = 0;
+
+  @observable maximum: number = 1;
 }

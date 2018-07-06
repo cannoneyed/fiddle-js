@@ -18,6 +18,7 @@
     "start": "cross-env NODE_ENV=production electron ./app/",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./app/main.dev",
     "start-renderer-dev": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.config.renderer.dev.js",
+    "storybook": "start-storybook -p 9001 -c .storybook",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest",
     "test-watch": "npm test -- --watch"
   },
@@ -110,6 +111,7 @@
     ]
   },
   "devDependencies": {
+    "@storybook/react": "^3.4.8",
     "@types/classnames": "^2.2.3",
     "@types/history": "^4.6.0",
     "@types/jest": "^21.1.4",
@@ -191,6 +193,7 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^2.1.1",
+    "@types/storybook__react": "^3.0.8",
     "classnames": "^2.2.5",
     "fast-json-patch": "^2.0.6",
     "jquery": "^3.2.1",
