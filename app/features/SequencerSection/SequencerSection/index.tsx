@@ -4,6 +4,7 @@ import { IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
 import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
 import { observeTracksScroll } from 'core/observers/tracks-scroll';
+import { injector } from 'utils/injector';
 
 import Toolbar from 'features/Toolbar';
 
@@ -14,7 +15,7 @@ import TracksGutter from 'features/SequencerSection/TracksGutter';
 import TracksArea from 'features/SequencerSection/TracksArea';
 import VerticalScrollbar from 'features/SequencerSection/VerticalScrollbar';
 
-import { MainPageLayout } from 'core/state/layouts/pages/main';
+import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 
 import {
   MinimapWrapper,
@@ -25,10 +26,33 @@ import {
   VerticalScrollbarWrapper,
 } from './styled-components';
 
-@observer
-export default class SequencerSection extends React.Component<{}, {}> {
-  mainPageLayout = Container.get(MainPageLayout);
+interface Props {}
+interface InjectedProps {
+  minimapHeight: number;
+  sectionHeight: number;
+  sectionWidth: number;
+  timelineHeight: number;
+  toolbarHeight: number;
+  tracksAreaHeight: number;
+  tracksVerticalScrollbarWidth: number;
+}
 
+const inject = injector<Props, InjectedProps>(props => {
+  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
+
+  return {
+    minimapHeight: sequencerSectionLayout.minimapHeight,
+    sectionHeight: sequencerSectionLayout.sectionHeight,
+    sectionWidth: sequencerSectionLayout.sectionWidth,
+    timelineHeight: sequencerSectionLayout.timelineHeight,
+    toolbarHeight: sequencerSectionLayout.toolbarHeight,
+    tracksAreaHeight: sequencerSectionLayout.tracksAreaHeight,
+    tracksVerticalScrollbarWidth: sequencerSectionLayout.tracksVerticalScrollbarWidth,
+  };
+});
+
+@observer
+export class SequencerSection extends React.Component<Props & InjectedProps, {}> {
   disposeObserver: IReactionDisposer;
   disposeHandlers: trackScrollHandlers.Unregister;
 
@@ -43,33 +67,31 @@ export default class SequencerSection extends React.Component<{}, {}> {
   }
 
   render() {
-    const { mainPageLayout } = this;
-
     const minimapWrapperStyle = {
-      height: mainPageLayout.minimapHeight,
+      height: this.props.minimapHeight,
     };
 
     const sequencerSectionStyle = {
-      height: mainPageLayout.sequencerSectionHeight,
+      height: this.props.sectionHeight,
     };
 
     const timelineWrapperStyle = {
-      height: mainPageLayout.timelineHeight,
-      width: mainPageLayout.tracksSectionWidth,
+      height: this.props.timelineHeight,
+      width: this.props.sectionWidth,
     };
 
     const toolbarWrapperStyle = {
-      height: mainPageLayout.toolbarHeight,
+      height: this.props.toolbarHeight,
     };
 
     const tracksAreaWrapperStyle = {
-      height: mainPageLayout.tracksAreaHeight,
-      width: mainPageLayout.tracksSectionWidth,
+      height: this.props.tracksAreaHeight,
+      width: this.props.sectionWidth,
     };
 
     const verticalScrollbarWrapperStyle = {
-      height: mainPageLayout.sequencerSectionHeight,
-      width: mainPageLayout.tracksVerticalScrollbarWidth,
+      height: this.props.sectionHeight,
+      width: this.props.tracksVerticalScrollbarWidth,
     };
 
     return (
@@ -95,3 +117,5 @@ export default class SequencerSection extends React.Component<{}, {}> {
     );
   }
 }
+
+export default inject(SequencerSection);

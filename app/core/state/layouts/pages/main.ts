@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { action, observable } from 'mobx';
 import { Inject, Service } from 'typedi';
 import { filterMethods } from 'utils/log-filter';
 
@@ -14,13 +14,16 @@ export const enum SectionType {
 
 @Service()
 export class MainPageLayout {
+  static mobxLoggerConfig = filterMethods('deltaSectionDivider');
+
   @Inject(type => SequencerSectionLayout)
   sequencerSectionLayout: SequencerSectionLayout;
 
   @Inject(type => WindowLayout)
   windowLayout: WindowLayout;
 
-  static mobxLoggerConfig = filterMethods('deltaSectionDivider');
+  topSection: SectionType | null = SectionType.sequencer;
+  bottomSection: SectionType | null = SectionType.clipEditor;
 
   @observable minimapHeight = 30;
   @observable gutterWidth = 100;
