@@ -1,38 +1,37 @@
 import { Inject, Service } from 'typedi';
-import { observable } from 'mobx';
-
-import { computed } from 'mobx';
+import { computed, observable } from 'mobx';
 
 import { MainPageLayout } from 'core/state/layouts/pages/main';
 import { SectionLayout } from 'core/state/layouts/shared/section';
-
-export interface Dimensions {
-  height: number;
-  width: number;
-  left: number;
-  top: number;
-}
+import { Dimensions } from 'core/interfaces';
 
 @Service()
 export class SequencerSectionLayout implements SectionLayout {
   @Inject(type => MainPageLayout)
   mainPageLayout: MainPageLayout;
 
-  @observable sectionHeight = 800;
-  @observable sectionWidth = 800;
+  @computed
+  get sectionHeight() {
+    return this.mainPageLayout.sequencerSectionHeight;
+  }
+
+  @computed
+  get sectionWidth() {
+    return this.mainPageLayout.sectionWidth;
+  }
 
   @observable minimapHeight = 30;
   @observable gutterWidth = 100;
   @observable timelineHeight = 30;
   @observable toolbarHeight = 40;
 
-  @observable tracksVerticalScrollbarWidth = 14;
+  @observable verticalScrollbarWidth = 14;
 
   @computed
   get tracksAreaDimensions(): Dimensions {
     return {
       height: this.sectionHeight - this.toolbarHeight - this.minimapHeight - this.timelineHeight,
-      width: this.mainPageLayout.getSectionWidth() - this.tracksVerticalScrollbarWidth,
+      width: this.mainPageLayout.sectionWidth - this.verticalScrollbarWidth,
       left: this.gutterWidth,
       top: this.toolbarHeight + this.minimapHeight + this.timelineHeight,
     };
@@ -42,7 +41,7 @@ export class SequencerSectionLayout implements SectionLayout {
   get verticalScrollbarDimensions(): Dimensions {
     return {
       height: this.sectionHeight - this.toolbarHeight - this.minimapHeight,
-      width: this.tracksVerticalScrollbarWidth,
+      width: this.verticalScrollbarWidth,
       left: 0,
       top: this.toolbarHeight + this.minimapHeight,
     };
@@ -53,3 +52,5 @@ export class SequencerSectionLayout implements SectionLayout {
     return this.tracksAreaDimensions.width - this.gutterWidth;
   }
 }
+
+export { Dimensions };

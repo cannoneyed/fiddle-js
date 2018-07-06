@@ -197,6 +197,7 @@
     "mobx": "^4.2.0",
     "mobx-logger": "^0.7.0",
     "mobx-react": "^5.0.0",
+    "mobx-utils": "^5.0.0",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "react-transition-group": "^2.3.0",

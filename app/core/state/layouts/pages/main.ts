@@ -1,4 +1,5 @@
-import { action } from 'mobx';
+import { action, computed, observable } from 'mobx';
+import { createTransformer } from 'mobx-utils';
 import { Service, Inject } from 'typedi';
 import { filterMethods } from 'utils/log-filter';
 
@@ -19,12 +20,25 @@ export class MainPageLayout {
 
   constructor(private windowLayout: WindowLayout) {}
 
-  @action
-  deltaSectionDivider(deltaY: number) {
-    this.sequencerSectionLayout.sectionHeight += deltaY;
+  // TODO: Figure out a more elegant way to support dynamic / rescale sizes of sections
+  @observable sequencerSectionHeight = 800;
+
+  @computed
+  get clipEditorSectionHeight() {
+    return this.windowLayout.height - this.sequencerSectionHeight;
   }
 
-  getSectionWidth() {
+  @action
+  deltaSectionDivider(deltaY: number) {
+    this.sequencerSectionHeight += deltaY;
+  }
+
+  @computed
+  get sectionWidth() {
     return this.windowLayout.width;
   }
+
+  getSectionHeight = createTransformer(() => {
+    return 1;
+  });
 }
