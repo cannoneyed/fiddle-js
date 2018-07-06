@@ -4,40 +4,22 @@ import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 
 import Track from 'features/SequencerSection/Track';
-import VerticalGrid from 'features/SequencerSection/VerticalGrid';
 
 import { Track as TrackModel } from 'core/models/track';
 import { TrackStore } from 'core/state/stores/tracks';
-import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
-import { GridLayout } from 'core/state/layouts/sequencer/grid';
-import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 
 import DragToMarker from './DragToMarker';
-import { TracksAreaContainer, GridContainer, TracksContainer } from './styled-components';
+import { TracksAreaContainer, TracksContainer } from './styled-components';
 
 interface Props {}
 interface InjectedProps {
   tracks: TrackModel[];
-  gridCount: number;
-  gridHeight: number;
-  gridSegmentWidth: number;
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const tracksLayout = Container.get(TracksLayout);
-  const gridLayout = Container.get(GridLayout);
-  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
   const trackStore = Container.get(TrackStore);
-
   const { trackList } = trackStore;
-  const { tracksAreaDimensions } = sequencerSectionLayout;
-  const { trackHeight } = tracksLayout;
-  const gridHeight = Math.max(trackList.length * trackHeight, tracksAreaDimensions.height);
-
   return {
-    gridCount: gridLayout.gridCount,
-    gridHeight,
-    gridSegmentWidth: gridLayout.gridSegmentWidth,
     tracks: trackList,
   };
 });
@@ -45,18 +27,11 @@ const inject = injector<Props, InjectedProps>(props => {
 @observer
 export class TracksArea extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { gridCount, gridHeight, gridSegmentWidth, tracks } = this.props;
-
-    const gridStyle = {
-      height: gridHeight,
-    };
+    const { tracks } = this.props;
 
     return (
       <TracksAreaContainer id="tracksArea">
         <DragToMarker />
-        <GridContainer style={gridStyle}>
-          <VerticalGrid gridCount={gridCount} gridSegmentWidth={gridSegmentWidth} />
-        </GridContainer>
         <TracksContainer>
           {tracks.map((track, index) => <Track track={track} index={index} key={index} />)}
         </TracksContainer>

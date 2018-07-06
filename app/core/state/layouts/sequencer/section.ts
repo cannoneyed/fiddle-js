@@ -38,6 +38,16 @@ export class SequencerSectionLayout implements SectionLayout {
   }
 
   @computed
+  get gridDimensions(): Dimensions {
+    const tracksAreaDimensions = this.tracksAreaDimensions;
+    return {
+      ...tracksAreaDimensions,
+      width: tracksAreaDimensions.width - this.gutterWidth,
+      left: this.gutterWidth,
+    };
+  }
+
+  @computed
   get verticalScrollbarDimensions(): Dimensions {
     return {
       height: this.sectionHeight - this.toolbarHeight - this.minimapHeight,

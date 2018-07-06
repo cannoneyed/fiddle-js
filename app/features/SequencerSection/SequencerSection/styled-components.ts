@@ -14,6 +14,11 @@ export const TimelineWrapper = styled.div`
   flex-direction: row;
 `;
 
+export const TracksWrapper = styled.div`
+  flex-grow: 1;
+  position: relative;
+`;
+
 export const TracksAreaWrapper = styled.div`
   display: flex;
   flex-direction: row;

@@ -11,7 +11,7 @@ interface Props {
 }
 
 @observer
-export class Grid extends React.Component<Props, {}> {
+export class VerticalGrid extends React.Component<Props, {}> {
   private canvas: React.RefObject<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
 
@@ -50,7 +50,7 @@ export class Grid extends React.Component<Props, {}> {
     this.ctx.clearRect(0, 0, this.props.width, this.props.height);
     const { gridSegmentWidth, width, offset } = this.props;
 
-    const nVerticalLines = Math.floor((width - offset) / gridSegmentWidth);
+    const nVerticalLines = Math.ceil((width - offset) / gridSegmentWidth);
     range(nVerticalLines).forEach((i: number) => {
       this.drawVerticalLine(i * gridSegmentWidth + offset);
     });
@@ -75,4 +75,4 @@ export class Grid extends React.Component<Props, {}> {
   }
 }
 
-export default Grid;
+export default VerticalGrid;

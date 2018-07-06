@@ -15,7 +15,7 @@ const Theme = {
   timelineHeight: px(30),
 
   // z-indices
-  verticalGridZIndex: 10,
+  verticalGridZIndex: 0,
   tracksZIndex: 20,
 
   sectionDividers: {

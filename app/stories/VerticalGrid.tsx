@@ -4,9 +4,9 @@ import theme from 'styles/theme';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, number } from '@storybook/addon-knobs';
 
-import { Grid } from 'components/Grid';
+import { VerticalGrid } from 'components/VerticalGrid';
 
-const stories = storiesOf('Grid', module);
+const stories = storiesOf('VerticalGrid', module);
 stories.addDecorator(withKnobs);
 
 stories.add('default', () => {
@@ -48,7 +48,7 @@ stories.add('default', () => {
 
   return (
     <div style={gridWrapperStyle}>
-      <Grid
+      <VerticalGrid
         gridColor={gridColor}
         gridSegmentWidth={gridSegmentWidth}
         height={height}

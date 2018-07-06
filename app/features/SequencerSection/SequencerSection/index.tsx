@@ -9,6 +9,7 @@ import { injector } from 'utils/injector';
 import Toolbar from 'features/Toolbar';
 
 import Minimap from 'features/SequencerSection/Minimap';
+import Grid from 'features/SequencerSection/Grid';
 import Timeline from 'features/SequencerSection/Timeline';
 import TimelineGutter from 'features/SequencerSection/TimelineGutter';
 import TracksGutter from 'features/SequencerSection/TracksGutter';
@@ -22,6 +23,7 @@ import {
   SequencerSectionWrapper,
   TimelineWrapper,
   ToolbarWrapper,
+  TracksWrapper,
   TracksAreaWrapper,
   VerticalScrollbarWrapper,
 } from './styled-components';
@@ -107,7 +109,10 @@ export class SequencerSection extends React.Component<Props & InjectedProps, {}>
         </TimelineWrapper>
         <TracksAreaWrapper style={tracksAreaWrapperStyle}>
           <TracksGutter />
-          <TracksArea />
+          <TracksWrapper>
+            <Grid />
+            <TracksArea />
+          </TracksWrapper>
         </TracksAreaWrapper>
         <VerticalScrollbarWrapper style={verticalScrollbarWrapperStyle}>
           <VerticalScrollbar />
