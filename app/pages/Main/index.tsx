@@ -4,11 +4,11 @@ import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
 
-import ClipEditorSection from 'features/ClipEditorSection/ClipEditorSection';
+// import ClipEditorSection from 'features/ClipEditorSection/ClipEditorSection';
 import SequencerSection from 'features/SequencerSection/SequencerSection';
 // import SectionDivider from 'features/SectionDivider';
 
-import { MainPageLayout, SectionType } from 'core/state/layouts/pages/main';
+import { MainPageLayout } from 'core/state/layouts/pages/main';
 
 @observer
 export default class SequencerPage extends React.Component<{}, {}> {
@@ -19,23 +19,12 @@ export default class SequencerPage extends React.Component<{}, {}> {
     mainPageLayout.deltaSectionDivider(deltaY);
   };
 
-  getSectionComponent(sectionType: SectionType | null) {
-    if (sectionType === SectionType.sequencer) {
-      return <SequencerSection />;
-    } else if (sectionType === SectionType.clipEditor) {
-      return <ClipEditorSection />;
-    }
-    return <SequencerSection />;
-  }
-
   render() {
-    const { topSection } = this.mainPageLayout;
-
     return (
       <PageWrapper>
-        {topSection && this.getSectionComponent(topSection)}
-        {/* {bottomSection && <SectionDivider onDrag={this.handleSectionDividerDrag} />}
-        {bottomSection && this.getSectionComponent(bottomSection)} */}
+        <SequencerSection />
+        {/* <SectionDivider onDrag={this.handleSectionDividerDrag} /> */}
+        {/* <ClipEditorSection /> */}
       </PageWrapper>
     );
   }

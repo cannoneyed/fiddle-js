@@ -7,7 +7,7 @@ import { injector } from 'utils/injector';
 
 import { SequencerPositionService } from 'core/services/sequencer/position';
 
-import { MainPageLayout } from 'core/state/layouts/pages/main';
+import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 import { TimelineLayout } from 'core/state/layouts/sequencer/timeline';
 
 interface Props {}
@@ -18,14 +18,14 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const sequencerPageLayout = Container.get(MainPageLayout);
+  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
   const timelineLayout = Container.get(TimelineLayout);
   const sequencerPositionService = Container.get(SequencerPositionService);
   const { dropTargetPosition } = timelineLayout;
   return {
     visible: !!dropTargetPosition,
     offsetX: dropTargetPosition ? sequencerPositionService.getOffsetX(dropTargetPosition) : 0,
-    height: sequencerPageLayout.tracksAreaHeight,
+    height: sequencerSectionLayout.tracksAreaDimensions.height,
   };
 });
 

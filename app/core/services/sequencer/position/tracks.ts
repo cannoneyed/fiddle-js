@@ -1,6 +1,6 @@
 import { Inject, Service } from 'typedi';
 
-import { MainPageLayout } from 'core/state/layouts/pages/main';
+import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 import { TrackStore } from 'core/state/stores/tracks';
 
@@ -8,13 +8,13 @@ import { TrackStore } from 'core/state/stores/tracks';
 export class TracksPositionService {
   @Inject(type => TracksLayout)
   private tracksLayout: TracksLayout;
-  @Inject(type => MainPageLayout)
-  private mainPageLayout: MainPageLayout;
+  @Inject(type => SequencerSectionLayout)
+  private sequencerSectionLayout: SequencerSectionLayout;
   @Inject(type => TrackStore)
   private trackStore: TrackStore;
 
   getOffsetXFromScreenX = (screenX: number) => {
-    const leftEdge = this.mainPageLayout.tracksAreaLeft;
+    const leftEdge = this.sequencerSectionLayout.tracksAreaDimensions.left;
     const scrolledX = this.tracksLayout.tracksScrolledX;
 
     const offsetX = screenX - leftEdge + scrolledX;
@@ -22,7 +22,7 @@ export class TracksPositionService {
   };
 
   getOffsetYFromScreenY = (screenY: number) => {
-    const topEdge = this.mainPageLayout.tracksAreaTop;
+    const topEdge = this.sequencerSectionLayout.tracksAreaDimensions.top;
     const scrolledY = this.tracksLayout.tracksScrolledY;
 
     const offsetY = screenY - topEdge + scrolledY;

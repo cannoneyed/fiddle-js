@@ -5,7 +5,7 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 
-import { MainPageLayout } from 'core/state/layouts/pages/main';
+import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 
 interface Props {}
 interface InjectedProps {
@@ -13,9 +13,9 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const mainPageLayout = Container.get(MainPageLayout);
+  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
   return {
-    gutterWidth: mainPageLayout.gutterWidth,
+    gutterWidth: sequencerSectionLayout.gutterWidth,
   };
 });
 

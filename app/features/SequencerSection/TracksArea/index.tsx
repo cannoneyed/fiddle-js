@@ -8,7 +8,7 @@ import VerticalGrid from 'features/SequencerSection/VerticalGrid';
 
 import { Track as TrackModel } from 'core/models/track';
 import { TrackStore } from 'core/state/stores/tracks';
-import { MainPageLayout } from 'core/state/layouts/pages/main';
+import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 import { GridLayout } from 'core/state/layouts/sequencer/grid';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 
@@ -26,13 +26,13 @@ interface InjectedProps {
 const inject = injector<Props, InjectedProps>(props => {
   const tracksLayout = Container.get(TracksLayout);
   const gridLayout = Container.get(GridLayout);
-  const mainPageLayout = Container.get(MainPageLayout);
+  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
   const trackStore = Container.get(TrackStore);
 
   const { trackList } = trackStore;
-  const { tracksAreaHeight } = mainPageLayout;
+  const { tracksAreaDimensions } = sequencerSectionLayout;
   const { trackHeight } = tracksLayout;
-  const gridHeight = Math.max(trackList.length * trackHeight, tracksAreaHeight);
+  const gridHeight = Math.max(trackList.length * trackHeight, tracksAreaDimensions.height);
 
   return {
     gridCount: gridLayout.gridCount,

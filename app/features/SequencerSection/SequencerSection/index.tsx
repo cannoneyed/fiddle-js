@@ -15,7 +15,7 @@ import TracksGutter from 'features/SequencerSection/TracksGutter';
 import TracksArea from 'features/SequencerSection/TracksArea';
 import VerticalScrollbar from 'features/SequencerSection/VerticalScrollbar';
 
-import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
+import { SequencerSectionLayout, Dimensions } from 'core/state/layouts/sequencer/section';
 
 import {
   MinimapWrapper,
@@ -30,12 +30,10 @@ interface Props {}
 interface InjectedProps {
   minimapHeight: number;
   sectionHeight: number;
-  sectionWidth: number;
   timelineHeight: number;
   toolbarHeight: number;
-  tracksAreaHeight: number;
-  tracksVerticalScrollbarTop: number;
-  tracksVerticalScrollbarWidth: number;
+  tracksAreaDimensions: Dimensions;
+  verticalScrollbarDimensions: Dimensions;
 }
 
 const inject = injector<Props, InjectedProps>(props => {
@@ -44,12 +42,10 @@ const inject = injector<Props, InjectedProps>(props => {
   return {
     minimapHeight: sequencerSectionLayout.minimapHeight,
     sectionHeight: sequencerSectionLayout.sectionHeight,
-    sectionWidth: sequencerSectionLayout.sectionWidth,
     timelineHeight: sequencerSectionLayout.timelineHeight,
     toolbarHeight: sequencerSectionLayout.toolbarHeight,
-    tracksAreaHeight: sequencerSectionLayout.tracksAreaHeight,
-    tracksVerticalScrollbarTop: sequencerSectionLayout.tracksVerticalScrollbarTop,
-    tracksVerticalScrollbarWidth: sequencerSectionLayout.tracksVerticalScrollbarWidth,
+    tracksAreaDimensions: sequencerSectionLayout.tracksAreaDimensions,
+    verticalScrollbarDimensions: sequencerSectionLayout.verticalScrollbarDimensions,
   };
 });
 
@@ -79,7 +75,7 @@ export class SequencerSection extends React.Component<Props & InjectedProps, {}>
 
     const timelineWrapperStyle = {
       height: this.props.timelineHeight,
-      width: this.props.sectionWidth,
+      width: this.props.tracksAreaDimensions.width,
     };
 
     const toolbarWrapperStyle = {
@@ -87,14 +83,14 @@ export class SequencerSection extends React.Component<Props & InjectedProps, {}>
     };
 
     const tracksAreaWrapperStyle = {
-      height: this.props.tracksAreaHeight,
-      width: this.props.sectionWidth,
+      height: this.props.tracksAreaDimensions.height,
+      width: this.props.tracksAreaDimensions.width,
     };
 
     const verticalScrollbarWrapperStyle = {
-      top: this.props.tracksVerticalScrollbarTop,
-      height: this.props.sectionHeight,
-      width: this.props.tracksVerticalScrollbarWidth,
+      top: this.props.verticalScrollbarDimensions.top,
+      height: this.props.verticalScrollbarDimensions.height,
+      width: this.props.verticalScrollbarDimensions.width,
     };
 
     return (

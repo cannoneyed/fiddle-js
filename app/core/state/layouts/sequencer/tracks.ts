@@ -4,7 +4,7 @@ import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
 import { filterMethods } from 'utils/log-filter';
 
-import { MainPageLayout } from 'core/state/layouts/pages/main';
+import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 import { TimelineState } from 'core/state/app/sequencer/timeline';
 import { TrackStore } from 'core/state/stores/tracks';
 
@@ -17,7 +17,7 @@ export class TracksLayout {
 
   constructor(
     private gridLayout: GridLayout,
-    private mainPageLayout: MainPageLayout,
+    private sectionLayout: SequencerSectionLayout,
     private trackStore: TrackStore,
     private timelineState: TimelineState,
     private zoomLayout: ZoomLayout
@@ -55,24 +55,24 @@ export class TracksLayout {
 
   @computed
   get tracksScrollableWidth() {
-    return this.trackWidth - this.mainPageLayout.tracksAreaWidth;
+    return this.trackWidth - this.sectionLayout.tracksWidth;
   }
 
   @computed
   get tracksScrollableHeight() {
-    return this.tracksHeight - this.mainPageLayout.tracksAreaHeight;
+    return this.tracksHeight - this.sectionLayout.tracksAreaDimensions.height;
   }
 
   @computed
   get tracksViewPercentX() {
-    const { tracksAreaWidth } = this.mainPageLayout;
-    return clamp(tracksAreaWidth / this.trackWidth, 0, 1);
+    const { tracksWidth } = this.sectionLayout;
+    return clamp(tracksWidth / this.trackWidth, 0, 1);
   }
 
   @computed
   get tracksViewPercentY() {
-    const { tracksAreaHeight } = this.mainPageLayout;
-    return clamp(tracksAreaHeight / this.tracksHeight, 0, 1);
+    const { height } = this.sectionLayout.tracksAreaDimensions;
+    return clamp(height / this.tracksHeight, 0, 1);
   }
 
   @computed

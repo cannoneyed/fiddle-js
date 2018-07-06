@@ -1,22 +1,17 @@
 import * as React from 'react';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 
 import EditArea from 'features/ClipEditorSection/EditArea';
 
-import { MainPageLayout } from 'core/state/layouts/pages/main';
-
 import { ClipEditorSectionWrapper } from './styled-components';
 
+interface Props {}
+
 @observer
-export default class ClipEditorSection extends React.Component<{}, {}> {
-  mainPageLayout = Container.get(MainPageLayout);
-
+export default class ClipEditorSection extends React.Component<Props, {}> {
   render() {
-    const { mainPageLayout } = this;
-
     const editSectionWrapperStyle = {
-      height: mainPageLayout.editSectionHeight,
+      height: 300,
     };
 
     return (

@@ -4,49 +4,52 @@ import { observable } from 'mobx';
 import { computed } from 'mobx';
 
 import { MainPageLayout } from 'core/state/layouts/pages/main';
+import { SectionLayout } from 'core/state/layouts/shared/section';
+
+export interface Dimensions {
+  height: number;
+  width: number;
+  left: number;
+  top: number;
+}
 
 @Service()
-export class SequencerSectionLayout {
+export class SequencerSectionLayout implements SectionLayout {
   @Inject(type => MainPageLayout)
   mainPageLayout: MainPageLayout;
+
+  @observable sectionHeight = 800;
+  @observable sectionWidth = 800;
 
   @observable minimapHeight = 30;
   @observable gutterWidth = 100;
   @observable timelineHeight = 30;
   @observable toolbarHeight = 40;
-  @observable tracksAreaHeight = 400;
 
   @observable tracksVerticalScrollbarWidth = 14;
 
   @computed
-  get tracksVerticalScrollbarTop() {
-    return this.toolbarHeight + this.minimapHeight;
+  get tracksAreaDimensions(): Dimensions {
+    return {
+      height: this.sectionHeight - this.toolbarHeight - this.minimapHeight - this.timelineHeight,
+      width: this.mainPageLayout.getSectionWidth() - this.tracksVerticalScrollbarWidth,
+      left: this.gutterWidth,
+      top: this.toolbarHeight + this.minimapHeight + this.timelineHeight,
+    };
   }
 
   @computed
-  get sectionHeight() {
-    return this.timelineHeight + this.tracksAreaHeight;
+  get verticalScrollbarDimensions(): Dimensions {
+    return {
+      height: this.sectionHeight - this.toolbarHeight - this.minimapHeight,
+      width: this.tracksVerticalScrollbarWidth,
+      left: 0,
+      top: this.toolbarHeight + this.minimapHeight,
+    };
   }
 
   @computed
-  get sectionWidth() {
-    const sectionWidth = this.mainPageLayout.getSectionWidth();
-    return sectionWidth - this.tracksVerticalScrollbarWidth;
-  }
-
-  @computed
-  get tracksAreaWidth() {
-    const sectionWidth = this.mainPageLayout.getSectionWidth();
-    return sectionWidth - this.gutterWidth;
-  }
-
-  @computed
-  get tracksAreaLeft() {
-    return this.gutterWidth;
-  }
-
-  @computed
-  get tracksAreaTop() {
-    return this.toolbarHeight + this.minimapHeight + this.timelineHeight;
+  get tracksWidth() {
+    return this.tracksAreaDimensions.width - this.gutterWidth;
   }
 }

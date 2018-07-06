@@ -9,7 +9,7 @@ import TrackHeader from 'features/SequencerSection/TrackHeader';
 
 import { Track as TrackModel } from 'core/models/track';
 import { TrackStore } from 'core/state/stores/tracks';
-import { MainPageLayout } from 'core/state/layouts/pages/main';
+import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 
 export interface Props {}
 export interface InjectedProps {
@@ -18,10 +18,10 @@ export interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const mainPageLayout = Container.get(MainPageLayout);
+  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
   const trackStore = Container.get(TrackStore);
   return {
-    gutterWidth: mainPageLayout.gutterWidth,
+    gutterWidth: sequencerSectionLayout.gutterWidth,
     tracks: trackStore.trackList,
   };
 });
