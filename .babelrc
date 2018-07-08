@@ -1,14 +1,4 @@
 {
-  "presets": [
-    [
-      "env",
-      {
-        "targets": { "node": 8 },
-        "useBuiltIns": true
-      }
-    ],
-    "stage-0",
-    "react"
-  ],
+  "presets": ["env", "es2015", "stage-0", "react"],
   "plugins": ["babel-plugin-styled-components", "react-hot-loader/babel"]
 }
