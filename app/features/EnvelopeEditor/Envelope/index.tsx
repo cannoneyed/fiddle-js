@@ -2,11 +2,13 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
 
+import { Dimensions } from 'core/interfaces';
+import { ScreenVector } from 'core/primitives/screen-vector';
 import { Envelope as EnvelopeModel } from 'core/models/envelope';
 import { Point as PointModel } from 'core/models/envelope/point';
-import { Dimensions } from 'core/interfaces';
 
 import Point from 'features/EnvelopeEditor/Point';
+import Connection from 'features/EnvelopeEditor/Connection';
 
 interface Props {
   dimensions: Dimensions;
@@ -15,21 +17,32 @@ interface Props {
 
 @observer
 export class Envelope extends React.Component<Props, {}> {
-  computePointCoordinates(point: PointModel): { x: number; y: number } {
+  computePointCoordinates(point: PointModel) {
     const { dimensions, envelope } = this.props;
     const x = (point.position.bar / envelope.length.bar) * dimensions.width;
     const y = (1 - point.value) * dimensions.height;
-    return { x, y };
+    return new ScreenVector(x, y);
   }
 
   render() {
-    const { points } = this.props.envelope;
+    const { connections, points } = this.props.envelope;
 
     return (
       <Svg>
         {points.map(point => {
-          const { x, y } = this.computePointCoordinates(point);
-          return <Point key={point.id} x={x} y={y} />;
+          const position = this.computePointCoordinates(point);
+          return <Point key={point.id} position={position} />;
+        })}
+        {connections.map(connection => {
+          const startPosition = this.computePointCoordinates(connection.start);
+          const endPosition = this.computePointCoordinates(connection.end);
+          return (
+            <Connection
+              key={connection.id}
+              startPosition={startPosition}
+              endPosition={endPosition}
+            />
+          );
         })}
       </Svg>
     );

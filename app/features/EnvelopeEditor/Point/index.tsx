@@ -1,31 +1,23 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
+import theme from 'styles/theme';
+
+import { ScreenVector } from 'core/primitives/screen-vector';
 
 interface Props {
-  x: number;
-  y: number;
-}
-
-interface State {
-  x: number;
-  y: number;
+  position: ScreenVector;
 }
 
 @observer
-export class Point extends React.Component<Props, State> {
-  state = {
-    x: this.props.x,
-    y: this.props.y,
-  };
-
+export class Point extends React.Component<Props, {}> {
   render() {
-    const { x, y } = this.state;
+    const { x, y } = this.props.position;
     return (
       <circle
         r="5"
         cx={x}
         cy={y}
-        onMouseDown={console.log.bind(null, '🔥 down')}
+        fill={theme.colors.white.toRgbString()}
         onMouseUp={console.log.bind(null, '🔥 up')}
       />
     );

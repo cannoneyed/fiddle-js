@@ -2,7 +2,7 @@ import { observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 
 import { Point } from './point';
-import { Connection } from './connection';
+import { Connection, LineConnection } from './connection';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 export class Envelope {
@@ -27,4 +27,14 @@ export class Envelope {
   removePoint(point: Point) {
     this.points.remove(point);
   }
+
+  addConnection(connection: Connection) {
+    this.connections.push(connection);
+  }
+
+  removeConnection(connection: Connection) {
+    this.connections.remove(connection);
+  }
 }
+
+export { Connection, LineConnection, Point };

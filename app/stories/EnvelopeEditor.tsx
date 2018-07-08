@@ -2,16 +2,20 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { EnvelopeEditor } from 'features/EnvelopeEditor/EnvelopeEditor';
 
-import { Envelope } from 'core/models/envelope';
-import { Point } from 'core/models/envelope/point';
+import { Envelope, LineConnection, Point } from 'core/models/envelope';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 storiesOf('Envelope Editor', module).add('default', () => {
   const start = new TimelineVector(0);
   const length = new TimelineVector(2);
   const envelope = new Envelope(length);
-  envelope.addPoint(new Point(start, 1));
-  envelope.addPoint(new Point(length, 0));
+
+  const a = new Point(start, 1);
+  const b = new Point(length, 0);
+  envelope.addPoint(a);
+  envelope.addPoint(b);
+  const c = new LineConnection(a, b);
+  envelope.addConnection(c);
 
   const height = 500;
   const width = 1000;
