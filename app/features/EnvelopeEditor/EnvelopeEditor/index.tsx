@@ -29,12 +29,7 @@ export class EnvelopeEditor extends React.Component<Props, {}> {
           <Envelope envelope={envelope} dimensions={dimensions} />
         </EnvelopeWrapper>
         <GridWrapper>
-          <VerticalGrid
-            dimensions={dimensions}
-            gridColor={theme.colors.mediumGray.toRgbString()}
-            gridSegmentWidth={100}
-            offsetX={0}
-          />
+          <VerticalGrid dimensions={dimensions} gridSegmentWidth={100} offsetX={0} />
         </GridWrapper>
       </EnvelopeEditorWrapper>
     );
@@ -45,7 +40,7 @@ export default EnvelopeEditor;
 
 const EnvelopeEditorWrapper = styled.div`
   position: relative;
-  background-color: ${theme.colors.black.toRgbString()};
+  background-color: ${theme.colors.darkGray.toRgbString()};
 `;
 
 const absolute = css`
@@ -56,8 +51,10 @@ const absolute = css`
 
 const EnvelopeWrapper = styled.div`
   ${absolute};
+  z-index: 10;
 `;
 
 const GridWrapper = styled.div`
   ${absolute};
+  z-index: 0;
 `;

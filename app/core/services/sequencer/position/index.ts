@@ -7,6 +7,7 @@ import { TimelineState } from 'core/state/app/sequencer/timeline';
 @Service()
 export class SequencerPositionService {
   constructor(private gridLayout: GridLayout, private timelineState: TimelineState) {}
+
   getTimelineVectorFromOffsetX = (offsetX: number) => {
     const { barWidth } = this.gridLayout;
     const nearestBar = Math.floor(offsetX / barWidth);

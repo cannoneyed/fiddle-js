@@ -1,11 +1,5 @@
 export class ScreenVector {
-  x: number;
-  y: number;
-
-  constructor(x: number = 0, y: number = 0) {
-    this.x = x;
-    this.y = y;
-  }
+  constructor(public x: number = 0, public y: number = 0) {}
 
   subtract(nextPosition: ScreenVector) {
     const { x, y } = nextPosition;

@@ -13,17 +13,18 @@ export class Envelope {
   @observable points = observable.array<Point>([]);
   @observable connections = observable.array<Connection>([]);
 
+  @observable minimum: number = 0;
+  @observable maximum: number = 1;
+
   constructor(length?: TimelineVector) {
     this.length = length || new TimelineVector(2);
   }
 
-  addPoint(point: Point) {}
+  addPoint(point: Point) {
+    this.points.push(point);
+  }
 
   removePoint(point: Point) {
     this.points.remove(point);
   }
-
-  @observable minimum: number = 0;
-
-  @observable maximum: number = 1;
 }

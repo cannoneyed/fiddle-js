@@ -44,13 +44,10 @@ stories.add('default', () => {
     height: height,
   };
 
-  const gridColor = theme.colors.mediumGray.toRgbString();
-
   return (
     <div style={gridWrapperStyle}>
       <VerticalGrid
         dimensions={{ height, width }}
-        gridColor={gridColor}
         gridSegmentWidth={gridSegmentWidth}
         offsetX={offsetX}
       />

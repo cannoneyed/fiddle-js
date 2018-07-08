@@ -46,7 +46,6 @@ export class Grid extends React.Component<Props & InjectedProps, {}> {
       <GridContainer style={gridStyle}>
         <VerticalGrid
           dimensions={dimensions}
-          gridColor={theme.colors.mediumGray.toRgbString()}
           gridSegmentWidth={gridSegmentWidth}
           offsetX={offsetX}
         />

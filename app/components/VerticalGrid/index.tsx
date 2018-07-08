@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { range } from 'lodash';
+import theme from 'styles/theme';
+
 import { Dimensions } from 'core/interfaces';
 
 interface Props {
   dimensions: Dimensions;
-  gridColor: string;
   gridSegmentWidth: number;
   offsetX: number;
 }
@@ -66,7 +67,7 @@ export class VerticalGrid extends React.Component<Props, {}> {
     const { ctx } = this;
     ctx.beginPath();
     ctx.moveTo(x, 0);
-    ctx.strokeStyle = this.props.gridColor;
+    ctx.strokeStyle = theme.colors.mediumGray.toRgbString();
     ctx.lineTo(x, this.props.dimensions.height);
     ctx.stroke();
   }

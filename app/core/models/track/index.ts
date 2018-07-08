@@ -12,7 +12,6 @@ export class Track {
 
   @observable id: string;
   @observable index: number;
-  @observable type = 'osc';
 
   constructor() {
     this.id = generateId();
