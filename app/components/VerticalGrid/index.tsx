@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { range } from 'lodash';
+import { Dimensions } from 'core/interfaces';
 
 interface Props {
+  dimensions: Dimensions;
   gridColor: string;
   gridSegmentWidth: number;
-  height: number;
-  offset: number;
-  width: number;
+  offsetX: number;
 }
 
 @observer
@@ -32,25 +32,31 @@ export class VerticalGrid extends React.Component<Props, {}> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (this.props.width !== prevProps.width || this.props.height !== prevProps.height) {
+    const { dimensions } = this.props;
+    const { dimensions: prevDimensions } = prevProps;
+    if (dimensions.width !== prevDimensions.width || dimensions.height !== prevDimensions.height) {
       this.resizeCanvas();
     }
     this.updateCanvas();
   }
 
   resizeCanvas() {
+    const { dimensions } = this.props;
     const canvasElement = this.getCanvasElement();
     const scale = window.devicePixelRatio;
-    canvasElement.width = this.props.width * scale;
-    canvasElement.height = this.props.height * scale;
+    canvasElement.width = dimensions.width * scale;
+    canvasElement.height = dimensions.height * scale;
     this.ctx.scale(scale, scale);
   }
 
   updateCanvas() {
-    this.ctx.clearRect(0, 0, this.props.width, this.props.height);
-    const { gridSegmentWidth, width, offset } = this.props;
+    const { dimensions } = this.props;
+    this.ctx.clearRect(0, 0, dimensions.width, dimensions.height);
+    const { gridSegmentWidth, offsetX } = this.props;
 
-    const nVerticalLines = Math.ceil((width - offset) / gridSegmentWidth);
+    const offset = gridSegmentWidth - (offsetX % gridSegmentWidth);
+
+    const nVerticalLines = Math.ceil((dimensions.width - offset) / gridSegmentWidth);
     range(nVerticalLines).forEach((i: number) => {
       this.drawVerticalLine(i * gridSegmentWidth + offset);
     });
@@ -61,14 +67,15 @@ export class VerticalGrid extends React.Component<Props, {}> {
     ctx.beginPath();
     ctx.moveTo(x, 0);
     ctx.strokeStyle = this.props.gridColor;
-    ctx.lineTo(x, this.props.height);
+    ctx.lineTo(x, this.props.dimensions.height);
     ctx.stroke();
   }
 
   render() {
+    const { dimensions } = this.props;
     const canvasStyle = {
-      width: this.props.width,
-      height: this.props.height,
+      width: dimensions.width,
+      height: dimensions.height,
     };
 
     return <canvas style={canvasStyle} ref={this.canvas} />;

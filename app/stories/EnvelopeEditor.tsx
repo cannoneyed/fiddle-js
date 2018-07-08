@@ -7,5 +7,7 @@ import { Envelope } from 'core/models/envelope';
 storiesOf('Envelope Editor', module).add('default', () => {
   const envelope = new Envelope();
   const height = 500;
-  return <EnvelopeEditor height={height} envelope={envelope} />;
+  const width = 1000;
+
+  return <EnvelopeEditor dimensions={{ height, width }} envelope={envelope} />;
 });

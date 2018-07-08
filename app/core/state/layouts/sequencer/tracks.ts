@@ -60,7 +60,7 @@ export class TracksLayout {
 
   @computed
   get tracksScrollableHeight() {
-    return this.tracksHeight - this.sectionLayout.tracksAreaDimensions.height;
+    return this.tracksHeight - this.sectionLayout.tracksAreaRectangle.height;
   }
 
   @computed
@@ -71,7 +71,7 @@ export class TracksLayout {
 
   @computed
   get tracksViewPercentY() {
-    const { height } = this.sectionLayout.tracksAreaDimensions;
+    const { height } = this.sectionLayout.tracksAreaRectangle;
     return clamp(height / this.tracksHeight, 0, 1);
   }
 

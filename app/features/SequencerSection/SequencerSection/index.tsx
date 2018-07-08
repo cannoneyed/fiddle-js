@@ -16,7 +16,8 @@ import TracksGutter from 'features/SequencerSection/TracksGutter';
 import TracksArea from 'features/SequencerSection/TracksArea';
 import VerticalScrollbar from 'features/SequencerSection/VerticalScrollbar';
 
-import { SequencerSectionLayout, Dimensions } from 'core/state/layouts/sequencer/section';
+import { Dimensions, Rectangle } from 'core/interfaces';
+import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 
 import {
   MinimapWrapper,
@@ -35,7 +36,7 @@ interface InjectedProps {
   timelineHeight: number;
   toolbarHeight: number;
   tracksAreaDimensions: Dimensions;
-  verticalScrollbarDimensions: Dimensions;
+  verticalScrollbarRectangle: Rectangle;
 }
 
 const inject = injector<Props, InjectedProps>(props => {
@@ -47,7 +48,7 @@ const inject = injector<Props, InjectedProps>(props => {
     timelineHeight: sequencerSectionLayout.timelineHeight,
     toolbarHeight: sequencerSectionLayout.toolbarHeight,
     tracksAreaDimensions: sequencerSectionLayout.tracksAreaDimensions,
-    verticalScrollbarDimensions: sequencerSectionLayout.verticalScrollbarDimensions,
+    verticalScrollbarRectangle: sequencerSectionLayout.verticalScrollbarRectangle,
   };
 });
 
@@ -90,9 +91,9 @@ export class SequencerSection extends React.Component<Props & InjectedProps, {}>
     };
 
     const verticalScrollbarWrapperStyle = {
-      top: this.props.verticalScrollbarDimensions.top,
-      height: this.props.verticalScrollbarDimensions.height,
-      width: this.props.verticalScrollbarDimensions.width,
+      top: this.props.verticalScrollbarRectangle.top,
+      height: this.props.verticalScrollbarRectangle.height,
+      width: this.props.verticalScrollbarRectangle.width,
     };
 
     return (

@@ -31,10 +31,10 @@ stories.add('default', () => {
     step: 100,
   });
 
-  const offset = number('offset', 0, {
+  const offsetX = number('offsetX', 0, {
     range: true,
     min: 0,
-    max: 500,
+    max: 1000,
     step: 1,
   });
 
@@ -49,11 +49,10 @@ stories.add('default', () => {
   return (
     <div style={gridWrapperStyle}>
       <VerticalGrid
+        dimensions={{ height, width }}
         gridColor={gridColor}
         gridSegmentWidth={gridSegmentWidth}
-        height={height}
-        offset={offset}
-        width={width}
+        offsetX={offsetX}
       />
     </div>
   );

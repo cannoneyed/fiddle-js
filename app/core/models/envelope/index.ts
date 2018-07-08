@@ -17,6 +17,12 @@ export class Envelope {
     this.length = length || new TimelineVector(2);
   }
 
+  addPoint(point: Point) {}
+
+  removePoint(point: Point) {
+    this.points.remove(point);
+  }
+
   @observable minimum: number = 0;
 
   @observable maximum: number = 1;

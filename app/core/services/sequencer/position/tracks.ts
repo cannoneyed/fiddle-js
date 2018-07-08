@@ -14,7 +14,7 @@ export class TracksPositionService {
   private trackStore: TrackStore;
 
   getOffsetXFromScreenX = (screenX: number) => {
-    const leftEdge = this.sequencerSectionLayout.tracksAreaDimensions.left;
+    const leftEdge = this.sequencerSectionLayout.tracksAreaRectangle.left;
     const scrolledX = this.tracksLayout.tracksScrolledX;
 
     const offsetX = screenX - leftEdge + scrolledX;
@@ -22,7 +22,7 @@ export class TracksPositionService {
   };
 
   getOffsetYFromScreenY = (screenY: number) => {
-    const topEdge = this.sequencerSectionLayout.tracksAreaDimensions.top;
+    const topEdge = this.sequencerSectionLayout.tracksAreaRectangle.top;
     const scrolledY = this.tracksLayout.tracksScrolledY;
 
     const offsetY = screenY - topEdge + scrolledY;

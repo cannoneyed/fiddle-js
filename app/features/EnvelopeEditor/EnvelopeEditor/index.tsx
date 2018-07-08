@@ -1,25 +1,43 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 
-import { Envelope } from 'core/models/envelope';
+import { Dimensions } from 'core/interfaces';
+import { Envelope as EnvelopeModel } from 'core/models/envelope';
+
+import VerticalGrid from 'components/VerticalGrid';
+import Envelope from 'features/EnvelopeEditor/Envelope';
 
 interface Props {
-  envelope: Envelope;
-  height: number;
+  envelope: EnvelopeModel;
+  dimensions: Dimensions;
 }
 
 @observer
 export class EnvelopeEditor extends React.Component<Props, {}> {
   render() {
-    const { envelope } = this.props;
+    const { dimensions, envelope } = this.props;
 
     const editorWrapperStyle = {
-      height: this.props.height,
+      ...dimensions,
     };
 
-    return <EnvelopeEditorWrapper style={editorWrapperStyle}>{envelope.id}</EnvelopeEditorWrapper>;
+    return (
+      <EnvelopeEditorWrapper style={editorWrapperStyle}>
+        <EnvelopeWrapper>
+          <Envelope envelope={envelope} dimensions={dimensions} />
+        </EnvelopeWrapper>
+        <GridWrapper>
+          <VerticalGrid
+            dimensions={dimensions}
+            gridColor={theme.colors.mediumGray.toRgbString()}
+            gridSegmentWidth={100}
+            offsetX={0}
+          />
+        </GridWrapper>
+      </EnvelopeEditorWrapper>
+    );
   }
 }
 
@@ -28,4 +46,18 @@ export default EnvelopeEditor;
 const EnvelopeEditorWrapper = styled.div`
   position: relative;
   background-color: ${theme.colors.black.toRgbString()};
+`;
+
+const absolute = css`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+`;
+
+const EnvelopeWrapper = styled.div`
+  ${absolute};
+`;
+
+const GridWrapper = styled.div`
+  ${absolute};
 `;

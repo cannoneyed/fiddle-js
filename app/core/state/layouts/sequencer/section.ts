@@ -3,7 +3,7 @@ import { computed, observable } from 'mobx';
 
 import { MainPageLayout } from 'core/state/layouts/pages/main';
 import { SectionLayout } from 'core/state/layouts/shared/section';
-import { Dimensions } from 'core/interfaces';
+import { Dimensions, Position, Rectangle } from 'core/interfaces';
 
 @Service()
 export class SequencerSectionLayout implements SectionLayout {
@@ -32,19 +32,41 @@ export class SequencerSectionLayout implements SectionLayout {
     return {
       height: this.sectionHeight - this.toolbarHeight - this.minimapHeight - this.timelineHeight,
       width: this.mainPageLayout.sectionWidth - this.verticalScrollbarWidth,
+    };
+  }
+
+  @computed
+  get tracksAreaPosition(): Position {
+    return {
       left: this.gutterWidth,
       top: this.toolbarHeight + this.minimapHeight + this.timelineHeight,
     };
   }
 
   @computed
+  get tracksAreaRectangle(): Rectangle {
+    return { ...this.tracksAreaDimensions, ...this.tracksAreaPosition };
+  }
+
+  @computed
   get gridDimensions(): Dimensions {
-    const tracksAreaDimensions = this.tracksAreaDimensions;
     return {
-      ...tracksAreaDimensions,
-      width: tracksAreaDimensions.width - this.gutterWidth,
+      height: this.tracksAreaDimensions.height,
+      width: this.tracksAreaDimensions.width - this.gutterWidth,
+    };
+  }
+
+  @computed
+  get gridPosition(): Position {
+    return {
+      top: this.tracksAreaPosition.top,
       left: this.gutterWidth,
     };
+  }
+
+  @computed
+  get gridRectangle(): Rectangle {
+    return { ...this.gridDimensions, ...this.gridPosition };
   }
 
   @computed
@@ -52,15 +74,26 @@ export class SequencerSectionLayout implements SectionLayout {
     return {
       height: this.sectionHeight - this.toolbarHeight - this.minimapHeight,
       width: this.verticalScrollbarWidth,
+    };
+  }
+
+  @computed
+  get verticalScrollbarPosition(): Position {
+    return {
       left: 0,
       top: this.toolbarHeight + this.minimapHeight,
     };
   }
 
   @computed
+  get verticalScrollbarRectangle(): Rectangle {
+    return { ...this.verticalScrollbarDimensions, ...this.verticalScrollbarPosition };
+  }
+
+  @computed
   get tracksWidth() {
-    return this.tracksAreaDimensions.width - this.gutterWidth;
+    return this.tracksAreaRectangle.width - this.gutterWidth;
   }
 }
 
-export { Dimensions };
+export { Rectangle };
