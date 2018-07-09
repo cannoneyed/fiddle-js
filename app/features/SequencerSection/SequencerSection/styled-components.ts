@@ -12,6 +12,7 @@ export const SequencerSectionWrapper = styled.div`
 export const TimelineWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  overflow: hidden;
 `;
 
 export const TracksWrapper = styled.div`

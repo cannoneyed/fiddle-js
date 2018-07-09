@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 
 import { Fraction } from 'core/primitives/fraction';
+
 import Timeline from 'components/Timeline';
 
 import { GridLayout } from 'core/state/layouts/sequencer/grid';
@@ -13,33 +14,39 @@ interface Props {}
 interface InjectedProps {
   division: Fraction;
   divisionWidth: number;
+  getOffset: () => number;
   nDivisions: number;
-  scrolledX: number;
+  width: number;
 }
 
 const inject = injector<Props, InjectedProps>(props => {
   const gridLayout = Container.get(GridLayout);
   const tracksLayout = Container.get(TracksLayout);
   const { division, divisionWidth, nDivisions } = gridLayout;
+
+  const getOffset = () => tracksLayout.tracksScrolledX;
+
   return {
     division,
     divisionWidth,
+    getOffset,
     nDivisions,
-    scrolledX: tracksLayout.tracksScrolledX,
+    width: tracksLayout.tracksAreaDimensions.width,
   };
 });
 
 @observer
 export class TimelineContainer extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { division, divisionWidth, nDivisions, scrolledX } = this.props;
+    const { division, divisionWidth, getOffset, nDivisions, width } = this.props;
 
     return (
       <Timeline
         division={division}
         divisionWidth={divisionWidth}
+        getOffset={getOffset}
         nDivisions={nDivisions}
-        offsetX={scrolledX}
+        width={width}
       />
     );
   }

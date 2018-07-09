@@ -7,7 +7,6 @@ export const TimelineContainer = styled.div`
   position: relative;
   z-index: ${theme.tracksZIndex};
   flex-grow: 1;
-  overflow: hidden;
 
   transform: translate3D(0, 0, 0);
   backface-visibility: hidden;
@@ -25,10 +24,6 @@ export const TimelineSegment = styled.div`
   align-items: flex-end;
   background-color: ${theme.colors.black.toRgbString()};
   height: 100%;
-
-  :last-child {
-    border-right: solid 1px ${theme.colors.lightGray.toRgbString()};
-  }
 `;
 
 export const TimelineDivider = styled.div`

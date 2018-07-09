@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { autorun, IReactionDisposer } from 'mobx';
 import { noop, range } from 'lodash';
 import { observer } from 'mobx-react';
 
@@ -15,12 +16,40 @@ import {
 export interface Props {
   division: Fraction;
   divisionWidth: number;
+  getOffset: () => number;
   nDivisions: number;
-  offsetX: number;
+  width: number;
 }
 
 @observer
 export default class Timeline extends React.Component<Props, {}> {
+  private disposeScrollObserver: IReactionDisposer;
+  private timelineContainer: React.RefObject<HTMLDivElement>;
+
+  constructor(props: Props) {
+    super(props);
+    this.timelineContainer = React.createRef<HTMLDivElement>();
+  }
+
+  private getTimelineContainer() {
+    return this.timelineContainer.current as HTMLDivElement;
+  }
+
+  componentDidMount() {
+    this.disposeScrollObserver = autorun(this.observeOffsetChange);
+  }
+
+  componentWillUnmount() {
+    this.disposeScrollObserver();
+  }
+
+  observeOffsetChange = () => {
+    const x = this.props.getOffset();
+    const transform = `translate3d(${-Math.round(x)}px,0px,0px)`;
+    const timelineContainer = this.getTimelineContainer();
+    timelineContainer.style.transform = transform;
+  };
+
   renderTimelineSegments() {
     const { division, divisionWidth, nDivisions } = this.props;
 
@@ -45,8 +74,14 @@ export default class Timeline extends React.Component<Props, {}> {
   }
 
   render() {
+    const { width } = this.props;
+
+    const timelineContainerStyle = {
+      width,
+    };
+
     return (
-      <TimelineContainer>
+      <TimelineContainer style={timelineContainerStyle} innerRef={this.timelineContainer}>
         <TimelineSegmentsContainer>{this.renderTimelineSegments()}</TimelineSegmentsContainer>
       </TimelineContainer>
     );

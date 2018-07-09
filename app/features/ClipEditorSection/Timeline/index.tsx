@@ -27,16 +27,15 @@ const inject = injector<Props, InjectedProps>(props => {
 
 @observer
 export class TimelineContainer extends React.Component<Props & InjectedProps, {}> {
-  gridLayout = Container.get(GridLayout);
-
   render() {
     const { division, divisionWidth, nDivisions } = this.props;
     return (
       <Timeline
-        offsetX={0}
+        getOffset={() => 0}
         division={division}
         divisionWidth={divisionWidth}
         nDivisions={nDivisions}
+        width={1000}
       />
     );
   }
