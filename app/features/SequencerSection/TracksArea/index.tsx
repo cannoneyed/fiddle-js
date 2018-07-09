@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { autorun, IReactionDisposer } from 'mobx';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
@@ -17,9 +18,8 @@ import { TracksAreaContainer, TracksContainer } from './styled-components';
 interface Props {}
 interface InjectedProps {
   dimensions: Dimensions;
+  getScrollObservables: () => { x: number; y: number };
   handleScroll: (deltaX: number, deltaY: number) => void;
-  scrolledX: number;
-  scrolledY: number;
   tracks: TrackModel[];
 }
 
@@ -27,36 +27,70 @@ const inject = injector<Props, InjectedProps>(props => {
   const trackStore = Container.get(TrackStore);
   const tracksLayout = Container.get(TracksLayout);
   const sequencerScrollInteraction = Container.get(SequencerScrollInteraction);
+
+  const getScrollObservables = () => ({
+    x: tracksLayout.tracksScrolledX,
+    y: tracksLayout.tracksScrolledY,
+  });
+
   return {
     dimensions: tracksLayout.tracksAreaDimensions,
+    getScrollObservables,
     handleScroll: sequencerScrollInteraction.handleScroll,
     tracks: trackStore.trackList,
-    scrolledX: tracksLayout.tracksScrolledX,
-    scrolledY: tracksLayout.tracksScrolledY,
   };
 });
 
 @observer
 export class TracksArea extends React.Component<Props & InjectedProps, {}> {
+  private disposeScrollObserver: IReactionDisposer;
+  private tracksAreaContainer: React.RefObject<HTMLDivElement>;
+
+  constructor(props: Props & InjectedProps) {
+    super(props);
+    this.tracksAreaContainer = React.createRef<HTMLDivElement>();
+  }
+
+  private getTracksAreaContainer() {
+    return this.tracksAreaContainer.current as HTMLDivElement;
+  }
+
   handleMouseWheel = (event: React.WheelEvent) => {
     const { deltaX, deltaY } = event;
     event.preventDefault();
     this.props.handleScroll(deltaX, deltaY);
   };
 
+  handleScrollChange = () => {
+    const { x, y } = this.props.getScrollObservables();
+    const transform = `translate3d(${-Math.round(x)}px,${-Math.round(y)}px,0px)`;
+    const tracksAreaContainer = this.getTracksAreaContainer();
+    tracksAreaContainer.style.transform = transform;
+  };
+
+  componentDidMount() {
+    this.disposeScrollObserver = autorun(this.handleScrollChange);
+  }
+
+  componentWillUnmount() {
+    this.disposeScrollObserver();
+  }
+
   render() {
-    const { scrolledX, scrolledY, tracks } = this.props;
+    const { tracks } = this.props;
     const { height, width } = this.props.dimensions;
 
-    const transform = `translate3d(${-Math.round(scrolledX)}px,${-Math.round(scrolledY)}px,0px)`;
     const tracksStyle = {
       height,
-      transform,
       width,
     };
 
     return (
-      <TracksAreaContainer style={tracksStyle} onWheel={this.handleMouseWheel}>
+      <TracksAreaContainer
+        innerRef={this.tracksAreaContainer}
+        style={tracksStyle}
+        onWheel={this.handleMouseWheel}
+      >
         <DragToMarker />
         <TracksContainer>
           {tracks.map((track, index) => <Track track={track} index={index} key={index} />)}

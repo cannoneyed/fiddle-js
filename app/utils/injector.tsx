@@ -14,3 +14,7 @@ export function injector<P extends {}, I extends {}>(getNextProps: (props: P) =>
     return observer(Injected);
   };
 }
+
+export function wrap<V>(value: V) {
+  return () => value;
+}

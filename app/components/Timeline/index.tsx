@@ -45,13 +45,8 @@ export default class Timeline extends React.Component<Props, {}> {
   }
 
   render() {
-    const { offsetX } = this.props;
-    const transform = `translate3d(${-Math.round(offsetX)}px,0px,0px)`;
-    const timelineStyle = {
-      transform,
-    };
     return (
-      <TimelineContainer style={timelineStyle}>
+      <TimelineContainer>
         <TimelineSegmentsContainer>{this.renderTimelineSegments()}</TimelineSegmentsContainer>
       </TimelineContainer>
     );
