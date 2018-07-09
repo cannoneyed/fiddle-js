@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { Container } from 'typedi';
-import { IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
-import * as trackScrollHandlers from 'core/interactions/tracks/scroll/handlers';
-import { observeTracksScroll } from 'core/observers/tracks-scroll';
 import { injector } from 'utils/injector';
 
 import Toolbar from 'features/Toolbar';
@@ -54,19 +51,6 @@ const inject = injector<Props, InjectedProps>(props => {
 
 @observer
 export class SequencerSection extends React.Component<Props & InjectedProps, {}> {
-  disposeObserver: IReactionDisposer;
-  disposeHandlers: trackScrollHandlers.Unregister;
-
-  componentDidMount() {
-    this.disposeHandlers = trackScrollHandlers.register();
-    this.disposeObserver = observeTracksScroll();
-  }
-
-  componentWillUnmount() {
-    this.disposeHandlers();
-    this.disposeObserver();
-  }
-
   render() {
     const minimapWrapperStyle = {
       height: this.props.minimapHeight,

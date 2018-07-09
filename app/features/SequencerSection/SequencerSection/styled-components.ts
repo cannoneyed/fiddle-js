@@ -17,6 +17,7 @@ export const TimelineWrapper = styled.div`
 export const TracksWrapper = styled.div`
   flex-grow: 1;
   position: relative;
+  overflow: hidden;
 `;
 
 export const TracksAreaWrapper = styled.div`

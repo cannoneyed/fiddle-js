@@ -8,6 +8,8 @@ import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 import { TimelineState } from 'core/state/app/sequencer/timeline';
 import { TrackStore } from 'core/state/stores/tracks';
 
+import { Dimensions } from 'core/interfaces';
+
 import { GridLayout } from './grid';
 import { ZoomLayout } from './zoom';
 
@@ -26,7 +28,7 @@ export class TracksLayout {
   @observable tracksScrollPercentX = 0;
   @observable tracksScrollPercentY = 0;
 
-  @action.bound
+  @action
   setTracksScroll = (tracksScroll: { x?: number; y?: number }) => {
     const { x, y } = tracksScroll;
     if (x !== undefined) {
@@ -51,6 +53,14 @@ export class TracksLayout {
   @computed
   get tracksHeight() {
     return this.trackHeight * this.trackStore.trackList.length;
+  }
+
+  @computed
+  get tracksAreaDimensions(): Dimensions {
+    return {
+      height: this.tracksHeight,
+      width: this.trackWidth,
+    };
   }
 
   @computed

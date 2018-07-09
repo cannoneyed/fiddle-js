@@ -16,6 +16,7 @@ export interface Props {
   division: Fraction;
   divisionWidth: number;
   nDivisions: number;
+  offsetX: number;
 }
 
 @observer
@@ -44,8 +45,13 @@ export default class Timeline extends React.Component<Props, {}> {
   }
 
   render() {
+    const { offsetX } = this.props;
+    const transform = `translate3d(${-Math.round(offsetX)}px,0px,0px)`;
+    const timelineStyle = {
+      transform,
+    };
     return (
-      <TimelineContainer id="timeline">
+      <TimelineContainer style={timelineStyle}>
         <TimelineSegmentsContainer>{this.renderTimelineSegments()}</TimelineSegmentsContainer>
       </TimelineContainer>
     );

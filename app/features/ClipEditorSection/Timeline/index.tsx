@@ -31,7 +31,14 @@ export class TimelineContainer extends React.Component<Props & InjectedProps, {}
 
   render() {
     const { division, divisionWidth, nDivisions } = this.props;
-    return <Timeline division={division} divisionWidth={divisionWidth} nDivisions={nDivisions} />;
+    return (
+      <Timeline
+        offsetX={0}
+        division={division}
+        divisionWidth={divisionWidth}
+        nDivisions={nDivisions}
+      />
+    );
   }
 }
 
