@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import { Dimensions } from 'core/interfaces';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { Envelope as EnvelopeModel } from 'core/models/envelope';
+import { Connection as ConnectionModel } from 'core/models/envelope/connection';
 import { Point as PointModel } from 'core/models/envelope/point';
 
 import Point from 'features/EnvelopeEditor/Point';
@@ -24,6 +25,14 @@ export class Envelope extends React.Component<Props, {}> {
     return new ScreenVector(x, y);
   }
 
+  handlePointMouseDown = (point: PointModel) => (event: React.MouseEvent) => {
+    console.log('mouse down', point);
+  };
+
+  handleConnectionMouseDown = (connection: ConnectionModel) => (event: React.MouseEvent) => {
+    console.log('mouse down', connection);
+  };
+
   render() {
     const { connections, points } = this.props.envelope;
 
@@ -31,7 +40,13 @@ export class Envelope extends React.Component<Props, {}> {
       <Svg>
         {points.map(point => {
           const position = this.computePointCoordinates(point);
-          return <Point key={point.id} position={position} />;
+          return (
+            <Point
+              key={point.id}
+              position={position}
+              onMouseDown={this.handlePointMouseDown(point)}
+            />
+          );
         })}
         {connections.map(connection => {
           const startPosition = this.computePointCoordinates(connection.start);
@@ -41,6 +56,7 @@ export class Envelope extends React.Component<Props, {}> {
               key={connection.id}
               startPosition={startPosition}
               endPosition={endPosition}
+              onMouseDown={this.handleConnectionMouseDown(connection)}
             />
           );
         })}

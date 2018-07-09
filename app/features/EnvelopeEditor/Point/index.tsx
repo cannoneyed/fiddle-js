@@ -6,6 +6,7 @@ import { ScreenVector } from 'core/primitives/screen-vector';
 
 interface Props {
   position: ScreenVector;
+  onMouseDown: (event: React.MouseEvent) => void;
 }
 
 @observer
@@ -18,7 +19,7 @@ export class Point extends React.Component<Props, {}> {
         cx={x}
         cy={y}
         fill={theme.colors.white.toRgbString()}
-        onMouseUp={console.log.bind(null, '🔥 up')}
+        onMouseDown={this.props.onMouseDown}
       />
     );
   }

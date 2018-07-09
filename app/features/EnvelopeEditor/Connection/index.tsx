@@ -7,6 +7,7 @@ import { ScreenVector } from 'core/primitives/screen-vector';
 interface Props {
   startPosition: ScreenVector;
   endPosition: ScreenVector;
+  onMouseDown: (event: React.MouseEvent) => void;
 }
 
 @observer
@@ -27,8 +28,7 @@ export class Connection extends React.Component<Props, {}> {
         y1={startPosition.y}
         y2={endPosition.y}
         style={style}
-        onMouseDown={console.log.bind(null, '🔥 line down')}
-        onMouseUp={console.log.bind(null, '🔥 line up')}
+        onMouseDown={this.props.onMouseDown}
       />
     );
   }
