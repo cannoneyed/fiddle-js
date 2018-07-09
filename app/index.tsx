@@ -8,6 +8,7 @@ import { configureDevtool } from 'mobx-react-devtools';
 
 import { registerServices } from 'core/register-services';
 import { logStores } from 'utils/log-stores';
+import { initializeStats } from 'utils/stats';
 
 import { LoadService } from 'core/services/load';
 import { UndoService } from 'core/services/undo';
@@ -22,6 +23,7 @@ registerServices();
 // Set up an ad-hoc logging function for inspecting the state of the
 // central stores
 logStores();
+initializeStats();
 
 // Configure mobx logging
 enableLogging({
