@@ -31,7 +31,7 @@ const inject = injector<Props, InjectedProps>(props => {
     divisionWidth,
     getOffset,
     nDivisions,
-    width: tracksLayout.tracksAreaDimensions.width,
+    width: tracksLayout.tracksDimensions.width,
   };
 });
 

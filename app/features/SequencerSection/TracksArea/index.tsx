@@ -7,6 +7,7 @@ import { injector } from 'utils/injector';
 import Track from 'features/SequencerSection/Track';
 
 import { SequencerScrollInteraction } from 'core/interactions/sequencer/scroll';
+import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 import { Track as TrackModel } from 'core/models/track';
 import { TrackStore } from 'core/state/stores/tracks';
@@ -24,17 +25,26 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const trackStore = Container.get(TrackStore);
-  const tracksLayout = Container.get(TracksLayout);
   const sequencerScrollInteraction = Container.get(SequencerScrollInteraction);
+  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
+  const tracksLayout = Container.get(TracksLayout);
+  const trackStore = Container.get(TrackStore);
 
   const getScroll = () => ({
     x: tracksLayout.tracksScrolledX,
     y: tracksLayout.tracksScrolledY,
   });
 
+  const { tracksDimensions } = tracksLayout;
+  const { tracksAreaDimensions } = sequencerSectionLayout;
+
+  const dimensions = {
+    height: Math.max(tracksDimensions.height, tracksAreaDimensions.height),
+    width: tracksLayout.tracksDimensions.width,
+  };
+
   return {
-    dimensions: tracksLayout.tracksAreaDimensions,
+    dimensions,
     getScroll,
     handleScroll: sequencerScrollInteraction.handleScroll,
     tracks: trackStore.trackList,

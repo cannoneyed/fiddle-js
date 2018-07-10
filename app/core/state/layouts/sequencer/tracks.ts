@@ -56,7 +56,7 @@ export class TracksLayout {
   }
 
   @computed
-  get tracksAreaDimensions(): Dimensions {
+  get tracksDimensions(): Dimensions {
     return {
       height: this.tracksHeight,
       width: this.trackWidth,

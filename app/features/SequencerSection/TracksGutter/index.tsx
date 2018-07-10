@@ -6,30 +6,43 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { injector } from 'utils/injector';
 
+import { Track as TrackModel } from 'core/models/track';
+import { Dimensions } from 'core/interfaces';
+
 import TrackHeader from 'features/SequencerSection/TrackHeader';
 
-import { Track as TrackModel } from 'core/models/track';
+import { SequencerScrollInteraction } from 'core/interactions/sequencer/scroll';
 import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
-import { TrackStore } from 'core/state/stores/tracks';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
+import { TrackStore } from 'core/state/stores/tracks';
 
 export interface Props {}
 export interface InjectedProps {
+  dimensions: Dimensions;
   getOffset: () => number;
-  gutterWidth: number;
-  height: number;
+  handleScroll: (deltaX: number, deltaY: number) => void;
   tracks: TrackModel[];
 }
 
 const inject = injector<Props, InjectedProps>(props => {
   const sequencerSectionLayout = Container.get(SequencerSectionLayout);
+  const sequencerScrollInteraction = Container.get(SequencerScrollInteraction);
   const trackStore = Container.get(TrackStore);
   const tracksLayout = Container.get(TracksLayout);
   const getOffset = () => tracksLayout.tracksScrolledY;
+
+  const { tracksDimensions } = tracksLayout;
+  const { tracksAreaDimensions } = sequencerSectionLayout;
+  const height = Math.max(tracksDimensions.height, tracksAreaDimensions.height);
+  const dimensions = {
+    height,
+    width: sequencerSectionLayout.gutterWidth,
+  };
+
   return {
+    dimensions,
     getOffset,
-    gutterWidth: sequencerSectionLayout.gutterWidth,
-    height: tracksLayout.tracksHeight,
+    handleScroll: sequencerScrollInteraction.handleScroll,
     tracks: trackStore.trackList,
   };
 });
@@ -47,6 +60,12 @@ export class TracksGutter extends React.Component<Props & InjectedProps, {}> {
     this.disposeScrollObserver();
   }
 
+  handleMouseWheel = (event: React.WheelEvent) => {
+    const { deltaY } = event;
+    event.preventDefault();
+    this.props.handleScroll(0, deltaY);
+  };
+
   handleScrollChange = () => {
     const y = this.props.getOffset();
     const transform = `translate3d(0px,${-Math.round(y)}px,0px)`;
@@ -55,17 +74,19 @@ export class TracksGutter extends React.Component<Props & InjectedProps, {}> {
   };
 
   render() {
-    const { gutterWidth, height, tracks } = this.props;
+    const { tracks } = this.props;
+    const { height, width } = this.props.dimensions;
 
     const tracksGutterStyle = {
       height,
+      width,
     };
 
     return (
       <TracksGutterContainer
         style={tracksGutterStyle}
         innerRef={this.tracksGutterContainerRef}
-        width={gutterWidth}
+        onWheel={this.handleMouseWheel}
       >
         {tracks.map((track, index) => <TrackHeader track={track} index={index} key={index} />)}
       </TracksGutterContainer>
@@ -75,13 +96,9 @@ export class TracksGutter extends React.Component<Props & InjectedProps, {}> {
 
 export default inject(TracksGutter);
 
-interface TracksGutterProps {
-  width: number;
-}
-const TracksGutterContainer = styled<TracksGutterProps, 'div'>('div')`
+const TracksGutterContainer = styled.div`
   position: relative;
   padding: 0;
-  width: ${props => props.width}px;
 
   box-sizing: border-box;
   background-color: ${theme.colors.black.toRgbString()};
