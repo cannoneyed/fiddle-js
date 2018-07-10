@@ -31,11 +31,8 @@ const inject = injector<Props, InjectedProps>(props => {
   const tracksLayout = Container.get(TracksLayout);
   const getOffset = () => tracksLayout.tracksScrolledY;
 
-  const { tracksDimensions } = tracksLayout;
-  const { tracksAreaDimensions } = sequencerSectionLayout;
-  const height = Math.max(tracksDimensions.height, tracksAreaDimensions.height);
   const dimensions = {
-    height,
+    height: tracksLayout.tracksViewportDimensions.height,
     width: sequencerSectionLayout.gutterWidth,
   };
 

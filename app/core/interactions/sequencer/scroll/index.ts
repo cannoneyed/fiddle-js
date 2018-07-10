@@ -8,8 +8,8 @@ export class SequencerScrollInteraction {
 
   handleScroll = (deltaX: number, deltaY: number) => {
     const {
-      tracksScrollPercentX: percentX,
-      tracksScrollPercentY: percentY,
+      scrollPercentX: percentX,
+      scrollPercentY: percentY,
       trackWidth: width,
       tracksHeight: height,
       tracksScrollableWidth: scrollableW,

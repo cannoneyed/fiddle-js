@@ -8,7 +8,6 @@ import { injector } from 'utils/injector';
 import { SequencerPositionService } from 'core/services/sequencer/position';
 
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
-import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 import { TimelineLayout } from 'core/state/layouts/sequencer/timeline';
 
 interface Props {}
@@ -20,21 +19,14 @@ interface InjectedProps {
 
 const inject = injector<Props, InjectedProps>(props => {
   const tracksLayout = Container.get(TracksLayout);
-  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
   const timelineLayout = Container.get(TimelineLayout);
   const sequencerPositionService = Container.get(SequencerPositionService);
   const { dropTargetPosition } = timelineLayout;
 
-  // The maximum of the height of all tracks vs the view area.
-  const height = Math.max(
-    sequencerSectionLayout.tracksAreaDimensions.height,
-    tracksLayout.tracksHeight
-  );
-
   return {
     visible: !!dropTargetPosition,
     offsetX: dropTargetPosition ? sequencerPositionService.getOffsetX(dropTargetPosition) : 0,
-    height,
+    height: tracksLayout.tracksViewportDimensions.height,
   };
 });
 

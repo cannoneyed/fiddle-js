@@ -24,7 +24,7 @@ const inject = injector<Props, InjectedProps>(props => {
   const tracksLayout = Container.get(TracksLayout);
 
   return {
-    tracksScrollPercentX: tracksLayout.tracksScrollPercentX,
+    tracksScrollPercentX: tracksLayout.scrollPercentX,
     tracksViewPercentX: tracksLayout.tracksViewPercentX,
     setTracksScroll: (x: number) => tracksLayout.setTracksScroll({ x }),
   };

@@ -28,25 +28,24 @@ export class TracksLayout {
     // than all contained tracks, and reset scroll to 0 so the tracks reset to the top of the viewport.
     autorun(() => {
       if (this.tracksViewPercentY >= 1) {
-        this.resetScrollOnResize(this.tracksScrollPercentX, 0);
+        this.resetScrollOnResize(this.scrollPercentX, 0);
       }
       if (this.tracksViewPercentX >= 1) {
-        this.resetScrollOnResize(0, this.tracksScrollPercentY);
+        this.resetScrollOnResize(0, this.scrollPercentY);
       }
     });
   }
 
-  @observable tracksScrollPercentX = 0;
-  @observable tracksScrollPercentY = 0;
+  @observable scrollPercentX = 0;
+  @observable scrollPercentY = 0;
 
   @action
   setTracksScroll = (tracksScroll: { x?: number; y?: number }) => {
-    const { x = this.tracksScrollPercentX, y = this.tracksScrollPercentY } = tracksScroll;
-    this.tracksScrollPercentX = clamp(x, 0, 1);
-    this.tracksScrollPercentY = clamp(y, 0, 1);
+    const { x = this.scrollPercentX, y = this.scrollPercentY } = tracksScroll;
+    this.scrollPercentX = clamp(x, 0, 1);
+    this.scrollPercentY = clamp(y, 0, 1);
   };
 
-  // Computed Fields
   @computed
   get trackHeight() {
     return this.zoomLayout.vertical.level * defaults.trackHeight;
@@ -94,17 +93,25 @@ export class TracksLayout {
 
   @computed
   get tracksScrolledX() {
-    return this.tracksScrollableWidth * this.tracksScrollPercentX;
+    return this.tracksScrollableWidth * this.scrollPercentX;
   }
 
   @computed
   get tracksScrolledY() {
-    return this.tracksScrollableHeight * this.tracksScrollPercentY;
+    return this.tracksScrollableHeight * this.scrollPercentY;
+  }
+
+  @computed
+  get tracksViewportDimensions(): Dimensions {
+    return {
+      height: Math.max(this.sectionLayout.tracksAreaDimensions.height, this.tracksHeight),
+      width: Math.max(this.sectionLayout.tracksAreaDimensions.width, this.trackWidth),
+    };
   }
 
   @action
   private resetScrollOnResize(x: number, y: number) {
-    this.tracksScrollPercentX = x;
-    this.tracksScrollPercentY = y;
+    this.scrollPercentX = x;
+    this.scrollPercentY = y;
   }
 }

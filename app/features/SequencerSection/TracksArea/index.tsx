@@ -3,12 +3,10 @@ import { autorun, IReactionDisposer } from 'mobx';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
-// import { tap } from 'utils/tap';
 
 import Track from 'features/SequencerSection/Track';
 
 import { SequencerScrollInteraction } from 'core/interactions/sequencer/scroll';
-import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 import { Track as TrackModel } from 'core/models/track';
 import { TrackStore } from 'core/state/stores/tracks';
@@ -27,7 +25,6 @@ interface InjectedProps {
 
 const inject = injector<Props, InjectedProps>(props => {
   const sequencerScrollInteraction = Container.get(SequencerScrollInteraction);
-  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
   const tracksLayout = Container.get(TracksLayout);
   const trackStore = Container.get(TrackStore);
 
@@ -36,20 +33,8 @@ const inject = injector<Props, InjectedProps>(props => {
     y: tracksLayout.tracksScrolledY,
   });
 
-  const { tracksDimensions } = tracksLayout;
-  const { tracksAreaDimensions } = sequencerSectionLayout;
-
-  const dimensions = {
-    height: Math.max(tracksDimensions.height, tracksAreaDimensions.height),
-    width: tracksLayout.tracksDimensions.width,
-  };
-
-  // tap(() => {
-  //   console.log(tracksLayout.tracksScrollPercentY, tracksLayout.tracksViewPercentY);
-  // });
-
   return {
-    dimensions,
+    dimensions: tracksLayout.tracksViewportDimensions,
     getScroll,
     handleScroll: sequencerScrollInteraction.handleScroll,
     tracks: trackStore.trackList,
