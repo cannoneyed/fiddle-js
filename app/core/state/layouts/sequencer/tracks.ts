@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { action, computed, observable } from 'mobx';
+import { action, autorun, computed, observable } from 'mobx';
 import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
 import { filterMethods } from 'utils/log-filter';
@@ -15,7 +15,7 @@ import { ZoomLayout } from './zoom';
 
 @Service()
 export class TracksLayout {
-  static mobxLoggerConfig = filterMethods('setTracksScroll');
+  static mobxLoggerConfig = filterMethods('resetScrollOnResize', 'setTracksScroll');
 
   constructor(
     private gridLayout: GridLayout,
@@ -23,20 +23,27 @@ export class TracksLayout {
     private trackStore: TrackStore,
     private timelineState: TimelineState,
     private zoomLayout: ZoomLayout
-  ) {}
+  ) {
+    // We need to observe when the view percent has changed to 1, meaning the viewport has grown to be larger
+    // than all contained tracks, and reset scroll to 0 so the tracks reset to the top of the viewport.
+    autorun(() => {
+      if (this.tracksViewPercentY >= 1) {
+        this.resetScrollOnResize(this.tracksScrollPercentX, 0);
+      }
+      if (this.tracksViewPercentX >= 1) {
+        this.resetScrollOnResize(0, this.tracksScrollPercentY);
+      }
+    });
+  }
 
   @observable tracksScrollPercentX = 0;
   @observable tracksScrollPercentY = 0;
 
   @action
   setTracksScroll = (tracksScroll: { x?: number; y?: number }) => {
-    const { x, y } = tracksScroll;
-    if (x !== undefined) {
-      this.tracksScrollPercentX = clamp(x, 0, 1);
-    }
-    if (y !== undefined) {
-      this.tracksScrollPercentY = clamp(y, 0, 1);
-    }
+    const { x = this.tracksScrollPercentX, y = this.tracksScrollPercentY } = tracksScroll;
+    this.tracksScrollPercentX = clamp(x, 0, 1);
+    this.tracksScrollPercentY = clamp(y, 0, 1);
   };
 
   // Computed Fields
@@ -65,12 +72,12 @@ export class TracksLayout {
 
   @computed
   get tracksScrollableWidth() {
-    return this.trackWidth - this.sectionLayout.tracksWidth;
+    return Math.max(this.trackWidth - this.sectionLayout.tracksWidth, 0);
   }
 
   @computed
   get tracksScrollableHeight() {
-    return this.tracksHeight - this.sectionLayout.tracksAreaRectangle.height;
+    return Math.max(this.tracksHeight - this.sectionLayout.tracksAreaDimensions.height, 0);
   }
 
   @computed
@@ -81,7 +88,7 @@ export class TracksLayout {
 
   @computed
   get tracksViewPercentY() {
-    const { height } = this.sectionLayout.tracksAreaRectangle;
+    const { height } = this.sectionLayout.tracksAreaDimensions;
     return clamp(height / this.tracksHeight, 0, 1);
   }
 
@@ -93,5 +100,11 @@ export class TracksLayout {
   @computed
   get tracksScrolledY() {
     return this.tracksScrollableHeight * this.tracksScrollPercentY;
+  }
+
+  @action
+  private resetScrollOnResize(x: number, y: number) {
+    this.tracksScrollPercentX = x;
+    this.tracksScrollPercentY = y;
   }
 }

@@ -44,11 +44,6 @@ export class SequencerSectionLayout implements SectionLayout {
   }
 
   @computed
-  get tracksAreaRectangle(): Rectangle {
-    return { ...this.tracksAreaDimensions, ...this.tracksAreaPosition };
-  }
-
-  @computed
   get gridDimensions(): Dimensions {
     return {
       height: this.tracksAreaDimensions.height,
@@ -62,11 +57,6 @@ export class SequencerSectionLayout implements SectionLayout {
       top: this.tracksAreaPosition.top,
       left: this.gutterWidth,
     };
-  }
-
-  @computed
-  get gridRectangle(): Rectangle {
-    return { ...this.gridDimensions, ...this.gridPosition };
   }
 
   @computed
@@ -92,7 +82,7 @@ export class SequencerSectionLayout implements SectionLayout {
 
   @computed
   get tracksWidth() {
-    return this.tracksAreaRectangle.width - this.gutterWidth;
+    return this.tracksAreaDimensions.width - this.gutterWidth;
   }
 }
 

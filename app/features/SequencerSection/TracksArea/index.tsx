@@ -3,6 +3,7 @@ import { autorun, IReactionDisposer } from 'mobx';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
+// import { tap } from 'utils/tap';
 
 import Track from 'features/SequencerSection/Track';
 
@@ -42,6 +43,10 @@ const inject = injector<Props, InjectedProps>(props => {
     height: Math.max(tracksDimensions.height, tracksAreaDimensions.height),
     width: tracksLayout.tracksDimensions.width,
   };
+
+  // tap(() => {
+  //   console.log(tracksLayout.tracksScrollPercentY, tracksLayout.tracksViewPercentY);
+  // });
 
   return {
     dimensions,

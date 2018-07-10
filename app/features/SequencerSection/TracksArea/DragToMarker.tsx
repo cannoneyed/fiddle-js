@@ -27,7 +27,7 @@ const inject = injector<Props, InjectedProps>(props => {
 
   // The maximum of the height of all tracks vs the view area.
   const height = Math.max(
-    sequencerSectionLayout.tracksAreaRectangle.height,
+    sequencerSectionLayout.tracksAreaDimensions.height,
     tracksLayout.tracksHeight
   );
 
