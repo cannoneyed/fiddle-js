@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Container } from 'typedi';
+import { autorun, IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
@@ -8,31 +9,73 @@ import { injector } from 'utils/injector';
 import TrackHeader from 'features/SequencerSection/TrackHeader';
 
 import { Track as TrackModel } from 'core/models/track';
-import { TrackStore } from 'core/state/stores/tracks';
 import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
+import { TrackStore } from 'core/state/stores/tracks';
+import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 
 export interface Props {}
 export interface InjectedProps {
+  getOffset: () => number;
   gutterWidth: number;
+  height: number;
   tracks: TrackModel[];
 }
 
 const inject = injector<Props, InjectedProps>(props => {
   const sequencerSectionLayout = Container.get(SequencerSectionLayout);
   const trackStore = Container.get(TrackStore);
+  const tracksLayout = Container.get(TracksLayout);
+  const getOffset = () => tracksLayout.tracksScrolledY;
   return {
+    getOffset,
     gutterWidth: sequencerSectionLayout.gutterWidth,
+    height: tracksLayout.tracksHeight,
     tracks: trackStore.trackList,
   };
 });
 
 @observer
 export class TracksGutter extends React.Component<Props & InjectedProps, {}> {
+  private disposeScrollObserver: IReactionDisposer;
+  private tracksGutterContainerRef: React.RefObject<HTMLDivElement>;
+
+  constructor(props: Props & InjectedProps) {
+    super(props);
+    this.tracksGutterContainerRef = React.createRef<HTMLDivElement>();
+  }
+
+  private getTracksAreaContainer() {
+    return this.tracksGutterContainerRef.current as HTMLDivElement;
+  }
+
+  handleScrollChange = () => {
+    const y = this.props.getOffset();
+    const transform = `translate3d(0px,${-Math.round(y)}px,0px)`;
+    const tracksGutterContainer = this.getTracksAreaContainer();
+    tracksGutterContainer.style.transform = transform;
+  };
+
+  componentDidMount() {
+    this.disposeScrollObserver = autorun(this.handleScrollChange);
+  }
+
+  componentWillUnmount() {
+    this.disposeScrollObserver();
+  }
+
   render() {
-    const { gutterWidth, tracks } = this.props;
+    const { gutterWidth, height, tracks } = this.props;
+
+    const tracksGutterStyle = {
+      height,
+    };
 
     return (
-      <TracksGutterContainer width={gutterWidth} id="tracksGutter">
+      <TracksGutterContainer
+        style={tracksGutterStyle}
+        innerRef={this.tracksGutterContainerRef}
+        width={gutterWidth}
+      >
         {tracks.map((track, index) => <TrackHeader track={track} index={index} key={index} />)}
       </TracksGutterContainer>
     );
@@ -52,7 +95,6 @@ const TracksGutterContainer = styled<TracksGutterProps, 'div'>('div')`
   box-sizing: border-box;
   background-color: ${theme.colors.black.toRgbString()};
   border-right: 1px solid ${theme.colors.mediumGray.toRgbString()};
-  overflow: hidden;
   flex-grow: 0;
   z-index: ${theme.tracksZIndex};
 

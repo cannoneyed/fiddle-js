@@ -18,7 +18,7 @@ import { TracksAreaContainer, TracksContainer } from './styled-components';
 interface Props {}
 interface InjectedProps {
   dimensions: Dimensions;
-  getScrollObservables: () => { x: number; y: number };
+  getScroll: () => { x: number; y: number };
   handleScroll: (deltaX: number, deltaY: number) => void;
   tracks: TrackModel[];
 }
@@ -28,14 +28,14 @@ const inject = injector<Props, InjectedProps>(props => {
   const tracksLayout = Container.get(TracksLayout);
   const sequencerScrollInteraction = Container.get(SequencerScrollInteraction);
 
-  const getScrollObservables = () => ({
+  const getScroll = () => ({
     x: tracksLayout.tracksScrolledX,
     y: tracksLayout.tracksScrolledY,
   });
 
   return {
     dimensions: tracksLayout.tracksAreaDimensions,
-    getScrollObservables,
+    getScroll,
     handleScroll: sequencerScrollInteraction.handleScroll,
     tracks: trackStore.trackList,
   };
@@ -62,7 +62,7 @@ export class TracksArea extends React.Component<Props & InjectedProps, {}> {
   };
 
   handleScrollChange = () => {
-    const { x, y } = this.props.getScrollObservables();
+    const { x, y } = this.props.getScroll();
     const transform = `translate3d(${-Math.round(x)}px,${-Math.round(y)}px,0px)`;
     const tracksAreaContainer = this.getTracksAreaContainer();
     tracksAreaContainer.style.transform = transform;
@@ -84,6 +84,8 @@ export class TracksArea extends React.Component<Props & InjectedProps, {}> {
       height,
       width,
     };
+
+    console.log('🥑');
 
     return (
       <TracksAreaContainer

@@ -24,6 +24,7 @@ export const TracksWrapper = styled.div`
 export const TracksAreaWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  overflow: hidden;
 `;
 
 export const ToolbarWrapper = styled.div`
