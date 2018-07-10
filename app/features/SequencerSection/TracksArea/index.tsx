@@ -44,15 +44,14 @@ const inject = injector<Props, InjectedProps>(props => {
 @observer
 export class TracksArea extends React.Component<Props & InjectedProps, {}> {
   private disposeScrollObserver: IReactionDisposer;
-  private tracksAreaContainer: React.RefObject<HTMLDivElement>;
+  private tracksAreaContainer = React.createRef<HTMLDivElement>();
 
-  constructor(props: Props & InjectedProps) {
-    super(props);
-    this.tracksAreaContainer = React.createRef<HTMLDivElement>();
+  componentDidMount() {
+    this.disposeScrollObserver = autorun(this.handleScrollChange);
   }
 
-  private getTracksAreaContainer() {
-    return this.tracksAreaContainer.current as HTMLDivElement;
+  componentWillUnmount() {
+    this.disposeScrollObserver();
   }
 
   handleMouseWheel = (event: React.WheelEvent) => {
@@ -64,17 +63,9 @@ export class TracksArea extends React.Component<Props & InjectedProps, {}> {
   handleScrollChange = () => {
     const { x, y } = this.props.getScroll();
     const transform = `translate3d(${-Math.round(x)}px,${-Math.round(y)}px,0px)`;
-    const tracksAreaContainer = this.getTracksAreaContainer();
+    const tracksAreaContainer = this.tracksAreaContainer.current as HTMLDivElement;
     tracksAreaContainer.style.transform = transform;
   };
-
-  componentDidMount() {
-    this.disposeScrollObserver = autorun(this.handleScrollChange);
-  }
-
-  componentWillUnmount() {
-    this.disposeScrollObserver();
-  }
 
   render() {
     const { tracks } = this.props;
@@ -84,8 +75,6 @@ export class TracksArea extends React.Component<Props & InjectedProps, {}> {
       height,
       width,
     };
-
-    console.log('🥑');
 
     return (
       <TracksAreaContainer

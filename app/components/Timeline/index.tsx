@@ -24,16 +24,7 @@ export interface Props {
 @observer
 export default class Timeline extends React.Component<Props, {}> {
   private disposeScrollObserver: IReactionDisposer;
-  private timelineContainer: React.RefObject<HTMLDivElement>;
-
-  constructor(props: Props) {
-    super(props);
-    this.timelineContainer = React.createRef<HTMLDivElement>();
-  }
-
-  private getTimelineContainer() {
-    return this.timelineContainer.current as HTMLDivElement;
-  }
+  private timelineContainer = React.createRef<HTMLDivElement>();
 
   componentDidMount() {
     this.disposeScrollObserver = autorun(this.observeOffsetChange);
@@ -46,7 +37,7 @@ export default class Timeline extends React.Component<Props, {}> {
   observeOffsetChange = () => {
     const x = this.props.getOffset();
     const transform = `translate3d(${-Math.round(x)}px,0px,0px)`;
-    const timelineContainer = this.getTimelineContainer();
+    const timelineContainer = this.timelineContainer.current as HTMLDivElement;
     timelineContainer.style.transform = transform;
   };
 
