@@ -12,7 +12,7 @@ export class LoadService {
 
   @action
   loadSession() {
-    const tracks = range(3).map(() => this.trackStore.createTrack());
+    const tracks = range(8).map(() => this.trackStore.createTrack());
     const clip = this.clipActions.createClip({
       trackId: tracks[0].id,
       length: new TimelineVector(2),
