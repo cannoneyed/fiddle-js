@@ -31,7 +31,8 @@ export default class SelectSnapToGrid extends React.Component<Props, {}> {
         <Select
           options={options}
           onSelect={key => {
-            snapToGrid.setSnapToGridValue(key);
+            const value = snapToGridValues[key];
+            snapToGrid.setSnapToGridValue(value);
           }}
         />
       </SelectContainer>

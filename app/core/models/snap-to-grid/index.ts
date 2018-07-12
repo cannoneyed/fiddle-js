@@ -1,7 +1,7 @@
 import { action, computed, observable } from 'mobx';
 
 export class SnapToGridValue {
-  constructor(public name: string, public divisions?: number) {}
+  constructor(public name: string, public divisions: number) {}
 }
 
 export class SnapToGridValues {
@@ -11,8 +11,6 @@ export class SnapToGridValues {
   readonly snap_1_8 = new SnapToGridValue('1/8', 8);
   readonly snap_1_16 = new SnapToGridValue('1/16', 16);
   readonly snap_1_32 = new SnapToGridValue('1/32', 32);
-  readonly snap_auto = new SnapToGridValue('auto');
-  readonly snap_free = new SnapToGridValue('free');
   readonly [key: string]: SnapToGridValue;
 }
 
@@ -26,37 +24,16 @@ export class SnapToGrid {
   }
 
   @action
-  setSnapToGridValue(valueOrKey: SnapToGridValue | string | number) {
-    if (valueOrKey) {
-      if (valueOrKey instanceof SnapToGridValue) {
-        this.value = valueOrKey;
-      } else {
-        this.value = snapToGridValues[valueOrKey];
-      }
-    }
+  setSnapToGridValue(value: SnapToGridValue) {
+    this.value = value;
   }
 
   @computed
   get divisions() {
-    const divisions = this.value.divisions;
-    return divisions === undefined ? 0 : divisions;
+    return this.value.divisions;
   }
 
   getDivisionWidth(barWidth: number) {
-    if (this.value.divisions) {
-      return barWidth / this.value.divisions;
-    } else {
-      return barWidth;
-    }
-  }
-
-  @computed
-  get free() {
-    return this.value === snapToGridValues.snap_free;
-  }
-
-  @computed
-  get auto() {
-    return this.value === snapToGridValues.snap_auto;
+    return barWidth / this.value.divisions;
   }
 }
