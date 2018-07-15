@@ -28,7 +28,6 @@ export class Fraction {
   add(numerator: number, denominator: number): Fraction;
   add(a: any, b?: any): Fraction {
     const other = typeof a === 'number' ? new Fraction(a, b) : a;
-
     const nextNumerator = this.numerator * other.denominator + other.numerator * this.denominator;
     const nextDenominator = this.denominator * other.denominator;
     return new Fraction(nextNumerator, nextDenominator).reduce();
@@ -38,25 +37,32 @@ export class Fraction {
   subtract(numerator: number, denominator: number): Fraction;
   subtract(a: any, b?: any): Fraction {
     const other = typeof a === 'number' ? new Fraction(a, b) : a;
-
     const nextNumerator = this.numerator * other.denominator - other.numerator * this.denominator;
     const nextDenominator = this.denominator * other.denominator;
     return new Fraction(nextNumerator, nextDenominator).reduce();
   }
 
   multiply(other: Fraction): Fraction;
+  multiply(n: number): Fraction;
   multiply(numerator: number, denominator: number): Fraction;
-  multiply(a: any, b?: any): Fraction {
-    const other = typeof a === 'number' ? new Fraction(a, b) : a;
-    const { numerator, denominator } = other;
+  multiply(a: number | Fraction, b?: number): Fraction {
+    if (a instanceof Fraction) {
+      return new Fraction(this.numerator * a.numerator, this.denominator * a.denominator);
+    }
+    const numerator = a;
+    const denominator = b === undefined ? 1 : b;
     return new Fraction(this.numerator * numerator, this.denominator * denominator);
   }
 
   divide(other: Fraction): Fraction;
+  divide(n: number): Fraction;
   divide(numerator: number, denominator: number): Fraction;
-  divide(a: any, b?: any): Fraction {
-    const other = typeof a === 'number' ? new Fraction(a, b) : a;
-    const { numerator, denominator } = other;
+  divide(a: number | Fraction, b?: number): Fraction {
+    if (a instanceof Fraction) {
+      return new Fraction(this.numerator * a.denominator, this.denominator * a.numerator);
+    }
+    const numerator = a;
+    const denominator = b === undefined ? 1 : b;
     return new Fraction(this.numerator * denominator, this.denominator * numerator);
   }
 

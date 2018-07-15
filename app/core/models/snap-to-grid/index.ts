@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed } from 'mobx';
 
 import { Fraction } from 'core/primitives/fraction';
 
@@ -19,7 +19,7 @@ export class SnapToGridValues {
 export const snapToGridValues = new SnapToGridValues();
 
 export class SnapToGrid {
-  @observable value: SnapToGridValue;
+  value: SnapToGridValue;
 
   constructor(value: SnapToGridValue = snapToGridValues.snap_1) {
     this.value = value;

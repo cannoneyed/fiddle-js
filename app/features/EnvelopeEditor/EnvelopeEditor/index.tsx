@@ -31,7 +31,12 @@ export class EnvelopeEditor extends React.Component<Props, {}> {
     return (
       <EnvelopeEditorWrapper style={editorWrapperStyle}>
         <EnvelopeWrapper>
-          <Envelope envelope={envelope} dimensions={dimensions} snapToGrid={snapToGrid} />
+          <Envelope
+            envelope={envelope}
+            dimensions={dimensions}
+            snapToGrid={snapToGrid}
+            gridSegmentWidth={gridSegmentWidth}
+          />
         </EnvelopeWrapper>
         <GridWrapper>
           <VerticalGrid dimensions={dimensions} gridSegmentWidth={gridSegmentWidth} offsetX={0} />

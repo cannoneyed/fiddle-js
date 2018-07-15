@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { action, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';
@@ -13,5 +13,10 @@ export class Point {
   constructor(position: TimelineVector, value: number) {
     this.position = position;
     this.value = value;
+  }
+
+  @action
+  setPosition(position: TimelineVector) {
+    this.position = position;
   }
 }

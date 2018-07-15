@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { clamp } from 'lodash';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
 
@@ -11,24 +12,56 @@ import { SnapToGrid } from 'core/models/snap-to-grid';
 
 import Point from 'features/EnvelopeEditor/Point';
 import Connection from 'features/EnvelopeEditor/Connection';
+import { TimelineVector } from 'core/primitives/timeline-vector';
 
 interface Props {
   dimensions: Dimensions;
   envelope: EnvelopeModel;
+  gridSegmentWidth: number;
   snapToGrid: SnapToGrid;
 }
 
 @observer
 export class Envelope extends React.Component<Props, {}> {
+  pointCoordinates = new Map<PointModel, ScreenVector>();
+
   computePointCoordinates(point: PointModel) {
     const { dimensions, envelope } = this.props;
-    const x = (point.position.bar / envelope.length.bar) * dimensions.width;
+    const x = (point.position.absoluteTicks / envelope.length.absoluteTicks) * dimensions.width;
     const y = (1 - point.value) * dimensions.height;
     return new ScreenVector(x, y);
   }
 
   handlePointMouseDown = (point: PointModel) => (event: React.MouseEvent) => {
     point.selected = true;
+    const { dimensions, gridSegmentWidth, snapToGrid } = this.props;
+
+    const handleMouseMove = (event: MouseEvent) => {
+      const { offsetX } = event;
+      const x = clamp(offsetX, 0, dimensions.width);
+      let nearestGridIndex = Math.round(x / gridSegmentWidth);
+      const nearestBeats = snapToGrid.division.multiply(nearestGridIndex);
+      const nearestTimelineVector = new TimelineVector(0, nearestBeats);
+
+      console.log(
+        point.position.absoluteTicks,
+        nearestTimelineVector.absoluteTicks,
+        point.position.isEqualTo(nearestTimelineVector)
+      );
+
+      if (!point.position.isEqualTo(nearestTimelineVector)) {
+        point.position = nearestTimelineVector;
+      }
+    };
+
+    const handleMouseUp = () => {
+      point.selected = false;
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
   };
 
   handleConnectionMouseDown = (connection: ConnectionModel) => (event: React.MouseEvent) => {

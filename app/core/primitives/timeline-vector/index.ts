@@ -51,11 +51,11 @@ export class TimelineVector {
   }
 
   isGreaterThan(other: TimelineVector) {
-    this.absoluteTicks > other.absoluteTicks;
+    return this.absoluteTicks > other.absoluteTicks;
   }
 
   isEqualTo(other: TimelineVector) {
-    this.absoluteTicks === other.absoluteTicks;
+    return this.absoluteTicks === other.absoluteTicks;
   }
 
   static clamp(position: TimelineVector, min: TimelineVector, max: TimelineVector) {
