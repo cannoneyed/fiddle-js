@@ -1,9 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { EnvelopeEditor } from 'features/EnvelopeEditor/EnvelopeEditor';
 
 import { Envelope, LineConnection, Point } from 'core/models/envelope';
 import { TimelineVector } from 'core/primitives/timeline-vector';
+import { SnapToGrid, snapToGridValues } from 'core/models/snap-to-grid';
 
 storiesOf('Envelope Editor', module).add('default', () => {
   const start = new TimelineVector(0);
@@ -20,5 +22,9 @@ storiesOf('Envelope Editor', module).add('default', () => {
   const height = 500;
   const width = 1000;
 
-  return <EnvelopeEditor dimensions={{ height, width }} envelope={envelope} />;
+  const snapToGrid = new SnapToGrid(snapToGridValues.snap_1_4);
+
+  return (
+    <EnvelopeEditor dimensions={{ height, width }} envelope={envelope} snapToGrid={snapToGrid} />
+  );
 });

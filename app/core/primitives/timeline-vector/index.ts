@@ -78,4 +78,13 @@ export class TimelineVector {
       }
     });
   }
+
+  // TODO: Implement proper handling of beats, remainders, ticks etc...
+  static getNDivisions(timelineVector: TimelineVector, division: Fraction): number {
+    let n = 0;
+    n += timelineVector.bar * division.denominator;
+    const r = timelineVector.beats.divide(division);
+    n += Math.floor(r.numerator / r.denominator);
+    return n;
+  }
 }

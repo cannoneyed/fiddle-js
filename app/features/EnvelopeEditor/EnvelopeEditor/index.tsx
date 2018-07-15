@@ -5,6 +5,8 @@ import { observer } from 'mobx-react';
 
 import { Dimensions } from 'core/interfaces';
 import { Envelope as EnvelopeModel } from 'core/models/envelope';
+import { SnapToGrid } from 'core/models/snap-to-grid';
+import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import VerticalGrid from 'components/VerticalGrid';
 import Envelope from 'features/EnvelopeEditor/Envelope';
@@ -12,24 +14,28 @@ import Envelope from 'features/EnvelopeEditor/Envelope';
 interface Props {
   envelope: EnvelopeModel;
   dimensions: Dimensions;
+  snapToGrid: SnapToGrid;
 }
 
 @observer
 export class EnvelopeEditor extends React.Component<Props, {}> {
   render() {
-    const { dimensions, envelope } = this.props;
+    const { dimensions, envelope, snapToGrid } = this.props;
 
     const editorWrapperStyle = {
       ...dimensions,
     };
 
+    const nDivisions = TimelineVector.getNDivisions(envelope.length, snapToGrid.division);
+    const gridSegmentWidth = dimensions.width / nDivisions;
+
     return (
       <EnvelopeEditorWrapper style={editorWrapperStyle}>
         <EnvelopeWrapper>
-          <Envelope envelope={envelope} dimensions={dimensions} />
+          <Envelope envelope={envelope} dimensions={dimensions} snapToGrid={snapToGrid} />
         </EnvelopeWrapper>
         <GridWrapper>
-          <VerticalGrid dimensions={dimensions} gridSegmentWidth={100} offsetX={0} />
+          <VerticalGrid dimensions={dimensions} gridSegmentWidth={gridSegmentWidth} offsetX={0} />
         </GridWrapper>
       </EnvelopeEditorWrapper>
     );

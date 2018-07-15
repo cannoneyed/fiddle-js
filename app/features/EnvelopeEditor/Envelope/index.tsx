@@ -7,6 +7,7 @@ import { ScreenVector } from 'core/primitives/screen-vector';
 import { Envelope as EnvelopeModel } from 'core/models/envelope';
 import { Connection as ConnectionModel } from 'core/models/envelope/connection';
 import { Point as PointModel } from 'core/models/envelope/point';
+import { SnapToGrid } from 'core/models/snap-to-grid';
 
 import Point from 'features/EnvelopeEditor/Point';
 import Connection from 'features/EnvelopeEditor/Connection';
@@ -14,6 +15,7 @@ import Connection from 'features/EnvelopeEditor/Connection';
 interface Props {
   dimensions: Dimensions;
   envelope: EnvelopeModel;
+  snapToGrid: SnapToGrid;
 }
 
 @observer
@@ -26,7 +28,7 @@ export class Envelope extends React.Component<Props, {}> {
   }
 
   handlePointMouseDown = (point: PointModel) => (event: React.MouseEvent) => {
-    console.log('mouse down', point);
+    point.selected = true;
   };
 
   handleConnectionMouseDown = (connection: ConnectionModel) => (event: React.MouseEvent) => {
@@ -38,16 +40,6 @@ export class Envelope extends React.Component<Props, {}> {
 
     return (
       <Svg>
-        {points.map(point => {
-          const position = this.computePointCoordinates(point);
-          return (
-            <Point
-              key={point.id}
-              position={position}
-              onMouseDown={this.handlePointMouseDown(point)}
-            />
-          );
-        })}
         {connections.map(connection => {
           const startPosition = this.computePointCoordinates(connection.start);
           const endPosition = this.computePointCoordinates(connection.end);
@@ -57,6 +49,17 @@ export class Envelope extends React.Component<Props, {}> {
               startPosition={startPosition}
               endPosition={endPosition}
               onMouseDown={this.handleConnectionMouseDown(connection)}
+            />
+          );
+        })}
+        {points.map(point => {
+          const position = this.computePointCoordinates(point);
+          return (
+            <Point
+              key={point.id}
+              position={position}
+              selected={point.selected}
+              onMouseDown={this.handlePointMouseDown(point)}
             />
           );
         })}

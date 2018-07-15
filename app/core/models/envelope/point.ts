@@ -8,6 +8,7 @@ export class Point {
   @observable position: TimelineVector;
 
   @observable value: number;
+  @observable selected = false;
 
   constructor(position: TimelineVector, value: number) {
     this.position = position;

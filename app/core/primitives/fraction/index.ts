@@ -71,7 +71,7 @@ export class Fraction {
   }
 
   multiplyScalar(x: number) {
-    return this.numerator * x / this.denominator;
+    return (this.numerator * x) / this.denominator;
   }
 
   reduce() {
