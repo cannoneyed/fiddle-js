@@ -1,32 +1,45 @@
 import { Fraction } from 'core/primitives/fraction';
-import { json } from 'core/serialization/json';
+import { divideIntWithRemainder } from 'utils/math';
+
+const TICKS_PER_16 = 480;
+const defaultBeats = () => new Fraction(0, 4);
+const defaultTimeSignature = () => new Fraction(4, 4);
 
 export class TimelineVector {
-  @json bar: number;
-  @json beats: Fraction;
-  @json ticks: number;
+  readonly absoluteTicks: number;
 
-  constructor(bar = 0, beats?: Fraction, ticks = 0) {
-    this.bar = bar;
-    this.beats = beats === undefined ? new Fraction(0, 4) : beats;
-    this.ticks = ticks;
+  constructor(
+    public readonly bar = 0,
+    public readonly beats = defaultBeats(),
+    public readonly ticks = 0,
+    public readonly timeSignature = defaultTimeSignature()
+  ) {
+    const sixteenthsPerBar =
+      (16 / timeSignature.denominator) * timeSignature.numerator * TICKS_PER_16;
+    const absoluteTicks = bar * sixteenthsPerBar + beats.multiplyScalar(sixteenthsPerBar) + ticks;
+    this.absoluteTicks = absoluteTicks;
   }
 
   makeNegative() {
     const bar = this.bar * -1;
     const beats = this.beats.multiply(-1, 1);
     const ticks = this.ticks * -1;
-    return new TimelineVector(bar, beats, ticks);
+    return new TimelineVector(bar, beats, ticks, this.timeSignature);
   }
 
   add(delta: TimelineVector) {
-    let bars = this.bar + delta.bar;
-    const { number, fraction: beats } = this.beats.add(delta.beats).mixedNumber();
-    bars += number;
+    const sumTicks = this.ticks + delta.ticks;
+    const { int: nextTicks, remainder: remainderBeats } = divideIntWithRemainder(
+      sumTicks,
+      TICKS_PER_16
+    );
+    const remainderSixteenths = new Fraction(remainderBeats, 16);
 
-    // TODO: Refactor once ticks system is sorted
-    this.ticks += delta.ticks;
-    return new TimelineVector(bars, beats);
+    const sumBeats = this.beats.add(delta.beats).add(remainderSixteenths);
+    const { number: remainderBars, fraction: beats } = sumBeats.mixedNumber();
+    let bars = this.bar + delta.bar + remainderBars;
+
+    return new TimelineVector(bars, beats, nextTicks, this.timeSignature);
   }
 
   subtract(delta: TimelineVector) {
@@ -34,31 +47,15 @@ export class TimelineVector {
   }
 
   isLessThan(other: TimelineVector) {
-    if (this.bar < other.bar) return true;
-    else if (this.bar === other.bar) {
-      if (this.beats.isLessThan(other.beats)) return true;
-      else if (this.beats.isEqualTo(other.beats)) {
-        if (this.ticks < other.ticks) return true;
-      }
-    }
-    return false;
+    return this.absoluteTicks < other.absoluteTicks;
   }
 
   isGreaterThan(other: TimelineVector) {
-    if (this.bar > other.bar) return true;
-    else if (this.bar === other.bar) {
-      if (this.beats.isGreaterThan(other.beats)) return true;
-      else if (this.beats.isEqualTo(other.beats)) {
-        if (this.ticks > other.ticks) return true;
-      }
-    }
-    return false;
+    this.absoluteTicks > other.absoluteTicks;
   }
 
   isEqualTo(other: TimelineVector) {
-    return (
-      this.bar === other.bar && this.beats.isEqualTo(other.beats) && this.ticks === other.ticks
-    );
+    this.absoluteTicks === other.absoluteTicks;
   }
 
   static clamp(position: TimelineVector, min: TimelineVector, max: TimelineVector) {
@@ -79,12 +76,10 @@ export class TimelineVector {
     });
   }
 
-  // TODO: Implement proper handling of beats, remainders, ticks etc...
-  static getNDivisions(timelineVector: TimelineVector, division: Fraction): number {
-    let n = 0;
-    n += timelineVector.bar * division.denominator;
-    const r = timelineVector.beats.divide(division);
-    n += Math.floor(r.numerator / r.denominator);
-    return n;
+  // TODO: Make this work with remainders
+  getNDivisions(division: Fraction) {
+    const sixteenth = new Fraction(1, 16);
+    const ticksPerDivision = division.divide(sixteenth).multiplyScalar(TICKS_PER_16);
+    return Math.floor(this.absoluteTicks / ticksPerDivision);
   }
 }

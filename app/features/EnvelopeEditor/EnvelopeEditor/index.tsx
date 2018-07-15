@@ -6,7 +6,6 @@ import { observer } from 'mobx-react';
 import { Dimensions } from 'core/interfaces';
 import { Envelope as EnvelopeModel } from 'core/models/envelope';
 import { SnapToGrid } from 'core/models/snap-to-grid';
-import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import VerticalGrid from 'components/VerticalGrid';
 import Envelope from 'features/EnvelopeEditor/Envelope';
@@ -26,7 +25,7 @@ export class EnvelopeEditor extends React.Component<Props, {}> {
       ...dimensions,
     };
 
-    const nDivisions = TimelineVector.getNDivisions(envelope.length, snapToGrid.division);
+    const nDivisions = envelope.length.getNDivisions(snapToGrid.division);
     const gridSegmentWidth = dimensions.width / nDivisions;
 
     return (
