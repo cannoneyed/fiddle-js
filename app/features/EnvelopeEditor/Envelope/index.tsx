@@ -33,6 +33,7 @@ export class Envelope extends React.Component<Props, {}> {
   }
 
   handlePointMouseDown = (point: PointModel) => (event: React.MouseEvent) => {
+    const { envelope } = this.props;
     point.selected = true;
     const { dimensions, gridSegmentWidth, snapToGrid } = this.props;
 
@@ -41,16 +42,10 @@ export class Envelope extends React.Component<Props, {}> {
       const x = clamp(offsetX, 0, dimensions.width);
       let nearestGridIndex = Math.round(x / gridSegmentWidth);
       const nearestBeats = snapToGrid.division.multiply(nearestGridIndex);
-      const nearestTimelineVector = new TimelineVector(0, nearestBeats);
+      const nearestPosition = new TimelineVector(0, nearestBeats);
 
-      console.log(
-        point.position.absoluteTicks,
-        nearestTimelineVector.absoluteTicks,
-        point.position.isEqualTo(nearestTimelineVector)
-      );
-
-      if (!point.position.isEqualTo(nearestTimelineVector)) {
-        point.position = nearestTimelineVector;
+      if (!point.position.isEqualTo(nearestPosition)) {
+        envelope.setPointPosition(point, nearestPosition);
       }
     };
 

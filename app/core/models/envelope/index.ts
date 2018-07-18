@@ -1,9 +1,11 @@
-import { observable } from 'mobx';
+import { computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 
 import { Point } from './point';
 import { Connection, LineConnection } from './connection';
 import { TimelineVector } from 'core/primitives/timeline-vector';
+
+const BEGINNING = new TimelineVector(0);
 
 export class Envelope {
   id = generateId();
@@ -11,7 +13,6 @@ export class Envelope {
   @observable length: TimelineVector;
 
   @observable points = observable.array<Point>([]);
-  @observable connections = observable.array<Connection>([]);
 
   @observable minimum: number = 0;
   @observable maximum: number = 1;
@@ -20,20 +21,61 @@ export class Envelope {
     this.length = length || new TimelineVector(2);
   }
 
-  addPoint(point: Point) {
+  private sortPoints() {
+    this.points = this.points.sort((a: Point, b: Point) =>
+      TimelineVector.sortAscendingFn(a.position, b.position)
+    );
+  }
+
+  addPoint(point: Point, shouldSort = true) {
     this.points.push(point);
+    shouldSort && this.sortPoints();
   }
 
-  removePoint(point: Point) {
+  removePoint(point: Point, shouldSort = true) {
     this.points.remove(point);
+    shouldSort && this.sortPoints();
   }
 
-  addConnection(connection: Connection) {
-    this.connections.push(connection);
+  @computed
+  get connections() {
+    const connections = [];
+    for (let i = 1; i < this.points.length; i++) {
+      const previous = this.points[i - 1];
+      const current = this.points[i];
+      connections.push(new Connection(previous, current));
+    }
+    return connections;
   }
 
-  removeConnection(connection: Connection) {
-    this.connections.remove(connection);
+  private clonePoint(point: Point) {
+    return new Point(point.position.copy(), point.value);
+  }
+
+  private getPointsWithin(a: TimelineVector, b: TimelineVector) {
+    const start = a.isLessThan(b) ? a : b;
+    const end = a.isLessThan(b) ? b : a;
+    console.log(start, end);
+    return this.points.filter(point => point.position > start && point.position < end);
+  }
+
+  setPointPosition(point: Point, position: TimelineVector) {
+    // Ensure that moving the point from the beginning or end of the envelope instantiates a new point at that position.
+    if (point.position.isEqualTo(BEGINNING) && !position.isEqualTo(BEGINNING)) {
+      const beginning = this.clonePoint(point);
+      this.addPoint(beginning, false);
+    } else if (point.position.isEqualTo(this.length) && !position.isEqualTo(this.length)) {
+      const end = this.clonePoint(point);
+      this.addPoint(end, false);
+    }
+
+    // Now remove any overlapping points.
+    const pointsToRemove = this.getPointsWithin(point.position, position);
+    pointsToRemove.forEach(point => this.removePoint(point, false));
+
+    // Finally, set the position of the point.
+    point.position = position;
+    this.sortPoints();
   }
 }
 

@@ -58,22 +58,28 @@ export class TimelineVector {
     return this.absoluteTicks === other.absoluteTicks;
   }
 
+  copy() {
+    return new TimelineVector(this.bar, this.beats, this.ticks, this.timeSignature);
+  }
+
   static clamp(position: TimelineVector, min: TimelineVector, max: TimelineVector) {
     if (position.isLessThan(min)) return min;
     if (position.isGreaterThan(max)) return max;
     return position;
   }
 
+  static sortAscendingFn(a: TimelineVector, b: TimelineVector) {
+    if (a.isLessThan(b)) {
+      return -1;
+    } else if (a.isGreaterThan(b)) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
   static sortAscending(timelineVectors: TimelineVector[]) {
-    return timelineVectors.sort((a, b) => {
-      if (a.isLessThan(b)) {
-        return -1;
-      } else if (a.isGreaterThan(b)) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
+    return timelineVectors.sort(TimelineVector.sortAscendingFn);
   }
 
   // TODO: Make this work with remainders
