@@ -54,37 +54,51 @@ export class Envelope {
     return new Point(point.position.copy(), point.value);
   }
 
-  private getPointsWithin(a: TimelineVector, b: TimelineVector) {
-    return this.points.filter(point => {
-      const isBetween = TimelineVector.isBetweenInclusive(point.position, a, b);
-      console.log(point.position.absoluteTicks, isBetween, a.absoluteTicks, b.absoluteTicks);
-      return isBetween;
+  private getPointsBeingDisplaced(point: Point, nextPosition: TimelineVector) {
+    return this.points.filter(otherPoint => {
+      const isBetween = TimelineVector.isBetween(otherPoint.position, point.position, nextPosition);
+      if (isBetween) return true;
+
+      // TODO: Figure out how to handle overtaking a point
+      const isBeingOvertaken = otherPoint.position.isEqualTo(nextPosition);
+      if (isBeingOvertaken) return true;
+
+      const isNowOverlapping = otherPoint.position.isEqualTo(nextPosition);
+      const overlappingValue = point.value === otherPoint.value;
+      if (isNowOverlapping && overlappingValue) return true;
+
+      return false;
     });
   }
 
-  setPointPosition(point: Point, position: TimelineVector) {
+  setPointPosition(point: Point, nextPosition: TimelineVector) {
     // Remove any overlapping points.
-    const pointsToRemove = this.getPointsWithin(point.position, position).filter(
+    const pointsToRemove = this.getPointsBeingDisplaced(point, nextPosition).filter(
       pointWithin => point != pointWithin
     );
     pointsToRemove.forEach(point => this.removePoint(point, false));
 
     // Ensure that moving the point from the beginning or end of the envelope instantiates a new point at that position.
-    if (point.position.isEqualTo(BEGINNING) && !position.isEqualTo(BEGINNING)) {
+    if (point.position.isEqualTo(BEGINNING) && !nextPosition.isEqualTo(BEGINNING)) {
       const beginning = this.clonePoint(point);
       this.addPoint(beginning, false);
-    } else if (point.position.isEqualTo(this.length) && !position.isEqualTo(this.length)) {
+    } else if (point.position.isEqualTo(this.length) && !nextPosition.isEqualTo(this.length)) {
       const end = this.clonePoint(point);
       this.addPoint(end, false);
     }
 
     // Finally, set the position of the point.
-    point.position = position;
+    point.position = nextPosition;
     this.sortPoints();
   }
 
   setPointValue(point: Point, value: number) {
     point.value = value;
+  }
+
+  createPoint(position: TimelineVector, value: number) {
+    const point = new Point(position, value);
+    this.addPoint(point);
   }
 }
 

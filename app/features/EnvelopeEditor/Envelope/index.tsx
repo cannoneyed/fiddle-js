@@ -32,35 +32,47 @@ export class Envelope extends React.Component<Props, {}> {
     return new ScreenVector(x, y);
   }
 
-  handlePointMouseDown = (point: PointModel) => (event: React.MouseEvent) => {
+  getQuantizedPositionAndValue = (offsetX: number, offsetY: number) => {
     const { dimensions, envelope, gridSegmentWidth, snapToGrid } = this.props;
+    const { height, width } = dimensions;
+
+    const x = clamp(offsetX, 0, width);
+    const nearestGridIndex = Math.round(x / gridSegmentWidth);
+    const nearestBeats = snapToGrid.division.multiply(nearestGridIndex);
+    const position = new TimelineVector(0, nearestBeats);
+
+    const y = clamp(offsetY, 0, height);
+    const range = envelope.maximum - envelope.minimum;
+    const free = envelope.stepSize === 0;
+    const steps = free ? Infinity : range / envelope.stepSize;
+    const stepHeight = free ? 1 : height / steps;
+    const nearestY = Math.round(y / stepHeight);
+    const value = ((height - nearestY) / height) * range + envelope.minimum;
+
+    return { position, value };
+  };
+
+  handleDoubleClick = (event: React.MouseEvent) => {
+    const { offsetX, offsetY } = event.nativeEvent;
+    const quantized = this.getQuantizedPositionAndValue(offsetX, offsetY);
+
+    this.props.envelope.createPoint(quantized.position, quantized.value);
+  };
+
+  handlePointMouseDown = (point: PointModel) => (event: React.MouseEvent) => {
+    const { envelope } = this.props;
     point.selected = true;
 
     const handleMouseMove = (event: MouseEvent) => {
       const { offsetX, offsetY } = event;
-      const { height, width } = dimensions;
+      const quantized = this.getQuantizedPositionAndValue(offsetX, offsetY);
 
-      // Handle position changes in the x direction
-      const x = clamp(offsetX, 0, width);
-      const nearestGridIndex = Math.round(x / gridSegmentWidth);
-      const nearestBeats = snapToGrid.division.multiply(nearestGridIndex);
-      const nearestPosition = new TimelineVector(0, nearestBeats);
-
-      if (!point.position.isEqualTo(nearestPosition)) {
-        envelope.setPointPosition(point, nearestPosition);
+      if (!point.position.isEqualTo(quantized.position)) {
+        envelope.setPointPosition(point, quantized.position);
       }
 
-      // Handle value changes in the y direction
-      const y = clamp(offsetY, 0, height);
-      const range = envelope.maximum - envelope.minimum;
-      const free = envelope.stepSize === 0;
-      const steps = free ? Infinity : range / envelope.stepSize;
-      const stepHeight = free ? 1 : height / steps;
-      const nearestY = Math.round(y / stepHeight);
-      const nearestValue = ((height - nearestY) / height) * range + envelope.minimum;
-
-      if (!(point.value === nearestValue)) {
-        envelope.setPointValue(point, nearestValue);
+      if (!(point.value === quantized.value)) {
+        envelope.setPointValue(point, quantized.value);
       }
     };
 
@@ -82,7 +94,7 @@ export class Envelope extends React.Component<Props, {}> {
     const { connections, points } = this.props.envelope;
 
     return (
-      <Svg>
+      <Svg onDoubleClick={this.handleDoubleClick}>
         {connections.map(connection => {
           const startPosition = this.computePointCoordinates(connection.start);
           const endPosition = this.computePointCoordinates(connection.end);
