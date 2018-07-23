@@ -33,19 +33,34 @@ export class Envelope extends React.Component<Props, {}> {
   }
 
   handlePointMouseDown = (point: PointModel) => (event: React.MouseEvent) => {
-    const { envelope } = this.props;
+    const { dimensions, envelope, gridSegmentWidth, snapToGrid } = this.props;
     point.selected = true;
-    const { dimensions, gridSegmentWidth, snapToGrid } = this.props;
 
     const handleMouseMove = (event: MouseEvent) => {
-      const { offsetX } = event;
-      const x = clamp(offsetX, 0, dimensions.width);
-      let nearestGridIndex = Math.round(x / gridSegmentWidth);
+      const { offsetX, offsetY } = event;
+      const { height, width } = dimensions;
+
+      // Handle position changes in the x direction
+      const x = clamp(offsetX, 0, width);
+      const nearestGridIndex = Math.round(x / gridSegmentWidth);
       const nearestBeats = snapToGrid.division.multiply(nearestGridIndex);
       const nearestPosition = new TimelineVector(0, nearestBeats);
 
       if (!point.position.isEqualTo(nearestPosition)) {
         envelope.setPointPosition(point, nearestPosition);
+      }
+
+      // Handle value changes in the y direction
+      const y = clamp(offsetY, 0, height);
+      const range = envelope.maximum - envelope.minimum;
+      const free = envelope.stepSize === 0;
+      const steps = free ? Infinity : range / envelope.stepSize;
+      const stepHeight = free ? 1 : height / steps;
+      const nearestY = Math.round(y / stepHeight);
+      const nearestValue = ((height - nearestY) / height) * range + envelope.minimum;
+
+      if (!(point.value === nearestValue)) {
+        envelope.setPointValue(point, nearestValue);
       }
     };
 

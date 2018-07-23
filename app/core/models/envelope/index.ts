@@ -17,6 +17,8 @@ export class Envelope {
   @observable minimum: number = 0;
   @observable maximum: number = 1;
 
+  @observable stepSize = 0;
+
   constructor(length?: TimelineVector) {
     this.length = length || new TimelineVector(2);
   }
@@ -53,13 +55,20 @@ export class Envelope {
   }
 
   private getPointsWithin(a: TimelineVector, b: TimelineVector) {
-    const start = a.isLessThan(b) ? a : b;
-    const end = a.isLessThan(b) ? b : a;
-    console.log(start, end);
-    return this.points.filter(point => point.position > start && point.position < end);
+    return this.points.filter(point => {
+      const isBetween = TimelineVector.isBetweenInclusive(point.position, a, b);
+      console.log(point.position.absoluteTicks, isBetween, a.absoluteTicks, b.absoluteTicks);
+      return isBetween;
+    });
   }
 
   setPointPosition(point: Point, position: TimelineVector) {
+    // Remove any overlapping points.
+    const pointsToRemove = this.getPointsWithin(point.position, position).filter(
+      pointWithin => point != pointWithin
+    );
+    pointsToRemove.forEach(point => this.removePoint(point, false));
+
     // Ensure that moving the point from the beginning or end of the envelope instantiates a new point at that position.
     if (point.position.isEqualTo(BEGINNING) && !position.isEqualTo(BEGINNING)) {
       const beginning = this.clonePoint(point);
@@ -69,13 +78,13 @@ export class Envelope {
       this.addPoint(end, false);
     }
 
-    // Now remove any overlapping points.
-    const pointsToRemove = this.getPointsWithin(point.position, position);
-    pointsToRemove.forEach(point => this.removePoint(point, false));
-
     // Finally, set the position of the point.
     point.position = position;
     this.sortPoints();
+  }
+
+  setPointValue(point: Point, value: number) {
+    point.value = value;
   }
 }
 

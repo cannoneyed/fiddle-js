@@ -7,17 +7,26 @@ const defaultTimeSignature = () => new Fraction(4, 4);
 
 export class TimelineVector {
   readonly absoluteTicks: number;
+  readonly bar: number;
+  readonly beats: Fraction;
+  readonly ticks: number;
 
   constructor(
-    public readonly bar = 0,
-    public readonly beats = defaultBeats(),
-    public readonly ticks = 0,
+    bar = 0,
+    beats = defaultBeats(),
+    ticks = 0,
     public readonly timeSignature = defaultTimeSignature()
   ) {
     const sixteenthsPerBar =
       (16 / timeSignature.denominator) * timeSignature.numerator * TICKS_PER_16;
     const absoluteTicks = bar * sixteenthsPerBar + beats.multiplyScalar(sixteenthsPerBar) + ticks;
     this.absoluteTicks = absoluteTicks;
+
+    this.bar = bar;
+    const { fraction, number } = beats.mixedNumber();
+    this.bar += number;
+    this.beats = fraction;
+    this.ticks = ticks;
   }
 
   makeNegative() {
@@ -54,6 +63,14 @@ export class TimelineVector {
     return this.absoluteTicks > other.absoluteTicks;
   }
 
+  isLessThanOrEqualTo(other: TimelineVector) {
+    return this.absoluteTicks <= other.absoluteTicks;
+  }
+
+  isGreaterThanOrEqualTo(other: TimelineVector) {
+    return this.absoluteTicks >= other.absoluteTicks;
+  }
+
   isEqualTo(other: TimelineVector) {
     return this.absoluteTicks === other.absoluteTicks;
   }
@@ -66,6 +83,24 @@ export class TimelineVector {
     if (position.isLessThan(min)) return min;
     if (position.isGreaterThan(max)) return max;
     return position;
+  }
+
+  static isBetween(position: TimelineVector, a: TimelineVector, b: TimelineVector): boolean {
+    const aLessThanB = a.absoluteTicks < b.absoluteTicks;
+    const start = aLessThanB ? a.absoluteTicks : b.absoluteTicks;
+    const end = aLessThanB ? a.absoluteTicks : b.absoluteTicks;
+    return position.absoluteTicks > start && position.absoluteTicks < end;
+  }
+
+  static isBetweenInclusive(
+    position: TimelineVector,
+    a: TimelineVector,
+    b: TimelineVector
+  ): boolean {
+    const aLessThanB = a.absoluteTicks < b.absoluteTicks;
+    const start = aLessThanB ? a.absoluteTicks : b.absoluteTicks;
+    const end = aLessThanB ? b.absoluteTicks : a.absoluteTicks;
+    return position.absoluteTicks >= start && position.absoluteTicks <= end;
   }
 
   static sortAscendingFn(a: TimelineVector, b: TimelineVector) {
