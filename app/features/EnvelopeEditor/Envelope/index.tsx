@@ -27,12 +27,12 @@ interface Props {
 export class Envelope extends React.Component<Props, {}> {
   pointCoordinates = new Map<PointModel, ScreenVector>();
 
-  computePointCoordinates(point: PointModel) {
+  getPointScreenVector = (point: PointModel) => {
     const { dimensions, envelope } = this.props;
     const x = (point.position.absoluteTicks / envelope.length.absoluteTicks) * dimensions.width;
     const y = (1 - point.value) * dimensions.height;
     return new ScreenVector(x, y);
-  }
+  };
 
   getQuantizedPositionAndValue = (offsetX: number, offsetY: number) => {
     const { dimensions, envelope, gridSegmentWidth, snapToGrid } = this.props;
@@ -102,25 +102,22 @@ export class Envelope extends React.Component<Props, {}> {
     return (
       <Svg onDoubleClick={this.handleDoubleClick(null)}>
         {connections.map(connection => {
-          const startPosition = this.computePointCoordinates(connection.start);
-          const endPosition = this.computePointCoordinates(connection.end);
           return (
             <Connection
               key={connection.id}
-              startPosition={startPosition}
-              endPosition={endPosition}
+              connection={connection}
+              getScreenVector={this.getPointScreenVector}
               onDoubleClick={this.handleDoubleClick(connection)}
               onMouseDown={this.handleConnectionMouseDown(connection)}
             />
           );
         })}
         {points.map(point => {
-          const position = this.computePointCoordinates(point);
           return (
             <Point
               key={point.id}
-              position={position}
-              selected={point.selected}
+              point={point}
+              getScreenVector={this.getPointScreenVector}
               onDoubleClick={this.handleDoubleClick(point)}
               onMouseDown={this.handlePointMouseDown(point)}
             />

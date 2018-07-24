@@ -85,7 +85,7 @@ export class Envelope {
     if (this.isAtBeginning(position)) {
       const beginning = this.getBeginningPoint();
       beginning && (beginning.value = value);
-    } else if (this.isAtBeginning(position)) {
+    } else if (this.isAtEnd(position)) {
       const end = this.getEndPoint();
       end && (end.value = value);
     }

@@ -4,9 +4,12 @@ import theme from 'styles/theme';
 
 import { ScreenVector } from 'core/primitives/screen-vector';
 
+import { Connection as ConnectionModel } from 'core/models/envelope/connection';
+import { Point as PointModel } from 'core/models/envelope/point';
+
 interface Props {
-  startPosition: ScreenVector;
-  endPosition: ScreenVector;
+  connection: ConnectionModel;
+  getScreenVector: (point: PointModel) => ScreenVector;
   onDoubleClick: (event: React.MouseEvent) => void;
   onMouseDown: (event: React.MouseEvent) => void;
 }
@@ -16,7 +19,11 @@ export class Connection extends React.Component<Props, {}> {
   static strokeWidth = 2;
 
   render() {
-    const { startPosition, endPosition } = this.props;
+    const { connection, getScreenVector } = this.props;
+    const { start, end } = connection;
+    const startPosition = getScreenVector(start);
+    const endPosition = getScreenVector(end);
+
     const style = {
       stroke: theme.colors.white.toRgbString(),
       strokeWidth: Connection.strokeWidth,

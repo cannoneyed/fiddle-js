@@ -4,20 +4,22 @@ import theme from 'styles/theme';
 
 import { ScreenVector } from 'core/primitives/screen-vector';
 
+import { Point as PointModel } from 'core/models/envelope/point';
+
 interface Props {
-  position: ScreenVector;
+  point: PointModel;
+  getScreenVector: (point: PointModel) => ScreenVector;
   onDoubleClick: (event: React.MouseEvent) => void;
   onMouseDown: (event: React.MouseEvent) => void;
-  selected: boolean;
 }
 
 @observer
 export class Point extends React.Component<Props, {}> {
   render() {
-    const { x, y } = this.props.position;
-    const { selected } = this.props;
+    const { point, getScreenVector } = this.props;
+    const { x, y } = getScreenVector(point);
 
-    const color = selected ? 'red' : theme.colors.white.toRgbString();
+    const color = point.selected ? 'red' : theme.colors.white.toRgbString();
     return (
       <circle
         r="5"
