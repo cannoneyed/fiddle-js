@@ -3,7 +3,6 @@
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "editor.detectIndentation": false,
-  "eslint.enable": false,
   "javascript.validate.enable": false,
   "search.exclude": {
     ".git": true,
@@ -20,5 +19,6 @@
     "test/**/__snapshots__": true,
     "yarn.lock": true
   },
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.autoImportSuggestions.enabled": false
 }

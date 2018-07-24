@@ -7,6 +7,7 @@ import { ScreenVector } from 'core/primitives/screen-vector';
 interface Props {
   startPosition: ScreenVector;
   endPosition: ScreenVector;
+  onDoubleClick: (event: React.MouseEvent) => void;
   onMouseDown: (event: React.MouseEvent) => void;
 }
 
@@ -29,6 +30,7 @@ export class Connection extends React.Component<Props, {}> {
         y2={endPosition.y}
         style={style}
         onMouseDown={this.props.onMouseDown}
+        onDoubleClick={this.props.onDoubleClick}
       />
     );
   }

@@ -14,6 +14,8 @@ import Point from 'features/EnvelopeEditor/Point';
 import Connection from 'features/EnvelopeEditor/Connection';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
+export type ClickTarget = PointModel | ConnectionModel | null;
+
 interface Props {
   dimensions: Dimensions;
   envelope: EnvelopeModel;
@@ -52,11 +54,17 @@ export class Envelope extends React.Component<Props, {}> {
     return { position, value };
   };
 
-  handleDoubleClick = (event: React.MouseEvent) => {
+  handleDoubleClick = (target: ClickTarget) => (event: React.MouseEvent) => {
+    event.stopPropagation();
+    const { envelope } = this.props;
     const { offsetX, offsetY } = event.nativeEvent;
     const quantized = this.getQuantizedPositionAndValue(offsetX, offsetY);
 
-    this.props.envelope.createPoint(quantized.position, quantized.value);
+    if (target instanceof PointModel) {
+      return envelope.removePoint(target);
+    }
+
+    envelope.createPoint(quantized.position, quantized.value);
   };
 
   handlePointMouseDown = (point: PointModel) => (event: React.MouseEvent) => {
@@ -86,15 +94,13 @@ export class Envelope extends React.Component<Props, {}> {
     document.addEventListener('mouseup', handleMouseUp);
   };
 
-  handleConnectionMouseDown = (connection: ConnectionModel) => (event: React.MouseEvent) => {
-    console.log('mouse down', connection);
-  };
+  handleConnectionMouseDown = (connection: ConnectionModel) => (event: React.MouseEvent) => {};
 
   render() {
     const { connections, points } = this.props.envelope;
 
     return (
-      <Svg onDoubleClick={this.handleDoubleClick}>
+      <Svg onDoubleClick={this.handleDoubleClick(null)}>
         {connections.map(connection => {
           const startPosition = this.computePointCoordinates(connection.start);
           const endPosition = this.computePointCoordinates(connection.end);
@@ -103,6 +109,7 @@ export class Envelope extends React.Component<Props, {}> {
               key={connection.id}
               startPosition={startPosition}
               endPosition={endPosition}
+              onDoubleClick={this.handleDoubleClick(connection)}
               onMouseDown={this.handleConnectionMouseDown(connection)}
             />
           );
@@ -114,6 +121,7 @@ export class Envelope extends React.Component<Props, {}> {
               key={point.id}
               position={position}
               selected={point.selected}
+              onDoubleClick={this.handleDoubleClick(point)}
               onMouseDown={this.handlePointMouseDown(point)}
             />
           );
