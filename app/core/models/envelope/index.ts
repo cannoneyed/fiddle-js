@@ -55,17 +55,33 @@ export class Envelope {
   }
 
   private getPointsBeingDisplaced(point: Point, nextPosition: TimelineVector) {
-    return this.points.filter(otherPoint => {
-      const isBetween = TimelineVector.isBetween(otherPoint.position, point.position, nextPosition);
+    const pointIndex = this.points.indexOf(point);
+
+    return this.points.filter((otherPoint, otherIndex) => {
+      if (point === otherPoint) return false;
+      const position = point.position;
+      const otherPosition = otherPoint.position;
+
+      const isBetween = TimelineVector.isBetween(otherPosition, position, nextPosition);
       if (isBetween) return true;
 
-      // TODO: Figure out how to handle overtaking a point
-      const isBeingOvertaken = otherPoint.position.isEqualTo(nextPosition);
-      if (isBeingOvertaken) return true;
+      // Handle points being overtaken
+      const areOverlapping = otherPosition.isEqualTo(position);
+      const movingLeft = nextPosition.isLessThan(position);
+      const isOvertaking = movingLeft ? otherIndex < pointIndex : otherIndex > pointIndex;
+      if (areOverlapping && isOvertaking) return true;
 
-      const isNowOverlapping = otherPoint.position.isEqualTo(nextPosition);
+      // Handle points with exactly the same value
+      const isNowOverlapping = otherPosition.isEqualTo(nextPosition);
       const overlappingValue = point.value === otherPoint.value;
       if (isNowOverlapping && overlappingValue) return true;
+
+      // Handle moving to the start or end of the clip
+      const movingToBeginning =
+        otherPosition.isEqualTo(BEGINNING) && nextPosition.isEqualTo(BEGINNING);
+      const movingToEnd =
+        otherPosition.isEqualTo(this.length) && nextPosition.isEqualTo(this.length);
+      if (movingToBeginning || movingToEnd) return true;
 
       return false;
     });
@@ -73,9 +89,7 @@ export class Envelope {
 
   setPointPosition(point: Point, nextPosition: TimelineVector) {
     // Remove any overlapping points.
-    const pointsToRemove = this.getPointsBeingDisplaced(point, nextPosition).filter(
-      pointWithin => point != pointWithin
-    );
+    const pointsToRemove = this.getPointsBeingDisplaced(point, nextPosition);
     pointsToRemove.forEach(point => this.removePoint(point, false));
 
     // Ensure that moving the point from the beginning or end of the envelope instantiates a new point at that position.
