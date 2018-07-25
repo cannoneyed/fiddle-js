@@ -3,6 +3,7 @@ import { clamp } from 'lodash';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
 
+import { makeDragHandler } from 'core/interactions/handlers/draggable';
 import { Dimensions } from 'core/interfaces';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { Envelope as EnvelopeModel } from 'core/models/envelope';
@@ -86,12 +87,10 @@ export class Envelope extends React.Component<Props, {}> {
 
     const handleMouseUp = () => {
       point.selected = false;
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+    const dragHandler = makeDragHandler(handleMouseMove, handleMouseUp);
+    return dragHandler(event);
   };
 
   handleConnectionMouseDown = (connection: ConnectionModel) => (event: React.MouseEvent) => {};

@@ -14,6 +14,9 @@ export interface Options {
   mode: DragMode;
 }
 
+type OnMouseMove = (event?: MouseEvent) => void;
+type OnMouseUp = (event?: MouseEvent) => void;
+
 const defaultOptions = {
   mode: DragMode.percent,
 };
@@ -104,3 +107,20 @@ export class Draggable {
     };
   };
 }
+
+export const makeDragHandler = (onMouseMove: OnMouseMove, onMouseUp: OnMouseUp) => (
+  event: React.MouseEvent
+) => {
+  const mouseMove = (event: MouseEvent) => {
+    onMouseMove(event);
+  };
+
+  const mouseUp = (event: MouseEvent) => {
+    onMouseUp(event);
+    document.removeEventListener('mouseup', mouseUp);
+    document.removeEventListener('mousemove', mouseMove);
+  };
+
+  document.addEventListener('mouseup', mouseUp);
+  document.addEventListener('mousemove', mouseMove);
+};
