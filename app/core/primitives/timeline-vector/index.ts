@@ -17,13 +17,14 @@ export class TimelineVector {
     ticks = 0,
     public readonly timeSignature = defaultTimeSignature()
   ) {
-    const sixteenthsPerBar =
-      (16 / timeSignature.denominator) * timeSignature.numerator * TICKS_PER_16;
-    const absoluteTicks = bar * sixteenthsPerBar + beats.multiplyScalar(sixteenthsPerBar) + ticks;
+    const ticksPerBar = (16 / timeSignature.denominator) * timeSignature.numerator * TICKS_PER_16;
+    const absoluteTicks = bar * ticksPerBar + beats.multiplyScalar(ticksPerBar) + ticks;
+
     this.absoluteTicks = absoluteTicks;
 
     this.bar = bar;
-    const { fraction, number } = beats.mixedNumber();
+    const { fraction, number } = beats.reduce().mixedNumber();
+
     this.bar += number;
     this.beats = fraction;
     this.ticks = ticks;
@@ -37,41 +38,31 @@ export class TimelineVector {
   }
 
   add(delta: TimelineVector) {
-    const sumTicks = this.ticks + delta.ticks;
-    const { int: nextTicks, remainder: remainderBeats } = divideIntWithRemainder(
-      sumTicks,
-      TICKS_PER_16
-    );
-    const remainderSixteenths = new Fraction(remainderBeats, 16);
-
-    const sumBeats = this.beats.add(delta.beats).add(remainderSixteenths);
-    const { number: remainderBars, fraction: beats } = sumBeats.mixedNumber();
-    let bars = this.bar + delta.bar + remainderBars;
-
-    return new TimelineVector(bars, beats, nextTicks, this.timeSignature);
+    const sum = this.absoluteTicks + delta.absoluteTicks;
+    return TimelineVector.fromAbsoluteTicks(sum, this.timeSignature);
   }
 
   subtract(delta: TimelineVector) {
     return this.add(delta.makeNegative());
   }
 
-  isLessThan(other: TimelineVector) {
+  lt(other: TimelineVector) {
     return this.absoluteTicks < other.absoluteTicks;
   }
 
-  isGreaterThan(other: TimelineVector) {
+  gt(other: TimelineVector) {
     return this.absoluteTicks > other.absoluteTicks;
   }
 
-  isLessThanOrEqualTo(other: TimelineVector) {
+  lte(other: TimelineVector) {
     return this.absoluteTicks <= other.absoluteTicks;
   }
 
-  isGreaterThanOrEqualTo(other: TimelineVector) {
+  gte(other: TimelineVector) {
     return this.absoluteTicks >= other.absoluteTicks;
   }
 
-  isEqualTo(other: TimelineVector) {
+  equals(other: TimelineVector) {
     return this.absoluteTicks === other.absoluteTicks;
   }
 
@@ -80,15 +71,15 @@ export class TimelineVector {
   }
 
   static clamp(position: TimelineVector, min: TimelineVector, max: TimelineVector) {
-    if (position.isLessThan(min)) return min;
-    if (position.isGreaterThan(max)) return max;
+    if (position.lt(min)) return min;
+    if (position.gt(max)) return max;
     return position;
   }
 
   static isBetween(position: TimelineVector, a: TimelineVector, b: TimelineVector): boolean {
     const aLessThanB = a.absoluteTicks < b.absoluteTicks;
     const start = aLessThanB ? a.absoluteTicks : b.absoluteTicks;
-    const end = aLessThanB ? a.absoluteTicks : b.absoluteTicks;
+    const end = aLessThanB ? b.absoluteTicks : a.absoluteTicks;
     return position.absoluteTicks > start && position.absoluteTicks < end;
   }
 
@@ -104,9 +95,9 @@ export class TimelineVector {
   }
 
   static sortAscendingFn(a: TimelineVector, b: TimelineVector) {
-    if (a.isLessThan(b)) {
+    if (a.lt(b)) {
       return -1;
-    } else if (a.isGreaterThan(b)) {
+    } else if (a.gt(b)) {
       return 1;
     } else {
       return 0;
@@ -117,10 +108,22 @@ export class TimelineVector {
     return timelineVectors.sort(TimelineVector.sortAscendingFn);
   }
 
-  // TODO: Make this work with remainders
-  getNDivisions(division: Fraction) {
+  static fromAbsoluteTicks(absoluteTicks: number, timeSignature = defaultTimeSignature()) {
+    const { int: sixteenths, remainder: ticks } = divideIntWithRemainder(
+      absoluteTicks,
+      TICKS_PER_16
+    );
+
+    const bars = Math.floor(sixteenths / 16);
+    const remainderSixteenths = sixteenths - bars * 16;
+    const beats = new Fraction(remainderSixteenths, 16);
+
+    return new TimelineVector(bars, beats, ticks, timeSignature);
+  }
+
+  static getNDivisions(timelineVector: TimelineVector, division: Fraction) {
     const sixteenth = new Fraction(1, 16);
     const ticksPerDivision = division.divide(sixteenth).multiplyScalar(TICKS_PER_16);
-    return Math.floor(this.absoluteTicks / ticksPerDivision);
+    return Math.floor(timelineVector.absoluteTicks / ticksPerDivision);
   }
 }

@@ -61,7 +61,7 @@ export class EnvelopeHelper {
       const { offsetX, offsetY } = event;
       const quantized = this.getQuantizedPositionAndValue(offsetX, offsetY);
 
-      if (!point.position.isEqualTo(quantized.position)) {
+      if (!point.position.equals(quantized.position)) {
         envelope.setPointPosition(point, quantized.position);
       }
 

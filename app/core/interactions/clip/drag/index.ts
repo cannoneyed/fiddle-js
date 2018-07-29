@@ -118,7 +118,7 @@ export class ClipDragInteraction {
 
     if (
       deltaTrackIndex !== this.deltaTrackIndex ||
-      !this.deltaTimelinePosition.isEqualTo(deltaTimelinePosition)
+      !this.deltaTimelinePosition.equals(deltaTimelinePosition)
     ) {
       this.deltaTrackIndex = deltaTrackIndex;
       this.deltaTimelinePosition = deltaTimelinePosition;

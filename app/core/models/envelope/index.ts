@@ -76,9 +76,7 @@ export class Envelope {
   }
 
   createPoint(position: TimelineVector, value: number) {
-    const othersAtPosition = this.points.filter(otherPoint =>
-      otherPoint.position.isEqualTo(position)
-    );
+    const othersAtPosition = this.points.filter(otherPoint => otherPoint.position.equals(position));
     if (othersAtPosition.length > 1) return;
 
     // Simply update the value of the points at the beginning or end.
@@ -98,8 +96,8 @@ export class Envelope {
 
   private getBeginningPoint = () => this.points[0];
   private getEndPoint = () => this.points[this.points.length - 1];
-  private isAtBeginning = (position: TimelineVector) => position.isEqualTo(BEGINNING);
-  private isAtEnd = (position: TimelineVector) => position.isEqualTo(this.length);
+  private isAtBeginning = (position: TimelineVector) => position.equals(BEGINNING);
+  private isAtEnd = (position: TimelineVector) => position.equals(this.length);
   private isAtBeginningOrEnd = (position: TimelineVector) =>
     this.isAtBeginning(position) || this.isAtEnd(position);
 
@@ -120,7 +118,7 @@ export class Envelope {
   private canRemovePoint = (point: Point) => {
     const isBeginningOrEnd = this.isAtBeginningOrEnd(point.position);
     const otherPointsWithSamePosition = this.points.filter(
-      otherPoint => otherPoint.position.isEqualTo(point.position) && point !== otherPoint
+      otherPoint => otherPoint.position.equals(point.position) && point !== otherPoint
     );
     return isBeginningOrEnd ? otherPointsWithSamePosition.length > 0 : true;
   };
@@ -141,13 +139,13 @@ export class Envelope {
       if (isBetween) return true;
 
       // Handle points being overtaken
-      const areOverlapping = otherPosition.isEqualTo(position);
-      const movingLeft = nextPosition.isLessThan(position);
+      const areOverlapping = otherPosition.equals(position);
+      const movingLeft = nextPosition.lt(position);
       const isOvertaking = movingLeft ? otherIndex < pointIndex : otherIndex > pointIndex;
       if (areOverlapping && isOvertaking) return true;
 
       // Handle points with exactly the same value
-      const isNowOverlapping = otherPosition.isEqualTo(nextPosition);
+      const isNowOverlapping = otherPosition.equals(nextPosition);
       const overlappingValue = point.value === otherPoint.value;
       if (isNowOverlapping && overlappingValue) return true;
 
@@ -163,7 +161,7 @@ export class Envelope {
     // Additionally, when we move a point to the same position as more than another point, we need to
     // figure out which points to remove. We keep the lowest and highest index, but remove any in the middle.
     const indicesWithSamePosition = this.points
-      .filter(otherPoint => otherPoint.position.isEqualTo(nextPosition) && point !== otherPoint)
+      .filter(otherPoint => otherPoint.position.equals(nextPosition) && point !== otherPoint)
       .map(this.getIndex)
       .concat([pointIndex])
       .sort();

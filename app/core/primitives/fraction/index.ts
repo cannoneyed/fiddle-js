@@ -1,9 +1,10 @@
 import { getGCD } from './helpers';
-import { json } from 'core/serialization/json';
+
+const { floor, abs } = Math;
 
 export class Fraction {
-  @json numerator: number;
-  @json denominator: number;
+  numerator: number;
+  denominator: number;
 
   constructor(numerator: number = 1, denominator: number = 1) {
     this.denominator = denominator;
@@ -67,8 +68,16 @@ export class Fraction {
   }
 
   mixedNumber() {
-    const number = Math.floor(this.numerator / this.denominator);
-    const fraction = new Fraction(this.numerator - number * this.denominator, this.denominator);
+    const { numerator, denominator } = this;
+    const isNegative = numerator < 0 ? !(denominator < 0) : denominator < 0; // XOR negative
+
+    let number = floor(abs(numerator) / abs(denominator));
+    number = isNegative ? -number : number;
+
+    let nextNumerator = abs(numerator) - abs(number * denominator);
+    nextNumerator = isNegative ? -nextNumerator : nextNumerator;
+
+    const fraction = new Fraction(nextNumerator, denominator);
     return { number, fraction };
   }
 
