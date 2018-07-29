@@ -48,11 +48,11 @@ export class Fraction {
   multiply(numerator: number, denominator: number): Fraction;
   multiply(a: number | Fraction, b?: number): Fraction {
     if (a instanceof Fraction) {
-      return new Fraction(this.numerator * a.numerator, this.denominator * a.denominator);
+      return new Fraction(this.numerator * a.numerator, this.denominator * a.denominator).reduce();
     }
     const numerator = a;
     const denominator = b === undefined ? 1 : b;
-    return new Fraction(this.numerator * numerator, this.denominator * denominator);
+    return new Fraction(this.numerator * numerator, this.denominator * denominator).reduce();
   }
 
   divide(other: Fraction): Fraction;
@@ -60,11 +60,11 @@ export class Fraction {
   divide(numerator: number, denominator: number): Fraction;
   divide(a: number | Fraction, b?: number): Fraction {
     if (a instanceof Fraction) {
-      return new Fraction(this.numerator * a.denominator, this.denominator * a.numerator);
+      return new Fraction(this.numerator * a.denominator, this.denominator * a.numerator).reduce();
     }
     const numerator = a;
     const denominator = b === undefined ? 1 : b;
-    return new Fraction(this.numerator * denominator, this.denominator * numerator);
+    return new Fraction(this.numerator * denominator, this.denominator * numerator).reduce();
   }
 
   mixedNumber() {
@@ -94,15 +94,23 @@ export class Fraction {
     return new Fraction(this.numerator / gcd, this.denominator / gcd);
   }
 
-  isLessThan(other: Fraction) {
+  lt(other: Fraction) {
     return this.numerator / this.denominator < other.numerator / other.denominator;
   }
 
-  isGreaterThan(other: Fraction) {
+  lte(other: Fraction) {
+    return this.numerator / this.denominator <= other.numerator / other.denominator;
+  }
+
+  gt(other: Fraction) {
     return this.numerator / this.denominator > other.numerator / other.denominator;
   }
 
-  isEqualTo(other: Fraction) {
+  gte(other: Fraction) {
+    return this.numerator / this.denominator >= other.numerator / other.denominator;
+  }
+
+  equals(other: Fraction) {
     return this.numerator / this.denominator === other.numerator / other.denominator;
   }
 
