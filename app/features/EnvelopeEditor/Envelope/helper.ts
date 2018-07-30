@@ -1,4 +1,5 @@
 import { clamp } from 'lodash';
+import { observable } from 'mobx';
 
 import { makeDragHandler } from 'core/interactions/handlers/draggable';
 import { ScreenVector } from 'core/primitives/screen-vector';
@@ -15,13 +16,34 @@ export interface Component {
 }
 
 export class EnvelopeHelper {
+  @observable isDragging = false;
+
+  @observable private popoverScreenVector: ScreenVector = new ScreenVector();
+  getPopoverScreenVector = () => {
+    return this.popoverScreenVector;
+  };
+
   constructor(public component: Component) {}
 
-  getPointScreenVector = (point: PointModel) => {
+  private setIsDragging(isDragging: boolean) {
+    if (this.isDragging !== isDragging) {
+      this.isDragging = isDragging;
+    }
+  }
+
+  private setPopoverScreenVector(screenVector: ScreenVector) {
+    this.popoverScreenVector = screenVector;
+  }
+
+  private getScreenVector(position: TimelineVector, value: number) {
     const { dimensions, envelope } = this.component.props;
-    const x = (point.position.absoluteTicks / envelope.length.absoluteTicks) * dimensions.width;
-    const y = (1 - point.value) * dimensions.height;
+    const x = (position.absoluteTicks / envelope.length.absoluteTicks) * dimensions.width;
+    const y = (1 - value) * dimensions.height;
     return new ScreenVector(x, y);
+  }
+
+  getPointScreenVector = (point: PointModel) => {
+    return this.getScreenVector(point.position, point.value);
   };
 
   getQuantizedPositionAndValue = (offsetX: number, offsetY: number) => {
@@ -46,7 +68,6 @@ export class EnvelopeHelper {
   };
 
   handleDoubleClick = (target: ClickTarget) => (event: React.MouseEvent) => {
-    event.stopPropagation();
     const { envelope } = this.component.props;
     const { offsetX, offsetY } = event.nativeEvent;
     const quantized = this.getQuantizedPositionAndValue(offsetX, offsetY);
@@ -58,13 +79,22 @@ export class EnvelopeHelper {
     envelope.createPoint(quantized.position, quantized.value);
   };
 
-  handlePointMouseDown = (point: PointModel) => (event: React.MouseEvent) => {
+  handlePointMouseDown = (event: React.MouseEvent, point: PointModel, container: SVGElement) => {
     const { envelope } = this.component.props;
     point.selected = true;
 
+    const containerPosition = container.getBoundingClientRect();
+
     const handleMouseMove = (event: MouseEvent) => {
-      const { offsetX, offsetY } = event;
+      const { pageX, pageY } = event;
+      const offsetX = pageX - containerPosition.left;
+      const offsetY = pageY - containerPosition.top;
+
       const quantized = this.getQuantizedPositionAndValue(offsetX, offsetY);
+      const quantizedScreenVector = this.getScreenVector(quantized.position, quantized.value);
+
+      this.setIsDragging(true);
+      this.setPopoverScreenVector(quantizedScreenVector);
 
       if (!point.position.equals(quantized.position)) {
         envelope.setPointPosition(point, quantized.position);
@@ -75,13 +105,18 @@ export class EnvelopeHelper {
       }
     };
 
-    const handleMouseUp = () => {
+    const handleMouseUp = (event: MouseEvent) => {
       point.selected = false;
+      this.setIsDragging(false);
     };
 
     const dragHandler = makeDragHandler(handleMouseMove, handleMouseUp);
     return dragHandler(event);
   };
 
-  handleConnectionMouseDown = (connection: ConnectionModel) => (event: React.MouseEvent) => {};
+  handleConnectionMouseDown = (
+    event: React.MouseEvent,
+    connection: ConnectionModel,
+    container: SVGElement
+  ) => {};
 }
