@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 
 import { ScreenVector } from 'core/primitives/screen-vector';
@@ -11,18 +12,50 @@ interface Props {
   screenVector: ScreenVector;
 }
 
+const BORDER_WIDTH = 1;
+const CARET_SIZE = 8;
+const HEIGHT = 60;
+const WIDTH = 120;
+const OFFSET_Y = 20;
+
 @observer
 export class Popover extends React.Component<Props, {}> {
+  renderPosition() {
+    const { point } = this.props;
+    const { bar, beats, ticks } = point.position;
+    const string = `${bar} ${beats.numerator} ${beats.denominator} ${ticks}`;
+    return <PositionText>{string}</PositionText>;
+  }
+
+  renderValue() {
+    const { point } = this.props;
+    return <ValueText>{point.value.toFixed(2)}</ValueText>;
+  }
+
   render() {
     const { screenVector } = this.props;
-    const offsetY = 30;
+
+    const offsetY = OFFSET_Y;
+    const offsetX = -WIDTH / 2;
+
     const style = {
-      top: screenVector.y + offsetY,
-      left: screenVector.x,
+      top: screenVector.y + offsetY + CARET_SIZE,
+      left: screenVector.x + offsetX,
     };
     return (
       <PopoverWrapper style={style}>
-        <ArrowBox>hey</ArrowBox>
+        <ArrowBox>
+          <Row>
+            <Label>pos:</Label>
+            {this.renderPosition()}
+          </Row>
+          <Row>
+            <ValueText>
+              <Label>val:</Label>
+              {this.renderValue()}
+            </ValueText>
+          </Row>
+        </ArrowBox>
       </PopoverWrapper>
     );
   }
@@ -32,16 +65,36 @@ export default Popover;
 
 const PopoverWrapper = styled.div`
   position: fixed;
-  width: 100px;
-  height: 100px;
+  width: ${WIDTH}px;
+  height: ${HEIGHT}px;
   user-select: none;
   z-index: 999;
 `;
 
+const Row = styled.div``;
+
+const Label = styled.span`
+  color: ${theme.colors.lightGray.toRgbString()};
+`;
+
+const PositionText = styled.span`
+  color: ${theme.colors.white.toRgbString()};
+`;
+
+const ValueText = styled.span`
+  color: ${theme.colors.white.toRgbString()};
+`;
+
 const ArrowBox = styled.div`
   position: relative;
-  background: #636363;
-  border: 2px solid #f5f5f5;
+  background: ${theme.colors.black.toRgbString()};
+  border: ${BORDER_WIDTH}px solid ${theme.colors.white.toRgbString()};
+  border-radius: 3px;
+
+  font-family: monospace;
+  font-size: 12px;
+  color: ${theme.colors.white.toRgbString()};
+  padding: 10px;
 
   &:after,
   &:before {
@@ -56,16 +109,14 @@ const ArrowBox = styled.div`
   }
 
   &:after {
-    border-color: rgba(99, 99, 99, 0);
-    border-bottom-color: #636363;
-    border-width: 10px;
-    margin-left: -10px;
+    border-bottom-color: ${theme.colors.black.toRgbString()};
+    border-width: ${CARET_SIZE}px;
+    margin-left: ${-CARET_SIZE}px;
   }
 
   &:before {
-    border-color: rgba(245, 245, 245, 0);
-    border-bottom-color: #f5f5f5;
-    border-width: 13px;
-    margin-left: -13px;
+    border-bottom-color: ${theme.colors.white.toRgbString()};
+    border-width: ${CARET_SIZE + BORDER_WIDTH}px;
+    margin-left: -${CARET_SIZE + BORDER_WIDTH}px;
   }
 `;

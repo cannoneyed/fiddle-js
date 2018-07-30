@@ -36,9 +36,11 @@ export class Envelope extends React.Component<Props, State> {
   }
 
   renderPopover = () => {
-    const { envelope } = this.props;
     return (
-      <Popover screenVector={this.helper.getPopoverScreenVector()} point={envelope.points[0]} />
+      <Popover
+        screenVector={this.helper.getPopoverScreenVector()}
+        point={this.helper.draggingPoint!}
+      />
     );
   };
 
@@ -56,9 +58,11 @@ export class Envelope extends React.Component<Props, State> {
     const { connections, points } = this.props.envelope;
     const { helper } = this;
 
+    const shouldRenderPopover = helper.isDragging && helper.draggingPoint;
+
     return (
       <EnvelopeWrapper>
-        {this.helper.isDragging && this.renderPopover()}
+        {shouldRenderPopover && this.renderPopover()}
         <Svg innerRef={this.svgRef} onDoubleClick={helper.handleDoubleClick(null)}>
           {connections.map(connection => {
             return (

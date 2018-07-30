@@ -17,6 +17,7 @@ export interface Component {
 
 export class EnvelopeHelper {
   @observable isDragging = false;
+  @observable draggingPoint: PointModel | null;
 
   @observable private popoverScreenVector: ScreenVector = new ScreenVector();
   getPopoverScreenVector = () => {
@@ -25,9 +26,10 @@ export class EnvelopeHelper {
 
   constructor(public component: Component) {}
 
-  private setIsDragging(isDragging: boolean) {
+  private setIsDragging(isDragging: boolean, point: PointModel | null = null) {
     if (this.isDragging !== isDragging) {
       this.isDragging = isDragging;
+      this.draggingPoint = point;
     }
   }
 
@@ -83,18 +85,20 @@ export class EnvelopeHelper {
     const { envelope } = this.component.props;
     point.selected = true;
 
-    const containerPosition = container.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+    const containerScreenVector = new ScreenVector(containerRect.left, containerRect.top);
 
     const handleMouseMove = (event: MouseEvent) => {
       const { pageX, pageY } = event;
-      const offsetX = pageX - containerPosition.left;
-      const offsetY = pageY - containerPosition.top;
+      const offsetX = pageX - containerScreenVector.x;
+      const offsetY = pageY - containerScreenVector.y;
 
       const quantized = this.getQuantizedPositionAndValue(offsetX, offsetY);
       const quantizedScreenVector = this.getScreenVector(quantized.position, quantized.value);
 
-      this.setIsDragging(true);
-      this.setPopoverScreenVector(quantizedScreenVector);
+      this.setIsDragging(true, point);
+      const popoverScreenVector = containerScreenVector.add(quantizedScreenVector);
+      this.setPopoverScreenVector(popoverScreenVector);
 
       if (!point.position.equals(quantized.position)) {
         envelope.setPointPosition(point, quantized.position);
