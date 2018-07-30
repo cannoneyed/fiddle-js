@@ -3,8 +3,6 @@ import styled, { css } from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 
-import { TimelineVector } from 'core/primitives/timeline-vector';
-
 import { Dimensions } from 'core/interfaces';
 import { Envelope as EnvelopeModel } from 'core/models/envelope';
 import { SnapToGrid } from 'core/models/snap-to-grid';
@@ -27,8 +25,11 @@ export class EnvelopeEditor extends React.Component<Props, {}> {
       ...dimensions,
     };
 
-    const nDivisions = TimelineVector.getNDivisions(envelope.length, snapToGrid.division);
-    const gridSegmentWidth = dimensions.width / nDivisions;
+    const gridSegmentWidth = SnapToGrid.getDivisionWidth(
+      envelope.length,
+      dimensions.width,
+      snapToGrid
+    );
 
     return (
       <EnvelopeEditorWrapper style={editorWrapperStyle}>

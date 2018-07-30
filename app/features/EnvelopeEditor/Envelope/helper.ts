@@ -6,12 +6,16 @@ import { Connection as ConnectionModel } from 'core/models/envelope/connection';
 import { Point as PointModel } from 'core/models/envelope/point';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { Envelope } from './index';
+import { Props } from './index';
 
 export type ClickTarget = PointModel | ConnectionModel | null;
 
+export interface Component {
+  props: Props;
+}
+
 export class EnvelopeHelper {
-  constructor(public component: Envelope) {}
+  constructor(public component: Component) {}
 
   getPointScreenVector = (point: PointModel) => {
     const { dimensions, envelope } = this.component.props;
@@ -26,6 +30,7 @@ export class EnvelopeHelper {
 
     const x = clamp(offsetX, 0, width);
     const nearestGridIndex = Math.round(x / gridSegmentWidth);
+
     const nearestBeats = snapToGrid.division.multiply(nearestGridIndex);
     const position = new TimelineVector(0, nearestBeats);
 

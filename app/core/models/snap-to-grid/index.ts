@@ -1,6 +1,7 @@
 import { action, computed } from 'mobx';
 
 import { Fraction } from 'core/primitives/fraction';
+import { TimelineVector } from 'core/primitives/timeline-vector';
 
 export class SnapToGridValue {
   constructor(public name: string, public division: Fraction) {}
@@ -33,5 +34,11 @@ export class SnapToGrid {
   @computed
   get division() {
     return this.value.division;
+  }
+
+  static getDivisionWidth(length: TimelineVector, width: number, snapToGrid: SnapToGrid) {
+    const nDivisions = TimelineVector.getNDivisions(length, snapToGrid.division);
+    const gridSegmentWidth = width / nDivisions;
+    return gridSegmentWidth;
   }
 }
