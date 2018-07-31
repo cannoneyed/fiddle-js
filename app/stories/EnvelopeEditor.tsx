@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { select, withKnobs } from '@storybook/addon-knobs';
 
 import { EnvelopeEditor } from 'features/EnvelopeEditor/EnvelopeEditor';
 
@@ -7,7 +8,14 @@ import { Envelope, Point } from 'core/models/envelope';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 import { SnapToGrid, snapToGridValues } from 'core/models/snap-to-grid';
 
-storiesOf('Envelope Editor', module).add('default', () => {
+const getSnapToGrid = (key: string) => {
+  return new SnapToGrid(snapToGridValues[key]);
+};
+
+const stories = storiesOf('Envelope Editor', module);
+stories.addDecorator(withKnobs);
+
+stories.add('default', () => {
   const start = new TimelineVector(0);
   const length = new TimelineVector(2);
   const envelope = new Envelope(length);
@@ -20,9 +28,16 @@ storiesOf('Envelope Editor', module).add('default', () => {
   const height = 500;
   const width = 1000;
 
-  const snapToGrid = new SnapToGrid(snapToGridValues.snap_1_4);
+  const options = Object.keys(snapToGridValues);
+  const defaultValue = 'snap_1_4';
+
+  const value = select('Snap To Grid', options, defaultValue);
 
   return (
-    <EnvelopeEditor dimensions={{ height, width }} envelope={envelope} snapToGrid={snapToGrid} />
+    <EnvelopeEditor
+      dimensions={{ height, width }}
+      envelope={envelope}
+      snapToGrid={getSnapToGrid(value)}
+    />
   );
 });
