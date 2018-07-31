@@ -34,7 +34,7 @@ export class NoteEditor extends React.Component<Props, {}> {
       <NoteEditorWrapper style={editorWrapperStyle}>
         <NoteSnipWrapper />
         <GridWrapper>
-          <VerticalGrid dimensions={dimensions} gridSegmentWidth={gridSegmentWidth} offsetX={0} />
+          <VerticalGrid dimensions={dimensions} colWidth={gridSegmentWidth} offsetX={0} />
         </GridWrapper>
       </NoteEditorWrapper>
     );

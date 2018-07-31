@@ -4,16 +4,23 @@ import theme from 'styles/theme';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, number } from '@storybook/addon-knobs';
 
-import { VerticalGrid } from 'components/VerticalGrid';
+import { Grid } from 'components/Grid';
 
-const stories = storiesOf('VerticalGrid', module);
+const stories = storiesOf('Grid', module);
 stories.addDecorator(withKnobs);
 
 stories.add('default', () => {
-  const gridSegmentWidth = number('gridSegmentWidth', 100, {
+  const colWidth = number('colWidth', 100, {
     range: true,
-    min: 1,
+    min: 5,
     max: 500,
+    step: 1,
+  });
+
+  const rowHeight = number('rowHeight', 20, {
+    range: true,
+    min: 5,
+    max: 100,
     step: 1,
   });
 
@@ -38,6 +45,13 @@ stories.add('default', () => {
     step: 1,
   });
 
+  const offsetY = number('offsetY', 0, {
+    range: true,
+    min: 0,
+    max: 1000,
+    step: 1,
+  });
+
   const gridWrapperStyle = {
     backgroundColor: theme.colors.darkGray.toRgbString(),
     width: width,
@@ -46,7 +60,13 @@ stories.add('default', () => {
 
   return (
     <div style={gridWrapperStyle}>
-      <VerticalGrid dimensions={{ height, width }} colWidth={gridSegmentWidth} offsetX={offsetX} />
+      <Grid
+        dimensions={{ height, width }}
+        colWidth={colWidth}
+        rowHeight={rowHeight}
+        offsetX={offsetX}
+        offsetY={offsetY}
+      />
     </div>
   );
 });

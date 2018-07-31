@@ -44,11 +44,7 @@ export class Grid extends React.Component<Props & InjectedProps, {}> {
 
     return (
       <GridContainer style={gridStyle}>
-        <VerticalGrid
-          dimensions={dimensions}
-          gridSegmentWidth={gridSegmentWidth}
-          offsetX={offsetX}
-        />
+        <VerticalGrid dimensions={dimensions} colWidth={gridSegmentWidth} offsetX={offsetX} />
       </GridContainer>
     );
   }
