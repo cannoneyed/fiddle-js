@@ -36,7 +36,7 @@ describe('TimelineVector class', () => {
   it('carries over overlapping tertiary division', () => {
     const primary = 4;
     const secondary = 3;
-    const tertiary = 5;
+    const tertiary = 13;
 
     const position = new TimelineVector(primary, secondary, tertiary);
     expect(position.primary).toEqual(5);
@@ -47,7 +47,7 @@ describe('TimelineVector class', () => {
   it('carries over overlapping ticks', () => {
     const primary = 1;
     const secondary = 3;
-    const tertiary = 3;
+    const tertiary = 11;
     const ticks = TICKS_PER_TERTIARY + 1;
 
     const position = new TimelineVector(primary, secondary, tertiary, ticks);
@@ -65,6 +65,14 @@ describe('TimelineVector class', () => {
     const position = new TimelineVector(primary, secondary, 0, 0, timeSignature);
     expect(position.primary).toEqual(3);
     expect(position.secondary).toEqual(0);
+  });
+
+  it('has a beats getter', () => {
+    let position = new TimelineVector(0, 1);
+    expect(position.beats).toEqual(new Fraction(1, 4));
+
+    position = new TimelineVector(0, 1, 3);
+    expect(position.beats).toEqual(new Fraction(1, 2));
   });
 
   it('adds timeline vectors correctly', () => {
@@ -85,8 +93,8 @@ describe('TimelineVector class', () => {
     expect(sum.secondary).toEqual(3);
 
     // Sums beats with overflow bar
-    a = new TimelineVector(1, 2, 2);
-    b = new TimelineVector(1, 2, 2);
+    a = new TimelineVector(1, 2, 6);
+    b = new TimelineVector(1, 2, 6);
     sum = a.add(b);
     expect(sum.primary).toEqual(3);
     expect(sum.secondary).toEqual(1);
@@ -234,7 +242,14 @@ describe('TimelineVector class', () => {
     const b = TimelineVector.fromAbsoluteTicks(ticks);
 
     expect(a).toEqual(b);
-    expect(a.absoluteTicks).toEqual(b.absoluteTicks);
+  });
+
+  it('has a static fromFraction method', () => {
+    const fraction = new Fraction(1, 4);
+    const a = TimelineVector.fromFraction(fraction);
+    const b = new TimelineVector(0, 1);
+
+    expect(a).toEqual(b);
   });
 
   it('has a static getNDivisions method', () => {

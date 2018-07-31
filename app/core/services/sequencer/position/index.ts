@@ -16,7 +16,7 @@ export class SequencerPositionService {
 
   getOffsetX = (position: TimelineVector) => {
     const { barWidth } = this.gridLayout;
-    const bar = position.bar * barWidth;
+    const bar = position.primary * barWidth;
     const beats = position.beats.multiplyScalar(barWidth);
 
     return bar + beats;

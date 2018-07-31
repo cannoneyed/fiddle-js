@@ -37,8 +37,8 @@ export class SnapToGrid {
   }
 
   static getDivisionWidth(length: TimelineVector, width: number, snapToGrid: SnapToGrid) {
-    const nDivisions = TimelineVector.getNDivisions(length, snapToGrid.division);
-    const gridSegmentWidth = width / nDivisions;
+    const { divisions } = TimelineVector.getNDivisions(length, snapToGrid.division);
+    const gridSegmentWidth = width / divisions;
     return gridSegmentWidth;
   }
 }

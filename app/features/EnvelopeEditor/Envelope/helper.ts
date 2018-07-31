@@ -56,7 +56,7 @@ export class EnvelopeHelper {
     const nearestGridIndex = Math.round(x / gridSegmentWidth);
 
     const nearestBeats = snapToGrid.division.multiply(nearestGridIndex);
-    const position = new TimelineVector(0, nearestBeats);
+    const position = TimelineVector.fromFraction(nearestBeats);
 
     const y = clamp(offsetY, 0, height);
     const range = envelope.maximum - envelope.minimum;

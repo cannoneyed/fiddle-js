@@ -22,14 +22,15 @@ const OFFSET_Y = 20;
 export class Popover extends React.Component<Props, {}> {
   renderPosition() {
     const { point } = this.props;
-    const { bar, beats, ticks } = point.position;
-    const string = `${bar} ${beats.numerator} ${beats.denominator} ${ticks}`;
+    const { primary, secondary, tertiary, ticks } = point.position;
+    const string = ` ${primary} ${secondary} ${tertiary} ${ticks}`;
     return <PositionText>{string}</PositionText>;
   }
 
   renderValue() {
     const { point } = this.props;
-    return <ValueText>{point.value.toFixed(2)}</ValueText>;
+    const string = ` ${point.value.toFixed(2)}`;
+    return <ValueText>{string}</ValueText>;
   }
 
   render() {

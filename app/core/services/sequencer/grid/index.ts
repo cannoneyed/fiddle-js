@@ -35,7 +35,9 @@ export class GridService {
       beats = position.multiply(0, 1);
     }
 
-    return new TimelineVector(bar, beats);
+    const nearestBar = new TimelineVector(bar);
+    const nearestBeats = TimelineVector.fromFraction(beats);
+    return nearestBar.add(nearestBeats);
   };
 
   getDivisionType(division: Fraction): DivisionType {

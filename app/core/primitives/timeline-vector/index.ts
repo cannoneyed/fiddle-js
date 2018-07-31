@@ -5,13 +5,12 @@ export const TICKS_PER_TERTIARY = 240;
 const defaultTimeSignature = () => new Fraction(4, 4);
 
 const computeTertiaryPerSecondary = (timeSignature: Fraction) => {
-  return 4; // TODO: Figure out 6/8 time signatures
+  return 12; // TODO: Figure out 6/8 time signatures
 };
 
 const computeDivisions = (absoluteTicks: number, timeSignature: Fraction) => {
   const tertiaryPerSecondary = computeTertiaryPerSecondary(timeSignature);
   const secondaryPerPrimary = timeSignature.numerator;
-
   const ticksPerSecondary = tertiaryPerSecondary * TICKS_PER_TERTIARY;
   const ticksPerPrimary = ticksPerSecondary * secondaryPerPrimary;
 
@@ -59,6 +58,15 @@ export class TimelineVector {
     this.secondary = computed.secondary;
     this.tertiary = computed.tertiary;
     this.ticks = computed.ticks;
+  }
+
+  get beats() {
+    const { denominator } = this.timeSignature;
+    const tertiaryPerSecondary = computeTertiaryPerSecondary(this.timeSignature);
+    // TODO: Multiple time signatures
+    const secondary = new Fraction(this.secondary, denominator);
+    const tertiary = new Fraction(this.tertiary, tertiaryPerSecondary);
+    return secondary.add(tertiary).reduce();
   }
 
   makeNegative() {
@@ -146,6 +154,17 @@ export class TimelineVector {
   static fromAbsoluteTicks(absoluteTicks: number, timeSignature = defaultTimeSignature()) {
     const { primary, secondary, tertiary, ticks } = computeDivisions(absoluteTicks, timeSignature);
     return new TimelineVector(primary, secondary, tertiary, ticks, timeSignature);
+  }
+
+  static fromFraction(fraction: Fraction, timeSignature = defaultTimeSignature()) {
+    const tertiaryPerSecondary = computeTertiaryPerSecondary(timeSignature);
+    const secondaryPerPrimary = timeSignature.numerator;
+
+    const ticksPerSecondary = tertiaryPerSecondary * TICKS_PER_TERTIARY;
+    const ticksPerPrimary = ticksPerSecondary * secondaryPerPrimary;
+    const ticks = fraction.multiplyScalar(ticksPerPrimary);
+
+    return TimelineVector.fromAbsoluteTicks(ticks);
   }
 
   static getNDivisions(timelineVector: TimelineVector, division: Fraction) {
