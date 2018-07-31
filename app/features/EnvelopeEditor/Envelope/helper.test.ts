@@ -5,11 +5,10 @@ import { Envelope } from 'core/models/envelope';
 import { Point as PointModel } from 'core/models/envelope/point';
 import { SnapToGrid, snapToGridValues } from 'core/models/snap-to-grid';
 
-import { Fraction } from 'core/primitives/fraction';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 const ZERO = new TimelineVector(0);
-const QUARTER = new TimelineVector(0, new Fraction(1, 4));
+const QUARTER = new TimelineVector(0, 1);
 
 const makeDummyComponent = (p: Partial<Props> = {}): Component => {
   const envelope = p.envelope || new Envelope();

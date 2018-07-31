@@ -1,106 +1,148 @@
 import { Fraction } from 'core/primitives/fraction';
-import { TimelineVector } from 'core/primitives/timeline-vector';
+import { TimelineVector, TICKS_PER_TERTIARY } from 'core/primitives/timeline-vector';
 
 describe('TimelineVector class', () => {
   it('constructs a timeline vector with defaults', () => {
     const position = new TimelineVector();
-    expect(position.bar).toEqual(0);
-    expect(position.beats).toBeInstanceOf(Fraction);
+    expect(position.primary).toEqual(0);
+    expect(position.secondary).toEqual(0);
+    expect(position.tertiary).toEqual(0);
+    expect(position.ticks).toEqual(0);
+    expect(position.timeSignature).toEqual(new Fraction(4, 4));
   });
 
   it('constructs a timeline vector with parameters', () => {
-    const bar = 8;
-    const beats = new Fraction(1, 2);
+    const primary = 8;
+    const secondary = 2;
+    const tertiary = 1;
     const ticks = 19;
 
-    const position = new TimelineVector(bar, beats, ticks);
-    expect(position.bar).toEqual(bar);
-    expect(position.beats).toEqual(beats);
+    const position = new TimelineVector(primary, secondary, tertiary, ticks);
+    expect(position.primary).toEqual(primary);
+    expect(position.secondary).toEqual(secondary);
+    expect(position.tertiary).toEqual(tertiary);
     expect(position.ticks).toEqual(ticks);
+  });
+
+  it('carries over overlapping secondary division', () => {
+    const primary = 4;
+    const secondary = 5;
+
+    const position = new TimelineVector(primary, secondary);
+    expect(position.primary).toEqual(5);
+    expect(position.secondary).toEqual(1);
+  });
+
+  it('carries over overlapping tertiary division', () => {
+    const primary = 4;
+    const secondary = 3;
+    const tertiary = 5;
+
+    const position = new TimelineVector(primary, secondary, tertiary);
+    expect(position.primary).toEqual(5);
+    expect(position.secondary).toEqual(0);
+    expect(position.tertiary).toEqual(1);
+  });
+
+  it('carries over overlapping ticks', () => {
+    const primary = 1;
+    const secondary = 3;
+    const tertiary = 3;
+    const ticks = TICKS_PER_TERTIARY + 1;
+
+    const position = new TimelineVector(primary, secondary, tertiary, ticks);
+    expect(position.primary).toEqual(2);
+    expect(position.secondary).toEqual(0);
+    expect(position.tertiary).toEqual(0);
+    expect(position.ticks).toEqual(1);
+  });
+
+  it('carries over overlapping secondary division in 3/4', () => {
+    const primary = 2;
+    const secondary = 3;
+    const timeSignature = new Fraction(3, 4);
+
+    const position = new TimelineVector(primary, secondary, 0, 0, timeSignature);
+    expect(position.primary).toEqual(3);
+    expect(position.secondary).toEqual(0);
   });
 
   it('adds timeline vectors correctly', () => {
     let a, b, sum;
     // Sums beats to whole beats
-    a = new TimelineVector(4, new Fraction(1, 2));
-    b = new TimelineVector(4, new Fraction(1, 2));
+    a = new TimelineVector(4, 2);
+    b = new TimelineVector(4, 2);
     sum = a.add(b);
-    expect(sum.bar).toEqual(9);
-    expect(sum.beats.numerator).toEqual(0);
+    expect(sum.primary).toEqual(9);
+    expect(sum.secondary).toEqual(0);
 
     // Sums beats
-    a = new TimelineVector(4, new Fraction(1, 2));
-    b = new TimelineVector(4, new Fraction(1, 4));
+    a = new TimelineVector(4, 2);
+    b = new TimelineVector(4, 1);
     sum = a.add(b);
 
-    expect(sum.bar).toEqual(8);
-    expect(sum.beats.numerator).toEqual(3);
-    expect(sum.beats.denominator).toEqual(4);
+    expect(sum.primary).toEqual(8);
+    expect(sum.secondary).toEqual(3);
 
     // Sums beats with overflow bar
-    a = new TimelineVector(1, new Fraction(10, 16));
-    b = new TimelineVector(1, new Fraction(10, 16));
+    a = new TimelineVector(1, 2, 2);
+    b = new TimelineVector(1, 2, 2);
     sum = a.add(b);
-    expect(sum.bar).toEqual(3);
-    expect(sum.beats.numerator).toEqual(1);
-    expect(sum.beats.denominator).toEqual(4);
+    expect(sum.primary).toEqual(3);
+    expect(sum.secondary).toEqual(1);
+    expect(sum.tertiary).toEqual(0);
 
     // Adds negative TimelineVectors
-    a = new TimelineVector(1, new Fraction(1, 2));
-    b = new TimelineVector(0, new Fraction(-1, 4));
+    a = new TimelineVector(1, 2);
+    b = new TimelineVector(0, -1);
     sum = a.add(b);
-    expect(sum.bar).toEqual(1);
-    expect(sum.beats.numerator).toEqual(1);
-    expect(sum.beats.denominator).toEqual(4);
+    expect(sum.primary).toEqual(1);
+    expect(sum.secondary).toEqual(1);
   });
 
   it('subtracts timeline vectors correctly', () => {
     let a, b, sum;
     // Sums beats to whole beats
-    a = new TimelineVector(4, new Fraction(1, 2));
-    b = new TimelineVector(4, new Fraction(1, 2));
+    a = new TimelineVector(4, 2);
+    b = new TimelineVector(4, 2);
     sum = a.subtract(b);
-    expect(sum.bar).toEqual(0);
-    expect(sum.beats.numerator).toEqual(0);
+    expect(sum.primary).toEqual(0);
+    expect(sum.secondary).toEqual(0);
 
     // // Sums beats
-    a = new TimelineVector(4, new Fraction(1, 2));
-    b = new TimelineVector(4, new Fraction(1, 4));
+    a = new TimelineVector(4, 2);
+    b = new TimelineVector(4, 1);
     sum = a.subtract(b);
-    expect(sum.bar).toEqual(0);
-    expect(sum.beats.numerator).toEqual(1);
-    expect(sum.beats.denominator).toEqual(4);
+    expect(sum.primary).toEqual(0);
+    expect(sum.secondary).toEqual(1);
 
     // Sums beats with overflow bar
-    a = new TimelineVector(2, new Fraction(1, 4));
-    b = new TimelineVector(1, new Fraction(3, 4));
+    a = new TimelineVector(2, 1);
+    b = new TimelineVector(1, 3);
     sum = a.subtract(b);
 
-    expect(sum.bar).toEqual(0);
-    expect(sum.beats.numerator).toEqual(1);
-    expect(sum.beats.denominator).toEqual(2);
+    expect(sum.primary).toEqual(0);
+    expect(sum.secondary).toEqual(2);
 
     // Adds negative TimelineVectors
-    a = new TimelineVector(1, new Fraction(1, 2));
-    b = new TimelineVector(0, new Fraction(-1, 4));
+    a = new TimelineVector(1, 2);
+    b = new TimelineVector(0, -1);
     sum = a.subtract(b);
-    expect(sum.bar).toEqual(1);
-    expect(sum.beats.numerator).toEqual(3);
-    expect(sum.beats.denominator).toEqual(4);
+    expect(sum.primary).toEqual(1);
+    expect(sum.secondary).toEqual(3);
   });
 
   it('has a makeNegative method', () => {
-    const a = new TimelineVector(1, new Fraction(1, 2));
+    const a = new TimelineVector(1, 2);
     const b = a.makeNegative();
-    expect(b.bar).toEqual(-1);
-    expect(b.beats.numerator).toEqual(-1);
-    expect(b.beats.denominator).toEqual(2);
+    expect(b.primary).toEqual(-1);
+    expect(b.secondary).toEqual(-2);
   });
 
   it('has equality comparison operators', () => {
-    const a = new TimelineVector(1, new Fraction(1, 2));
-    const b = new TimelineVector(1, new Fraction(1, 4));
-    const c = new TimelineVector(1, new Fraction(1, 4));
+    const a = new TimelineVector(1, 2);
+    const b = new TimelineVector(1, 1);
+    const c = new TimelineVector(1, 1);
 
     // Equality
     expect(b.equals(a)).toBe(false);
@@ -131,11 +173,7 @@ describe('TimelineVector class', () => {
   it('has a copy method', () => {
     const position = new TimelineVector();
     const copy = position.copy();
-    expect(position.bar).toEqual(copy.bar);
-    expect(position.beats).toEqual(copy.beats);
-    expect(position.ticks).toEqual(copy.ticks);
-    expect(position.timeSignature).toEqual(copy.timeSignature);
-    expect(position.absoluteTicks).toEqual(copy.absoluteTicks);
+    expect(position).toEqual(copy);
   });
 
   it('has a static clamp method', () => {
@@ -144,7 +182,7 @@ describe('TimelineVector class', () => {
 
     const above = new TimelineVector(3);
     const below = new TimelineVector(0);
-    const between = new TimelineVector(1, new Fraction(1, 2));
+    const between = new TimelineVector(1, 2);
 
     expect(TimelineVector.clamp(above, lower, upper)).toEqual(upper);
     expect(TimelineVector.clamp(below, lower, upper)).toEqual(lower);
@@ -157,7 +195,7 @@ describe('TimelineVector class', () => {
 
     const above = new TimelineVector(3);
     const below = new TimelineVector(0);
-    const between = new TimelineVector(1, new Fraction(1, 2));
+    const between = new TimelineVector(1, 2);
 
     expect(TimelineVector.isBetween(above, lower, upper)).toEqual(false);
     expect(TimelineVector.isBetween(below, lower, upper)).toEqual(false);
@@ -172,7 +210,7 @@ describe('TimelineVector class', () => {
 
     const above = new TimelineVector(3);
     const below = new TimelineVector(0);
-    const between = new TimelineVector(1, new Fraction(1, 2));
+    const between = new TimelineVector(1, 2);
 
     expect(TimelineVector.isBetweenInclusive(above, lower, upper)).toEqual(false);
     expect(TimelineVector.isBetweenInclusive(below, lower, upper)).toEqual(false);
@@ -190,8 +228,8 @@ describe('TimelineVector class', () => {
     expect(TimelineVector.sortAscending(positions)).toEqual([a, b, c]);
   });
 
-  it.only('has a static fromAbsoluteTicks method', () => {
-    const a = new TimelineVector(1, new Fraction(1, 16), 100);
+  it('has a static fromAbsoluteTicks method', () => {
+    const a = new TimelineVector(1, 0, 1, 100);
     const ticks = a.absoluteTicks;
     const b = TimelineVector.fromAbsoluteTicks(ticks);
 
@@ -199,19 +237,21 @@ describe('TimelineVector class', () => {
     expect(a.absoluteTicks).toEqual(b.absoluteTicks);
   });
 
-  it.only('has a static fromAbsoluteTicks method', () => {
-    const a = new TimelineVector(1, new Fraction(1, 16), 100);
-    const ticks = a.absoluteTicks;
-    const b = TimelineVector.fromAbsoluteTicks(ticks);
-
-    expect(a).toEqual(b);
-    expect(a.absoluteTicks).toEqual(b.absoluteTicks);
-  });
-
-  it.only('has a static getNDivisions method', () => {
+  it('has a static getNDivisions method', () => {
     const vector = new TimelineVector(2);
     const division = new Fraction(1, 8);
 
-    expect(TimelineVector.getNDivisions(vector, division)).toEqual(16);
+    const result = TimelineVector.getNDivisions(vector, division);
+    expect(result.divisions).toEqual(16);
+    expect(result.remainder).toEqual(new TimelineVector(0));
+  });
+
+  it('getNDivisions computes a remainder', () => {
+    const vector = new TimelineVector(2, 0, 1);
+    const division = new Fraction(1, 8);
+
+    const result = TimelineVector.getNDivisions(vector, division);
+    expect(result.divisions).toEqual(16);
+    expect(result.remainder).toEqual(new TimelineVector(0, 0, 1));
   });
 });
