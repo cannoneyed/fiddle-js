@@ -1,5 +1,6 @@
 import React from 'react';
 import theme from 'styles/theme';
+import { Wrapper } from './helpers';
 
 import { storiesOf } from '@storybook/react';
 import { withKnobs, number } from '@storybook/addon-knobs';
@@ -45,8 +46,14 @@ stories.add('default', () => {
   };
 
   return (
-    <div style={gridWrapperStyle}>
-      <VerticalGrid dimensions={{ height, width }} colWidth={gridSegmentWidth} offsetX={offsetX} />
-    </div>
+    <Wrapper>
+      <div style={gridWrapperStyle}>
+        <VerticalGrid
+          dimensions={{ height, width }}
+          colWidth={gridSegmentWidth}
+          offsetX={offsetX}
+        />
+      </div>
+    </Wrapper>
   );
 });

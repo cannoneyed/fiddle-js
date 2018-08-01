@@ -1,5 +1,6 @@
 import React from 'react';
 import theme from 'styles/theme';
+import { Wrapper } from './helpers';
 
 import { storiesOf } from '@storybook/react';
 import { withKnobs, number } from '@storybook/addon-knobs';
@@ -59,14 +60,16 @@ stories.add('default', () => {
   };
 
   return (
-    <div style={gridWrapperStyle}>
-      <Grid
-        dimensions={{ height, width }}
-        colWidth={colWidth}
-        rowHeight={rowHeight}
-        offsetX={offsetX}
-        offsetY={offsetY}
-      />
-    </div>
+    <Wrapper>
+      <div style={gridWrapperStyle}>
+        <Grid
+          dimensions={{ height, width }}
+          colWidth={colWidth}
+          rowHeight={rowHeight}
+          offsetX={offsetX}
+          offsetY={offsetY}
+        />
+      </div>
+    </Wrapper>
   );
 });

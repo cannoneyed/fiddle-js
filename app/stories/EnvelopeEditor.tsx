@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { select, withKnobs } from '@storybook/addon-knobs';
+import { Wrapper } from './helpers';
 
 import { EnvelopeEditor } from 'features/EnvelopeEditor/EnvelopeEditor';
 
@@ -34,10 +35,12 @@ stories.add('default', () => {
   const value = select('Snap To Grid', options, defaultValue);
 
   return (
-    <EnvelopeEditor
-      dimensions={{ height, width }}
-      envelope={envelope}
-      snapToGrid={getSnapToGrid(value)}
-    />
+    <Wrapper>
+      <EnvelopeEditor
+        dimensions={{ height, width }}
+        envelope={envelope}
+        snapToGrid={getSnapToGrid(value)}
+      />
+    </Wrapper>
   );
 });
