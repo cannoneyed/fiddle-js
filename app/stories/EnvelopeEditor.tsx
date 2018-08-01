@@ -29,10 +29,9 @@ stories.add('default', () => {
   const height = 500;
   const width = 1000;
 
-  const options = Object.keys(snapToGridValues);
+  const snapToGridOptions = Object.keys(snapToGridValues);
   const defaultValue = 'snap_1_4';
-
-  const value = select('Snap To Grid', options, defaultValue);
+  const value = select('Snap To Grid', snapToGridOptions, defaultValue);
 
   return (
     <Wrapper>

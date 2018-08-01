@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { range } from 'lodash';
+import styled from 'styled-components';
 import theme from 'styles/theme';
 
 import { Dimensions } from 'core/interfaces';
@@ -21,8 +22,6 @@ export class PianoRoll extends React.Component<Props, {}> {
   renderKey = (y: number, keyIndex: number) => {
     const { dimensions, getKeyColor, keyHeight } = this.props;
     const keyStyle = {
-      position: 'absolute' as 'absolute',
-      boxSizing: 'border-box' as 'border-box',
       top: y,
       height: keyHeight,
       width: dimensions.width,
@@ -30,7 +29,7 @@ export class PianoRoll extends React.Component<Props, {}> {
       borderTop: `1px solid ${theme.colors.darkGray.toRgbString()}`,
     };
 
-    return <div key={keyIndex} style={keyStyle} onClick={() => this.handleKeyClick(keyIndex)} />;
+    return <Key key={keyIndex} style={keyStyle} onClick={() => this.handleKeyClick(keyIndex)} />;
   };
 
   render() {
@@ -47,14 +46,22 @@ export class PianoRoll extends React.Component<Props, {}> {
     });
 
     const wrapperStyle = {
-      position: 'relative' as 'relative',
-      overflow: 'hidden' as 'hidden',
       width: dimensions.width,
       height: dimensions.height,
     };
 
-    return <div style={wrapperStyle}>{keys}</div>;
+    return <KeyWrapper style={wrapperStyle}>{keys}</KeyWrapper>;
   }
 }
 
 export default PianoRoll;
+
+const KeyWrapper = styled.div`
+  position: relative;
+  overflow: hidden;
+`;
+
+const Key = styled.div`
+  position: absolute;
+  box-sizing: border-box;
+`;
