@@ -2,9 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { range } from 'lodash';
 import theme from 'styles/theme';
-import { shallowEqual } from 'utils/shallow-equal';
 
-import { clear, drawHorizontalLine, drawRectangle, resizeCanvas } from 'core/canvas';
 import { Dimensions } from 'core/interfaces';
 
 interface Props {
@@ -16,65 +14,46 @@ interface Props {
 
 @observer
 export class PianoRoll extends React.Component<Props, {}> {
-  private canvas: React.RefObject<HTMLCanvasElement> = React.createRef();
-  private ctx: CanvasRenderingContext2D;
+  handleKeyClick = (keyIndex: number) => {
+    console.log(keyIndex);
+  };
 
-  getCanvasElement() {
-    return this.canvas.current as HTMLCanvasElement;
-  }
+  renderKey = (y: number, keyIndex: number) => {
+    const { dimensions, getKeyColor, keyHeight } = this.props;
+    const keyStyle = {
+      position: 'absolute' as 'absolute',
+      boxSizing: 'border-box' as 'border-box',
+      top: y,
+      height: keyHeight,
+      width: dimensions.width,
+      backgroundColor: getKeyColor(keyIndex),
+      borderTop: `1px solid ${theme.colors.darkGray.toRgbString()}`,
+    };
 
-  componentDidMount() {
-    const canvasElement = this.getCanvasElement();
-    this.ctx = canvasElement.getContext('2d')!;
-    this.resizeCanvas();
-    this.updateCanvas();
-  }
+    return <div key={keyIndex} style={keyStyle} onClick={() => this.handleKeyClick(keyIndex)} />;
+  };
 
-  componentDidUpdate(prevProps: Props) {
-    if (!shallowEqual(this.props.dimensions, prevProps.dimensions)) {
-      this.resizeCanvas();
-    }
-    this.updateCanvas();
-  }
-
-  resizeCanvas() {
-    resizeCanvas(this.getCanvasElement(), this.props.dimensions);
-  }
-
-  updateCanvas() {
+  render() {
     const { dimensions, keyHeight, offsetY } = this.props;
-    clear(this.ctx, 0, 0, dimensions.width, dimensions.height);
 
+    const nKeys = Math.floor(dimensions.height / keyHeight) + 2;
     const startKeyIndex = Math.floor(offsetY / keyHeight);
     const offsetRow = keyHeight - (offsetY % keyHeight);
 
-    const nToDraw = Math.ceil(dimensions.height / keyHeight) + 1;
-
-    range(nToDraw).forEach((i: number) => {
+    const keys = range(nKeys).map(i => {
       const y = dimensions.height - (i * keyHeight + offsetRow);
       const keyIndex = startKeyIndex + i;
-      this.drawKey(y, keyIndex);
+      return this.renderKey(y, keyIndex);
     });
-  }
 
-  drawKey(y: number, keyIndex: number) {
-    const { dimensions, getKeyColor, keyHeight } = this.props;
-    const corner = { x: 0, y };
-    const size = { height: keyHeight, width: dimensions.width };
-    const borderColor = theme.colors.mediumGray.toRgbString();
-    const fillColor = getKeyColor(keyIndex);
-    drawRectangle(this.ctx, corner, size, fillColor);
-    drawHorizontalLine(this.ctx, y, dimensions.width, borderColor);
-  }
-
-  render() {
-    const { dimensions } = this.props;
-    const canvasStyle = {
+    const wrapperStyle = {
+      position: 'relative' as 'relative',
+      overflow: 'hidden' as 'hidden',
       width: dimensions.width,
       height: dimensions.height,
     };
 
-    return <canvas style={canvasStyle} ref={this.canvas} />;
+    return <div style={wrapperStyle}>{keys}</div>;
   }
 }
 
