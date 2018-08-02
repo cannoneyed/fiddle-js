@@ -7,29 +7,27 @@ import { Dimensions } from 'core/interfaces';
 import { Notes as NotesModel } from 'core/models/notes';
 import { SnapToGrid } from 'core/models/snap-to-grid';
 
-import Grid from 'components/Grid';
-import PianoRoll from 'components/PianoRoll';
+import { Grid } from 'components/Grid';
+import { PianoRoll } from 'components/PianoRoll';
+import { getKeyColor } from 'components/PianoRoll/utils';
+
+import { Notes } from 'features/NotesEditor/Notes';
 
 const PIANO_ROLL_WIDTH = 20;
+const N_KEYS = 88;
 
 interface Props {
-  notes: NotesModel;
   dimensions: Dimensions;
-  snapToGrid: SnapToGrid;
+  notes: NotesModel;
+  offsetY: number;
   rowHeight: number;
+  snapToGrid: SnapToGrid;
 }
-
-const getKeyColor = (keyIndex: number) => {
-  const key = keyIndex % 12;
-  let white = true;
-  if (key === 1 || key === 3 || key === 6 || key === 8 || key === 10) white = false;
-  return white ? '#EEE' : '#444';
-};
 
 @observer
 export class NotesEditor extends React.Component<Props, {}> {
   render() {
-    const { dimensions, notes, rowHeight, snapToGrid } = this.props;
+    const { dimensions, notes, offsetY, rowHeight, snapToGrid } = this.props;
 
     const editorWrapperStyle = {
       ...dimensions,
@@ -43,7 +41,7 @@ export class NotesEditor extends React.Component<Props, {}> {
       width: pianoRollWidth,
     };
 
-    const gridDimensions = {
+    const notesDimensions = {
       height: dimensions.height,
       width: dimensions.width - pianoRollDimensions.width,
     };
@@ -52,23 +50,38 @@ export class NotesEditor extends React.Component<Props, {}> {
       left: pianoRollDimensions.width,
     };
 
+    const notesWrapperStyle = {
+      left: pianoRollDimensions.width,
+    };
+
     return (
       <NoteEditorWrapper style={editorWrapperStyle}>
         <PianoRollWrapper>
           <PianoRoll
             dimensions={pianoRollDimensions}
-            keyHeight={rowHeight}
-            offsetY={0}
             getKeyColor={getKeyColor}
+            keyHeight={rowHeight}
+            nKeys={N_KEYS}
+            offsetY={offsetY}
           />
         </PianoRollWrapper>
+        <NotesWrapper style={notesWrapperStyle}>
+          <Notes
+            dimensions={notesDimensions}
+            nKeys={N_KEYS}
+            notes={notes}
+            offsetX={0}
+            offsetY={offsetY}
+            rowHeight={rowHeight}
+          />
+        </NotesWrapper>
         <GridWrapper style={gridWrapperStyle}>
           <Grid
-            dimensions={gridDimensions}
             colWidth={colWidth}
-            rowHeight={rowHeight}
+            dimensions={notesDimensions}
             offsetX={0}
-            offsetY={0}
+            offsetY={offsetY}
+            rowHeight={rowHeight}
           />
         </GridWrapper>
       </NoteEditorWrapper>
@@ -87,6 +100,11 @@ const absolute = css`
   position: absolute;
   width: 100%;
   height: 100%;
+`;
+
+const NotesWrapper = styled.div`
+  ${absolute};
+  z-index: 1;
 `;
 
 const GridWrapper = styled.div`

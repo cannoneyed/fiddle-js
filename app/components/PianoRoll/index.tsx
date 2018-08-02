@@ -9,6 +9,7 @@ import { Dimensions } from 'core/interfaces';
 interface Props {
   dimensions: Dimensions;
   keyHeight: number;
+  nKeys: number;
   offsetY: number;
   getKeyColor: (index: number) => string;
 }
@@ -33,15 +34,15 @@ export class PianoRoll extends React.Component<Props, {}> {
   };
 
   render() {
-    const { dimensions, keyHeight, offsetY } = this.props;
+    const { dimensions, keyHeight, nKeys, offsetY } = this.props;
 
-    const nKeys = Math.floor(dimensions.height / keyHeight) + 2;
-    const startKeyIndex = Math.floor(offsetY / keyHeight);
-    const offsetRow = keyHeight - (offsetY % keyHeight);
+    const nVisible = Math.floor(dimensions.height / keyHeight) + 2;
+    const startKeyIndex = nKeys - Math.floor(offsetY / keyHeight);
+    const offsetRow = offsetY % keyHeight;
 
-    const keys = range(nKeys).map(i => {
-      const y = dimensions.height - (i * keyHeight + offsetRow);
-      const keyIndex = startKeyIndex + i;
+    const keys = range(nVisible).map(i => {
+      const y = i * keyHeight - offsetRow;
+      const keyIndex = startKeyIndex - i;
       return this.renderKey(y, keyIndex);
     });
 

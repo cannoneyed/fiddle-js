@@ -6,6 +6,7 @@ import { Wrapper } from './helpers';
 import { NotesEditor } from 'features/NotesEditor/NotesEditor';
 
 import { Notes } from 'core/models/notes';
+import { Note } from 'core/models/notes/note';
 import { SnapToGrid, snapToGridValues } from 'core/models/snap-to-grid';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
@@ -18,7 +19,16 @@ stories.addDecorator(withKnobs);
 
 stories.add('default', () => {
   const length = new TimelineVector(2);
-  const notes = new Notes(length);
+
+  const QUARTER = new TimelineVector(0, 1);
+
+  const notes = [
+    new Note(new TimelineVector(1), QUARTER, 12),
+    new Note(new TimelineVector(1), QUARTER, 16),
+    new Note(new TimelineVector(1), QUARTER, 19),
+  ];
+
+  const notesGroup = new Notes(length, notes);
 
   const width = number('width', 1000, {
     range: true,
@@ -36,8 +46,15 @@ stories.add('default', () => {
 
   const rowHeight = number('rowHeight', 20, {
     range: true,
-    min: 1,
+    min: 10,
     max: 50,
+    step: 1,
+  });
+
+  const offsetY = number('offsetY', 0, {
+    range: true,
+    min: 0,
+    max: 1000,
     step: 1,
   });
 
@@ -49,7 +66,8 @@ stories.add('default', () => {
     <Wrapper>
       <NotesEditor
         dimensions={{ height, width }}
-        notes={notes}
+        notes={notesGroup}
+        offsetY={offsetY}
         rowHeight={rowHeight}
         snapToGrid={getSnapToGrid(value)}
       />

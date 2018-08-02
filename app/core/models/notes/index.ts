@@ -13,8 +13,9 @@ export class Notes {
 
   @observable notes = observable.array<Note>([]);
 
-  constructor(length?: TimelineVector) {
+  constructor(length?: TimelineVector, notes: Note[] = []) {
     this.length = length || new TimelineVector(2);
+    this.notes.push(...notes);
   }
 
   addNote(note: Note) {

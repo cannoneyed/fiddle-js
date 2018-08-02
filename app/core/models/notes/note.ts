@@ -13,7 +13,7 @@ export class Note {
   @observable velocity: number;
   @observable selected = false;
 
-  constructor(position: TimelineVector, length: TimelineVector, value: number, velocity: number) {
+  constructor(position: TimelineVector, length: TimelineVector, value: number, velocity = 100) {
     this.position = position;
     this.length = length;
     this.value = value;

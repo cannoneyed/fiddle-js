@@ -6,6 +6,7 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, number } from '@storybook/addon-knobs';
 
 import { PianoRoll } from 'components/PianoRoll';
+import { getKeyColor } from 'components/PianoRoll/utils';
 
 const stories = storiesOf('PianoRoll', module);
 stories.addDecorator(withKnobs);
@@ -13,7 +14,7 @@ stories.addDecorator(withKnobs);
 stories.add('default', () => {
   const keyHeight = number('keyHeight', 20, {
     range: true,
-    min: 1,
+    min: 10,
     max: 50,
     step: 1,
   });
@@ -45,15 +46,8 @@ stories.add('default', () => {
     height: height,
   };
 
-  const getKeyColor = (keyIndex: number) => {
-    const key = keyIndex % 12;
-    let white = true;
-    if (key === 1 || key === 3 || key === 6 || key === 8 || key === 10) white = false;
-    return white ? '#EEE' : '#444';
-  };
-
   const dimensions = { height, width };
-  const props = { dimensions, getKeyColor, keyHeight, offsetY };
+  const props = { dimensions, getKeyColor, keyHeight, offsetY, nKeys: 88 };
 
   return (
     <Wrapper>
