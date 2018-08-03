@@ -15,15 +15,21 @@ import { Dimensions } from 'core/interfaces';
 import DragToMarker from './DragToMarker';
 import { TracksAreaContainer, TracksContainer } from './styled-components';
 
-interface Props {}
+interface Props {
+  screenDimensions: Dimensions;
+}
+
 interface InjectedProps {
   dimensions: Dimensions;
   getScroll: () => { x: number; y: number };
   handleScroll: (deltaX: number, deltaY: number) => void;
+  trackHeight: number;
   tracks: TrackModel[];
 }
 
-const inject = injector<Props, InjectedProps>(props => {
+const TRACK_VISIBLE_BUFFER = 2;
+
+const inject = injector<Props, InjectedProps>(() => {
   const sequencerScrollInteraction = Container.get(SequencerScrollInteraction);
   const tracksLayout = Container.get(TracksLayout);
   const trackStore = Container.get(TrackStore);
@@ -37,6 +43,7 @@ const inject = injector<Props, InjectedProps>(props => {
     dimensions: tracksLayout.tracksViewportDimensions,
     getScroll,
     handleScroll: sequencerScrollInteraction.handleScroll,
+    trackHeight: tracksLayout.trackHeight,
     tracks: trackStore.trackList,
   };
 });
@@ -68,13 +75,22 @@ export class TracksArea extends React.Component<Props & InjectedProps, {}> {
   };
 
   render() {
-    const { tracks } = this.props;
+    const { screenDimensions, tracks, trackHeight } = this.props;
     const { height, width } = this.props.dimensions;
 
     const tracksStyle = {
       height,
       width,
     };
+
+    const scrollY = this.props.getScroll().y;
+
+    const top = -TRACK_VISIBLE_BUFFER * trackHeight;
+    const bottom = screenDimensions.height + TRACK_VISIBLE_BUFFER * trackHeight;
+    const visibleTracks = tracks.filter((_, index) => {
+      const screenY = index * trackHeight - scrollY;
+      return screenY > top && screenY < bottom;
+    });
 
     return (
       <TracksAreaContainer
@@ -84,7 +100,7 @@ export class TracksArea extends React.Component<Props & InjectedProps, {}> {
       >
         <DragToMarker />
         <TracksContainer>
-          {tracks.map((track, index) => <Track track={track} index={index} key={index} />)}
+          {visibleTracks.map((track, index) => <Track track={track} index={index} key={index} />)}
         </TracksContainer>
       </TracksAreaContainer>
     );

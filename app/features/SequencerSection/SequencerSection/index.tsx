@@ -74,6 +74,11 @@ export class SequencerSection extends React.Component<Props & InjectedProps, {}>
       width: this.props.tracksAreaDimensions.width,
     };
 
+    const tracksDimensions = {
+      height: this.props.tracksAreaDimensions.height,
+      width: this.props.tracksAreaDimensions.width - 100,
+    };
+
     const verticalScrollbarWrapperStyle = {
       top: this.props.verticalScrollbarRectangle.top,
       height: this.props.verticalScrollbarRectangle.height,
@@ -96,7 +101,7 @@ export class SequencerSection extends React.Component<Props & InjectedProps, {}>
           <TracksGutter />
           <TracksWrapper>
             <Grid />
-            <TracksArea />
+            <TracksArea screenDimensions={tracksDimensions} />
           </TracksWrapper>
         </TracksAreaWrapper>
         <VerticalScrollbarWrapper style={verticalScrollbarWrapperStyle}>

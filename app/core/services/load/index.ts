@@ -12,13 +12,20 @@ export class LoadService {
 
   @action
   loadSession() {
-    const tracks = range(8).map(() => this.trackStore.createTrack());
-    const clip = this.clipActions.createClip({
-      trackId: tracks[0].id,
-      length: new TimelineVector(2),
-      position: new TimelineVector(4),
-    });
+    const timelineLength = 64;
+    const tracksCount = 64;
 
-    this.clipActions.editClip(clip.id);
+    const tracks = range(tracksCount).map(() => this.trackStore.createTrack());
+
+    for (let i = 0; i < 100; i++) {
+      const trackId = Math.floor(Math.random() * tracksCount);
+      const position = Math.floor(Math.random() * timelineLength - 1);
+
+      this.clipActions.createClip({
+        trackId: tracks[trackId].id,
+        length: new TimelineVector(1),
+        position: new TimelineVector(position),
+      });
+    }
   }
 }
