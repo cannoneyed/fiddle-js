@@ -21,7 +21,18 @@ export class ClipActions {
   ) {}
 
   @action
+  createClips(params: ClipParams[]) {
+    return params.map(param => {
+      return this._createClip(param);
+    });
+  }
+
+  @action
   createClip(params: ClipParams) {
+    return this._createClip(params);
+  }
+
+  _createClip(params: ClipParams) {
     const clip = this.clipStore.createClip(params);
     const snip = this.snipStore.createSnip({
       length: params.length,
@@ -78,3 +89,5 @@ export class ClipActions {
     this.clipEditorState.setClipEditing(clipId);
   };
 }
+
+export { ClipParams };

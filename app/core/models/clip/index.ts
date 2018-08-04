@@ -1,5 +1,5 @@
 import { Container } from 'typedi';
-import { action, computed, observable } from 'mobx';
+import { computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 import { json } from 'core/serialization/json';
 
@@ -68,17 +68,14 @@ export class Clip {
     return this.snipIds.map(snipId => this.snipStore.getSnip(snipId)!);
   }
 
-  @action
   addSnip(snipId: string) {
     this.snipIds.push(snipId);
   }
 
-  @action
   setPosition(position: TimelineVector) {
     this.position = position;
   }
 
-  @action
   setTrackId(trackId: string) {
     this.trackId = trackId;
   }

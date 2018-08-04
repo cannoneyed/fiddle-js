@@ -9,18 +9,22 @@ import { ContextMenu } from '@blueprintjs/core';
 import TrackContextMenu from 'features/ContextMenus/TrackContextMenu';
 import Clip from 'features/SequencerSection/Clip';
 
+import { Dimensions } from 'core/interfaces';
+import { Clip as ClipModel } from 'core/models/clip';
 import { Track as TrackModel } from 'core/models/track';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 import { TracksMouseInteraction } from 'core/interactions/tracks/mouse';
 
+import { ClipVisibilityHelper } from './helpers';
+
 interface Props {
+  offsetX: number;
   track: TrackModel;
-  index: number;
+  visibleWidth: number;
 }
 interface InjectedProps {
+  dimensions: Dimensions;
   handleTrackClick: (e: React.MouseEvent<HTMLDivElement>) => void;
-  height: number;
-  width: number;
 }
 interface State {
   isContextMenuOpen: boolean;
@@ -31,16 +35,22 @@ const inject = injector<Props, InjectedProps>(props => {
   const tracksLayout = Container.get(TracksLayout);
   const trackMouseInteraction = Container.get(TracksMouseInteraction);
 
-  return {
-    handleTrackClick: (e: React.MouseEvent<HTMLDivElement>) =>
-      trackMouseInteraction.handleTrackClick(track, e),
+  const dimensions = {
     height: tracksLayout.trackHeight,
     width: tracksLayout.trackWidth,
+  };
+
+  return {
+    dimensions,
+    handleTrackClick: (e: React.MouseEvent<HTMLDivElement>) =>
+      trackMouseInteraction.handleTrackClick(track, e),
   };
 });
 
 @observer
 export class Track extends React.Component<Props & InjectedProps, State> {
+  clipVisibilityHelper = new ClipVisibilityHelper();
+
   renderContextMenu = (offsetX: number) => {
     const { track } = this.props;
 
@@ -55,22 +65,30 @@ export class Track extends React.Component<Props & InjectedProps, State> {
     this.setState({ isContextMenuOpen: true });
   };
 
+  getVisibleClips(clips: ClipModel[]) {
+    const { offsetX, visibleWidth } = this.props;
+    const left = offsetX;
+    const right = left + visibleWidth;
+    return this.clipVisibilityHelper.computeVisibility(clips, left, right);
+  }
+
   render() {
-    const { track, width, height } = this.props;
+    const { track, dimensions } = this.props;
 
     const trackStyle = {
-      height: height,
-      width: width,
+      ...dimensions,
     };
 
+    const visibleClips = this.getVisibleClips(track.clips);
+    const visibleDraggedClips = this.getVisibleClips(track.draggedClips);
     return (
       <TrackContainer
         style={trackStyle}
         onMouseDown={this.props.handleTrackClick}
         onContextMenu={this.showContextMenu}
       >
-        {track.clips.map((clip, index) => <Clip clip={clip} key={index} />)}
-        {track.draggedClips.map((clip, index) => <Clip clip={clip} key={index} />)}
+        {visibleClips.map((clip, index) => <Clip clip={clip} key={index} />)}
+        {visibleDraggedClips.map((clip, index) => <Clip clip={clip} key={index} />)}
       </TrackContainer>
     );
   }

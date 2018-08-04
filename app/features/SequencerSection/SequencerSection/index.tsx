@@ -101,7 +101,7 @@ export class SequencerSection extends React.Component<Props & InjectedProps, {}>
           <TracksGutter />
           <TracksWrapper>
             <Grid />
-            <TracksArea screenDimensions={tracksDimensions} />
+            <TracksArea visibleDimensions={tracksDimensions} />
           </TracksWrapper>
         </TracksAreaWrapper>
         <VerticalScrollbarWrapper style={verticalScrollbarWrapperStyle}>

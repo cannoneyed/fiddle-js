@@ -12,11 +12,12 @@ import { Track as TrackModel } from 'core/models/track';
 import { TrackStore } from 'core/state/stores/tracks';
 import { Dimensions } from 'core/interfaces';
 
+import { TrackVisibilityHelper } from './helpers';
 import DragToMarker from './DragToMarker';
-import { TracksAreaContainer, TracksContainer } from './styled-components';
+import { TrackContainer, TracksAreaContainer, TracksContainer } from './styled-components';
 
 interface Props {
-  screenDimensions: Dimensions;
+  visibleDimensions: Dimensions;
 }
 
 interface InjectedProps {
@@ -26,8 +27,6 @@ interface InjectedProps {
   trackHeight: number;
   tracks: TrackModel[];
 }
-
-const TRACK_VISIBLE_BUFFER = 2;
 
 const inject = injector<Props, InjectedProps>(() => {
   const sequencerScrollInteraction = Container.get(SequencerScrollInteraction);
@@ -52,6 +51,7 @@ const inject = injector<Props, InjectedProps>(() => {
 export class TracksArea extends React.Component<Props & InjectedProps, {}> {
   private disposeScrollObserver: IReactionDisposer;
   private tracksAreaContainer = React.createRef<HTMLDivElement>();
+  private trackVisibilityHelper = new TrackVisibilityHelper();
 
   componentDidMount() {
     this.disposeScrollObserver = autorun(this.handleScrollChange);
@@ -74,8 +74,38 @@ export class TracksArea extends React.Component<Props & InjectedProps, {}> {
     tracksAreaContainer.style.transform = transform;
   };
 
+  getVisibleTracks = () => {
+    const { visibleDimensions, tracks, trackHeight } = this.props;
+    const { y: scrollY } = this.props.getScroll();
+    const top = scrollY;
+    const bottom = scrollY + visibleDimensions.height;
+
+    this.trackVisibilityHelper.trackHeight = trackHeight;
+    this.trackVisibilityHelper.computeVisibility(tracks, top, bottom);
+    const { topIndex, bottomIndex } = this.trackVisibilityHelper;
+
+    const visibleTracks = tracks.slice(topIndex, bottomIndex);
+
+    return visibleTracks;
+  };
+
+  renderTrack = (track: TrackModel, index: number) => {
+    const { trackHeight, visibleDimensions } = this.props;
+    const { x: scrollX } = this.props.getScroll();
+    const top = track.index * trackHeight;
+
+    const trackStyle = {
+      top,
+    };
+
+    return (
+      <TrackContainer key={track.id} style={trackStyle}>
+        <Track track={track} offsetX={scrollX} visibleWidth={visibleDimensions.width} />
+      </TrackContainer>
+    );
+  };
+
   render() {
-    const { screenDimensions, tracks, trackHeight } = this.props;
     const { height, width } = this.props.dimensions;
 
     const tracksStyle = {
@@ -83,14 +113,7 @@ export class TracksArea extends React.Component<Props & InjectedProps, {}> {
       width,
     };
 
-    const scrollY = this.props.getScroll().y;
-
-    const top = -TRACK_VISIBLE_BUFFER * trackHeight;
-    const bottom = screenDimensions.height + TRACK_VISIBLE_BUFFER * trackHeight;
-    const visibleTracks = tracks.filter((_, index) => {
-      const screenY = index * trackHeight - scrollY;
-      return screenY > top && screenY < bottom;
-    });
+    const visibleTracks = this.getVisibleTracks();
 
     return (
       <TracksAreaContainer
@@ -99,9 +122,7 @@ export class TracksArea extends React.Component<Props & InjectedProps, {}> {
         onWheel={this.handleMouseWheel}
       >
         <DragToMarker />
-        <TracksContainer>
-          {visibleTracks.map((track, index) => <Track track={track} index={index} key={index} />)}
-        </TracksContainer>
+        <TracksContainer>{visibleTracks.map(this.renderTrack)}</TracksContainer>
       </TracksAreaContainer>
     );
   }

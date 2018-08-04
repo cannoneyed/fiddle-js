@@ -20,3 +20,7 @@ export const TracksContainer = styled.div`
   z-index: ${theme.tracksZIndex};
   width: 100%;
 `;
+
+export const TrackContainer = styled.div`
+  position: absolute;
+`;
