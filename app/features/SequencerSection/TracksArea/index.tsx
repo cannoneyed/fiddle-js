@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { autorun, IReactionDisposer } from 'mobx';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
@@ -10,7 +9,7 @@ import { SequencerScrollInteraction } from 'core/interactions/sequencer/scroll';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 import { Track as TrackModel } from 'core/models/track';
 import { TrackStore } from 'core/state/stores/tracks';
-import { Dimensions } from 'core/interfaces';
+import { Coordinates, Dimensions } from 'core/interfaces';
 
 import { TrackVisibilityHelper } from './helpers';
 import DragToMarker from './DragToMarker';
@@ -22,7 +21,7 @@ interface Props {
 
 interface InjectedProps {
   dimensions: Dimensions;
-  getScroll: () => { x: number; y: number };
+  getScroll: () => Coordinates;
   handleScroll: (deltaX: number, deltaY: number) => void;
   trackHeight: number;
   tracks: TrackModel[];
@@ -49,29 +48,12 @@ const inject = injector<Props, InjectedProps>(() => {
 
 @observer
 export class TracksArea extends React.Component<Props & InjectedProps, {}> {
-  private disposeScrollObserver: IReactionDisposer;
-  private tracksAreaContainer = React.createRef<HTMLDivElement>();
   private trackVisibilityHelper = new TrackVisibilityHelper();
-
-  componentDidMount() {
-    this.disposeScrollObserver = autorun(this.handleScrollChange);
-  }
-
-  componentWillUnmount() {
-    this.disposeScrollObserver();
-  }
 
   handleMouseWheel = (event: React.WheelEvent) => {
     const { deltaX, deltaY } = event;
     event.preventDefault();
     this.props.handleScroll(deltaX, deltaY);
-  };
-
-  handleScrollChange = () => {
-    const { x, y } = this.props.getScroll();
-    const transform = `translate3d(${-Math.round(x)}px,${-Math.round(y)}px,0px)`;
-    const tracksAreaContainer = this.tracksAreaContainer.current as HTMLDivElement;
-    tracksAreaContainer.style.transform = transform;
   };
 
   getVisibleTracks = () => {
@@ -106,21 +88,19 @@ export class TracksArea extends React.Component<Props & InjectedProps, {}> {
   };
 
   render() {
-    const { height, width } = this.props.dimensions;
+    const { dimensions, getScroll } = this.props;
 
+    const scroll = getScroll();
+    const transform = `translate3d(${-Math.round(scroll.x)}px,${-Math.round(scroll.y)}px,0px)`;
     const tracksStyle = {
-      height,
-      width,
+      ...dimensions,
+      transform,
     };
 
     const visibleTracks = this.getVisibleTracks();
 
     return (
-      <TracksAreaContainer
-        innerRef={this.tracksAreaContainer}
-        style={tracksStyle}
-        onWheel={this.handleMouseWheel}
-      >
+      <TracksAreaContainer style={tracksStyle} onWheel={this.handleMouseWheel}>
         <DragToMarker />
         <TracksContainer>{visibleTracks.map(this.renderTrack)}</TracksContainer>
       </TracksAreaContainer>
