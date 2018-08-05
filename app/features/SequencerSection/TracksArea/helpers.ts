@@ -7,6 +7,9 @@ export class TrackVisibilityHelper {
   trackHeight = 0;
 
   computeVisibility(tracks: TrackModel[], top: number, bottom: number): void {
+    this.topIndex = 0;
+    this.bottomIndex = tracks.length;
+
     for (let i = 0; i < tracks.length; i++) {
       const trackTop = i * this.trackHeight;
       const trackBottom = i * this.trackHeight + this.trackHeight;

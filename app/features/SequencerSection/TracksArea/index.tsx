@@ -12,7 +12,7 @@ import { TrackStore } from 'core/state/stores/tracks';
 import { Coordinates, Dimensions } from 'core/interfaces';
 
 import { TrackVisibilityHelper } from './helpers';
-import DragToMarker from './DragToMarker';
+import DragToMarker from 'features/SequencerSection/DragToMarker';
 import { TrackContainer, TracksAreaContainer, TracksContainer } from './styled-components';
 
 interface Props {
@@ -66,9 +66,7 @@ export class TracksArea extends React.Component<Props & InjectedProps, {}> {
     this.trackVisibilityHelper.computeVisibility(tracks, top, bottom);
     const { topIndex, bottomIndex } = this.trackVisibilityHelper;
 
-    const visibleTracks = tracks.slice(topIndex, bottomIndex);
-
-    return visibleTracks;
+    return tracks.slice(topIndex, bottomIndex);
   };
 
   renderTrack = (track: TrackModel, index: number) => {
