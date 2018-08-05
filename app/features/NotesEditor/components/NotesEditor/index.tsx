@@ -12,8 +12,8 @@ import { Grid } from 'components/Grid';
 import { PianoRoll } from 'components/PianoRoll';
 import { getKeyColor } from 'components/PianoRoll/utils';
 
-import { Notes } from 'features/NotesEditor/Notes';
-import { ScrollManager } from './helpers';
+import { Notes } from 'features/NotesEditor/components/Notes';
+import { NotesEditorLayout } from 'features/NotesEditor/core/layout';
 
 const PIANO_ROLL_WIDTH = 20;
 
@@ -29,12 +29,7 @@ interface Props {
 
 @observer
 export class NotesEditor extends React.Component<Props, {}> {
-  scrollManager = new ScrollManager();
-
-  constructor(props: Props) {
-    super(props);
-    console.log(this.props, props);
-  }
+  layout = new NotesEditorLayout();
 
   render() {
     const { dimensions, keyLayout, notes, offsetX, offsetY, rowHeight, snapToGrid } = this.props;
