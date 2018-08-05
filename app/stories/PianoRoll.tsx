@@ -8,6 +8,8 @@ import { withKnobs, number } from '@storybook/addon-knobs';
 import { PianoRoll } from 'components/PianoRoll';
 import { getKeyColor } from 'components/PianoRoll/utils';
 
+import { Piano88 } from 'core/models/notes/key-layout';
+
 const stories = storiesOf('PianoRoll', module);
 stories.addDecorator(withKnobs);
 
@@ -47,7 +49,8 @@ stories.add('default', () => {
   };
 
   const dimensions = { height, width };
-  const props = { dimensions, getKeyColor, keyHeight, offsetY, nKeys: 88 };
+  const keyLayout = new Piano88();
+  const props = { dimensions, keyLayout, getKeyColor, keyHeight, offsetY, nKeys: 88 };
 
   return (
     <Wrapper>

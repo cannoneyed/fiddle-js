@@ -1,48 +1,84 @@
 import * as React from 'react';
+import { autorun, IReactionDisposer } from 'mobx';
 import styled from 'styled-components';
-import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 
 import { Dimensions } from 'core/interfaces';
 import { Notes as NotesModel } from 'core/models/notes';
+import { KeyLayout } from 'core/models/notes/key-layout';
+
+import { RowVisibilityHelper } from './helpers';
 
 interface Props {
   dimensions: Dimensions;
-  nKeys: number;
+  getScroll: () => { x: number; y: number };
+  handleScroll: (x: number, y: number) => void;
+  keyLayout: KeyLayout;
   notes: NotesModel;
   rowHeight: number;
   offsetX: number;
   offsetY: number;
+  visibleDimensions: Dimensions;
 }
 
 @observer
 export class Notes extends React.Component<Props, {}> {
+  private disposeScrollObserver: IReactionDisposer;
+  private notesAreaContainerRef = React.createRef<HTMLDivElement>();
+  private rowVisibilityHelper = new RowVisibilityHelper();
+
+  componentDidMount() {
+    this.disposeScrollObserver = autorun(this.handleScrollChange);
+  }
+
+  componentWillUnmount() {
+    this.disposeScrollObserver();
+  }
+
+  handleMouseWheel = (event: React.WheelEvent) => {
+    const { deltaX, deltaY } = event;
+    event.preventDefault();
+    this.props.handleScroll(deltaX, deltaY);
+  };
+
+  handleScrollChange = () => {
+    const { x, y } = this.props.getScroll();
+    const transform = `translate3d(${-Math.round(x)}px,${-Math.round(y)}px,0px)`;
+    const tracksAreaContainer = this.notesAreaContainerRef.current as HTMLDivElement;
+    tracksAreaContainer.style.transform = transform;
+  };
+
+  getVisibleRows = () => {
+    const { keyLayout, notes, offsetY, rowHeight, visibleDimensions } = this.props;
+    const top = offsetY;
+    const bottom = offsetY + visibleDimensions.height;
+
+    this.rowVisibilityHelper.rowHeight = rowHeight;
+    this.rowVisibilityHelper.computeVisibility(keyLayout.nRows, rowHeight, top, bottom);
+    const { startIndex, endIndex } = this.rowVisibilityHelper;
+    return notes.notesByRow.slice(startIndex, endIndex);
+  };
+
   render() {
-    const { notes, rowHeight } = this.props;
+    const { dimensions } = this.props;
+    const notesAreaContainerStyle = {
+      ...dimensions,
+    };
+
+    // const visibleRows = this.getVisibleRows();
+
     return (
-      <NotesWrapper>
-        {notes.notes.map(note => {
-          const noteStyle = {
-            top: 0,
-            left: 0,
-            height: rowHeight,
-            width: 100,
-          };
-          return <Note key={note.id} style={noteStyle} />;
-        })}
-      </NotesWrapper>
+      <NotesAreaContainer
+        innerRef={this.notesAreaContainerRef}
+        style={notesAreaContainerStyle}
+        onWheel={this.handleMouseWheel}
+      />
     );
   }
 }
 
 export default Notes;
 
-const Note = styled.div`
-  box-style: border-box;
-  border: 1px solid ${theme.colors.white.toRgbString()};
-  background-color: purple;
-`;
-
-const NotesWrapper = styled.div`
+const NotesAreaContainer = styled.div`
   position: absolute;
 `;

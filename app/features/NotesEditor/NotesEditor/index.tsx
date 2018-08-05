@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 
 import { Dimensions } from 'core/interfaces';
 import { Notes as NotesModel } from 'core/models/notes';
+import { KeyLayout } from 'core/models/notes/key-layout';
 import { SnapToGrid } from 'core/models/snap-to-grid';
 
 import { Grid } from 'components/Grid';
@@ -12,13 +13,15 @@ import { PianoRoll } from 'components/PianoRoll';
 import { getKeyColor } from 'components/PianoRoll/utils';
 
 import { Notes } from 'features/NotesEditor/Notes';
+import { ScrollManager } from './helpers';
 
 const PIANO_ROLL_WIDTH = 20;
-const N_KEYS = 88;
 
 interface Props {
+  keyLayout: KeyLayout;
   dimensions: Dimensions;
   notes: NotesModel;
+  offsetX: number;
   offsetY: number;
   rowHeight: number;
   snapToGrid: SnapToGrid;
@@ -26,8 +29,15 @@ interface Props {
 
 @observer
 export class NotesEditor extends React.Component<Props, {}> {
+  scrollManager = new ScrollManager();
+
+  constructor(props: Props) {
+    super(props);
+    console.log(this.props, props);
+  }
+
   render() {
-    const { dimensions, notes, offsetY, rowHeight, snapToGrid } = this.props;
+    const { dimensions, keyLayout, notes, offsetX, offsetY, rowHeight, snapToGrid } = this.props;
 
     const editorWrapperStyle = {
       ...dimensions,
@@ -61,18 +71,23 @@ export class NotesEditor extends React.Component<Props, {}> {
             dimensions={pianoRollDimensions}
             getKeyColor={getKeyColor}
             keyHeight={rowHeight}
-            nKeys={N_KEYS}
+            keyLayout={keyLayout}
             offsetY={offsetY}
           />
         </PianoRollWrapper>
         <NotesWrapper style={notesWrapperStyle}>
           <Notes
-            dimensions={notesDimensions}
-            nKeys={N_KEYS}
+            getScroll={() => ({ x: 1, y: 1 })}
+            handleScroll={() => {
+              console.log('scroll!!');
+            }}
+            keyLayout={keyLayout}
             notes={notes}
-            offsetX={0}
+            offsetX={offsetX}
             offsetY={offsetY}
             rowHeight={rowHeight}
+            dimensions={notesDimensions}
+            visibleDimensions={notesDimensions}
           />
         </NotesWrapper>
         <GridWrapper style={gridWrapperStyle}>

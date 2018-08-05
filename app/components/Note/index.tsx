@@ -3,43 +3,42 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react';
 
 import { Dimensions } from 'core/interfaces';
-import { Clip as ClipModel } from 'core/models/clip';
+import { Note as NoteModel } from 'core/models/notes/note';
 
 interface Props {
-  clip: ClipModel;
   dimensions: Dimensions;
+  note: NoteModel;
   onMouseDown?: (event: React.MouseEvent<HTMLElement>) => any;
   isDragging?: boolean;
 }
 
 @observer
-export class Clip extends React.Component<Props, {}> {
+export class Note extends React.Component<Props, {}> {
   render() {
-    const { clip, onMouseDown, dimensions } = this.props;
+    const { dimensions, note, onMouseDown } = this.props;
     const { height, width } = dimensions;
 
     return (
-      <ClipContainer
-        id={clip.domId}
+      <NoteContainer
         height={height}
         width={width}
-        isSelected={clip.isSelected}
-        isDragging={clip.isDragging}
+        isSelected={note.isSelected}
+        isDragging={note.isDragging}
         onMouseDown={onMouseDown}
       />
     );
   }
 }
 
-export default Clip;
+export default Note;
 
-export interface ClipContainerProps {
+export interface NoteContainerProps {
   height: number;
   width: number;
   isSelected: boolean;
   isDragging: boolean;
 }
-export const ClipContainer = styled<ClipContainerProps, 'div'>('div')`
+export const NoteContainer = styled<NoteContainerProps, 'div'>('div')`
   background-color: ${props => (props.isSelected ? 'purple' : 'gray')};
   border: solid 2px #ccc;
   opacity: ${props => (props.isDragging ? 0.5 : 1)};

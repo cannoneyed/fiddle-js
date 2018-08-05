@@ -7,6 +7,7 @@ import { NotesEditor } from 'features/NotesEditor/NotesEditor';
 
 import { Notes } from 'core/models/notes';
 import { Note } from 'core/models/notes/note';
+import { Piano88 } from 'core/models/notes/key-layout';
 import { SnapToGrid, snapToGridValues } from 'core/models/snap-to-grid';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
@@ -51,12 +52,23 @@ stories.add('default', () => {
     step: 1,
   });
 
-  const offsetY = number('offsetY', 0, {
+  const offsetX = number('offsetX', 0, {
     range: true,
     min: 0,
     max: 1000,
     step: 1,
   });
+
+  const keyLayout = new Piano88();
+
+  const offsetY = number('offsetY', 0, {
+    range: true,
+    min: 0,
+    max: keyLayout.nRows * rowHeight - height,
+    step: 1,
+  });
+
+  console.log(rowHeight, keyLayout.nRows * rowHeight);
 
   const snapToGridOptions = Object.keys(snapToGridValues);
   const defaultValue = 'snap_1_4';
@@ -66,7 +78,9 @@ stories.add('default', () => {
     <Wrapper>
       <NotesEditor
         dimensions={{ height, width }}
+        keyLayout={keyLayout}
         notes={notesGroup}
+        offsetX={offsetX}
         offsetY={offsetY}
         rowHeight={rowHeight}
         snapToGrid={getSnapToGrid(value)}

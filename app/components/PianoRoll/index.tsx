@@ -5,11 +5,12 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 
 import { Dimensions } from 'core/interfaces';
+import { KeyLayout } from 'core/models/notes/key-layout';
 
 interface Props {
   dimensions: Dimensions;
   keyHeight: number;
-  nKeys: number;
+  keyLayout: KeyLayout;
   offsetY: number;
   getKeyColor: (index: number) => string;
 }
@@ -34,10 +35,10 @@ export class PianoRoll extends React.Component<Props, {}> {
   };
 
   render() {
-    const { dimensions, keyHeight, nKeys, offsetY } = this.props;
+    const { dimensions, keyHeight, keyLayout, offsetY } = this.props;
 
     const nVisible = Math.floor(dimensions.height / keyHeight) + 2;
-    const startKeyIndex = nKeys - Math.floor(offsetY / keyHeight);
+    const startKeyIndex = keyLayout.nRows - Math.floor(offsetY / keyHeight);
     const offsetRow = offsetY % keyHeight;
 
     const keys = range(nVisible).map(i => {

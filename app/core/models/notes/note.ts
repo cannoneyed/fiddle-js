@@ -11,7 +11,9 @@ export class Note {
 
   @observable value: number;
   @observable velocity: number;
-  @observable selected = false;
+
+  @observable isSelected = false;
+  @observable isDragging = false;
 
   constructor(position: TimelineVector, length: TimelineVector, value: number, velocity = 100) {
     this.position = position;
