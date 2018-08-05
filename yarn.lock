@@ -4622,7 +4622,7 @@ fbjs-scripts@^0.8.0:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@^0.8.12, fbjs@^0.8.16, fbjs@^0.8.5, fbjs@^0.8.9:
+fbjs@^0.8.12, fbjs@^0.8.16, fbjs@^0.8.17, fbjs@^0.8.5, fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   dependencies:
@@ -6765,6 +6765,10 @@ known-css-properties@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/known-css-properties/-/known-css-properties-0.2.0.tgz#899c94be368e55b42d7db8d5be7d73a4a4a41454"
 
+konva@^2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/konva/-/konva-2.1.8.tgz#2c96c300e05f00fae8a59b224fa9436511678e00"
+
 latest-version@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/latest-version/-/latest-version-3.1.0.tgz#a205383fea322b33b5ae3b18abee0dc2f356ee15"
@@ -8852,6 +8856,13 @@ react-is@^16.3.1, react-is@^16.4.1:
   version "16.4.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.1.tgz#d624c4650d2c65dbd52c72622bbf389435d9776e"
 
+react-konva@^1.7.12:
+  version "1.7.12"
+  resolved "https://registry.yarnpkg.com/react-konva/-/react-konva-1.7.12.tgz#962ebea931569edd1510337926e38fe8239f3066"
+  dependencies:
+    fbjs "^0.8.17"
+    react-reconciler "^0.12.0"
+
 react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
@@ -8882,6 +8893,15 @@ react-proxy@^1.1.7:
   dependencies:
     lodash "^4.6.1"
     react-deep-force-update "^1.0.0"
+
+react-reconciler@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/react-reconciler/-/react-reconciler-0.12.0.tgz#dd3ecd98f64a2d8449298dadab041910cafd2849"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
 
 react-reconciler@^0.7.0:
   version "0.7.0"

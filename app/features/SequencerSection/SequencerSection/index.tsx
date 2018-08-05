@@ -10,7 +10,7 @@ import Grid from 'features/SequencerSection/Grid';
 import Timeline from 'features/SequencerSection/Timeline';
 import TimelineGutter from 'features/SequencerSection/TimelineGutter';
 import TracksGutter from 'features/SequencerSection/TracksGutter';
-import TracksArea from 'features/SequencerSection/TracksArea';
+import TracksStage from 'features/SequencerSection/TracksStage';
 import VerticalScrollbar from 'features/SequencerSection/VerticalScrollbar';
 
 import { Dimensions, Rectangle } from 'core/interfaces';
@@ -101,7 +101,7 @@ export class SequencerSection extends React.Component<Props & InjectedProps, {}>
           <TracksGutter />
           <TracksWrapper>
             <Grid />
-            <TracksArea visibleDimensions={tracksDimensions} />
+            <TracksStage dimensions={tracksDimensions} />
           </TracksWrapper>
         </TracksAreaWrapper>
         <VerticalScrollbarWrapper style={verticalScrollbarWrapperStyle}>
