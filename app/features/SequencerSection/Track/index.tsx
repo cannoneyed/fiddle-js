@@ -1,10 +1,9 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import theme from 'styles/theme';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 import { ContextMenu } from '@blueprintjs/core';
+import { Group } from 'react-konva';
 
 import TrackContextMenu from 'features/ContextMenus/TrackContextMenu';
 import Clip from 'features/SequencerSection/Clip';
@@ -20,6 +19,7 @@ import { ClipVisibilityHelper } from './helpers';
 interface Props {
   offsetX: number;
   track: TrackModel;
+  height: number;
   visibleWidth: number;
 }
 interface InjectedProps {
@@ -73,30 +73,29 @@ export class Track extends React.Component<Props & InjectedProps, State> {
   }
 
   render() {
-    const { track, dimensions } = this.props;
-
-    const trackStyle = {
-      ...dimensions,
-    };
+    const { track, offsetX, height } = this.props;
 
     const visibleClips = this.getVisibleClips(track.clips);
     const visibleDraggedClips = this.getVisibleClips(track.draggedClips);
     return (
-      <TrackContainer
-        style={trackStyle}
-        onMouseDown={this.props.handleTrackClick}
-        onContextMenu={this.showContextMenu}
-      >
-        {visibleClips.map((clip, index) => <Clip clip={clip} key={index} />)}
-        {visibleDraggedClips.map((clip, index) => <Clip clip={clip} key={index} />)}
-      </TrackContainer>
+      <Group x={-offsetX}>
+        {visibleClips.map(clip => {
+          return <Clip key={clip.id} clip={clip} height={height} trackOffsetX={offsetX} />;
+        })}
+        {visibleDraggedClips.map(clip => {
+          return (
+            <Clip
+              key={clip.id}
+              clip={clip}
+              height={height}
+              trackOffsetX={offsetX}
+              isDragging={true}
+            />
+          );
+        })}
+      </Group>
     );
   }
 }
 
 export default inject(Track);
-
-const TrackContainer = styled.div`
-  border-bottom: solid 1px ${theme.colors.mediumGray.toRgbString()};
-  width: 100%;
-`;

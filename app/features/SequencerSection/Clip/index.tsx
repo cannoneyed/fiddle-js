@@ -2,27 +2,31 @@ import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
+import { Rect as KonvaRect } from 'konva';
+import { Rect } from 'react-konva';
+import { KonvaEvent } from 'utils/konva';
 
 import { ContextMenu } from '@blueprintjs/core';
 
 import ClipContextMenu from 'features/ContextMenus/ClipContextMenu';
-import ClipView from 'components/Clip';
 
 import { ClipSelectInteraction } from 'core/interactions//clip/select';
 import { Clip as ClipModel } from 'core/models/clip';
 
-import * as clipDragHandlers from 'core/interactions//clip/drag/handlers';
+import * as clipDragHandlers from 'core/interactions/clip/drag/handlers';
 import { SequencerPositionService } from 'core/services/sequencer/position';
-
-const styles = require('./styles.less');
 
 interface Props {
   clip: ClipModel;
+  height: number;
+  isDragging?: boolean;
+  trackOffsetX: number;
 }
 interface InjectedProps {
   selectClip: () => void;
   selectOnlyClip: () => void;
   offsetX: number;
+  width: number;
 }
 interface State {
   isContextMenuOpen: boolean;
@@ -37,6 +41,7 @@ const inject = injector<Props, InjectedProps>(props => {
     offsetX: sequencerPosition.getOffsetX(clip.position),
     selectClip: () => clipSelect.selectClip(clip),
     selectOnlyClip: () => clipSelect.selectOnlyClip(clip),
+    width: sequencerPosition.getOffsetX(clip.length),
   };
 });
 
@@ -44,24 +49,27 @@ const inject = injector<Props, InjectedProps>(props => {
 export class Clip extends React.Component<Props & InjectedProps, State> {
   state = { isContextMenuOpen: false };
 
-  handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
+  handleMouseDown = (event: KonvaEvent<MouseEvent, KonvaRect>) => {
+    const { clip, offsetX, trackOffsetX } = this.props;
+    const { evt } = event;
+    evt.preventDefault();
+    evt.stopPropagation();
 
-    const { clip } = this.props;
+    const clipMouseOffsetX = evt.offsetX - (offsetX - trackOffsetX);
+    console.log(clipMouseOffsetX);
 
     // If left-click, do delegate to context menus
-    if (event.ctrlKey) {
-      return this.showContextMenu(event);
+    if (evt.ctrlKey) {
+      return this.showContextMenu(evt);
     } else if (clip.isSelected) {
       // no op, still set up handlers below
-    } else if (event.shiftKey) {
+    } else if (evt.shiftKey) {
       this.props.selectClip();
     } else {
       this.props.selectOnlyClip();
     }
 
-    clipDragHandlers.register(clip, event);
+    clipDragHandlers.register(clip, evt);
     return false;
   };
 
@@ -70,7 +78,7 @@ export class Clip extends React.Component<Props & InjectedProps, State> {
     return <ClipContextMenu clip={clip} />;
   };
 
-  showContextMenu = (event: React.MouseEvent<HTMLElement>) => {
+  showContextMenu = (event: MouseEvent) => {
     const closeContextMenu = () => this.setState({ isContextMenuOpen: false });
     const props = { left: event.clientX, top: event.clientY, closeContextMenu };
     ContextMenu.show(this.renderContextMenu(), props);
@@ -78,20 +86,22 @@ export class Clip extends React.Component<Props & InjectedProps, State> {
   };
 
   render() {
-    const { clip, offsetX } = this.props;
+    const { clip, height, isDragging, offsetX, width } = this.props;
 
-    const clipWrapperStyle = {
-      left: offsetX - 1,
-    };
+    const opacity = isDragging ? 0.5 : 1;
+    const fill = clip.isSelected ? 'purple' : 'gray';
 
     return (
-      <div
-        className={styles.clipContainer}
-        style={clipWrapperStyle}
+      <Rect
+        x={offsetX}
+        height={height}
+        width={width}
         onMouseDown={this.handleMouseDown}
-      >
-        <ClipView clip={clip} />
-      </div>
+        stroke={'#ccc'}
+        strokeWidth={2}
+        opacity={opacity}
+        fill={fill}
+      />
     );
   }
 }

@@ -12,7 +12,7 @@ import { Coordinates, Dimensions } from 'core/interfaces';
 
 import { TrackVisibilityHelper } from './helpers';
 
-import Track from './components/Track';
+import Track from 'features/SequencerSection/Track';
 
 interface Props {
   dimensions: Dimensions;

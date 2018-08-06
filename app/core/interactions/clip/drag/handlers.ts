@@ -3,7 +3,7 @@ import { Clip } from 'core/models/clip';
 
 import { ClipDragInteraction, DRAG_DELAY } from 'core/interactions//clip/drag';
 
-export const register = (clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) => {
+export const register = (clip: Clip, mouseDown: MouseEvent) => {
   const clipDragInteraction = Container.get(ClipDragInteraction);
 
   const startX = mouseDown.pageX;
@@ -23,6 +23,7 @@ export const register = (clip: Clip, mouseDown: React.MouseEvent<HTMLElement>) =
 
     const deltaX = mouseMove.pageX - clipDragInteraction.startX;
     const deltaY = mouseMove.pageY - clipDragInteraction.startY;
+
     clipDragInteraction.setDelta(deltaX, deltaY);
   };
 
