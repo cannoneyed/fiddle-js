@@ -2,9 +2,9 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { range } from 'lodash';
 import theme from 'styles/theme';
-import { shallowEqual } from 'utils/shallow-equal';
+import { Stage, Group, Layer, Line } from 'react-konva';
+import { makePoints } from 'utils/konva';
 
-import { clear, drawHorizontalLine, drawVerticalLine, resizeCanvas } from 'core/canvas';
 import { Dimensions } from 'core/interfaces';
 
 interface Props {
@@ -17,71 +17,60 @@ interface Props {
 
 @observer
 export class Grid extends React.Component<Props, {}> {
-  private canvas: React.RefObject<HTMLCanvasElement> = React.createRef();
-  private ctx: CanvasRenderingContext2D;
-
-  getCanvasElement() {
-    return this.canvas.current as HTMLCanvasElement;
-  }
-
-  componentDidMount() {
-    const canvasElement = this.getCanvasElement();
-    this.ctx = canvasElement.getContext('2d')!;
-    this.resizeCanvas();
-    this.updateCanvas();
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (!shallowEqual(this.props.dimensions, prevProps.dimensions)) {
-      this.resizeCanvas();
-    }
-    this.updateCanvas();
-  }
-
-  resizeCanvas() {
-    resizeCanvas(this.getCanvasElement(), this.props.dimensions);
-  }
-
-  updateCanvas() {
+  renderHorizontalLines() {
     const { dimensions } = this.props;
-    clear(this.ctx, 0, 0, dimensions.width, dimensions.height);
-    const { colWidth, rowHeight, offsetX, offsetY } = this.props;
+    const { rowHeight, offsetY } = this.props;
+
+    const offsetRow = rowHeight - (offsetY % rowHeight);
+    const nHorizontalLines = Math.ceil((dimensions.height - offsetRow) / rowHeight);
+
+    return range(nHorizontalLines).map((i: number) => {
+      const y = i * rowHeight + offsetRow;
+      const { width } = this.props.dimensions;
+      const color = theme.colors.mediumGray.toRgbString();
+
+      const start = { x: 0, y };
+      const end = { x: width, y };
+      const points = makePoints([start, end]);
+      return <Line key={i} points={points} strokeWidth={1} stroke={color} />;
+    });
+  }
+
+  renderVerticalLines = () => {
+    const { dimensions } = this.props;
+    const { colWidth, offsetX } = this.props;
 
     const offsetCol = colWidth - (offsetX % colWidth);
-    const offsetRow = rowHeight - (offsetY % rowHeight);
-
-    const nHorizontalLines = Math.ceil((dimensions.height - offsetRow) / rowHeight);
     const nVerticalLines = Math.ceil((dimensions.width - offsetCol) / colWidth);
 
-    range(nVerticalLines).forEach((i: number) => {
-      this.drawVerticalLine(i * colWidth + offsetCol);
+    return range(nVerticalLines).map((i: number) => {
+      const x = i * colWidth + offsetCol;
+      const { height } = this.props.dimensions;
+      const color = theme.colors.mediumGray.toRgbString();
+
+      const start = { x, y: 0 };
+      const end = { x, y: height };
+      const points = makePoints([start, end]);
+      return <Line key={i} points={points} strokeWidth={1} stroke={color} />;
     });
-
-    range(nHorizontalLines).forEach((i: number) => {
-      this.drawHorizontalLine(i * rowHeight + offsetRow);
-    });
-  }
-
-  drawHorizontalLine(y: number) {
-    const { width } = this.props.dimensions;
-    const color = theme.colors.mediumGray.toRgbString();
-    drawHorizontalLine(this.ctx, y, width, color);
-  }
-
-  drawVerticalLine(x: number) {
-    const { height } = this.props.dimensions;
-    const color = theme.colors.mediumGray.toRgbString();
-    drawVerticalLine(this.ctx, x, height, color);
-  }
+  };
 
   render() {
     const { dimensions } = this.props;
-    const canvasStyle = {
-      width: dimensions.width,
-      height: dimensions.height,
+    const stageProps = {
+      ...dimensions,
     };
 
-    return <canvas style={canvasStyle} ref={this.canvas} />;
+    return (
+      <Stage {...stageProps}>
+        <Layer>
+          <Group>
+            {this.renderHorizontalLines()}
+            {this.renderVerticalLines()}
+          </Group>
+        </Layer>
+      </Stage>
+    );
   }
 }
 
