@@ -10,30 +10,18 @@ import { ContextMenu } from '@blueprintjs/core';
 
 import ClipContextMenu from 'features/ContextMenus/ClipContextMenu';
 
-import { Dimensions } from 'core/interfaces';
 import { Clip as ClipModel } from 'core/models/clip';
 
-<<<<<<< HEAD
-import * as clipDragHandlers from 'core/interactions/clip/drag/handlers';
-=======
-import { ClipSelectInteraction } from 'core/interactions//clip/select';
-import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
->>>>>>> Continue working out system for note editing
+import { ClipSelectInteraction } from 'core/interactions/clip/select';
 import { SequencerPositionService } from 'core/services/sequencer/position';
 import * as clipDragHandlers from 'core/interactions//clip/drag/handlers';
 
-<<<<<<< HEAD
-=======
-import { ClipWrapper } from './styled-components';
-
->>>>>>> Continue working out system for note editing
 interface Props {
   clip: ClipModel;
   height: number;
   isDragging?: boolean;
 }
 interface InjectedProps {
-  dimensions: Dimensions;
   selectClip: () => void;
   selectOnlyClip: () => void;
   offsetX: number;
@@ -47,15 +35,8 @@ const inject = injector<Props, InjectedProps>(props => {
   const { clip } = props;
   const clipSelect = Container.get(ClipSelectInteraction);
   const sequencerPosition = Container.get(SequencerPositionService);
-  const tracksLayout = Container.get(TracksLayout);
-
-  const dimensions = {
-    height: tracksLayout.trackHeight,
-    width: sequencerPosition.getWidth(clip.length),
-  };
 
   return {
-    dimensions,
     offsetX: sequencerPosition.getOffsetX(clip.position),
     selectClip: () => clipSelect.selectClip(clip),
     selectOnlyClip: () => clipSelect.selectOnlyClip(clip),

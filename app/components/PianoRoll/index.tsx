@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { range } from 'lodash';
-import styled from 'styled-components';
 import theme from 'styles/theme';
+import { Group, Layer, Line, Rect, Stage } from 'react-konva';
+import { makePoints } from 'utils/konva';
 
 import { Dimensions } from 'core/interfaces';
 import { KeyLayout } from 'core/models/notes/key-layout';
@@ -23,15 +24,28 @@ export class PianoRoll extends React.Component<Props, {}> {
 
   renderKey = (y: number, keyIndex: number) => {
     const { dimensions, getKeyColor, keyHeight } = this.props;
-    const keyStyle = {
-      top: y,
+    const keyProps = {
       height: keyHeight,
       width: dimensions.width,
-      backgroundColor: getKeyColor(keyIndex),
-      borderTop: `1px solid ${theme.colors.darkGray.toRgbString()}`,
+      fill: getKeyColor(keyIndex),
     };
 
-    return <Key key={keyIndex} style={keyStyle} onClick={() => this.handleKeyClick(keyIndex)} />;
+    const lineStart = { x: 0, y: 0 };
+    const lineEnd = { x: dimensions.width, y: 0 };
+    const linePoints = makePoints([lineStart, lineEnd]);
+
+    const lineProps = {
+      points: linePoints,
+      strokeWidth: 1,
+      stroke: theme.colors.darkGray.toRgbString(),
+    };
+
+    return (
+      <Group key={keyIndex} y={y}>
+        <Line {...lineProps} />
+        <Rect {...keyProps} />
+      </Group>
+    );
   };
 
   render() {
@@ -47,23 +61,14 @@ export class PianoRoll extends React.Component<Props, {}> {
       return this.renderKey(y, keyIndex);
     });
 
-    const wrapperStyle = {
-      width: dimensions.width,
-      height: dimensions.height,
-    };
+    const { height, width } = dimensions;
 
-    return <KeyWrapper style={wrapperStyle}>{keys}</KeyWrapper>;
+    return (
+      <Stage width={width} height={height}>
+        <Layer>{keys}</Layer>
+      </Stage>
+    );
   }
 }
 
 export default PianoRoll;
-
-const KeyWrapper = styled.div`
-  position: relative;
-  overflow: hidden;
-`;
-
-const Key = styled.div`
-  position: absolute;
-  box-sizing: border-box;
-`;
