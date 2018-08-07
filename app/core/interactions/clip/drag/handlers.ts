@@ -27,7 +27,7 @@ export const register = (clip: Clip, mouseDown: MouseEvent) => {
     clipDragInteraction.setDelta(deltaX, deltaY);
   };
 
-  const mouseUp = (mouseUp: MouseEvent): void => {
+  const mouseUp = (): void => {
     if (Date.now() >= begin + DRAG_DELAY && clipDragInteraction.isDragging) {
       endDrag();
     }

@@ -14,4 +14,11 @@ export class TimelineLayout {
       ? this.clipDragInteraction.dropTargetTimelinePosition
       : null;
   }
+
+  @computed
+  get dropTargetTrackIndex() {
+    return this.clipDragInteraction.isDragging
+      ? this.clipDragInteraction.dropTargetTrackIndex
+      : null;
+  }
 }

@@ -20,7 +20,6 @@ interface Props {
   clip: ClipModel;
   height: number;
   isDragging?: boolean;
-  trackOffsetX: number;
 }
 interface InjectedProps {
   selectClip: () => void;
@@ -50,13 +49,10 @@ export class Clip extends React.Component<Props & InjectedProps, State> {
   state = { isContextMenuOpen: false };
 
   handleMouseDown = (event: KonvaEvent<MouseEvent, KonvaRect>) => {
-    const { clip, offsetX, trackOffsetX } = this.props;
+    const { clip } = this.props;
     const { evt } = event;
     evt.preventDefault();
     evt.stopPropagation();
-
-    const clipMouseOffsetX = evt.offsetX - (offsetX - trackOffsetX);
-    console.log(clipMouseOffsetX);
 
     // If left-click, do delegate to context menus
     if (evt.ctrlKey) {

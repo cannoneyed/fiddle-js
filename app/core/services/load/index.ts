@@ -19,8 +19,8 @@ export class LoadService {
 
     const clipParams: ClipParams[] = [];
     for (let i = 0; i < 100; i++) {
-      const trackId = Math.floor(Math.random() * tracksCount);
-      const position = Math.floor(Math.random() * timelineLength - 1);
+      const trackId = Math.floor(Math.random() * tracksCount - 1) + 1;
+      const position = Math.floor(Math.random() * timelineLength - 2) + 1;
 
       clipParams.push({
         trackId: tracks[trackId].id,

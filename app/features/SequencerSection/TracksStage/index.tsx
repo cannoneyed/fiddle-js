@@ -12,6 +12,7 @@ import { Coordinates, Dimensions } from 'core/interfaces';
 
 import { TrackVisibilityHelper } from './helpers';
 
+import DragToMarkers from 'features/SequencerSection/DragToMarkers';
 import Track from 'features/SequencerSection/Track';
 
 interface Props {
@@ -94,6 +95,7 @@ export class TracksStage extends React.Component<Props & InjectedProps, {}> {
                 </Group>
               );
             })}
+            <DragToMarkers />
           </Group>
         </Layer>
       </Stage>

@@ -3,7 +3,10 @@ import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 import { ContextMenu } from '@blueprintjs/core';
-import { Group } from 'react-konva';
+import theme from 'styles/theme';
+import * as Konva from 'konva';
+import { Group, Line, Rect } from 'react-konva';
+import { KonvaEvent, makePoints } from 'utils/konva';
 
 import TrackContextMenu from 'features/ContextMenus/TrackContextMenu';
 import Clip from 'features/SequencerSection/Clip';
@@ -24,7 +27,7 @@ interface Props {
 }
 interface InjectedProps {
   dimensions: Dimensions;
-  handleTrackClick: (e: React.MouseEvent<HTMLDivElement>) => void;
+  handleTrackClick: (e: MouseEvent) => void;
 }
 interface State {
   isContextMenuOpen: boolean;
@@ -42,8 +45,7 @@ const inject = injector<Props, InjectedProps>(props => {
 
   return {
     dimensions,
-    handleTrackClick: (e: React.MouseEvent<HTMLDivElement>) =>
-      trackMouseInteraction.handleTrackClick(track, e),
+    handleTrackClick: (e: MouseEvent) => trackMouseInteraction.handleTrackClick(track, e),
   };
 });
 
@@ -55,6 +57,10 @@ export class Track extends React.Component<Props & InjectedProps, State> {
     const { track } = this.props;
 
     return <TrackContextMenu trackId={track.id} offsetX={offsetX} />;
+  };
+
+  handleTrackClick = (e: KonvaEvent<MouseEvent, Konva.Rect>) => {
+    return this.props.handleTrackClick(e.evt);
   };
 
   showContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -73,25 +79,24 @@ export class Track extends React.Component<Props & InjectedProps, State> {
   }
 
   render() {
-    const { track, offsetX, height } = this.props;
+    const { track, offsetX, height, visibleWidth } = this.props;
 
     const visibleClips = this.getVisibleClips(track.clips);
     const visibleDraggedClips = this.getVisibleClips(track.draggedClips);
+
+    const start = { x: offsetX, y: height };
+    const end = { x: offsetX + visibleWidth, y: height };
+    const points = makePoints([start, end]);
+
     return (
       <Group x={-offsetX}>
+        <Rect height={height} width={visibleWidth} onClick={this.handleTrackClick} />
+        <Line points={points} stroke={theme.colors.mediumGray.toRgbString()} strokeWidth={1} />
         {visibleClips.map(clip => {
-          return <Clip key={clip.id} clip={clip} height={height} trackOffsetX={offsetX} />;
+          return <Clip key={clip.id} clip={clip} height={height} />;
         })}
         {visibleDraggedClips.map(clip => {
-          return (
-            <Clip
-              key={clip.id}
-              clip={clip}
-              height={height}
-              trackOffsetX={offsetX}
-              isDragging={true}
-            />
-          );
+          return <Clip key={clip.id} clip={clip} height={height} isDragging={true} />;
         })}
       </Group>
     );

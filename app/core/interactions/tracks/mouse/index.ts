@@ -12,7 +12,7 @@ export class TracksMouseInteraction {
   constructor(private clipSelect: ClipSelectInteraction) {}
 
   @action
-  handleTrackClick = (track: Track, event: React.MouseEvent<HTMLElement>) => {
+  handleTrackClick = (track: Track, event: MouseEvent) => {
     event.stopPropagation();
 
     if (event.ctrlKey) {
