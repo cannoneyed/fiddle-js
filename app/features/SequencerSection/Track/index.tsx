@@ -60,14 +60,19 @@ export class Track extends React.Component<Props & InjectedProps, State> {
   };
 
   handleTrackClick = (e: KonvaEvent<MouseEvent, Konva.Rect>) => {
+    const event = e.evt;
+    event.preventDefault();
+    if (event.ctrlKey) {
+      return this.showContextMenu(event);
+    }
     return this.props.handleTrackClick(e.evt);
   };
 
-  showContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+  showContextMenu = (e: MouseEvent) => {
     e.preventDefault();
     const props = { left: e.clientX, top: e.clientY };
     const callback = () => this.setState({ isContextMenuOpen: false });
-    ContextMenu.show(this.renderContextMenu(e.nativeEvent.offsetX), props, callback);
+    ContextMenu.show(this.renderContextMenu(e.offsetX), props, callback);
     this.setState({ isContextMenuOpen: true });
   };
 
@@ -90,7 +95,7 @@ export class Track extends React.Component<Props & InjectedProps, State> {
 
     return (
       <Group x={-offsetX}>
-        <Rect height={height} width={visibleWidth} onClick={this.handleTrackClick} />
+        <Rect height={height} width={visibleWidth} onMouseDown={this.handleTrackClick} />
         <Line points={points} stroke={theme.colors.mediumGray.toRgbString()} strokeWidth={1} />
         {visibleClips.map(clip => {
           return <Clip key={clip.id} clip={clip} height={height} />;

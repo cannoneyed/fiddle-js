@@ -87,11 +87,15 @@ export class Clip extends React.Component<Props & InjectedProps, State> {
     const opacity = isDragging ? 0.5 : 1;
     const fill = clip.isSelected ? 'purple' : 'gray';
 
+    const borderWidth = 2;
+    const borderOffset = borderWidth / 2;
+
     return (
       <Rect
-        x={offsetX}
-        height={height}
-        width={width}
+        x={offsetX + borderOffset}
+        y={borderOffset}
+        height={height - borderOffset}
+        width={width - borderOffset}
         onMouseDown={this.handleMouseDown}
         stroke={'#ccc'}
         strokeWidth={2}
