@@ -23,10 +23,12 @@ stories.add('default', () => {
 
   const QUARTER = new TimelineVector(0, 1);
 
+  const index = 87;
+
   const notes = [
-    new Note(new TimelineVector(1), QUARTER, 12),
-    new Note(new TimelineVector(1), QUARTER, 16),
-    new Note(new TimelineVector(1), QUARTER, 19),
+    new Note(new TimelineVector(1), QUARTER, index),
+    new Note(new TimelineVector(1), QUARTER, index - 2),
+    new Note(new TimelineVector(1), QUARTER, index - 4),
   ];
 
   const notesGroup = new Notes(length, notes);
@@ -67,8 +69,6 @@ stories.add('default', () => {
     max: keyLayout.nRows * rowHeight - height,
     step: 1,
   });
-
-  console.log(rowHeight, keyLayout.nRows * rowHeight);
 
   const snapToGridOptions = Object.keys(snapToGridValues);
   const defaultValue = 'snap_1_4';

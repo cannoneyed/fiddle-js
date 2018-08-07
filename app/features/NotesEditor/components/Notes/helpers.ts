@@ -1,7 +1,6 @@
-// TODO: Eventually handle different track heights
 export class RowVisibilityHelper {
-  startIndex = 0;
-  endIndex = 0;
+  private startIndex = 0;
+  private endIndex = 0;
   rowHeight = 0;
 
   computeVisibility(nRows: number, rowHeight: number, top: number, bottom: number): void {
@@ -9,6 +8,10 @@ export class RowVisibilityHelper {
     const visibleRows = Math.floor((bottom - top) / rowHeight);
 
     this.endIndex = nRows - nRowsFromTop;
-    this.startIndex = this.endIndex - visibleRows;
+    this.startIndex = Math.max(this.endIndex - visibleRows - 1, 0);
+  }
+
+  getIndices() {
+    return { startIndex: this.startIndex, endIndex: this.endIndex };
   }
 }

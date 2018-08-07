@@ -1,13 +1,15 @@
 import * as React from 'react';
-import { autorun, IReactionDisposer } from 'mobx';
-import styled from 'styled-components';
 import { observer } from 'mobx-react';
+import { Stage, Group, Layer } from 'react-konva';
+import { KonvaEvent } from 'utils/konva';
 
 import { Dimensions } from 'core/interfaces';
 import { Notes as NotesModel } from 'core/models/notes';
 import { KeyLayout } from 'core/models/notes/key-layout';
 
 import { RowVisibilityHelper } from './helpers';
+
+import Row from 'features/NotesEditor/components/Row';
 
 interface Props {
   dimensions: Dimensions;
@@ -23,62 +25,57 @@ interface Props {
 
 @observer
 export class Notes extends React.Component<Props, {}> {
-  private disposeScrollObserver: IReactionDisposer;
-  private notesAreaContainerRef = React.createRef<HTMLDivElement>();
   private rowVisibilityHelper = new RowVisibilityHelper();
 
-  componentDidMount() {
-    this.disposeScrollObserver = autorun(this.handleScrollChange);
-  }
-
-  componentWillUnmount() {
-    this.disposeScrollObserver();
-  }
-
-  handleMouseWheel = (event: React.WheelEvent) => {
+  handleMouseWheel = (e: KonvaEvent<WheelEvent, any>) => {
+    const event = e.evt;
     const { deltaX, deltaY } = event;
     event.preventDefault();
     this.props.handleScroll(deltaX, deltaY);
   };
 
-  handleScrollChange = () => {
-    const { x, y } = this.props.getScroll();
-    const transform = `translate3d(${-Math.round(x)}px,${-Math.round(y)}px,0px)`;
-    const tracksAreaContainer = this.notesAreaContainerRef.current as HTMLDivElement;
-    tracksAreaContainer.style.transform = transform;
-  };
-
-  getVisibleRows = () => {
-    const { keyLayout, notes, offsetY, rowHeight, visibleDimensions } = this.props;
+  getVisibleRowIndices = () => {
+    const { keyLayout, offsetY, rowHeight, visibleDimensions } = this.props;
     const top = offsetY;
     const bottom = offsetY + visibleDimensions.height;
 
     this.rowVisibilityHelper.rowHeight = rowHeight;
     this.rowVisibilityHelper.computeVisibility(keyLayout.nRows, rowHeight, top, bottom);
-    const { startIndex, endIndex } = this.rowVisibilityHelper;
-    return notes.notesByRow.slice(startIndex, endIndex);
+    return this.rowVisibilityHelper.getIndices();
   };
 
   render() {
-    const { dimensions } = this.props;
-    const notesAreaContainerStyle = {
-      ...dimensions,
-    };
+    const { dimensions, keyLayout, notes, offsetX, offsetY, rowHeight } = this.props;
 
-    // const visibleRows = this.getVisibleRows();
+    // startIndex is a lower number, endIndex is higher
+    const { startIndex, endIndex } = this.getVisibleRowIndices();
+    const visibleRows = notes.notesByRow.slice(startIndex, endIndex);
 
     return (
-      <NotesAreaContainer
-        innerRef={this.notesAreaContainerRef}
-        style={notesAreaContainerStyle}
-        onWheel={this.handleMouseWheel}
-      />
+      <Stage {...dimensions} onWheel={this.handleMouseWheel}>
+        <Layer y={-offsetY}>
+          {visibleRows.map((notes, i) => {
+            // From the top of the visible set of rows
+            const offsetRows = keyLayout.nRows - endIndex;
+            // Correct for the fact that we're counting from bottom to top
+            const index = visibleRows.length - 1 - i + offsetRows;
+            const y = index * rowHeight;
+
+            return (
+              <Group key={index} y={y}>
+                <Row
+                  height={rowHeight}
+                  notes={notes}
+                  offsetX={offsetX}
+                  visibleWidth={dimensions.width}
+                />
+              </Group>
+            );
+          })}
+        </Layer>
+      </Stage>
     );
   }
 }
 
 export default Notes;
-
-const NotesAreaContainer = styled.div`
-  position: absolute;
-`;

@@ -2,8 +2,8 @@ import { Track as TrackModel } from 'core/models/track';
 
 // TODO: Eventually handle different track heights
 export class TrackVisibilityHelper {
-  topIndex = 0;
-  bottomIndex = 0;
+  private topIndex = 0;
+  private bottomIndex = 0;
   trackHeight = 0;
 
   computeVisibility(tracks: TrackModel[], top: number, bottom: number): void {
@@ -24,5 +24,9 @@ export class TrackVisibilityHelper {
         break;
       }
     }
+  }
+
+  getIndices() {
+    return { topIndex: this.topIndex, bottomIndex: this.bottomIndex };
   }
 }

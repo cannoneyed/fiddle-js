@@ -67,7 +67,7 @@ export class TracksStage extends React.Component<Props & InjectedProps, {}> {
 
     this.trackVisibilityHelper.trackHeight = trackHeight;
     this.trackVisibilityHelper.computeVisibility(tracks, top, bottom);
-    const { topIndex, bottomIndex } = this.trackVisibilityHelper;
+    const { topIndex, bottomIndex } = this.trackVisibilityHelper.getIndices();
 
     return tracks.slice(topIndex, bottomIndex);
   };
