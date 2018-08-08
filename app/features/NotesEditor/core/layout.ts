@@ -11,6 +11,11 @@ export class NotesEditorLayout {
     width: 1000,
   };
 
+  @observable rowHeight = 20;
+
+  @observable scrollX = 0;
+  @observable scrollY = 0;
+
   @observable pianoRollWidth = 20;
 
   @computed

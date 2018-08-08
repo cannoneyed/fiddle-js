@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 
-import { Layout } from 'features/NotesEditor/components/Layout';
-import { NotesEditorCore, Provider } from 'features/NotesEditor/core/context';
+import { NotesEditorCore, Provider } from 'features/NotesEditor/core';
+
+import Layout from 'features/NotesEditor/components/Layout';
 
 interface Props {
   core: NotesEditorCore;
