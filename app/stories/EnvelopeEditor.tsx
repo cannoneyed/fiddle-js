@@ -3,7 +3,8 @@ import { storiesOf } from '@storybook/react';
 import { select, withKnobs } from '@storybook/addon-knobs';
 import { Wrapper } from './helpers';
 
-import { EnvelopeEditor } from 'features/EnvelopeEditor/EnvelopeEditor';
+import { EnvelopeEditor } from 'features/EnvelopeEditor';
+import { EnvelopeEditorCore } from 'features/EnvelopeEditor/core';
 
 import { Envelope, Point } from 'core/models/envelope';
 import { TimelineVector } from 'core/primitives/timeline-vector';
@@ -33,13 +34,14 @@ stories.add('default', () => {
   const defaultValue = 'snap_1_4';
   const value = select('Snap To Grid', snapToGridOptions, defaultValue);
 
+  const core = new EnvelopeEditorCore(envelope);
+  core.layout.dimensions.height = height;
+  core.layout.dimensions.width = width;
+  core.snapToGrid = getSnapToGrid(value);
+
   return (
     <Wrapper>
-      <EnvelopeEditor
-        dimensions={{ height, width }}
-        envelope={envelope}
-        snapToGrid={getSnapToGrid(value)}
-      />
+      <EnvelopeEditor core={core} />
     </Wrapper>
   );
 });

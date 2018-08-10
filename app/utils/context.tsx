@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Observer } from 'mobx-react';
 
 export function createMandatoryContext<T>(defaultValue?: T) {
   let context = React.createContext<T>((undefined as any) as T);
@@ -33,10 +34,14 @@ export function injectCore<P extends {}, I extends {}, T>(
       render() {
         return (
           <Consumer>
-            {core => {
-              const nextProps = Object.assign({}, this.props, getNextProps(this.props, core));
-              return <Component {...nextProps} />;
-            }}
+            {core => (
+              <Observer>
+                {() => {
+                  const nextProps = Object.assign({}, this.props, getNextProps(this.props, core));
+                  return <Component {...nextProps} />;
+                }}
+              </Observer>
+            )}
           </Consumer>
         );
       }

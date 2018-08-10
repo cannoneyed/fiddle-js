@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, number, select } from '@storybook/addon-knobs';
 import { Wrapper } from './helpers';
 
-import { NotesEditor } from 'features/NotesEditor/components/NotesEditor';
+import { NotesEditor } from 'features/NotesEditor';
 import { NotesEditorCore } from 'features/NotesEditor/core';
 
 import { Notes } from 'core/models/notes';

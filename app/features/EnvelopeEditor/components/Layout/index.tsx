@@ -4,42 +4,38 @@ import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 
 import { Dimensions } from 'core/interfaces';
-import { Envelope as EnvelopeModel } from 'core/models/envelope';
-import { SnapToGrid } from 'core/models/snap-to-grid';
 
 import VerticalGrid from 'components/VerticalGrid';
-import Envelope from 'features/EnvelopeEditor/Envelope';
+import Envelope from 'features/EnvelopeEditor/components/Envelope';
 
-interface Props {
-  envelope: EnvelopeModel;
+import { injectCore } from 'features/EnvelopeEditor/core';
+
+interface Props {}
+interface InjectedProps {
   dimensions: Dimensions;
-  snapToGrid: SnapToGrid;
+  gridSegmentWidth: number;
 }
 
+const inject = injectCore<Props, InjectedProps>((_, core) => {
+  return {
+    dimensions: core.layout.dimensions,
+    gridSegmentWidth: core.layout.gridSegmentWidth,
+  };
+});
+
 @observer
-export class EnvelopeEditor extends React.Component<Props, {}> {
+export class Layout extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { dimensions, envelope, snapToGrid } = this.props;
+    const { dimensions, gridSegmentWidth } = this.props;
 
     const editorWrapperStyle = {
       ...dimensions,
     };
 
-    const gridSegmentWidth = SnapToGrid.getDivisionWidth(
-      envelope.length,
-      dimensions.width,
-      snapToGrid
-    );
-
     return (
       <EnvelopeEditorWrapper style={editorWrapperStyle}>
         <EnvelopeWrapper>
-          <Envelope
-            envelope={envelope}
-            dimensions={dimensions}
-            snapToGrid={snapToGrid}
-            gridSegmentWidth={gridSegmentWidth}
-          />
+          <Envelope />
         </EnvelopeWrapper>
         <GridWrapper>
           <VerticalGrid dimensions={dimensions} colWidth={gridSegmentWidth} getOffsetX={() => 0} />
@@ -49,7 +45,7 @@ export class EnvelopeEditor extends React.Component<Props, {}> {
   }
 }
 
-export default EnvelopeEditor;
+export default inject(Layout);
 
 const EnvelopeEditorWrapper = styled.div`
   position: relative;

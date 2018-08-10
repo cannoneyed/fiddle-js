@@ -7,15 +7,11 @@ import { Connection as ConnectionModel } from 'core/models/envelope/connection';
 import { Point as PointModel } from 'core/models/envelope/point';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { Props } from './index';
+import { EnvelopeEditorCore } from './index';
 
 export type ClickTarget = PointModel | ConnectionModel | null;
 
-export interface Component {
-  props: Props;
-}
-
-export class EnvelopeHelper {
+export class EnvelopeEditorInteractions {
   @observable isDragging = false;
   @observable draggingPoint: PointModel | null;
 
@@ -24,7 +20,7 @@ export class EnvelopeHelper {
     return this.popoverScreenVector;
   };
 
-  constructor(public component: Component) {}
+  constructor(private core: EnvelopeEditorCore) {}
 
   private setIsDragging(isDragging: boolean, point: PointModel | null = null) {
     if (this.isDragging !== isDragging) {
@@ -38,7 +34,8 @@ export class EnvelopeHelper {
   }
 
   private getScreenVector(position: TimelineVector, value: number) {
-    const { dimensions, envelope } = this.component.props;
+    const { envelope, layout } = this.core;
+    const { dimensions } = layout;
     const x = (position.absoluteTicks / envelope.length.absoluteTicks) * dimensions.width;
     const y = (1 - value) * dimensions.height;
     return new ScreenVector(x, y);
@@ -49,7 +46,8 @@ export class EnvelopeHelper {
   };
 
   getQuantizedPositionAndValue = (offsetX: number, offsetY: number) => {
-    const { dimensions, envelope, gridSegmentWidth, snapToGrid } = this.component.props;
+    const { envelope, layout, snapToGrid } = this.core;
+    const { dimensions, gridSegmentWidth } = layout;
     const { height, width } = dimensions;
 
     const x = clamp(offsetX, 0, width);
@@ -70,7 +68,7 @@ export class EnvelopeHelper {
   };
 
   handleDoubleClick = (target: ClickTarget) => (event: React.MouseEvent) => {
-    const { envelope } = this.component.props;
+    const { envelope } = this.core;
     const { offsetX, offsetY } = event.nativeEvent;
     const quantized = this.getQuantizedPositionAndValue(offsetX, offsetY);
 
@@ -82,7 +80,7 @@ export class EnvelopeHelper {
   };
 
   handlePointMouseDown = (event: React.MouseEvent, point: PointModel, container: SVGElement) => {
-    const { envelope } = this.component.props;
+    const { envelope } = this.core;
     point.selected = true;
 
     const containerRect = container.getBoundingClientRect();
