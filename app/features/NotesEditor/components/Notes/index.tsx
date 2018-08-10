@@ -2,8 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { Stage, Group, Layer } from 'react-konva';
 import { KonvaEvent } from 'utils/konva';
-import { NotesEditorCore, Consumer } from 'features/NotesEditor/core';
-import { injectCore } from 'utils/context';
+import { injectCore } from 'features/NotesEditor/core';
 
 import { Dimensions } from 'core/interfaces';
 import { Notes as NotesModel } from 'core/models/notes';
@@ -26,7 +25,7 @@ interface InjectedProps {
   rowHeight: number;
 }
 
-const inject = injectCore<Props, InjectedProps, NotesEditorCore>(Consumer, (_, core) => {
+const inject = injectCore<Props, InjectedProps>((_, core) => {
   const { dimensions, rowHeight, scroll } = core.layout;
   return {
     dimensions: dimensions,

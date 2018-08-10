@@ -2,8 +2,7 @@ import * as React from 'react';
 import styled, { css } from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
-import { NotesEditorCore, Consumer } from 'features/NotesEditor/core';
-import { injectCore } from 'utils/context';
+import { injectCore } from 'features/NotesEditor/core';
 
 import { Dimensions } from 'core/interfaces';
 import { KeyLayout } from 'core/models/notes/key-layout';
@@ -27,7 +26,7 @@ interface InjectedProps {
   snapToGrid: SnapToGrid;
 }
 
-const inject = injectCore<Props, InjectedProps, NotesEditorCore>(Consumer, (_, core) => {
+const inject = injectCore<Props, InjectedProps>((_, core) => {
   const { layout, notes } = core;
   return {
     dimensions: layout.dimensions,

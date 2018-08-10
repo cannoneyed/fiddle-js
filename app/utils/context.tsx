@@ -17,26 +17,9 @@ export function createMandatoryContext<T>(defaultValue?: T) {
   };
 }
 
-export function withCore<P extends {}, T>(Consumer: React.Consumer<T>) {
-  interface Core {
-    core: T;
-  }
-  type C = React.ComponentClass<P & Core> | React.StatelessComponent<P & Core>;
-  return function(Component: C) {
-    class Injected extends React.Component<P, {}> {
-      render() {
-        return (
-          <Consumer>
-            {core => {
-              const nextProps = Object.assign({}, this.props, { core });
-              return <Component {...nextProps} />;
-            }}
-          </Consumer>
-        );
-      }
-    }
-
-    return Injected;
+export function makeCoreInjector<T>(Consumer: React.Consumer<T>) {
+  return function makeInjector<P extends {}, I extends {}>(getNextProps: (props: P, core: T) => I) {
+    return injectCore(Consumer, getNextProps);
   };
 }
 

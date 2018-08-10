@@ -1,4 +1,4 @@
-import { createMandatoryContext } from 'utils/context';
+import { createMandatoryContext, makeCoreInjector } from 'utils/context';
 import { NotesEditorLayout } from './layout';
 
 import { Notes } from 'core/models/notes';
@@ -16,3 +16,5 @@ export class NotesEditorCore {
 
 const { Provider, Consumer } = createMandatoryContext<NotesEditorCore>();
 export { Provider, Consumer };
+
+export const injectCore = makeCoreInjector(Consumer);
