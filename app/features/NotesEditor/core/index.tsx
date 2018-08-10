@@ -8,7 +8,7 @@ import { SnapToGrid } from 'core/models/snap-to-grid';
 export class NotesEditorCore {
   constructor(public notes: Notes) {}
 
-  layout = new NotesEditorLayout();
+  layout = new NotesEditorLayout(this);
 
   snapToGrid = new SnapToGrid();
   keyLayout = new Piano88();

@@ -59,6 +59,11 @@ stories.add('default', () => {
     height: height,
   };
 
+  const getOffset = () => ({
+    x: offsetX,
+    y: offsetY,
+  });
+
   return (
     <Wrapper>
       <div style={gridWrapperStyle}>
@@ -66,8 +71,7 @@ stories.add('default', () => {
           dimensions={{ height, width }}
           colWidth={colWidth}
           rowHeight={rowHeight}
-          offsetX={offsetX}
-          offsetY={offsetY}
+          getOffset={getOffset}
         />
       </div>
     </Wrapper>

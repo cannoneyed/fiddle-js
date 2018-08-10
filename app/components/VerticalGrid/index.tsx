@@ -7,15 +7,20 @@ import { Grid } from '../Grid';
 interface Props {
   colWidth: number;
   dimensions: Dimensions;
-  offsetX: number;
+  getOffsetX: () => number;
 }
 
 @observer
 export class VerticalGrid extends React.Component<Props, {}> {
   render() {
-    const offsetY = 0;
+    const { colWidth, dimensions, getOffsetX } = this.props;
+    const getOffset = () => ({
+      x: getOffsetX(),
+      y: 0,
+    });
+
     const rowHeight = this.props.dimensions.height + 1;
-    const nextProps = { ...this.props, offsetY, rowHeight };
+    const nextProps = { colWidth, dimensions, getOffset, rowHeight };
     return <Grid {...nextProps} />;
   }
 }

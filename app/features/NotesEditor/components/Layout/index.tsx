@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 import { NotesEditorCore, Consumer } from 'features/NotesEditor/core';
-import { withCore } from 'utils/context';
+import { injectCore } from 'utils/context';
 
 import { SnapToGrid } from 'core/models/snap-to-grid';
 
@@ -14,17 +14,27 @@ import { getKeyColor } from 'components/PianoRoll/utils';
 import { Notes } from 'features/NotesEditor/components/Notes';
 
 interface Props {}
-interface Core {
+
+interface InjectedProps {
   core: NotesEditorCore;
+  getScroll: () => { x: number; y: number };
 }
 
-@observer
-export class Layout extends React.Component<Props & Core, {}> {
-  render() {
-    const { core } = this.props;
+const inject = injectCore<Props, InjectedProps, NotesEditorCore>(Consumer, (_, core) => {
+  const { scroll } = core.layout;
+  return {
+    core,
+    getScroll: scroll.getScroll,
+  };
+});
 
-    const { notes, keyLayout, snapToGrid } = core;
-    const { dimensions, pianoRollDimensions, rowHeight, scrollX, scrollY } = core.layout;
+@observer
+export class Layout extends React.Component<Props & InjectedProps, {}> {
+  render() {
+    const { core, getScroll } = this.props;
+
+    const { layout, notes, keyLayout, snapToGrid } = core;
+    const { dimensions, pianoRollDimensions, rowHeight } = layout;
 
     const colWidth = SnapToGrid.getDivisionWidth(notes.length, dimensions.width, snapToGrid);
     const editorWrapperStyle = { ...dimensions };
@@ -50,19 +60,17 @@ export class Layout extends React.Component<Props & Core, {}> {
             getKeyColor={getKeyColor}
             keyHeight={rowHeight}
             keyLayout={keyLayout}
-            offsetY={scrollY}
+            getOffsetY={() => getScroll().y}
           />
         </PianoRollWrapper>
         <NotesWrapper style={notesWrapperStyle}>
           <Notes
-            getScroll={() => ({ x: 1, y: 1 })}
-            handleScroll={() => {
-              console.log('scroll!!');
+            getScroll={getScroll}
+            handleScroll={(deltaX: number, deltaY: number) => {
+              core.layout.scroll.handleScroll(deltaX, deltaY);
             }}
             keyLayout={keyLayout}
             notes={notes}
-            offsetX={scrollX}
-            offsetY={scrollY}
             rowHeight={rowHeight}
             dimensions={notesDimensions}
             visibleDimensions={notesDimensions}
@@ -72,8 +80,7 @@ export class Layout extends React.Component<Props & Core, {}> {
           <Grid
             colWidth={colWidth}
             dimensions={notesDimensions}
-            offsetX={0}
-            offsetY={scrollY}
+            getOffset={getScroll}
             rowHeight={rowHeight}
           />
         </GridWrapper>
@@ -82,7 +89,8 @@ export class Layout extends React.Component<Props & Core, {}> {
   }
 }
 
-export default withCore<Props, NotesEditorCore>(Consumer)(Layout);
+// export default withCore<Props, NotesEditorCore>(Consumer)(Layout);
+export default inject(Layout);
 
 const NoteEditorWrapper = styled.div`
   position: relative;

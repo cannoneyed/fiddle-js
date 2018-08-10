@@ -42,7 +42,7 @@ export class EnvelopeEditor extends React.Component<Props, {}> {
           />
         </EnvelopeWrapper>
         <GridWrapper>
-          <VerticalGrid dimensions={dimensions} colWidth={gridSegmentWidth} offsetX={0} />
+          <VerticalGrid dimensions={dimensions} colWidth={gridSegmentWidth} getOffsetX={() => 0} />
         </GridWrapper>
       </EnvelopeEditorWrapper>
     );

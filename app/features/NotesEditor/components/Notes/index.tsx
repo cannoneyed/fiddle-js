@@ -18,8 +18,6 @@ interface Props {
   keyLayout: KeyLayout;
   notes: NotesModel;
   rowHeight: number;
-  offsetX: number;
-  offsetY: number;
   visibleDimensions: Dimensions;
 }
 
@@ -35,7 +33,8 @@ export class Notes extends React.Component<Props, {}> {
   };
 
   getVisibleRowIndices = () => {
-    const { keyLayout, offsetY, rowHeight, visibleDimensions } = this.props;
+    const { getScroll, keyLayout, rowHeight, visibleDimensions } = this.props;
+    const offsetY = getScroll().y;
     const top = offsetY;
     const bottom = offsetY + visibleDimensions.height;
 
@@ -45,7 +44,9 @@ export class Notes extends React.Component<Props, {}> {
   };
 
   render() {
-    const { dimensions, keyLayout, notes, offsetX, offsetY, rowHeight } = this.props;
+    const { dimensions, getScroll, keyLayout, notes, rowHeight } = this.props;
+    const offsetX = getScroll().x;
+    const offsetY = getScroll().y;
 
     // startIndex is a lower number, endIndex is higher
     const { startIndex, endIndex } = this.getVisibleRowIndices();

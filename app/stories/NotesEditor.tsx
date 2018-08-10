@@ -53,21 +53,21 @@ stories.add('default', () => {
     step: 1,
   });
 
-  const scrollX = number('scrollX', 0, {
-    range: true,
-    min: 0,
-    max: 1000,
-    step: 1,
-  });
+  // const scrollX = number('scrollX', 0, {
+  //   range: true,
+  //   min: 0,
+  //   max: 1000,
+  //   step: 1,
+  // });
 
   const keyLayout = new Piano88();
 
-  const scrollY = number('scrollY', 0, {
-    range: true,
-    min: 0,
-    max: keyLayout.nRows * rowHeight - height,
-    step: 1,
-  });
+  // const scrollY = number('scrollY', 0, {
+  //   range: true,
+  //   min: 0,
+  //   max: keyLayout.nRows * rowHeight - height,
+  //   step: 1,
+  // });
 
   const snapToGridOptions = Object.keys(snapToGridValues);
   const defaultValue = 'snap_1_4';
@@ -78,8 +78,6 @@ stories.add('default', () => {
   core.layout.dimensions.width = width;
   core.layout.dimensions.height = height;
   core.layout.rowHeight = rowHeight;
-  core.layout.scrollX = scrollX;
-  core.layout.scrollY = scrollY;
   core.snapToGrid = getSnapToGrid(snapValue);
 
   return (

@@ -16,7 +16,7 @@ interface Props {}
 interface InjectedProps {
   dimensions: Dimensions;
   gridSegmentWidth: number;
-  offsetX: number;
+  getOffsetX: () => number;
 }
 
 const inject = injector<Props, InjectedProps>(props => {
@@ -29,14 +29,14 @@ const inject = injector<Props, InjectedProps>(props => {
   return {
     dimensions: gridDimensions,
     gridSegmentWidth: gridLayout.gridSegmentWidth,
-    offsetX: tracksLayout.tracksScrolledX,
+    getOffsetX: () => tracksLayout.tracksScrolledX,
   };
 });
 
 @observer
 export class Grid extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { dimensions, gridSegmentWidth, offsetX } = this.props;
+    const { dimensions, gridSegmentWidth, getOffsetX } = this.props;
 
     const gridStyle = {
       ...dimensions,
@@ -44,7 +44,7 @@ export class Grid extends React.Component<Props & InjectedProps, {}> {
 
     return (
       <GridContainer style={gridStyle}>
-        <VerticalGrid dimensions={dimensions} colWidth={gridSegmentWidth} offsetX={offsetX} />
+        <VerticalGrid dimensions={dimensions} colWidth={gridSegmentWidth} getOffsetX={getOffsetX} />
       </GridContainer>
     );
   }

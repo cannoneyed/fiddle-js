@@ -11,15 +11,15 @@ interface Props {
   dimensions: Dimensions;
   colWidth: number;
   rowHeight: number;
-  offsetX: number;
-  offsetY: number;
+  getOffset: () => { x: number; y: number };
 }
 
 @observer
 export class Grid extends React.Component<Props, {}> {
   renderHorizontalLines() {
     const { dimensions } = this.props;
-    const { rowHeight, offsetY } = this.props;
+    const { getOffset, rowHeight } = this.props;
+    const offsetY = getOffset().y;
 
     const offsetRow = rowHeight - (offsetY % rowHeight);
     const nHorizontalLines = Math.ceil((dimensions.height - offsetRow) / rowHeight);
@@ -38,7 +38,8 @@ export class Grid extends React.Component<Props, {}> {
 
   renderVerticalLines = () => {
     const { dimensions } = this.props;
-    const { colWidth, offsetX } = this.props;
+    const { colWidth, getOffset } = this.props;
+    const offsetX = getOffset().x;
 
     const offsetCol = colWidth - (offsetX % colWidth);
     const nVerticalLines = Math.ceil((dimensions.width - offsetCol) / colWidth);

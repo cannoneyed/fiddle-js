@@ -50,7 +50,8 @@ stories.add('default', () => {
 
   const dimensions = { height, width };
   const keyLayout = new Piano88();
-  const props = { dimensions, keyLayout, getKeyColor, keyHeight, offsetY, nKeys: 88 };
+  const getOffsetY = () => offsetY;
+  const props = { dimensions, getKeyColor, getOffsetY, keyHeight, keyLayout };
 
   return (
     <Wrapper>

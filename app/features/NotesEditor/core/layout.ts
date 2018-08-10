@@ -1,9 +1,14 @@
 import { computed, observable } from 'mobx';
 import { Dimensions } from 'core/interfaces';
-// import { NotesEditorContext } from './index';
+import { NotesEditorCore } from './index';
+import { NotesEditorScroll } from './scroll';
 
 export class NotesEditorLayout {
-  // constructor(context: NotesEditorContext) {}
+  scroll: NotesEditorScroll;
+
+  constructor(core: NotesEditorCore) {
+    this.scroll = new NotesEditorScroll(core, this);
+  }
 
   @observable
   dimensions: Dimensions = {
@@ -12,9 +17,6 @@ export class NotesEditorLayout {
   };
 
   @observable rowHeight = 20;
-
-  @observable scrollX = 0;
-  @observable scrollY = 0;
 
   @observable pianoRollWidth = 20;
 

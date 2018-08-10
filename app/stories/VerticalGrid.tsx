@@ -51,7 +51,7 @@ stories.add('default', () => {
         <VerticalGrid
           dimensions={{ height, width }}
           colWidth={gridSegmentWidth}
-          offsetX={offsetX}
+          getOffsetX={() => offsetX}
         />
       </div>
     </Wrapper>
