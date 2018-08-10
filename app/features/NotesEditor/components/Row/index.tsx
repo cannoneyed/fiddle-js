@@ -1,6 +1,6 @@
 import * as React from 'react';
+import Konva from 'konva';
 import { observer } from 'mobx-react';
-import * as Konva from 'konva';
 import { Group, Rect } from 'react-konva';
 import { KonvaEvent } from 'utils/konva';
 
@@ -40,7 +40,7 @@ export class Row extends React.Component<Props, State> {
               height={height}
               isDragging={false}
               note={note}
-              offsetX={0}
+              offsetX={100}
               width={10}
             />
           );

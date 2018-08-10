@@ -6,7 +6,6 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, number } from '@storybook/addon-knobs';
 
 import { PianoRoll } from 'components/PianoRoll';
-import { getKeyColor } from 'components/PianoRoll/utils';
 
 import { Piano88 } from 'core/models/notes/key-layout';
 
@@ -51,7 +50,7 @@ stories.add('default', () => {
   const dimensions = { height, width };
   const keyLayout = new Piano88();
   const getOffsetY = () => offsetY;
-  const props = { dimensions, getKeyColor, getOffsetY, keyHeight, keyLayout };
+  const props = { dimensions, getOffsetY, keyHeight, keyLayout };
 
   return (
     <Wrapper>

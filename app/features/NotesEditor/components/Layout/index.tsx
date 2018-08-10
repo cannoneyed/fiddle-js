@@ -5,36 +5,53 @@ import { observer } from 'mobx-react';
 import { NotesEditorCore, Consumer } from 'features/NotesEditor/core';
 import { injectCore } from 'utils/context';
 
+import { Dimensions } from 'core/interfaces';
+import { KeyLayout } from 'core/models/notes/key-layout';
+import { Notes as NotesModel } from 'core/models/notes';
 import { SnapToGrid } from 'core/models/snap-to-grid';
 
 import { Grid } from 'components/Grid';
 import { PianoRoll } from 'components/PianoRoll';
-import { getKeyColor } from 'components/PianoRoll/utils';
 
-import { Notes } from 'features/NotesEditor/components/Notes';
+import Notes from 'features/NotesEditor/components/Notes';
 
 interface Props {}
 
 interface InjectedProps {
-  core: NotesEditorCore;
+  dimensions: Dimensions;
   getScroll: () => { x: number; y: number };
+  keyLayout: KeyLayout;
+  notes: NotesModel;
+  pianoRollDimensions: Dimensions;
+  rowHeight: number;
+  snapToGrid: SnapToGrid;
 }
 
 const inject = injectCore<Props, InjectedProps, NotesEditorCore>(Consumer, (_, core) => {
-  const { scroll } = core.layout;
+  const { layout, notes } = core;
   return {
-    core,
-    getScroll: scroll.getScroll,
+    dimensions: layout.dimensions,
+    getScroll: layout.scroll.getScroll,
+    keyLayout: core.keyLayout,
+    notes,
+    pianoRollDimensions: layout.pianoRollDimensions,
+    rowHeight: layout.rowHeight,
+    snapToGrid: core.snapToGrid,
   };
 });
 
 @observer
 export class Layout extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { core, getScroll } = this.props;
-
-    const { layout, notes, keyLayout, snapToGrid } = core;
-    const { dimensions, pianoRollDimensions, rowHeight } = layout;
+    const {
+      dimensions,
+      getScroll,
+      keyLayout,
+      notes,
+      pianoRollDimensions,
+      rowHeight,
+      snapToGrid,
+    } = this.props;
 
     const colWidth = SnapToGrid.getDivisionWidth(notes.length, dimensions.width, snapToGrid);
     const editorWrapperStyle = { ...dimensions };
@@ -57,24 +74,13 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
         <PianoRollWrapper>
           <PianoRoll
             dimensions={pianoRollDimensions}
-            getKeyColor={getKeyColor}
             keyHeight={rowHeight}
             keyLayout={keyLayout}
             getOffsetY={() => getScroll().y}
           />
         </PianoRollWrapper>
         <NotesWrapper style={notesWrapperStyle}>
-          <Notes
-            getScroll={getScroll}
-            handleScroll={(deltaX: number, deltaY: number) => {
-              core.layout.scroll.handleScroll(deltaX, deltaY);
-            }}
-            keyLayout={keyLayout}
-            notes={notes}
-            rowHeight={rowHeight}
-            dimensions={notesDimensions}
-            visibleDimensions={notesDimensions}
-          />
+          <Notes visibleDimensions={notesDimensions} />
         </NotesWrapper>
         <GridWrapper style={gridWrapperStyle}>
           <Grid

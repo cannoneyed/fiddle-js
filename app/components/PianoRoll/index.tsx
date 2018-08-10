@@ -13,7 +13,6 @@ interface Props {
   keyHeight: number;
   keyLayout: KeyLayout;
   getOffsetY: () => number;
-  getKeyColor: (index: number) => string;
 }
 
 @observer
@@ -23,11 +22,12 @@ export class PianoRoll extends React.Component<Props, {}> {
   };
 
   renderKey = (y: number, keyIndex: number) => {
-    const { dimensions, getKeyColor, keyHeight } = this.props;
+    const { dimensions, keyHeight, keyLayout } = this.props;
     const keyProps = {
       height: keyHeight,
       width: dimensions.width,
-      fill: getKeyColor(keyIndex),
+      fill: keyLayout.getKeyColor(keyIndex),
+      onClick: () => this.handleKeyClick(keyIndex),
     };
 
     const lineStart = { x: 0, y: 0 };
@@ -54,11 +54,13 @@ export class PianoRoll extends React.Component<Props, {}> {
 
     const nVisible = Math.floor(dimensions.height / keyHeight) + 2;
     const startKeyIndex = keyLayout.nRows - Math.floor(offsetY / keyHeight);
-    const offsetRow = offsetY % keyHeight;
 
-    const keys = range(nVisible).map(i => {
-      const y = i * keyHeight - offsetRow;
-      const keyIndex = startKeyIndex - i;
+    const keyIndices = range(nVisible)
+      .map(i => startKeyIndex - i)
+      .filter(index => index >= 0 && index < keyLayout.nRows);
+
+    const keys = keyIndices.map(keyIndex => {
+      const y = (keyLayout.nRows - 1 - keyIndex) * keyHeight;
       return this.renderKey(y, keyIndex);
     });
 
@@ -66,7 +68,7 @@ export class PianoRoll extends React.Component<Props, {}> {
 
     return (
       <Stage width={width} height={height}>
-        <Layer>{keys}</Layer>
+        <Layer y={-offsetY}>{keys}</Layer>
       </Stage>
     );
   }

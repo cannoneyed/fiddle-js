@@ -34,10 +34,10 @@ export class NotesEditorScroll {
   }
 
   @action
-  handleScroll(deltaX: number, deltaY: number) {
+  handleScroll = (deltaX: number, deltaY: number) => {
     const nextX = this.scrollX + deltaX;
     const nextY = this.scrollY + deltaY;
     this.scrollX = clamp(nextX, 0, this.scrollableDimensions.width);
     this.scrollY = clamp(nextY, 0, this.scrollableDimensions.height);
-  }
+  };
 }
