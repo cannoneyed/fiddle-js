@@ -13,8 +13,15 @@ export class TracksMouseInteraction {
 
   @action
   handleTrackClick = (track: Track, event: MouseEvent) => {
-    event.stopPropagation();
+    if (event.ctrlKey) {
+      // no op
+    } else if (this.clipSelect.selectedClips.length > 0) {
+      this.clipSelect.deselectAllClips();
+    }
+  };
 
+  @action
+  handleStageClick = (event: MouseEvent) => {
     if (event.ctrlKey) {
       // no op
     } else if (this.clipSelect.selectedClips.length > 0) {

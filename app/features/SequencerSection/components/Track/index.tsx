@@ -1,12 +1,12 @@
 import * as React from 'react';
+import Konva from 'konva';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 import { ContextMenu } from '@blueprintjs/core';
 import theme from 'styles/theme';
-import * as Konva from 'konva';
 import { Group, Line, Rect } from 'react-konva';
-import { KonvaEvent, makePoints } from 'utils/konva';
+import { makeHandler, makePoints } from 'utils/konva';
 
 import TrackContextMenu from 'features/ContextMenus/TrackContextMenu';
 import Clip from 'features/SequencerSection/components/Clip';
@@ -59,17 +59,14 @@ export class Track extends React.Component<Props & InjectedProps, State> {
     return <TrackContextMenu trackId={track.id} offsetX={offsetX} />;
   };
 
-  handleTrackClick = (e: KonvaEvent<MouseEvent, Konva.Rect>) => {
-    const event = e.evt;
-    event.preventDefault();
+  handleTrackClick = makeHandler<MouseEvent, Konva.Rect>(event => {
     if (event.ctrlKey) {
       return this.showContextMenu(event);
     }
-    return this.props.handleTrackClick(e.evt);
-  };
+    return this.props.handleTrackClick(event);
+  });
 
   showContextMenu = (e: MouseEvent) => {
-    e.preventDefault();
     const props = { left: e.clientX, top: e.clientY };
     const callback = () => this.setState({ isContextMenuOpen: false });
     ContextMenu.show(this.renderContextMenu(e.offsetX), props, callback);
