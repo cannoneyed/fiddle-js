@@ -91,7 +91,7 @@ export class Track extends React.Component<Props & InjectedProps, State> {
     const points = makePoints([start, end]);
 
     return (
-      <Group x={-offsetX}>
+      <Group>
         <Rect height={height} width={visibleWidth} onMouseDown={this.handleTrackClick} />
         <Line points={points} stroke={theme.colors.mediumGray.toRgbString()} strokeWidth={1} />
         {visibleClips.map(clip => {

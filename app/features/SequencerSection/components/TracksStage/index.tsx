@@ -89,7 +89,7 @@ export class TracksStage extends React.Component<Props & InjectedProps, {}> {
       <Stage width={dimensions.width} height={dimensions.height} onWheel={this.handleMouseWheel}>
         <Layer>
           <Rect {...dimensions} onClick={this.handleClick} />
-          <Group y={-scrollY}>
+          <Group y={-scrollY} x={-scrollX}>
             {visibleTracks.map(track => {
               const y = track.index * trackHeight;
               return (
