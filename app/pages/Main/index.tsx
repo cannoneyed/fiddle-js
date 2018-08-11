@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 
 import ClipEditorSection from 'features/ClipEditorSection/ClipEditorSection';
-import SequencerSection from 'features/SequencerSection/SequencerSection';
+import SequencerSection from 'features/SequencerSection';
 import SectionDivider from 'features/SectionDivider';
 
 import { MainPageLayout } from 'core/state/layouts/pages/main';

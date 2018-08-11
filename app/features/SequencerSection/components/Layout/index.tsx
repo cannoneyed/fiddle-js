@@ -5,13 +5,13 @@ import { injector } from 'utils/injector';
 
 import Toolbar from 'features/Toolbar';
 
-import Minimap from 'features/SequencerSection/Minimap';
-import Grid from 'features/SequencerSection/Grid';
-import Timeline from 'features/SequencerSection/Timeline';
-import TimelineGutter from 'features/SequencerSection/TimelineGutter';
-import TracksGutter from 'features/SequencerSection/TracksGutter';
-import TracksStage from 'features/SequencerSection/TracksStage';
-import VerticalScrollbar from 'features/SequencerSection/VerticalScrollbar';
+import Minimap from 'features/SequencerSection/components/Minimap';
+import Grid from 'features/SequencerSection/components/Grid';
+import Timeline from 'features/SequencerSection/components/Timeline';
+import TimelineGutter from 'features/SequencerSection/components/TimelineGutter';
+import TracksGutter from 'features/SequencerSection/components/TracksGutter';
+import TracksStage from 'features/SequencerSection/components/TracksStage';
+import VerticalScrollbar from 'features/SequencerSection/components/VerticalScrollbar';
 
 import { Dimensions, Rectangle } from 'core/interfaces';
 import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
@@ -50,7 +50,7 @@ const inject = injector<Props, InjectedProps>(props => {
 });
 
 @observer
-export class SequencerSection extends React.Component<Props & InjectedProps, {}> {
+export class Layout extends React.Component<Props & InjectedProps, {}> {
   render() {
     const minimapWrapperStyle = {
       height: this.props.minimapHeight,
@@ -112,4 +112,4 @@ export class SequencerSection extends React.Component<Props & InjectedProps, {}>
   }
 }
 
-export default inject(SequencerSection);
+export default inject(Layout);

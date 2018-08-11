@@ -12,8 +12,8 @@ import { Coordinates, Dimensions } from 'core/interfaces';
 
 import { TrackVisibilityHelper } from './helpers';
 
-import DragToMarkers from 'features/SequencerSection/DragToMarkers';
-import Track from 'features/SequencerSection/Track';
+import DragToMarkers from 'features/SequencerSection/components/DragToMarkers';
+import Track from 'features/SequencerSection/components/Track';
 
 interface Props {
   dimensions: Dimensions;

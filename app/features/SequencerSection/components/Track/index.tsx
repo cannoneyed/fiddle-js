@@ -9,7 +9,7 @@ import { Group, Line, Rect } from 'react-konva';
 import { KonvaEvent, makePoints } from 'utils/konva';
 
 import TrackContextMenu from 'features/ContextMenus/TrackContextMenu';
-import Clip from 'features/SequencerSection/Clip';
+import Clip from 'features/SequencerSection/components/Clip';
 
 import { Dimensions } from 'core/interfaces';
 import { Clip as ClipModel } from 'core/models/clip';

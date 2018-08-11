@@ -9,7 +9,7 @@ import { injector } from 'utils/injector';
 import { Track as TrackModel } from 'core/models/track';
 import { Dimensions } from 'core/interfaces';
 
-import TrackHeader from 'features/SequencerSection/TrackHeader';
+import TrackHeader from 'features/SequencerSection/components/TrackHeader';
 
 import { SequencerScrollInteraction } from 'core/interactions/sequencer/scroll';
 import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
