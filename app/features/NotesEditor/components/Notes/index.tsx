@@ -1,18 +1,19 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Stage, Group, Layer } from 'react-konva';
+import { Layer } from 'react-konva';
 import { KonvaEvent } from 'utils/konva';
 import { injectCore } from 'features/NotesEditor/core';
 
-import { Dimensions } from 'core/interfaces';
+import { Coordinates, Dimensions } from 'core/interfaces';
 import { Notes as NotesModel } from 'core/models/notes';
 import { KeyLayout } from 'core/models/notes/key-layout';
 
 import { RowVisibilityHelper } from './helpers';
 
-import Row from 'features/NotesEditor/components/Row';
+// import Row from 'features/NotesEditor/components/Row';
 
 interface Props {
+  position: Coordinates;
   visibleDimensions: Dimensions;
 }
 
@@ -39,6 +40,10 @@ const inject = injectCore<Props, InjectedProps>((_, core) => {
 
 @observer
 export class Notes extends React.Component<Props & InjectedProps, {}> {
+  static defaultProps = {
+    position: { x: 0, y: 0 },
+  };
+
   private rowVisibilityHelper = new RowVisibilityHelper();
 
   handleMouseWheel = (e: KonvaEvent<WheelEvent, any>) => {
@@ -60,17 +65,18 @@ export class Notes extends React.Component<Props & InjectedProps, {}> {
   };
 
   render() {
-    const { dimensions, getScroll, keyLayout, notes, rowHeight } = this.props;
-    const offsetX = getScroll().x;
-    const offsetY = getScroll().y;
+    const { dimensions, position } = this.props;
+    // const { dimensions, getScroll, keyLayout, notes, position, rowHeight } = this.props;
+    // const offsetX = getScroll().x;
+    // const offsetY = getScroll().y;
 
     // startIndex is a lower number, endIndex is higher
-    const { startIndex, endIndex } = this.getVisibleRowIndices();
-    const visibleRows = notes.notesByRow.slice(startIndex, endIndex);
+    // const { startIndex, endIndex } = this.getVisibleRowIndices();
+    // const visibleRows = notes.notesByRow.slice(startIndex, endIndex);
 
     return (
-      <Stage {...dimensions} onWheel={this.handleMouseWheel}>
-        <Layer y={-offsetY}>
+      <Layer {...dimensions} {...position} onWheel={this.handleMouseWheel}>
+        {/* <Group y={-offsetY}>
           {visibleRows.map((notes, i) => {
             // From the top of the visible set of rows
             const offsetRows = keyLayout.nRows - endIndex;
@@ -89,8 +95,8 @@ export class Notes extends React.Component<Props & InjectedProps, {}> {
               </Group>
             );
           })}
-        </Layer>
-      </Stage>
+        </Group> */}
+      </Layer>
     );
   }
 }

@@ -6,9 +6,14 @@ export function createMandatoryContext<T>(defaultValue?: T) {
   let consumer: React.Consumer<T> = props => {
     return (
       <context.Consumer>
-        {state =>
-          state ? props.children(state) : <span style={{ color: 'red' }}>Missing Context</span>
-        }
+        {state => {
+          return props.children(state);
+          // return state ? (
+          //   props.children(state)
+          // ) : (
+          //   <span style={{ color: 'red' }}>Missing Context</span>
+          // );
+        }}
       </context.Consumer>
     );
   };
@@ -32,6 +37,7 @@ export function injectCore<P extends {}, I extends {}, T>(
   return function(Component: C) {
     class Injected extends React.Component<P, {}> {
       render() {
+        console.log('🔥', Component, Consumer);
         return (
           <Consumer>
             {core => (

@@ -2,21 +2,26 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { range } from 'lodash';
 import theme from 'styles/theme';
-import { Group, Layer, Line, Rect, Stage } from 'react-konva';
+import { Group, Layer, Line, Rect } from 'react-konva';
 import { makePoints } from 'utils/konva';
 
-import { Dimensions } from 'core/interfaces';
+import { Coordinates, Dimensions } from 'core/interfaces';
 import { KeyLayout } from 'core/models/notes/key-layout';
 
 interface Props {
   dimensions: Dimensions;
   keyHeight: number;
   keyLayout: KeyLayout;
+  position: Coordinates;
   getOffsetY: () => number;
 }
 
 @observer
 export class PianoRoll extends React.Component<Props, {}> {
+  static defaultProps = {
+    position: { x: 0, y: 0 },
+  };
+
   handleKeyClick = (keyIndex: number) => {
     console.log(keyIndex);
   };
@@ -49,7 +54,7 @@ export class PianoRoll extends React.Component<Props, {}> {
   };
 
   render() {
-    const { dimensions, getOffsetY, keyHeight, keyLayout } = this.props;
+    const { dimensions, getOffsetY, keyHeight, keyLayout, position } = this.props;
     const offsetY = getOffsetY();
 
     const nVisible = Math.floor(dimensions.height / keyHeight) + 2;
@@ -64,12 +69,10 @@ export class PianoRoll extends React.Component<Props, {}> {
       return this.renderKey(y, keyIndex);
     });
 
-    const { height, width } = dimensions;
-
     return (
-      <Stage width={width} height={height}>
-        <Layer y={-offsetY}>{keys}</Layer>
-      </Stage>
+      <Layer {...dimensions} {...position}>
+        <Group y={-offsetY}>{keys}</Group>
+      </Layer>
     );
   }
 }

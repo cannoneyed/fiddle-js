@@ -2,20 +2,25 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { range } from 'lodash';
 import theme from 'styles/theme';
-import { Stage, Group, Layer, Line } from 'react-konva';
+import { Group, Layer, Line } from 'react-konva';
 import { makePoints } from 'utils/konva';
 
-import { Dimensions } from 'core/interfaces';
+import { Coordinates, Dimensions } from 'core/interfaces';
 
 interface Props {
   dimensions: Dimensions;
   colWidth: number;
+  position: Coordinates;
   rowHeight: number;
   getOffset: () => { x: number; y: number };
 }
 
 @observer
 export class Grid extends React.Component<Props, {}> {
+  static defaultProps = {
+    position: { x: 0, y: 0 },
+  };
+
   renderHorizontalLines() {
     const { dimensions } = this.props;
     const { getOffset, rowHeight } = this.props;
@@ -57,20 +62,15 @@ export class Grid extends React.Component<Props, {}> {
   };
 
   render() {
-    const { dimensions } = this.props;
-    const stageProps = {
-      ...dimensions,
-    };
+    const { dimensions, position } = this.props;
 
     return (
-      <Stage {...stageProps}>
-        <Layer>
-          <Group>
-            {this.renderHorizontalLines()}
-            {this.renderVerticalLines()}
-          </Group>
-        </Layer>
-      </Stage>
+      <Layer {...dimensions} {...position}>
+        <Group>
+          {this.renderHorizontalLines()}
+          {this.renderVerticalLines()}
+        </Group>
+      </Layer>
     );
   }
 }

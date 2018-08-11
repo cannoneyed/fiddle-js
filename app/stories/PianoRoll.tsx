@@ -1,6 +1,7 @@
 import React from 'react';
 import theme from 'styles/theme';
 import { Wrapper } from './helpers';
+import { Layer, Rect, Stage } from 'react-konva';
 
 import { storiesOf } from '@storybook/react';
 import { withKnobs, number } from '@storybook/addon-knobs';
@@ -41,12 +42,6 @@ stories.add('default', () => {
     step: 1,
   });
 
-  const containerStyle = {
-    backgroundColor: theme.colors.darkGray.toRgbString(),
-    width: width,
-    height: height,
-  };
-
   const dimensions = { height, width };
   const keyLayout = new Piano88();
   const getOffsetY = () => offsetY;
@@ -54,9 +49,12 @@ stories.add('default', () => {
 
   return (
     <Wrapper>
-      <div style={containerStyle}>
+      <Stage {...dimensions}>
+        <Layer>
+          <Rect {...dimensions} fill={theme.colors.darkGray.toRgbString()} />
+        </Layer>
         <PianoRoll {...props} />
-      </div>
+      </Stage>
     </Wrapper>
   );
 });

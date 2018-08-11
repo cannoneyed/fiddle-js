@@ -33,8 +33,12 @@ export class NotesEditor extends React.Component<Props> {
   }
 
   render() {
+    const core = this.core;
+
+    console.log('🍕', core);
+
     return (
-      <Provider value={this.core}>
+      <Provider value={core}>
         <Layout />
       </Provider>
     );

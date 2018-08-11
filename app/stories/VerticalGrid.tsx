@@ -1,6 +1,7 @@
 import React from 'react';
 import theme from 'styles/theme';
 import { Wrapper } from './helpers';
+import { Layer, Rect, Stage } from 'react-konva';
 
 import { storiesOf } from '@storybook/react';
 import { withKnobs, number } from '@storybook/addon-knobs';
@@ -39,21 +40,23 @@ stories.add('default', () => {
     step: 1,
   });
 
-  const gridWrapperStyle = {
-    backgroundColor: theme.colors.darkGray.toRgbString(),
+  const dimensions = {
     width: width,
     height: height,
   };
 
   return (
     <Wrapper>
-      <div style={gridWrapperStyle}>
+      <Stage {...dimensions}>
+        <Layer>
+          <Rect {...dimensions} fill={theme.colors.darkGray.toRgbString()} />
+        </Layer>
         <VerticalGrid
-          dimensions={{ height, width }}
+          dimensions={dimensions}
           colWidth={gridSegmentWidth}
           getOffsetX={() => offsetX}
         />
-      </div>
+      </Stage>
     </Wrapper>
   );
 });

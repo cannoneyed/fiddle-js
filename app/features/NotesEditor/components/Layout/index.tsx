@@ -1,8 +1,9 @@
 import * as React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 import { injectCore } from 'features/NotesEditor/core';
+import { Stage } from 'react-konva';
 
 import { Dimensions } from 'core/interfaces';
 import { KeyLayout } from 'core/models/notes/key-layout';
@@ -60,65 +61,37 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
       width: dimensions.width - pianoRollDimensions.width,
     };
 
-    const gridWrapperStyle = {
-      left: pianoRollDimensions.width,
-    };
-
-    const notesWrapperStyle = {
-      left: pianoRollDimensions.width,
+    const notesPosition = {
+      x: pianoRollDimensions.width,
+      y: 0,
     };
 
     return (
       <NoteEditorWrapper style={editorWrapperStyle}>
-        <PianoRollWrapper>
+        <Stage {...dimensions}>
           <PianoRoll
             dimensions={pianoRollDimensions}
             keyHeight={rowHeight}
             keyLayout={keyLayout}
             getOffsetY={() => getScroll().y}
           />
-        </PianoRollWrapper>
-        <NotesWrapper style={notesWrapperStyle}>
-          <Notes visibleDimensions={notesDimensions} />
-        </NotesWrapper>
-        <GridWrapper style={gridWrapperStyle}>
+          <Notes visibleDimensions={notesDimensions} position={notesPosition} />
           <Grid
             colWidth={colWidth}
             dimensions={notesDimensions}
+            position={notesPosition}
             getOffset={getScroll}
             rowHeight={rowHeight}
           />
-        </GridWrapper>
+        </Stage>
       </NoteEditorWrapper>
     );
   }
 }
 
-// export default withCore<Props, NotesEditorCore>(Consumer)(Layout);
 export default inject(Layout);
 
 const NoteEditorWrapper = styled.div`
   position: relative;
   background-color: ${theme.colors.darkGray.toRgbString()};
-`;
-
-const absolute = css`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-`;
-
-const NotesWrapper = styled.div`
-  ${absolute};
-  z-index: 1;
-`;
-
-const GridWrapper = styled.div`
-  ${absolute};
-  z-index: 0;
-`;
-
-const PianoRollWrapper = styled.div`
-  ${absolute};
-  z-index: 0;
 `;
