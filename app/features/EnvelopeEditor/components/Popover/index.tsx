@@ -4,13 +4,9 @@ import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 
 import { ScreenVector } from 'core/primitives/screen-vector';
-
 import { Point as PointModel } from 'core/models/envelope/point';
 
-interface Props {
-  point: PointModel;
-  screenVector: ScreenVector;
-}
+import { injectCore } from 'features/EnvelopeEditor/core';
 
 const BORDER_WIDTH = 1;
 const CARET_SIZE = 8;
@@ -18,8 +14,21 @@ const HEIGHT = 60;
 const WIDTH = 120;
 const OFFSET_Y = 20;
 
+interface Props {}
+interface InjectedProps {
+  point: PointModel;
+  screenVector: ScreenVector;
+}
+
+const inject = injectCore((_, core) => {
+  return {
+    point: core.interactions.draggingPoint,
+    screenVector: core.interactions.getPopoverScreenVector(),
+  };
+});
+
 @observer
-export class Popover extends React.Component<Props, {}> {
+export class Popover extends React.Component<Props & InjectedProps, {}> {
   renderPosition() {
     const { point } = this.props;
     const { primary, secondary, tertiary, ticks } = point.position;
@@ -62,7 +71,7 @@ export class Popover extends React.Component<Props, {}> {
   }
 }
 
-export default Popover;
+export default inject(Popover);
 
 const PopoverWrapper = styled.div`
   position: fixed;

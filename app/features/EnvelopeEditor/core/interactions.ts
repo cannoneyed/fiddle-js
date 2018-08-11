@@ -1,5 +1,5 @@
 import { clamp } from 'lodash';
-import { observable } from 'mobx';
+import { computed, observable } from 'mobx';
 
 import { makeDragHandler } from 'core/interactions/handlers/draggable';
 import { ScreenVector } from 'core/primitives/screen-vector';
@@ -14,13 +14,19 @@ export type ClickTarget = PointModel | ConnectionModel | null;
 export class EnvelopeEditorInteractions {
   @observable isDragging = false;
   @observable draggingPoint: PointModel | null;
+  container: SVGElement;
+
+  constructor(private core: EnvelopeEditorCore) {}
+
+  @computed
+  get showPopover(): boolean {
+    return this.isDragging && !!this.draggingPoint;
+  }
 
   @observable private popoverScreenVector: ScreenVector = new ScreenVector();
   getPopoverScreenVector = () => {
     return this.popoverScreenVector;
   };
-
-  constructor(private core: EnvelopeEditorCore) {}
 
   private setIsDragging(isDragging: boolean, point: PointModel | null = null) {
     if (this.isDragging !== isDragging) {
@@ -79,11 +85,23 @@ export class EnvelopeEditorInteractions {
     envelope.createPoint(quantized.position, quantized.value);
   };
 
-  handlePointMouseDown = (event: React.MouseEvent, point: PointModel, container: SVGElement) => {
+  handleMouseDown = (target: ClickTarget) => (event: React.MouseEvent) => {
+    if (target instanceof PointModel) {
+      this.handlePointMouseDown(event, target);
+    } else if (target instanceof ConnectionModel) {
+      this.handleConnectionMouseDown(event, target);
+    }
+  };
+
+  setContainerElement = (container: SVGElement) => {
+    this.container = container;
+  };
+
+  private handlePointMouseDown = (event: React.MouseEvent, point: PointModel) => {
     const { envelope } = this.core;
     point.selected = true;
 
-    const containerRect = container.getBoundingClientRect();
+    const containerRect = this.container.getBoundingClientRect();
     const containerScreenVector = new ScreenVector(containerRect.left, containerRect.top);
 
     const handleMouseMove = (event: MouseEvent) => {
@@ -116,9 +134,5 @@ export class EnvelopeEditorInteractions {
     return dragHandler(event);
   };
 
-  handleConnectionMouseDown = (
-    event: React.MouseEvent,
-    connection: ConnectionModel,
-    container: SVGElement
-  ) => {};
+  private handleConnectionMouseDown = (event: React.MouseEvent, connection: ConnectionModel) => {};
 }
