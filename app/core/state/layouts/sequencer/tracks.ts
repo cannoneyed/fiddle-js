@@ -53,7 +53,7 @@ export class TracksLayout {
 
   @computed
   get trackWidth() {
-    return this.timelineState.length * this.gridLayout.barWidth;
+    return this.timelineState.length.primary * this.gridLayout.barWidth;
   }
 
   @computed

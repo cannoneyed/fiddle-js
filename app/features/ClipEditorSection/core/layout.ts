@@ -1,15 +1,23 @@
-import { Inject, Service } from 'typedi';
-import { computed, observable } from 'mobx';
-
-import { MainPageLayout } from 'core/state/layouts/pages/main';
-import { SectionLayout } from 'core/state/layouts/shared/section';
+import { action, computed, observable } from 'mobx';
+import { filterMethods } from 'utils/log-filter';
 
 import { Dimensions, Rectangle, Position } from 'core/interfaces';
 
-@Service()
-export class ClipEditorSectionLayout implements SectionLayout {
-  @Inject(type => MainPageLayout)
-  mainPageLayout: MainPageLayout;
+import { SectionLayout } from 'core/state/layouts/shared/section';
+
+export class ClipEditorLayout implements SectionLayout {
+  static mobxLoggerConfig = filterMethods('setDimensions');
+
+  @observable dimensions: Dimensions;
+
+  @action
+  setDimensions(dimensions: Dimensions) {
+    this.dimensions = dimensions;
+  }
+
+  constructor(dimensions: Dimensions) {
+    this.dimensions = dimensions;
+  }
 
   @observable minimapHeight = 30;
   @observable gutterWidth = 100;
@@ -19,20 +27,11 @@ export class ClipEditorSectionLayout implements SectionLayout {
   @observable verticalScrollbarWidth = 14;
 
   @computed
-  get sectionHeight() {
-    return this.mainPageLayout.clipEditorSectionHeight;
-  }
-
-  @computed
-  get sectionWidth() {
-    return this.mainPageLayout.sectionWidth;
-  }
-
-  @computed
   get editAreaDimensions(): Dimensions {
+    const { width, height } = this.dimensions;
     return {
-      height: this.sectionHeight - this.toolbarHeight,
-      width: this.mainPageLayout.sectionWidth - this.verticalScrollbarWidth,
+      height: height - this.toolbarHeight,
+      width: width - this.verticalScrollbarWidth,
     };
   }
 
@@ -52,7 +51,7 @@ export class ClipEditorSectionLayout implements SectionLayout {
   @computed
   get verticalScrollbarDimensions(): Dimensions {
     return {
-      height: this.sectionHeight - this.toolbarHeight - this.minimapHeight,
+      height: this.dimensions.height - this.toolbarHeight - this.minimapHeight,
       width: this.verticalScrollbarWidth,
     };
   }
@@ -70,5 +69,3 @@ export class ClipEditorSectionLayout implements SectionLayout {
     return { ...this.verticalScrollbarDimensions, ...this.verticalScrollbarPosition };
   }
 }
-
-export { Dimensions };

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
 
 import { Clip } from 'core/models/clip';
 
@@ -9,15 +8,11 @@ export interface Props {
 }
 export interface InjectedProps {}
 
-const inject = injector<Props, InjectedProps>(props => {
-  return {};
-});
-
 @observer
 export class ClipEdit extends React.Component<Props & InjectedProps, {}> {
   render() {
-    // const { snips } = this.props.clip;
-    return <h1>yo</h1>;
+    const { clip } = this.props;
+    return <h1>{clip.id}</h1>;
     // return (
     //   <ClipEditContainer>
     //     <DragToMarker />
@@ -32,4 +27,4 @@ export class ClipEdit extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(ClipEdit);
+export default ClipEdit;

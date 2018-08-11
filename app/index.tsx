@@ -3,8 +3,8 @@ import React from 'react';
 import { Container } from 'typedi';
 import { render } from 'react-dom';
 import { configure } from 'mobx';
-import { enableLogging } from 'mobx-logger';
 import { configureDevtool } from 'mobx-react-devtools';
+import { enableLogging } from 'mobx-logger';
 
 import { registerServices } from 'core/register-services';
 import { logStores } from 'utils/log-stores';

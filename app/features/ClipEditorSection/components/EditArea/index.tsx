@@ -1,29 +1,22 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
 
 import ClipEdit from '../ClipEdit';
 
-import { ClipEditorState } from 'core/state/app/clip-editor';
-import { ClipStore, Clip } from 'core/state/stores/clips';
+import { Clip } from 'core/models/clip';
+
+import { injectCore } from 'features/ClipEditorSection/core';
 
 export interface Props {}
 export interface InjectedProps {
-  clip: Clip | null;
+  clip: Clip;
 }
 
-const inject = injector<Props, InjectedProps>(props => {
-  const clipEditorState = Container.get(ClipEditorState);
-  const clipStore = Container.get(ClipStore);
-
-  const clipId = clipEditorState.selectedClipId;
-  const clip = clipStore.getClipById(clipId);
-
+const inject = injectCore<Props, InjectedProps>((_, core) => {
   return {
-    clip,
+    clip: core.clip,
   };
 });
 
@@ -34,7 +27,9 @@ export class EditArea extends React.Component<Props & InjectedProps, {}> {
     return (
       <EditAreaContainer id="editArea">
         <EditAreaBody>
-          <SnipsArea>{clip && <ClipEdit clip={clip} />}</SnipsArea>
+          <SnipsArea>
+            <ClipEdit clip={clip} />
+          </SnipsArea>
         </EditAreaBody>
       </EditAreaContainer>
     );

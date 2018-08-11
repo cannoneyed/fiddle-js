@@ -1,4 +1,5 @@
+import { Dimensions } from 'core/interfaces';
+
 export interface SectionLayout {
-  sectionHeight: number;
-  sectionWidth: number;
+  dimensions: Dimensions;
 }

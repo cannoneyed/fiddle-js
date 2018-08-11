@@ -31,6 +31,6 @@ export class SequencerPositionService {
   };
 
   getTimelineEnd = () => {
-    return new TimelineVector(this.timelineState.length);
+    return new TimelineVector(this.timelineState.length.primary);
   };
 }

@@ -11,13 +11,21 @@ export class SequencerSectionLayout implements SectionLayout {
   mainPageLayout: MainPageLayout;
 
   @computed
+  get dimensions(): Dimensions {
+    return {
+      height: this.mainPageLayout.sequencerSectionHeight,
+      width: this.mainPageLayout.sectionWidth,
+    };
+  }
+
+  @computed
   get sectionHeight() {
-    return this.mainPageLayout.sequencerSectionHeight;
+    return this.dimensions.height;
   }
 
   @computed
   get sectionWidth() {
-    return this.mainPageLayout.sectionWidth;
+    return this.dimensions.width;
   }
 
   @observable minimapHeight = 30;

@@ -2,6 +2,7 @@ import { computed } from 'mobx';
 import * as defaults from 'defaults/view';
 
 import { Fraction } from 'core/primitives/fraction';
+import { TimelineVector } from 'core/primitives/timeline-vector';
 import { ZoomLevel } from 'core/models/zoom-level';
 
 export interface ZoomLayout {
@@ -9,7 +10,7 @@ export interface ZoomLayout {
 }
 
 export interface TimelineState {
-  length: number;
+  length: TimelineVector;
 }
 
 const MIN_DIVISION_WIDTH = 15;
@@ -28,8 +29,8 @@ export class GridLayoutBase {
   }
 
   @computed
-  get gridCount() {
-    return this.timelineState.length;
+  get gridCount(): number {
+    return this.timelineState.length.primary;
   }
 
   @computed
@@ -64,8 +65,8 @@ export class GridLayoutBase {
   }
 
   @computed
-  get nDivisions() {
-    return this.division.inverse().multiplyScalar(this.timelineState.length);
+  get nDivisions(): number {
+    return this.division.inverse().multiplyScalar(this.timelineState.length.primary);
   }
 
   @computed

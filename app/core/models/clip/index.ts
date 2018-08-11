@@ -1,11 +1,12 @@
 import { Container } from 'typedi';
 import { computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
-import { json } from 'core/serialization/json';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';
 import { SnipStore } from 'core/state/stores/snips';
 import { TrackStore } from 'core/state/stores/tracks';
+
+import { Layer } from './layer';
 
 export interface ClipParams {
   trackId: string;
@@ -18,23 +19,16 @@ export class Clip {
   private readonly snipStore = Container.get(SnipStore);
   private readonly trackStore = Container.get(TrackStore);
 
-  @json id: string;
+  id: string;
 
-  @json
-  @observable
-  trackId: string;
+  @observable trackId: string;
 
-  @json
-  @observable
-  length: TimelineVector;
+  @observable length: TimelineVector;
 
-  @json
-  @observable
-  position: TimelineVector;
+  @observable position: TimelineVector;
 
-  @json
-  @observable
-  snipIds: string[] = [];
+  @observable snipIds: string[] = [];
+  @observable layers: Layer[] = [];
 
   @observable isSelected = false;
   @observable isDragging = false;

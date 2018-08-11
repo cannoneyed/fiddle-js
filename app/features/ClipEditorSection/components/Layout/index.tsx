@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
 
-import EditArea from 'features/ClipEditorSection/EditArea';
-import Timeline from 'features/ClipEditorSection/Timeline';
-import TimelineGutter from 'features/ClipEditorSection/TimelineGutter';
-import Toolbar from 'features/ClipEditorSection/Toolbar';
+import EditArea from 'features/ClipEditorSection/components/EditArea';
+import Timeline from 'features/ClipEditorSection/components/Timeline';
+import TimelineGutter from 'features/ClipEditorSection/components/TimelineGutter';
+import Toolbar from 'features/ClipEditorSection/components/Toolbar';
+
+import { injectCore } from 'features/ClipEditorSection/core';
 
 import {
   ClipEditorSectionWrapper,
@@ -15,7 +15,6 @@ import {
   ToolbarWrapper,
 } from './styled-components';
 
-import { ClipEditorSectionLayout } from 'core/state/layouts/clip-editor/section';
 import { Dimensions } from 'core/interfaces';
 
 interface Props {}
@@ -26,18 +25,17 @@ interface InjectedProps {
   toolbarHeight: number;
 }
 
-const inject = injector<Props, InjectedProps>(props => {
-  const clipEditorLayout = Container.get(ClipEditorSectionLayout);
+const inject = injectCore<Props, InjectedProps>((_, core) => {
   return {
-    editAreaDimensions: clipEditorLayout.editAreaDimensions,
-    sectionHeight: clipEditorLayout.sectionHeight,
-    timelineHeight: clipEditorLayout.timelineHeight,
-    toolbarHeight: clipEditorLayout.toolbarHeight,
+    editAreaDimensions: core.layout.editAreaDimensions,
+    sectionHeight: core.layout.dimensions.height,
+    timelineHeight: core.layout.timelineHeight,
+    toolbarHeight: core.layout.toolbarHeight,
   };
 });
 
 @observer
-export class ClipEditorSection extends React.Component<Props & InjectedProps, {}> {
+export class Layout extends React.Component<Props & InjectedProps, {}> {
   render() {
     const clipEditorSectionWrapperStyle = {
       height: this.props.sectionHeight,
@@ -74,4 +72,4 @@ export class ClipEditorSection extends React.Component<Props & InjectedProps, {}
   }
 }
 
-export default inject(ClipEditorSection);
+export default inject(Layout);

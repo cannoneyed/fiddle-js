@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
 
 import { Fraction } from 'core/primitives/fraction';
 import Timeline from 'components/Timeline';
 
-import { GridLayout } from 'core/state/layouts/clip-editor/grid';
+import { injectCore } from 'features/ClipEditorSection/core';
 
 interface Props {}
 interface InjectedProps {
@@ -15,9 +13,8 @@ interface InjectedProps {
   nDivisions: number;
 }
 
-const inject = injector<Props, InjectedProps>(props => {
-  const gridLayout = Container.get(GridLayout);
-  const { division, divisionWidth, nDivisions } = gridLayout;
+const inject = injectCore<Props, InjectedProps>((_, core) => {
+  const { division, divisionWidth, nDivisions } = core.grid;
   return {
     division,
     divisionWidth,
