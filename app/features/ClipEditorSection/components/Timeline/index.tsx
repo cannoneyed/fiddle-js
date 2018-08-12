@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
+import { Stage } from 'react-konva';
 
 import { Fraction } from 'core/primitives/fraction';
 import Timeline from 'components/Timeline';
@@ -26,14 +27,22 @@ const inject = injectCore<Props, InjectedProps>((_, core) => {
 export class TimelineContainer extends React.Component<Props & InjectedProps, {}> {
   render() {
     const { division, divisionWidth, nDivisions } = this.props;
+
+    const dimensions = {
+      width: 1000,
+      height: 30,
+    };
+
     return (
-      <Timeline
-        getOffset={() => 0}
-        division={division}
-        divisionWidth={divisionWidth}
-        nDivisions={nDivisions}
-        width={1000}
-      />
+      <Stage {...dimensions}>
+        <Timeline
+          dimensions={dimensions}
+          getOffset={() => 0}
+          division={division}
+          divisionWidth={divisionWidth}
+          nDivisions={nDivisions}
+        />
+      </Stage>
     );
   }
 }

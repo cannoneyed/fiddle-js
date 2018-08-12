@@ -1,80 +1,70 @@
 import * as React from 'react';
-import { autorun, IReactionDisposer } from 'mobx';
-import { noop, range } from 'lodash';
+import theme from 'styles/theme';
 import { observer } from 'mobx-react';
+import { Group, Layer, Line, Rect, Text } from 'react-konva';
+import { range } from 'lodash';
+import { makePoints } from 'utils/konva';
 
+import { Dimensions } from 'core/interfaces';
 import { Fraction } from 'core/primitives/fraction';
 
-import {
-  TimelineContainer,
-  TimelineDivider,
-  TimelineLabel,
-  TimelineSegment,
-  TimelineSegmentsContainer,
-} from './styled-components';
-
 export interface Props {
+  dimensions: Dimensions;
   division: Fraction;
   divisionWidth: number;
   getOffset: () => number;
   nDivisions: number;
-  width: number;
 }
 
 @observer
 export default class Timeline extends React.Component<Props, {}> {
-  private disposeScrollObserver: IReactionDisposer;
-  private timelineContainer = React.createRef<HTMLDivElement>();
+  renderTimelineLabel = (timelineLabel: number) => {
+    const { dimensions } = this.props;
+    const color = theme.colors.lightGray.toRgbString();
 
-  componentDidMount() {
-    this.disposeScrollObserver = autorun(this.observeOffsetChange);
-  }
-
-  componentWillUnmount() {
-    this.disposeScrollObserver();
-  }
-
-  observeOffsetChange = () => {
-    const x = this.props.getOffset();
-    const transform = `translate3d(${-Math.round(x)}px,0px,0px)`;
-    const timelineContainer = this.timelineContainer.current as HTMLDivElement;
-    timelineContainer.style.transform = transform;
+    return (
+      <Text
+        text={`${timelineLabel}`}
+        x={5}
+        y={dimensions.height - 12}
+        fontSize={10}
+        fontFamily="monospace"
+        fill={color}
+      />
+    );
   };
 
-  renderTimelineSegments() {
-    const { division, divisionWidth, nDivisions } = this.props;
+  render() {
+    const { dimensions, division, divisionWidth, getOffset, nDivisions } = this.props;
+    const offsetX = getOffset();
+    const color = theme.colors.lightGray.toRgbString();
 
-    return range(nDivisions).map(n => {
+    const timelineSegments = range(nDivisions).map(n => {
       const { numerator, denominator } = division.multiply(n, 1).reduce();
-      noop(numerator, denominator);
-
-      const timelineSegmentStyle = {
-        minWidth: divisionWidth,
-      };
 
       const isMajorDivision = denominator === 1 && n % 2 == 0;
       const timelineLabel = isMajorDivision ? numerator + 1 : null;
 
+      const x = n * divisionWidth;
+      const divisionHeight = 10;
+
+      const start = { x: 1, y: dimensions.height };
+      const end = { x: 1, y: dimensions.height - divisionHeight };
+      const linePoints = makePoints([start, end]);
+
       return (
-        <TimelineSegment key={n} style={timelineSegmentStyle}>
-          <TimelineDivider className="timelineDivider" />
-          {timelineLabel && <TimelineLabel>{timelineLabel}</TimelineLabel>}
-        </TimelineSegment>
+        <Group key={n} x={x}>
+          <Line key={n} points={linePoints} strokeWidth={1} stroke={color} />
+          {timelineLabel && this.renderTimelineLabel(timelineLabel)}
+        </Group>
       );
     });
-  }
-
-  render() {
-    const { width } = this.props;
-
-    const timelineContainerStyle = {
-      width,
-    };
 
     return (
-      <TimelineContainer style={timelineContainerStyle} innerRef={this.timelineContainer}>
-        <TimelineSegmentsContainer>{this.renderTimelineSegments()}</TimelineSegmentsContainer>
-      </TimelineContainer>
+      <Layer>
+        <Rect {...dimensions} fill={theme.colors.black.toRgbString()} />
+        <Group x={-offsetX}>{timelineSegments}</Group>
+      </Layer>
     );
   }
 }

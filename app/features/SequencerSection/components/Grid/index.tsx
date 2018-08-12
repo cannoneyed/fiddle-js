@@ -2,33 +2,27 @@ import * as React from 'react';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
-import styled from 'styled-components';
-import theme from 'styles/theme';
-import { Stage } from 'react-konva';
 
-import { Dimensions } from 'core/interfaces';
+import { Coordinates, Dimensions } from 'core/interfaces';
 import { VerticalGrid } from 'components/VerticalGrid';
 
-import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 import { GridLayout } from 'core/state/layouts/sequencer/grid';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 
-interface Props {}
-interface InjectedProps {
+interface Props {
   dimensions: Dimensions;
+  position: Coordinates;
+}
+interface InjectedProps {
   gridSegmentWidth: number;
   getOffsetX: () => number;
 }
 
 const inject = injector<Props, InjectedProps>(props => {
   const gridLayout = Container.get(GridLayout);
-  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
   const tracksLayout = Container.get(TracksLayout);
 
-  const { gridDimensions } = sequencerSectionLayout;
-
   return {
-    dimensions: gridDimensions,
     gridSegmentWidth: gridLayout.gridSegmentWidth,
     getOffsetX: () => tracksLayout.tracksScrolledX,
   };
@@ -36,30 +30,22 @@ const inject = injector<Props, InjectedProps>(props => {
 
 @observer
 export class Grid extends React.Component<Props & InjectedProps, {}> {
-  render() {
-    const { dimensions, gridSegmentWidth, getOffsetX } = this.props;
+  static defaultProps = {
+    position: { x: 0, y: 0 },
+  };
 
-    const gridStyle = {
-      ...dimensions,
-    };
+  render() {
+    const { dimensions, gridSegmentWidth, getOffsetX, position } = this.props;
 
     return (
-      <GridContainer style={gridStyle}>
-        <Stage {...dimensions}>
-          <VerticalGrid
-            dimensions={dimensions}
-            colWidth={gridSegmentWidth}
-            getOffsetX={getOffsetX}
-          />
-        </Stage>
-      </GridContainer>
+      <VerticalGrid
+        colWidth={gridSegmentWidth}
+        dimensions={dimensions}
+        getOffsetX={getOffsetX}
+        position={position}
+      />
     );
   }
 }
 
 export default inject(Grid);
-
-const GridContainer = styled.div`
-  position: absolute;
-  z-index: ${theme.verticalGridZIndex};
-`;
