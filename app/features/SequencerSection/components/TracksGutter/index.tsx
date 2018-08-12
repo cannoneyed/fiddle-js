@@ -85,7 +85,9 @@ export class TracksGutter extends React.Component<Props & InjectedProps, {}> {
         innerRef={this.tracksGutterContainerRef}
         onWheel={this.handleMouseWheel}
       >
-        {tracks.map((track, index) => <TrackHeader track={track} index={index} key={index} />)}
+        {tracks.map((track, index) => (
+          <TrackHeader track={track} index={index} key={index} />
+        ))}
       </TracksGutterContainer>
     );
   }

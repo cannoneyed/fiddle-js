@@ -18,14 +18,14 @@ export class VerticalGrid extends React.Component<Props, {}> {
   };
 
   render() {
-    const { colWidth, dimensions, getOffsetX } = this.props;
+    const { colWidth, dimensions, getOffsetX, position } = this.props;
     const getOffset = () => ({
       x: getOffsetX(),
       y: 0,
     });
 
     const rowHeight = this.props.dimensions.height + 1;
-    const nextProps = { colWidth, dimensions, getOffset, rowHeight };
+    const nextProps = { colWidth, dimensions, getOffset, position, rowHeight };
     return <Grid {...nextProps} />;
   }
 }

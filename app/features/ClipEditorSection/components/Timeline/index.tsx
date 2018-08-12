@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Stage } from 'react-konva';
+import { Layer, Stage } from 'react-konva';
 
 import { Fraction } from 'core/primitives/fraction';
 import Timeline from 'components/Timeline';
@@ -35,13 +35,15 @@ export class TimelineContainer extends React.Component<Props & InjectedProps, {}
 
     return (
       <Stage {...dimensions}>
-        <Timeline
-          dimensions={dimensions}
-          getOffset={() => 0}
-          division={division}
-          divisionWidth={divisionWidth}
-          nDivisions={nDivisions}
-        />
+        <Layer>
+          <Timeline
+            dimensions={dimensions}
+            getOffset={() => 0}
+            division={division}
+            divisionWidth={divisionWidth}
+            nDivisions={nDivisions}
+          />
+        </Layer>
       </Stage>
     );
   }

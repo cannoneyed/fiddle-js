@@ -2,7 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { range } from 'lodash';
 import theme from 'styles/theme';
-import { Group, Layer, Line } from 'react-konva';
+import { Group, Line } from 'react-konva';
 import { makePoints } from 'utils/konva';
 
 import { Coordinates, Dimensions } from 'core/interfaces';
@@ -65,12 +65,10 @@ export class Grid extends React.Component<Props, {}> {
     const { dimensions, position } = this.props;
 
     return (
-      <Layer>
-        <Group {...dimensions} {...position}>
-          {this.renderHorizontalLines()}
-          {this.renderVerticalLines()}
-        </Group>
-      </Layer>
+      <Group {...dimensions} {...position}>
+        {this.renderHorizontalLines()}
+        {this.renderVerticalLines()}
+      </Group>
     );
   }
 }

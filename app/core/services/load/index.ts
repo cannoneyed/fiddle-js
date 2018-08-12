@@ -12,7 +12,7 @@ export class LoadService {
 
   @action
   loadSession() {
-    const tracksCount = 3;
+    const tracksCount = 64;
 
     const tracks = range(tracksCount).map(() => this.trackStore.createTrack());
 

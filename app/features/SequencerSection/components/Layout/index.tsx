@@ -7,25 +7,15 @@ import { injector } from 'utils/injector';
 import Toolbar from 'features/Toolbar';
 
 import Minimap from 'features/SequencerSection/components/Minimap';
-// import Grid from 'features/SequencerSection/components/Grid';
-// import Timeline from 'features/SequencerSection/components/Timeline';
-// import TimelineGutter from 'features/SequencerSection/components/TimelineGutter';
-// import TracksGutter from 'features/SequencerSection/components/TracksGutter';
+import TimelineGutter from 'features/SequencerSection/components/TimelineGutter';
+import TracksGutter from 'features/SequencerSection/components/TracksGutter';
 import TracksStage from 'features/SequencerSection/components/TracksStage';
 import VerticalScrollbar from 'features/SequencerSection/components/VerticalScrollbar';
 
 import { Dimensions, Rectangle } from 'core/interfaces';
 import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 
-import {
-  MinimapWrapper,
-  SequencerSectionWrapper,
-  // TimelineWrapper,
-  ToolbarWrapper,
-  // TracksWrapper,
-  // TracksAreaWrapper,
-  // VerticalScrollbarWrapper,
-} from './styled-components';
+import { MinimapWrapper, SequencerSectionWrapper, ToolbarWrapper } from './styled-components';
 
 interface Props {}
 interface InjectedProps {
@@ -135,7 +125,10 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
           </MinimapWrapper>
         </TopWrapper>
         <BottomWrapper style={bottomWrapperStyle}>
-          <GutterWrapper style={gutterWrapperStyle}>gutter</GutterWrapper>
+          <GutterWrapper style={gutterWrapperStyle}>
+            <TimelineGutter />
+            <TracksGutter />
+          </GutterWrapper>
           <TracksWrapper style={tracksWrapperStyle}>
             <TracksStage dimensions={tracksDimensions} />
           </TracksWrapper>
@@ -143,20 +136,6 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
             <VerticalScrollbar />
           </VerticalScrollWrapper>
         </BottomWrapper>
-        {/* <TimelineWrapper style={timelineWrapperStyle}>
-          <TimelineGutter />
-          <Timeline />
-        </TimelineWrapper>
-        <TracksAreaWrapper style={tracksAreaWrapperStyle}>
-          <TracksGutter />
-          <TracksWrapper>
-            <Grid />
-            <TracksStage dimensions={tracksDimensions} />
-          </TracksWrapper>
-        </TracksAreaWrapper>
-        <VerticalScrollbarWrapper style={verticalScrollbarWrapperStyle}>
-          
-        </VerticalScrollbarWrapper> */}
       </SequencerSectionWrapper>
     );
   }
@@ -176,7 +155,7 @@ const BottomWrapper = styled.div`
 
 const GutterWrapper = styled.div`
   position: absolute;
-  background-color: purple;
+  overflow: hidden;
 `;
 
 const TracksWrapper = styled.div`

@@ -3,7 +3,7 @@ import Konva from 'konva';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
-import { Layer, Group, Rect } from 'react-konva';
+import { Group, Rect } from 'react-konva';
 import { makeHandler } from 'utils/konva';
 
 import { SequencerScrollInteraction } from 'core/interactions/sequencer/scroll';
@@ -86,27 +86,25 @@ export class TracksStage extends React.Component<Props & InjectedProps, {}> {
     // Make sure that the invisible Rect handles clicks, since all events bubble to
     // the Stage
     return (
-      <Layer>
-        <Group {...position}>
-          <Rect {...dimensions} onClick={this.handleClick} />
-          <Group y={-scrollY} x={-scrollX}>
-            {visibleTracks.map(track => {
-              const y = track.index * trackHeight;
-              return (
-                <Group key={track.id} y={y}>
-                  <Track
-                    offsetX={scrollX}
-                    height={trackHeight}
-                    track={track}
-                    visibleWidth={dimensions.width}
-                  />
-                </Group>
-              );
-            })}
-            <DragToMarkers />
-          </Group>
+      <Group {...position}>
+        <Rect {...dimensions} onClick={this.handleClick} />
+        <Group y={-scrollY} x={-scrollX}>
+          {visibleTracks.map(track => {
+            const y = track.index * trackHeight;
+            return (
+              <Group key={track.id} y={y}>
+                <Track
+                  offsetX={scrollX}
+                  height={trackHeight}
+                  track={track}
+                  visibleWidth={dimensions.width}
+                />
+              </Group>
+            );
+          })}
+          <DragToMarkers />
         </Group>
-      </Layer>
+      </Group>
     );
   }
 }

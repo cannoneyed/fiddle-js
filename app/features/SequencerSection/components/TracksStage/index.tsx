@@ -3,7 +3,7 @@ import Konva from 'konva';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
-import { Stage } from 'react-konva';
+import { Layer, Stage } from 'react-konva';
 import { makeHandler } from 'utils/konva';
 
 import { SequencerScrollInteraction } from 'core/interactions/sequencer/scroll';
@@ -54,11 +54,15 @@ export class TracksStage extends React.Component<Props & InjectedProps, {}> {
       y: timelineHeight,
     };
 
+    console.log;
+
     return (
       <Stage {...dimensions} onWheel={this.handleMouseWheel}>
-        <Grid dimensions={tracksDimensions} position={tracksPosition} />
-        <Tracks dimensions={tracksDimensions} position={tracksPosition} />
-        <Timeline />
+        <Layer>
+          <Grid dimensions={tracksDimensions} position={tracksPosition} />
+          <Tracks dimensions={tracksDimensions} position={tracksPosition} />
+          <Timeline />
+        </Layer>
       </Stage>
     );
   }
