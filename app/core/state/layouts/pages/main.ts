@@ -22,7 +22,16 @@ export class MainPageLayout {
   }
 
   // TODO: Figure out a more elegant way to support dynamic / rescale sizes of sections
-  @observable sequencerSectionHeight = 800;
+  @observable
+  sequencerSectionHeight = 800;
+
+  @computed
+  get sequencerDimensions(): Dimensions {
+    return {
+      height: this.sequencerSectionHeight,
+      width: this.sectionWidth,
+    };
+  }
 
   @computed
   get clipEditorDimensions(): Dimensions {

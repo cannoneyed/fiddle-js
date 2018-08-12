@@ -1,22 +1,18 @@
-import { Inject, Service } from 'typedi';
 import { computed, observable } from 'mobx';
+import { Container } from 'typedi';
 
-import { MainPageLayout } from 'core/state/layouts/pages/main';
-import { SectionLayout } from 'core/state/layouts/shared/section';
 import { Dimensions, Position, Rectangle } from 'core/interfaces';
 
-@Service()
-export class SequencerSectionLayout implements SectionLayout {
-  @Inject(type => MainPageLayout)
-  mainPageLayout: MainPageLayout;
+import { MainPageLayout } from 'core/state/layouts/pages/main';
 
-  @computed
-  get dimensions(): Dimensions {
-    return {
-      height: this.mainPageLayout.sequencerSectionHeight,
-      width: this.mainPageLayout.sectionWidth,
-    };
-  }
+export class SequencerLayout {
+  mainPageLayout = Container.get(MainPageLayout);
+
+  @observable
+  dimensions = {
+    height: 0,
+    width: 0,
+  };
 
   @computed
   get sectionHeight() {
@@ -30,10 +26,13 @@ export class SequencerSectionLayout implements SectionLayout {
 
   @observable
   minimapHeight = 30;
+
   @observable
   gutterWidth = 100;
+
   @observable
   timelineHeight = 30;
+
   @observable
   toolbarHeight = 40;
 
@@ -98,5 +97,3 @@ export class SequencerSectionLayout implements SectionLayout {
     return this.tracksAreaDimensions.width - this.gutterWidth;
   }
 }
-
-export { Rectangle };

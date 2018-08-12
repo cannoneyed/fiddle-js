@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 
 import Layout from 'features/SequencerSection/components/Layout';
 
-interface Props {}
+export interface Props {}
 
 @observer
 export class SequencerSection extends React.Component<Props> {

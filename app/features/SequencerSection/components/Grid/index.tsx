@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 import styled from 'styled-components';
 import theme from 'styles/theme';
+import { Stage } from 'react-konva';
 
 import { Dimensions } from 'core/interfaces';
 import { VerticalGrid } from 'components/VerticalGrid';
@@ -44,7 +45,13 @@ export class Grid extends React.Component<Props & InjectedProps, {}> {
 
     return (
       <GridContainer style={gridStyle}>
-        <VerticalGrid dimensions={dimensions} colWidth={gridSegmentWidth} getOffsetX={getOffsetX} />
+        <Stage {...dimensions}>
+          <VerticalGrid
+            dimensions={dimensions}
+            colWidth={gridSegmentWidth}
+            getOffsetX={getOffsetX}
+          />
+        </Stage>
       </GridContainer>
     );
   }
