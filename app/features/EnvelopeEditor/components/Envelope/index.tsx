@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 import { observer } from 'mobx-react';
+import { injector } from 'utils/injector';
 
 import { Envelope as EnvelopeModel } from 'core/models/envelope';
 import { Point as PointModel } from 'core/models/envelope/point';
@@ -10,12 +11,13 @@ import Point from 'features/EnvelopeEditor/components/Point';
 import Popover from 'features/EnvelopeEditor/components/Popover';
 import Connection from 'features/EnvelopeEditor/components/Connection';
 
-import { injectCore } from 'features/EnvelopeEditor/core';
+import { getCore } from 'features/EnvelopeEditor/core';
 import { ClickTarget } from 'features/EnvelopeEditor/core/interactions';
 
-export interface Props {}
-export interface InjectedProps {
+export interface Props {
   envelope: EnvelopeModel;
+}
+export interface InjectedProps {
   getPointScreenVector: (point: PointModel) => ScreenVector;
   handleDoubleClick: (target: ClickTarget) => (event: React.MouseEvent) => void;
   handleMouseDown: (target: ClickTarget) => (event: React.MouseEvent) => void;
@@ -27,7 +29,8 @@ export interface State {
   isDragging: boolean;
 }
 
-const inject = injectCore<Props, InjectedProps>((_, core) => {
+const inject = injector<Props, InjectedProps>(props => {
+  const core = getCore(props.envelope);
   return {
     envelope: core.envelope,
     getPointScreenVector: core.interactions.getPointScreenVector,
@@ -42,17 +45,23 @@ const inject = injectCore<Props, InjectedProps>((_, core) => {
 export class Envelope extends React.Component<Props & InjectedProps, State> {
   private svgRef = React.createRef<SVGElement>();
 
-  componentDidMount() {
+  componentDidUpdate() {
     this.props.setContainerElement(this.svgRef.current!);
   }
 
   render() {
-    const { getPointScreenVector, handleDoubleClick, handleMouseDown, showPopover } = this.props;
+    const {
+      envelope,
+      getPointScreenVector,
+      handleDoubleClick,
+      handleMouseDown,
+      showPopover,
+    } = this.props;
     const { connections, points } = this.props.envelope;
 
     return (
       <EnvelopeWrapper>
-        {showPopover && <Popover />}
+        {showPopover && <Popover envelope={envelope} />}
         <Svg innerRef={this.svgRef} onDoubleClick={handleDoubleClick(null)}>
           {connections.map(connection => {
             return (

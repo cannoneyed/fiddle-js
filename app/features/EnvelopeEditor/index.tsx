@@ -5,34 +5,33 @@ import { Dimensions } from 'core/interfaces';
 import { Envelope } from 'core/models/envelope';
 import { SnapToGrid } from 'core/models/snap-to-grid';
 
-import { EnvelopeEditorCore, Provider } from 'features/EnvelopeEditor/core';
+import { EnvelopeEditorCore, getCore } from 'features/EnvelopeEditor/core';
 
 import Layout from 'features/EnvelopeEditor/components/Layout';
 
-interface Props {
+export interface Props {
   dimensions: Dimensions;
   envelope: Envelope;
   snapToGrid: SnapToGrid;
 }
 
-@observer
-export class EnvelopeEditor extends React.Component<Props> {
+interface State {
   core: EnvelopeEditorCore;
+}
 
-  constructor(props: Props) {
-    super(props);
-    const { dimensions, envelope, snapToGrid } = props;
-    this.core = new EnvelopeEditorCore(envelope);
-    this.core.layout.dimensions = dimensions;
-    this.core.snapToGrid = snapToGrid;
+@observer
+export class EnvelopeEditor extends React.Component<Props, State> {
+  state = {} as State;
+
+  static getDerivedStateFromProps(props: Props) {
+    const { envelope } = props;
+    const core = getCore(envelope);
+    core.updateFromProps(props);
+    return { core };
   }
 
   render() {
-    return (
-      <Provider value={this.core}>
-        <Layout />
-      </Provider>
-    );
+    return <Layout envelope={this.props.envelope} />;
   }
 }
 

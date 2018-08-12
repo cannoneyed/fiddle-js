@@ -12,8 +12,10 @@ import { EnvelopeEditorCore } from './index';
 export type ClickTarget = PointModel | ConnectionModel | null;
 
 export class EnvelopeEditorInteractions {
-  @observable isDragging = false;
-  @observable draggingPoint: PointModel | null;
+  @observable
+  isDragging = false;
+  @observable
+  draggingPoint: PointModel | null;
   container: SVGElement;
 
   constructor(private core: EnvelopeEditorCore) {}
@@ -23,7 +25,8 @@ export class EnvelopeEditorInteractions {
     return this.isDragging && !!this.draggingPoint;
   }
 
-  @observable private popoverScreenVector: ScreenVector = new ScreenVector();
+  @observable
+  private popoverScreenVector: ScreenVector = new ScreenVector();
   getPopoverScreenVector = () => {
     return this.popoverScreenVector;
   };

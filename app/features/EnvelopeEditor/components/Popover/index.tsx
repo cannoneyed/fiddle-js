@@ -2,11 +2,13 @@ import * as React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
+import { injector } from 'utils/injector';
 
+import { Envelope as EnvelopeModel } from 'core/models/envelope';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { Point as PointModel } from 'core/models/envelope/point';
 
-import { injectCore } from 'features/EnvelopeEditor/core';
+import { getCore } from 'features/EnvelopeEditor/core';
 
 const BORDER_WIDTH = 1;
 const CARET_SIZE = 8;
@@ -14,15 +16,18 @@ const HEIGHT = 60;
 const WIDTH = 120;
 const OFFSET_Y = 20;
 
-interface Props {}
+export interface Props {
+  envelope: EnvelopeModel;
+}
 interface InjectedProps {
   point: PointModel;
   screenVector: ScreenVector;
 }
 
-const inject = injectCore((_, core) => {
+const inject = injector<Props, InjectedProps>(props => {
+  const core = getCore(props.envelope);
   return {
-    point: core.interactions.draggingPoint,
+    point: core.interactions.draggingPoint!,
     screenVector: core.interactions.getPopoverScreenVector(),
   };
 });

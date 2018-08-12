@@ -2,21 +2,27 @@ import * as React from 'react';
 import styled, { css } from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
+import { Stage } from 'react-konva';
+import { injector } from 'utils/injector';
 
 import { Dimensions } from 'core/interfaces';
+import { Envelope as EnvelopeModel } from 'core/models/envelope';
 
 import VerticalGrid from 'components/VerticalGrid';
 import Envelope from 'features/EnvelopeEditor/components/Envelope';
 
-import { injectCore } from 'features/EnvelopeEditor/core';
+import { getCore } from 'features/EnvelopeEditor/core';
 
-interface Props {}
+interface Props {
+  envelope: EnvelopeModel;
+}
 interface InjectedProps {
   dimensions: Dimensions;
   gridSegmentWidth: number;
 }
 
-const inject = injectCore<Props, InjectedProps>((_, core) => {
+const inject = injector<Props, InjectedProps>(props => {
+  const core = getCore(props.envelope);
   return {
     dimensions: core.layout.dimensions,
     gridSegmentWidth: core.layout.gridSegmentWidth,
@@ -26,7 +32,7 @@ const inject = injectCore<Props, InjectedProps>((_, core) => {
 @observer
 export class Layout extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { dimensions, gridSegmentWidth } = this.props;
+    const { dimensions, envelope, gridSegmentWidth } = this.props;
 
     const editorWrapperStyle = {
       ...dimensions,
@@ -35,10 +41,16 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
     return (
       <EnvelopeEditorWrapper style={editorWrapperStyle}>
         <EnvelopeWrapper>
-          <Envelope />
+          <Envelope envelope={envelope} />
         </EnvelopeWrapper>
         <GridWrapper>
-          <VerticalGrid dimensions={dimensions} colWidth={gridSegmentWidth} getOffsetX={() => 0} />
+          <Stage {...dimensions}>
+            <VerticalGrid
+              dimensions={dimensions}
+              colWidth={gridSegmentWidth}
+              getOffsetX={() => 0}
+            />
+          </Stage>
         </GridWrapper>
       </EnvelopeEditorWrapper>
     );
