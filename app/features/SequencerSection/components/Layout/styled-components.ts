@@ -1,5 +1,15 @@
 import styled from 'styled-components';
 
+export const BottomWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+export const GutterWrapper = styled.div`
+  position: absolute;
+  overflow: hidden;
+`;
+
 export const MinimapWrapper = styled.div`
   width: 100%;
 `;
@@ -9,30 +19,20 @@ export const SequencerSectionWrapper = styled.div`
   position: relative;
 `;
 
-export const TimelineWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
-`;
-
-export const TracksWrapper = styled.div`
-  flex-grow: 1;
-  position: relative;
-  overflow: hidden;
-`;
-
-export const TracksAreaWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
-`;
-
 export const ToolbarWrapper = styled.div`
   width: 100%;
 `;
 
-export const VerticalScrollbarWrapper = styled.div`
+export const TopWrapper = styled.div`
   position: absolute;
-  top: 0;
-  right: 0;
+  width: 100%;
+`;
+
+export const TracksStageWrapper = styled.div`
+  position: absolute;
+`;
+
+export const VerticalScrollWrapper = styled.div`
+  position: absolute;
+  background-color: yellow;
 `;

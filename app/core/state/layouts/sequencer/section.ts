@@ -18,22 +18,15 @@ export class SequencerSectionLayout implements SectionLayout {
     };
   }
 
-  @computed
-  get sectionHeight() {
-    return this.dimensions.height;
-  }
-
-  @computed
-  get sectionWidth() {
-    return this.dimensions.width;
-  }
-
   @observable
   minimapHeight = 30;
+
   @observable
   gutterWidth = 100;
+
   @observable
   timelineHeight = 30;
+
   @observable
   toolbarHeight = 40;
 
@@ -41,41 +34,42 @@ export class SequencerSectionLayout implements SectionLayout {
   verticalScrollbarWidth = 14;
 
   @computed
-  get tracksAreaDimensions(): Dimensions {
+  get tracksStageDimensions(): Dimensions {
+    const { dimensions } = this;
     return {
-      height: this.sectionHeight - this.toolbarHeight - this.minimapHeight - this.timelineHeight,
-      width: this.mainPageLayout.sectionWidth - this.verticalScrollbarWidth,
+      height: dimensions.height - this.toolbarHeight - this.minimapHeight,
+      width: this.mainPageLayout.sectionWidth - this.gutterWidth - this.verticalScrollbarWidth,
     };
   }
 
   @computed
-  get tracksAreaPosition(): Position {
+  get tracksStagePosition(): Position {
     return {
       left: this.gutterWidth,
+      top: this.toolbarHeight + this.minimapHeight,
+    };
+  }
+
+  @computed
+  get tracksDimensions(): Dimensions {
+    return {
+      height: this.tracksStageDimensions.height - this.timelineHeight,
+      width: this.tracksStageDimensions.width,
+    };
+  }
+
+  @computed
+  get tracksPosition(): Position {
+    return {
       top: this.toolbarHeight + this.minimapHeight + this.timelineHeight,
-    };
-  }
-
-  @computed
-  get gridDimensions(): Dimensions {
-    return {
-      height: this.tracksAreaDimensions.height,
-      width: this.tracksAreaDimensions.width - this.gutterWidth,
-    };
-  }
-
-  @computed
-  get gridPosition(): Position {
-    return {
-      top: this.tracksAreaPosition.top,
-      left: this.gutterWidth,
+      left: 0,
     };
   }
 
   @computed
   get verticalScrollbarDimensions(): Dimensions {
     return {
-      height: this.sectionHeight - this.toolbarHeight - this.minimapHeight,
+      height: this.tracksStageDimensions.height,
       width: this.verticalScrollbarWidth,
     };
   }
@@ -83,19 +77,14 @@ export class SequencerSectionLayout implements SectionLayout {
   @computed
   get verticalScrollbarPosition(): Position {
     return {
-      left: 0,
-      top: this.toolbarHeight + this.minimapHeight,
+      left: this.gutterWidth + this.tracksDimensions.width,
+      top: 0,
     };
   }
 
   @computed
   get verticalScrollbarRectangle(): Rectangle {
     return { ...this.verticalScrollbarDimensions, ...this.verticalScrollbarPosition };
-  }
-
-  @computed
-  get tracksWidth() {
-    return this.tracksAreaDimensions.width - this.gutterWidth;
   }
 }
 

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
@@ -15,17 +14,25 @@ import VerticalScrollbar from 'features/SequencerSection/components/VerticalScro
 import { Dimensions, Rectangle } from 'core/interfaces';
 import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 
-import { MinimapWrapper, SequencerSectionWrapper, ToolbarWrapper } from './styled-components';
+import {
+  BottomWrapper,
+  GutterWrapper,
+  MinimapWrapper,
+  SequencerSectionWrapper,
+  ToolbarWrapper,
+  TopWrapper,
+  TracksStageWrapper,
+  VerticalScrollWrapper,
+} from './styled-components';
 
 interface Props {}
 interface InjectedProps {
+  dimensions: Dimensions;
   gutterWidth: number;
   minimapHeight: number;
-  sectionHeight: number;
-  sectionWidth: number;
   timelineHeight: number;
   toolbarHeight: number;
-  tracksAreaDimensions: Dimensions;
+  tracksStageDimensions: Dimensions;
   verticalScrollbarRectangle: Rectangle;
 }
 
@@ -33,13 +40,12 @@ const inject = injector<Props, InjectedProps>(props => {
   const sequencerSectionLayout = Container.get(SequencerSectionLayout);
 
   return {
+    dimensions: sequencerSectionLayout.dimensions,
     gutterWidth: sequencerSectionLayout.gutterWidth,
     minimapHeight: sequencerSectionLayout.minimapHeight,
-    sectionHeight: sequencerSectionLayout.sectionHeight,
-    sectionWidth: sequencerSectionLayout.sectionWidth,
     timelineHeight: sequencerSectionLayout.timelineHeight,
     toolbarHeight: sequencerSectionLayout.toolbarHeight,
-    tracksAreaDimensions: sequencerSectionLayout.tracksAreaDimensions,
+    tracksStageDimensions: sequencerSectionLayout.tracksStageDimensions,
     verticalScrollbarRectangle: sequencerSectionLayout.verticalScrollbarRectangle,
   };
 });
@@ -47,22 +53,19 @@ const inject = injector<Props, InjectedProps>(props => {
 @observer
 export class Layout extends React.Component<Props & InjectedProps, {}> {
   render() {
+    const { dimensions } = this.props;
+
     const minimapWrapperStyle = {
       height: this.props.minimapHeight,
     };
 
     const sequencerSectionStyle = {
-      height: this.props.sectionHeight,
+      height: this.props.dimensions.height,
     };
 
     const topWrapperStyle = {
       height: this.props.toolbarHeight + this.props.minimapHeight,
     };
-
-    // const timelineWrapperStyle = {
-    //   height: this.props.timelineHeight,
-    //   width: this.props.tracksAreaDimensions.width,
-    // };
 
     const toolbarWrapperStyle = {
       height: this.props.toolbarHeight,
@@ -70,7 +73,7 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
 
     const bottomWrapperStyle = {
       top: topWrapperStyle.height,
-      height: this.props.sectionHeight - topWrapperStyle.height,
+      height: dimensions.height - topWrapperStyle.height,
     };
 
     const gutterWrapperStyle = {
@@ -78,40 +81,22 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
       width: this.props.gutterWidth,
     };
 
-    const tracksWrapperStyle = {
+    const tracksStageWrapperStyle = {
       left: this.props.gutterWidth,
       height: bottomWrapperStyle.height,
       width:
-        this.props.sectionWidth -
-        gutterWrapperStyle.width -
-        this.props.verticalScrollbarRectangle.width,
+        dimensions.width - gutterWrapperStyle.width - this.props.verticalScrollbarRectangle.width,
     };
 
     const verticalScrollWrapperStyle = {
-      left: gutterWrapperStyle.width + tracksWrapperStyle.width,
+      left: gutterWrapperStyle.width + tracksStageWrapperStyle.width,
       height: bottomWrapperStyle.height,
       width: this.props.verticalScrollbarRectangle.width,
     };
 
-    // const tracksAreaWrapperStyle = {
-    //   height: this.props.tracksAreaDimensions.height,
-    //   width: this.props.tracksAreaDimensions.width,
-    // };
-
-    // const tracksDimensions = {
-    //   height: this.props.tracksAreaDimensions.height,
-    //   width: this.props.tracksAreaDimensions.width - 100,
-    // };
-
-    // const verticalScrollbarWrapperStyle = {
-    //   top: this.props.verticalScrollbarRectangle.top,
-    //   height: this.props.verticalScrollbarRectangle.height,
-    //   width: this.props.verticalScrollbarRectangle.width,
-    // };
-
     const tracksDimensions = {
       height: bottomWrapperStyle.height,
-      width: this.props.sectionWidth - gutterWrapperStyle.width - verticalScrollWrapperStyle.width,
+      width: dimensions.width - gutterWrapperStyle.width - verticalScrollWrapperStyle.width,
     };
 
     return (
@@ -129,9 +114,9 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
             <TimelineGutter />
             <TracksGutter />
           </GutterWrapper>
-          <TracksWrapper style={tracksWrapperStyle}>
+          <TracksStageWrapper style={tracksStageWrapperStyle}>
             <TracksStage dimensions={tracksDimensions} />
-          </TracksWrapper>
+          </TracksStageWrapper>
           <VerticalScrollWrapper style={verticalScrollWrapperStyle}>
             <VerticalScrollbar />
           </VerticalScrollWrapper>
@@ -142,27 +127,3 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
 }
 
 export default inject(Layout);
-
-const TopWrapper = styled.div`
-  position: absolute;
-  width: 100%;
-`;
-
-const BottomWrapper = styled.div`
-  position: relative;
-  width: 100%;
-`;
-
-const GutterWrapper = styled.div`
-  position: absolute;
-  overflow: hidden;
-`;
-
-const TracksWrapper = styled.div`
-  position: absolute;
-`;
-
-const VerticalScrollWrapper = styled.div`
-  position: absolute;
-  background-color: yellow;
-`;

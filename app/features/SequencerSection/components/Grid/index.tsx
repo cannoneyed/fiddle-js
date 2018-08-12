@@ -36,7 +36,6 @@ export class Grid extends React.Component<Props & InjectedProps, {}> {
 
   render() {
     const { dimensions, gridSegmentWidth, getOffsetX, position } = this.props;
-    console.log(dimensions.height, position);
 
     return (
       <VerticalGrid

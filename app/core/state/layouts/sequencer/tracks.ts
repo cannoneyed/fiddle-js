@@ -36,8 +36,10 @@ export class TracksLayout {
     });
   }
 
-  @observable scrollPercentX = 0;
-  @observable scrollPercentY = 0;
+  @observable
+  scrollPercentX = 0;
+  @observable
+  scrollPercentY = 0;
 
   @action
   setTracksScroll = (tracksScroll: { x?: number; y?: number }) => {
@@ -71,23 +73,23 @@ export class TracksLayout {
 
   @computed
   get tracksScrollableWidth() {
-    return Math.max(this.trackWidth - this.sectionLayout.tracksWidth, 0);
+    return Math.max(this.trackWidth - this.sectionLayout.tracksDimensions.width, 0);
   }
 
   @computed
   get tracksScrollableHeight() {
-    return Math.max(this.tracksHeight - this.sectionLayout.tracksAreaDimensions.height, 0);
+    return Math.max(this.tracksHeight - this.sectionLayout.tracksDimensions.height, 0);
   }
 
   @computed
   get tracksViewPercentX() {
-    const { tracksWidth } = this.sectionLayout;
+    const tracksWidth = this.sectionLayout.tracksDimensions.width;
     return clamp(tracksWidth / this.trackWidth, 0, 1);
   }
 
   @computed
   get tracksViewPercentY() {
-    const { height } = this.sectionLayout.tracksAreaDimensions;
+    const { height } = this.sectionLayout.tracksDimensions;
     return clamp(height / this.tracksHeight, 0, 1);
   }
 
@@ -104,8 +106,8 @@ export class TracksLayout {
   @computed
   get tracksViewportDimensions(): Dimensions {
     return {
-      height: Math.max(this.sectionLayout.tracksAreaDimensions.height, this.tracksHeight),
-      width: Math.max(this.sectionLayout.tracksAreaDimensions.width, this.trackWidth),
+      height: Math.max(this.sectionLayout.tracksDimensions.height, this.tracksHeight),
+      width: Math.max(this.sectionLayout.tracksDimensions.width, this.trackWidth),
     };
   }
 
