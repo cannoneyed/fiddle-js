@@ -2,8 +2,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
-import { injectCore } from 'features/NotesEditor/core';
+import { getCore } from 'features/NotesEditor/core';
 import { Stage } from 'react-konva';
+import { injector } from 'utils/injector';
 
 import { Dimensions } from 'core/interfaces';
 import { KeyLayout } from 'core/models/notes/key-layout';
@@ -15,25 +16,26 @@ import { PianoRoll } from 'components/PianoRoll';
 
 import Notes from 'features/NotesEditor/components/Notes';
 
-interface Props {}
+interface Props {
+  notes: NotesModel;
+}
 
 interface InjectedProps {
   dimensions: Dimensions;
   getScroll: () => { x: number; y: number };
   keyLayout: KeyLayout;
-  notes: NotesModel;
   pianoRollDimensions: Dimensions;
   rowHeight: number;
   snapToGrid: SnapToGrid;
 }
 
-const inject = injectCore<Props, InjectedProps>((_, core) => {
-  const { layout, notes } = core;
+const inject = injector<Props, InjectedProps>(props => {
+  const core = getCore(props.notes);
+  const { layout } = core;
   return {
     dimensions: layout.dimensions,
     getScroll: layout.scroll.getScroll,
     keyLayout: core.keyLayout,
-    notes,
     pianoRollDimensions: layout.pianoRollDimensions,
     rowHeight: layout.rowHeight,
     snapToGrid: core.snapToGrid,
@@ -75,7 +77,6 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
             keyLayout={keyLayout}
             getOffsetY={() => getScroll().y}
           />
-          <Notes visibleDimensions={notesDimensions} position={notesPosition} />
           <Grid
             colWidth={colWidth}
             dimensions={notesDimensions}
@@ -83,6 +84,7 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
             getOffset={getScroll}
             rowHeight={rowHeight}
           />
+          <Notes visibleDimensions={notesDimensions} position={notesPosition} notes={notes} />
         </Stage>
       </NoteEditorWrapper>
     );

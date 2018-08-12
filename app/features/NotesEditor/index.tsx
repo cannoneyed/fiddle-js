@@ -6,11 +6,11 @@ import { Notes } from 'core/models/notes';
 import { KeyLayout } from 'core/models/notes/key-layout';
 import { SnapToGrid } from 'core/models/snap-to-grid';
 
-import { NotesEditorCore, Provider } from 'features/NotesEditor/core';
+import { NotesEditorCore, getCore } from 'features/NotesEditor/core';
 
 import Layout from 'features/NotesEditor/components/Layout';
 
-interface Props {
+export interface Props {
   dimensions: Dimensions;
   keyLayout: KeyLayout;
   notes: Notes;
@@ -18,30 +18,22 @@ interface Props {
   snapToGrid: SnapToGrid;
 }
 
-@observer
-export class NotesEditor extends React.Component<Props> {
+interface State {
   core: NotesEditorCore;
+}
 
-  constructor(props: Props) {
-    super(props);
-    const { dimensions, keyLayout, notes, rowHeight, snapToGrid } = props;
-    this.core = new NotesEditorCore(notes);
-    this.core.keyLayout = keyLayout;
-    this.core.layout.dimensions = dimensions;
-    this.core.layout.rowHeight = rowHeight;
-    this.core.snapToGrid = snapToGrid;
+@observer
+export class NotesEditor extends React.Component<Props, State> {
+  static getDerivedStateFromProps(props: Props) {
+    const { notes } = props;
+    const core = getCore(notes);
+    core.updateFromProps(props);
+    return { core };
   }
 
   render() {
-    const core = this.core;
-
-    console.log('🍕', core);
-
-    return (
-      <Provider value={core}>
-        <Layout />
-      </Provider>
-    );
+    const { notes } = this.props;
+    return <Layout notes={notes} />;
   }
 }
 

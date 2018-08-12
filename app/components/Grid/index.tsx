@@ -65,8 +65,8 @@ export class Grid extends React.Component<Props, {}> {
     const { dimensions, position } = this.props;
 
     return (
-      <Layer {...dimensions} {...position}>
-        <Group>
+      <Layer>
+        <Group {...dimensions} {...position}>
           {this.renderHorizontalLines()}
           {this.renderVerticalLines()}
         </Group>

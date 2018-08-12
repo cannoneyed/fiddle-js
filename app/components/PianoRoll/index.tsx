@@ -70,8 +70,10 @@ export class PianoRoll extends React.Component<Props, {}> {
     });
 
     return (
-      <Layer {...dimensions} {...position}>
-        <Group y={-offsetY}>{keys}</Group>
+      <Layer>
+        <Group {...dimensions} {...position}>
+          <Group y={-offsetY}>{keys}</Group>
+        </Group>
       </Layer>
     );
   }
