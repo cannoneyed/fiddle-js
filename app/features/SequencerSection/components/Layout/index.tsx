@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 
@@ -12,7 +11,9 @@ import TracksStage from 'features/SequencerSection/components/TracksStage';
 import VerticalScrollbar from 'features/SequencerSection/components/VerticalScrollbar';
 
 import { Dimensions, Rectangle } from 'core/interfaces';
-import { getCore } from 'features/SequencerSection/core';
+
+import { SequencerLayout } from 'features/SequencerSection/core/layout';
+import { get } from 'features/SequencerSection/core';
 
 import {
   BottomWrapper,
@@ -37,7 +38,7 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const { layout } = getCore();
+  const layout = get(SequencerLayout);
 
   return {
     dimensions: layout.dimensions,
@@ -98,6 +99,8 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
       height: bottomWrapperStyle.height,
       width: dimensions.width - gutterWrapperStyle.width - verticalScrollWrapperStyle.width,
     };
+
+    console.log(sequencerSectionStyle);
 
     return (
       <SequencerSectionWrapper style={sequencerSectionStyle}>

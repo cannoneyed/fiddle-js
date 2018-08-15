@@ -4,7 +4,8 @@ import { injector } from 'utils/injector';
 
 import { Draggable, Unregister } from 'core/interactions/handlers/draggable';
 
-import { getCore } from 'features/SequencerSection/core';
+import { TracksLayout } from 'features/SequencerSection/core/tracks';
+import { get } from 'features/SequencerSection/core';
 
 import { MinimapContainer, MinimapThumb } from './styled-components';
 
@@ -20,12 +21,12 @@ interface State {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const core = getCore();
+  const tracksLayout = get(TracksLayout);
 
   return {
-    tracksScrollPercentX: core.tracks.scrollPercentX,
-    tracksViewPercentX: core.tracks.tracksViewPercentX,
-    setTracksScroll: (x: number) => core.tracks.setTracksScroll({ x }),
+    tracksScrollPercentX: tracksLayout.scrollPercentX,
+    tracksViewPercentX: tracksLayout.tracksViewPercentX,
+    setTracksScroll: (x: number) => tracksLayout.setTracksScroll({ x }),
   };
 });
 

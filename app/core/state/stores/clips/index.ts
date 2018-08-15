@@ -5,7 +5,7 @@ import { json } from 'core/serialization/json';
 import { DraggedClips } from './dragged';
 import { Clip, ClipParams } from 'core/models/clip';
 
-@Service()
+@Service({ global: true })
 export class ClipStore {
   constructor(private draggedClipsStore: DraggedClips) {}
 

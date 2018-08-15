@@ -10,7 +10,7 @@ import { SnipStore } from 'core/state/stores/snips';
 import { DraggedClips } from 'core/state/stores/clips/dragged';
 import { TrackStore } from 'core/state/stores/tracks';
 
-@Service()
+@Service({ global: true })
 export class ClipActions {
   constructor(
     private clipEditorState: ClipEditorState,

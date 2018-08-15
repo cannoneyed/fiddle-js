@@ -1,19 +1,19 @@
 import * as React from 'react';
 import Konva from 'konva';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 import { Layer, Stage } from 'react-konva';
 import { makeHandler } from 'utils/konva';
-
-import { SequencerScrollInteraction } from 'core/interactions/sequencer/scroll';
-import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 
 import { Dimensions } from 'core/interfaces';
 
 import Grid from 'features/SequencerSection/components/Grid';
 import Timeline from 'features/SequencerSection/components/Timeline';
 import Tracks from 'features/SequencerSection/components/Tracks';
+
+import { SequencerScrollInteraction } from 'features/SequencerSection/core/interactions/scroll';
+import { SequencerLayout } from 'features/SequencerSection/core/layout';
+import { get } from 'features/SequencerSection/core';
 
 interface Props {
   dimensions: Dimensions;
@@ -25,12 +25,12 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(() => {
-  const sequencerScrollInteraction = Container.get(SequencerScrollInteraction);
-  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
+  const sequencerScrollInteraction = get(SequencerScrollInteraction);
+  const sequencerLayout = get(SequencerLayout);
 
   return {
     handleScroll: sequencerScrollInteraction.handleScroll,
-    timelineHeight: sequencerSectionLayout.timelineHeight,
+    timelineHeight: sequencerLayout.timelineHeight,
   };
 });
 

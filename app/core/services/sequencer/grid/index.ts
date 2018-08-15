@@ -12,7 +12,7 @@ export enum DivisionType {
   quaternary,
 }
 
-@Service()
+@Service({ global: true })
 export class GridService {
   constructor(private gridLayout: GridLayout) {}
 

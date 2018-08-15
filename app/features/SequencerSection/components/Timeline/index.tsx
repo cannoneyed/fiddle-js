@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 
@@ -7,8 +6,9 @@ import { Fraction } from 'core/primitives/fraction';
 
 import Timeline from 'components/Timeline';
 
-import { GridLayout } from 'core/state/layouts/sequencer/grid';
-import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
+import { GridLayout } from 'features/SequencerSection/core/grid';
+import { TracksLayout } from 'features/SequencerSection/core/tracks';
+import { get } from 'features/SequencerSection/core';
 
 interface Props {}
 interface InjectedProps {
@@ -20,8 +20,8 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const gridLayout = Container.get(GridLayout);
-  const tracksLayout = Container.get(TracksLayout);
+  const gridLayout = get(GridLayout);
+  const tracksLayout = get(TracksLayout);
   const { division, divisionWidth, nDivisions } = gridLayout;
 
   const getOffset = () => tracksLayout.tracksScrolledX;

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 
-import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
+import { SequencerLayout } from 'features/SequencerSection/core/layout';
+import { get } from 'features/SequencerSection/core';
 
 interface Props {}
 interface InjectedProps {
@@ -13,9 +13,9 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
+  const layout = get(SequencerLayout);
   return {
-    gutterWidth: sequencerSectionLayout.gutterWidth,
+    gutterWidth: layout.gutterWidth,
   };
 });
 

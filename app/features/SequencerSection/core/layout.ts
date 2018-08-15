@@ -1,13 +1,20 @@
-import { computed, observable } from 'mobx';
+import { Service } from 'typedi';
+import { action, computed, observable } from 'mobx';
 
 import { Dimensions, Position, Rectangle } from 'core/interfaces';
 
+@Service()
 export class SequencerLayout {
   @observable
   dimensions = {
     height: 0,
     width: 0,
   };
+
+  @action
+  setDimensions(dimensions: Dimensions) {
+    this.dimensions = dimensions;
+  }
 
   @observable
   minimapHeight = 30;

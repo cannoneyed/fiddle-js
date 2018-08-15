@@ -1,10 +1,12 @@
 import { Service } from 'typedi';
 import { action, observable } from 'mobx';
 
-@Service()
+@Service({ global: true })
 export class WindowLayout {
-  @observable width = window.innerWidth;
-  @observable height = window.innerHeight;
+  @observable
+  width = window.innerWidth;
+  @observable
+  height = window.innerHeight;
 
   constructor() {
     window.onresize = this.onWindowResize;

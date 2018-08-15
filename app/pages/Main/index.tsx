@@ -17,6 +17,7 @@ interface Props {}
 interface InjectedProps {
   clipEditorDimensions: Dimensions;
   deltaSectionDivider: (delta: number) => void;
+  sequencerDimensions: Dimensions;
 }
 
 const inject = injector<Props, InjectedProps>(props => {
@@ -24,6 +25,7 @@ const inject = injector<Props, InjectedProps>(props => {
   return {
     clipEditorDimensions: mainPageLayout.clipEditorDimensions,
     deltaSectionDivider: mainPageLayout.deltaSectionDivider,
+    sequencerDimensions: mainPageLayout.sequencerDimensions,
   };
 });
 
@@ -34,11 +36,11 @@ export class MainPage extends React.Component<Props & InjectedProps, {}> {
   };
 
   render() {
-    const { clipEditorDimensions } = this.props;
+    const { clipEditorDimensions, sequencerDimensions } = this.props;
 
     return (
       <PageWrapper>
-        <SequencerSection />
+        <SequencerSection dimensions={sequencerDimensions} />
         <SectionDivider onDrag={this.handleSectionDividerDrag} />
         <ClipEditorSection dimensions={clipEditorDimensions} />
       </PageWrapper>

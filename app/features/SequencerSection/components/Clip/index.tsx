@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 import { Rect as KonvaRect } from 'konva';
@@ -13,8 +12,9 @@ import ClipContextMenu from 'features/ContextMenus/ClipContextMenu';
 import { Clip as ClipModel } from 'core/models/clip';
 
 import { ClipSelectInteraction } from 'core/interactions/clip/select';
+import * as clipDragHandlers from 'core/interactions/clip/drag/handlers';
 import { SequencerPositionService } from 'core/services/sequencer/position';
-import * as clipDragHandlers from 'core/interactions//clip/drag/handlers';
+import { get } from 'features/SequencerSection/core';
 
 interface Props {
   clip: ClipModel;
@@ -33,8 +33,8 @@ interface State {
 
 const inject = injector<Props, InjectedProps>(props => {
   const { clip } = props;
-  const clipSelect = Container.get(ClipSelectInteraction);
-  const sequencerPosition = Container.get(SequencerPositionService);
+  const clipSelect = get(ClipSelectInteraction);
+  const sequencerPosition = get(SequencerPositionService);
 
   return {
     offsetX: sequencerPosition.getOffsetX(clip.position),

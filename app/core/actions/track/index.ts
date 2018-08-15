@@ -4,7 +4,7 @@ import { action } from 'mobx';
 import { ClipActions } from 'core/actions/clip';
 import { TrackStore } from 'core/state/stores/tracks';
 
-@Service()
+@Service({ global: true })
 export class TrackActions {
   constructor(private clipActions: ClipActions, private trackStore: TrackStore) {}
 

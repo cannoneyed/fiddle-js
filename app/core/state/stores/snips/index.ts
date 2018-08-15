@@ -4,7 +4,7 @@ import { json } from 'core/serialization/json';
 
 import { Snip, SnipParams } from 'core/models/snip';
 
-@Service()
+@Service({ global: true })
 export class SnipStore {
   // The main store for snips (by id)
   @json

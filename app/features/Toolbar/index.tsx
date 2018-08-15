@@ -10,7 +10,8 @@ import SelectSnapToGrid from 'components/SelectSnapToGrid';
 
 import { TrackActions } from 'core/actions/track';
 
-import { getCore } from 'features/SequencerSection/core';
+import { SequencerCore } from 'features/SequencerSection/core/sequencer';
+import { get } from 'features/SequencerSection/core';
 
 export interface Props {}
 export interface InjectedProps {
@@ -20,7 +21,7 @@ export interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const core = getCore();
+  const core = get(SequencerCore);
   const trackActions = Container.get(TrackActions);
 
   return {

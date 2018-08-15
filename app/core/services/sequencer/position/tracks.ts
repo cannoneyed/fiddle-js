@@ -4,7 +4,7 @@ import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 import { TrackStore } from 'core/state/stores/tracks';
 
-@Service()
+@Service({ global: true })
 export class TracksPositionService {
   @Inject(type => TracksLayout)
   private tracksLayout: TracksLayout;

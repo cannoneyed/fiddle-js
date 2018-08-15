@@ -1,6 +1,5 @@
 import * as React from 'react';
 import theme from 'styles/theme';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 import { Group, Line } from 'react-konva';
@@ -10,8 +9,9 @@ import { Dimensions } from 'core/interfaces';
 
 import { SequencerPositionService } from 'core/services/sequencer/position';
 
-import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
-import { TimelineLayout } from 'core/state/layouts/sequencer/timeline';
+import { TracksLayout } from 'features/SequencerSection/core/tracks';
+import { Timeline } from 'features/SequencerSection/core/timeline';
+import { get } from 'features/SequencerSection/core';
 
 interface Props {}
 interface InjectedProps {
@@ -22,10 +22,10 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const tracksLayout = Container.get(TracksLayout);
-  const timelineLayout = Container.get(TimelineLayout);
-  const sequencerPositionService = Container.get(SequencerPositionService);
-  const { dropTargetPosition, dropTargetTrackIndex } = timelineLayout;
+  const tracksLayout = get(TracksLayout);
+  const timeline = get(Timeline);
+  const sequencerPositionService = get(SequencerPositionService);
+  const { dropTargetPosition, dropTargetTrackIndex } = timeline;
   const { trackHeight } = tracksLayout;
 
   const offsetX = dropTargetPosition ? sequencerPositionService.getOffsetX(dropTargetPosition) : 0;

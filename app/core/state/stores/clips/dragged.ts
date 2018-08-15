@@ -4,10 +4,11 @@ import { observable } from 'mobx';
 import { Clip } from 'core/models/clip';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-@Service()
+@Service({ global: true })
 export class DraggedClips {
   // The temporary store for clips being dragged in the sequencer
-  @observable draggedClips = observable.map<string, Clip>({});
+  @observable
+  draggedClips = observable.map<string, Clip>({});
 
   @observable
   getDraggedClips = () => {

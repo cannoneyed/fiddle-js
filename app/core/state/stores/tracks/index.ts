@@ -5,13 +5,15 @@ import { first, last } from 'lodash';
 
 import { Track } from 'core/models/track';
 
-@Service()
+@Service({ global: true })
 export class TrackStore {
   static mobxLoggerConfig = filterMethods('updateTrackIndices');
 
   // The main store for tracks (by id)
-  @observable tracks = observable.map<string, Track>({});
-  @observable trackList = observable.array<Track>([]);
+  @observable
+  tracks = observable.map<string, Track>({});
+  @observable
+  trackList = observable.array<Track>([]);
 
   getTrackById = (trackId: string) => {
     return this.tracks.get(trackId);

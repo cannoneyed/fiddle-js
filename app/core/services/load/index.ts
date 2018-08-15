@@ -6,7 +6,7 @@ import { ClipActions } from 'core/actions/clip';
 import { TrackStore } from 'core/state/stores/tracks';
 import { TimelineVector } from '../../primitives/timeline-vector';
 
-@Service()
+@Service({ global: true })
 export class LoadService {
   constructor(private clipActions: ClipActions, private trackStore: TrackStore) {}
 

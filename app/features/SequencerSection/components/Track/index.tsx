@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Konva from 'konva';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 import { ContextMenu } from '@blueprintjs/core';
@@ -14,8 +13,10 @@ import Clip from 'features/SequencerSection/components/Clip';
 import { Dimensions } from 'core/interfaces';
 import { Clip as ClipModel } from 'core/models/clip';
 import { Track as TrackModel } from 'core/models/track';
-import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
-import { TracksMouseInteraction } from 'core/interactions/tracks/mouse';
+
+import { TracksLayout } from 'features/SequencerSection/core/tracks';
+import { TracksInteraction } from 'features/SequencerSection/core/interactions/tracks';
+import { get } from 'features/SequencerSection/core';
 
 import { ClipVisibilityHelper } from './helpers';
 
@@ -35,8 +36,8 @@ interface State {
 
 const inject = injector<Props, InjectedProps>(props => {
   const { track } = props;
-  const tracksLayout = Container.get(TracksLayout);
-  const trackMouseInteraction = Container.get(TracksMouseInteraction);
+  const tracksLayout = get(TracksLayout);
+  const trackInteraction = get(TracksInteraction);
 
   const dimensions = {
     height: tracksLayout.trackHeight,
@@ -45,7 +46,7 @@ const inject = injector<Props, InjectedProps>(props => {
 
   return {
     dimensions,
-    handleTrackClick: (e: MouseEvent) => trackMouseInteraction.handleTrackClick(track, e),
+    handleTrackClick: (e: MouseEvent) => trackInteraction.handleTrackClick(track, e),
   };
 });
 

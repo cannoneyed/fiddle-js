@@ -1,14 +1,9 @@
 import * as React from 'react';
 import Konva from 'konva';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 import { Group, Rect } from 'react-konva';
 import { makeHandler } from 'utils/konva';
-
-import { SequencerScrollInteraction } from 'core/interactions/sequencer/scroll';
-import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
-import { TracksMouseInteraction } from 'core/interactions/tracks/mouse';
 
 import { Track as TrackModel } from 'core/models/track';
 import { TrackStore } from 'core/state/stores/tracks';
@@ -18,6 +13,11 @@ import { TrackVisibilityHelper } from './helpers';
 
 import DragToMarkers from 'features/SequencerSection/components/DragToMarkers';
 import Track from 'features/SequencerSection/components/Track';
+
+import { SequencerScrollInteraction } from 'features/SequencerSection/core/interactions/scroll';
+import { TracksLayout } from 'features/SequencerSection/core/tracks';
+import { TracksInteraction } from 'features/SequencerSection/core/interactions/tracks';
+import { get } from 'features/SequencerSection/core';
 
 interface Props {
   dimensions: Dimensions;
@@ -33,10 +33,10 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(() => {
-  const sequencerScrollInteraction = Container.get(SequencerScrollInteraction);
-  const trackMouseInteraction = Container.get(TracksMouseInteraction);
-  const tracksLayout = Container.get(TracksLayout);
-  const trackStore = Container.get(TrackStore);
+  const sequencerScrollInteraction = get(SequencerScrollInteraction);
+  const tracksInteraction = get(TracksInteraction);
+  const tracksLayout = get(TracksLayout);
+  const trackStore = get(TrackStore);
 
   const getScroll = () => ({
     x: tracksLayout.tracksScrolledX,
@@ -46,7 +46,7 @@ const inject = injector<Props, InjectedProps>(() => {
   return {
     getScroll,
     handleScroll: sequencerScrollInteraction.handleScroll,
-    handleStageClick: trackMouseInteraction.handleStageClick,
+    handleStageClick: tracksInteraction.handleStageClick,
     trackHeight: tracksLayout.trackHeight,
     tracks: trackStore.trackList,
   };

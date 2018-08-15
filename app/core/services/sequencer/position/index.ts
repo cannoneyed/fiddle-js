@@ -4,7 +4,7 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 import { GridLayout } from 'core/state/layouts/sequencer/grid';
 import { TimelineState } from 'core/state/app/sequencer/timeline';
 
-@Service()
+@Service({ global: true })
 export class SequencerPositionService {
   constructor(private gridLayout: GridLayout, private timelineState: TimelineState) {}
 

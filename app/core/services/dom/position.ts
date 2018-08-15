@@ -6,7 +6,7 @@ export interface withDomId {
   domId: string;
 }
 
-@Service()
+@Service({ global: true })
 export class DomPositionService {
   getScreenVector = (model: withDomId): ScreenVector => {
     const element = document.getElementById(model.domId);

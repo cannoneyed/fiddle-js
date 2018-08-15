@@ -5,7 +5,7 @@ import { Snip, SnipParams } from 'core/models/snip';
 
 import { SnipStore } from 'core/state/stores/snips';
 
-@Service()
+@Service({ global: true })
 export class SnipActions {
   constructor(private snipStore: SnipStore) {}
 

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Container } from 'typedi';
 import { autorun, IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
@@ -11,10 +10,12 @@ import { Dimensions } from 'core/interfaces';
 
 import TrackHeader from 'features/SequencerSection/components/TrackHeader';
 
-import { SequencerScrollInteraction } from 'core/interactions/sequencer/scroll';
-import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
-import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
 import { TrackStore } from 'core/state/stores/tracks';
+
+import { SequencerScrollInteraction } from 'features/SequencerSection/core/interactions/scroll';
+import { TracksLayout } from 'features/SequencerSection/core/tracks';
+import { SequencerLayout } from 'features/SequencerSection/core/layout';
+import { get } from 'features/SequencerSection/core';
 
 export interface Props {}
 export interface InjectedProps {
@@ -25,15 +26,16 @@ export interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
-  const sequencerScrollInteraction = Container.get(SequencerScrollInteraction);
-  const trackStore = Container.get(TrackStore);
-  const tracksLayout = Container.get(TracksLayout);
+  const sequencerLayout = get(SequencerLayout);
+  const tracksLayout = get(TracksLayout);
+  const sequencerScrollInteraction = get(SequencerScrollInteraction);
+  const trackStore = get(TrackStore);
+
   const getOffset = () => tracksLayout.tracksScrolledY;
 
   const dimensions = {
     height: tracksLayout.tracksViewportDimensions.height,
-    width: sequencerSectionLayout.gutterWidth,
+    width: sequencerLayout.gutterWidth,
   };
 
   return {

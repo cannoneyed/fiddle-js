@@ -9,7 +9,7 @@ import { WindowLayout } from 'core/state/layouts/window';
 
 import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
 
-@Service()
+@Service({ global: true })
 export class MainPageLayout {
   static mobxLoggerConfig = filterMethods('deltaSectionDivider');
 

@@ -1,10 +1,11 @@
-import { Container } from 'typedi';
+import { Container, Service } from 'typedi';
 import { computed } from 'mobx';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { ClipDragInteraction } from 'core/interactions/clip/drag';
 
+@Service()
 export class Timeline {
   private clipDragInteraction = Container.get(ClipDragInteraction);
 

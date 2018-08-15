@@ -5,7 +5,7 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { TrackStore } from 'core/state/stores/tracks';
 
-@Service()
+@Service({ global: true })
 export class ClipMoveService {
   constructor(private trackStore: TrackStore) {}
 
