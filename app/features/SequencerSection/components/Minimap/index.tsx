@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 
-import { Draggable, Unregister } from 'core/interactions//handlers/draggable';
+import { Draggable, Unregister } from 'core/interactions/handlers/draggable';
 
-import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
+import { getCore } from 'features/SequencerSection/core';
 
 import { MinimapContainer, MinimapThumb } from './styled-components';
 
@@ -21,12 +20,12 @@ interface State {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const tracksLayout = Container.get(TracksLayout);
+  const core = getCore();
 
   return {
-    tracksScrollPercentX: tracksLayout.scrollPercentX,
-    tracksViewPercentX: tracksLayout.tracksViewPercentX,
-    setTracksScroll: (x: number) => tracksLayout.setTracksScroll({ x }),
+    tracksScrollPercentX: core.tracks.scrollPercentX,
+    tracksViewPercentX: core.tracks.tracksViewPercentX,
+    setTracksScroll: (x: number) => core.tracks.setTracksScroll({ x }),
   };
 });
 

@@ -2,14 +2,21 @@ import { filterMethods } from 'utils/log-filter';
 
 import { SnapToGrid } from 'core/models/snap-to-grid';
 
+import { GridLayout } from './grid';
 import { SequencerLayout } from './layout';
+import { Timeline } from './timeline';
+import { TracksLayout } from './tracks';
 import { ZoomState } from './zoom';
 
 export class SequencerCore {
   static mobxLoggerConfig = filterMethods('updateFromProps');
 
   layout = new SequencerLayout();
+  timeline = new Timeline();
+  tracks = new TracksLayout(this);
   zoom = new ZoomState();
+
+  grid = new GridLayout(this.timeline, this.zoom);
 
   snapToGrid = new SnapToGrid();
 }

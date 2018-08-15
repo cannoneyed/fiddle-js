@@ -1,12 +1,12 @@
-import { Inject, Service } from 'typedi';
+import { Container } from 'typedi';
 import { computed } from 'mobx';
 
-import { ClipDragInteraction } from 'core/interactions//clip/drag';
+import { TimelineVector } from 'core/primitives/timeline-vector';
 
-@Service()
-export class TimelineLayout {
-  @Inject(type => ClipDragInteraction)
-  clipDragInteraction: ClipDragInteraction;
+import { ClipDragInteraction } from 'core/interactions/clip/drag';
+
+export class Timeline {
+  private clipDragInteraction = Container.get(ClipDragInteraction);
 
   @computed
   get dropTargetPosition() {
@@ -21,4 +21,6 @@ export class TimelineLayout {
       ? this.clipDragInteraction.dropTargetTrackIndex
       : null;
   }
+
+  length = new TimelineVector(64);
 }

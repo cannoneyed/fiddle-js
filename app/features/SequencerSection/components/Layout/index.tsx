@@ -12,7 +12,7 @@ import TracksStage from 'features/SequencerSection/components/TracksStage';
 import VerticalScrollbar from 'features/SequencerSection/components/VerticalScrollbar';
 
 import { Dimensions, Rectangle } from 'core/interfaces';
-import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
+import { getCore } from 'features/SequencerSection/core';
 
 import {
   BottomWrapper,
@@ -37,16 +37,16 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const sequencerSectionLayout = Container.get(SequencerSectionLayout);
+  const { layout } = getCore();
 
   return {
-    dimensions: sequencerSectionLayout.dimensions,
-    gutterWidth: sequencerSectionLayout.gutterWidth,
-    minimapHeight: sequencerSectionLayout.minimapHeight,
-    timelineHeight: sequencerSectionLayout.timelineHeight,
-    toolbarHeight: sequencerSectionLayout.toolbarHeight,
-    tracksStageDimensions: sequencerSectionLayout.tracksStageDimensions,
-    verticalScrollbarRectangle: sequencerSectionLayout.verticalScrollbarRectangle,
+    dimensions: layout.dimensions,
+    gutterWidth: layout.gutterWidth,
+    minimapHeight: layout.minimapHeight,
+    timelineHeight: layout.timelineHeight,
+    toolbarHeight: layout.toolbarHeight,
+    tracksStageDimensions: layout.tracksStageDimensions,
+    verticalScrollbarRectangle: layout.verticalScrollbarRectangle,
   };
 });
 
