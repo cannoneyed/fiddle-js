@@ -2,7 +2,7 @@ import { Service } from 'typedi';
 import { action } from 'mobx';
 
 import { Track } from 'core/models/Track';
-import { ClipSelectInteraction } from 'core/interactions/clip/select';
+import { ClipSelectInteraction } from 'features/SequencerSection/core/interactions/clip-select';
 
 @Service()
 export class TracksInteraction {

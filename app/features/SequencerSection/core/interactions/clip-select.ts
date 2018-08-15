@@ -2,6 +2,7 @@ import { Service } from 'typedi';
 import { action, computed } from 'mobx';
 
 import { Clip } from 'core/models/Clip';
+
 import { ClipStore } from 'core/state/stores/clips';
 
 @Service()

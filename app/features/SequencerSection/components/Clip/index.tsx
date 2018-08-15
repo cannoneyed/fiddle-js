@@ -7,13 +7,13 @@ import { KonvaEvent } from 'utils/konva';
 
 import { ContextMenu } from '@blueprintjs/core';
 
-import ClipContextMenu from 'features/ContextMenus/ClipContextMenu';
+import ClipContextMenu from 'features/SequencerSection/components/ContextMenus/ClipContextMenu';
 
 import { Clip as ClipModel } from 'core/models/clip';
 
-import { ClipSelectInteraction } from 'core/interactions/clip/select';
-import * as clipDragHandlers from 'core/interactions/clip/drag/handlers';
-import { SequencerPositionService } from 'core/services/sequencer/position';
+import { ClipSelectInteraction } from 'features/SequencerSection/core/interactions/clip-select';
+import * as clipDragHandlers from 'features/SequencerSection/core/interactions/clip-drag/handlers';
+import { SequencerPositionService } from 'features/SequencerSection/core/services/sequencer-position';
 import { get } from 'features/SequencerSection/core';
 
 interface Props {

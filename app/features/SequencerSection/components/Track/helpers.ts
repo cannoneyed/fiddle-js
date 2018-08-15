@@ -1,10 +1,11 @@
-import { Container } from 'typedi';
 import { Clip as ClipModel } from 'core/models/clip';
-import { SequencerPositionService } from 'core/services/sequencer/position';
+
+import { SequencerPositionService } from 'features/SequencerSection/core/services/sequencer-position';
+import { get } from 'features/SequencerSection/core';
 
 // TODO: Eventually handle different track heights
 export class ClipVisibilityHelper {
-  sequencerPositionService = Container.get(SequencerPositionService);
+  sequencerPositionService = get(SequencerPositionService);
 
   computeVisibility(clips: ClipModel[], left: number, right: number) {
     return clips.filter(clip => {

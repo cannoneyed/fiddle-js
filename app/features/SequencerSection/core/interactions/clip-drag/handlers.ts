@@ -1,10 +1,13 @@
-import { Container } from 'typedi';
 import { Clip } from 'core/models/clip';
 
-import { ClipDragInteraction, DRAG_DELAY } from 'core/interactions//clip/drag';
+import {
+  ClipDragInteraction,
+  DRAG_DELAY,
+} from 'features/SequencerSection/core/interactions/clip-drag';
+import { get } from 'features/SequencerSection/core';
 
 export const register = (clip: Clip, mouseDown: MouseEvent) => {
-  const clipDragInteraction = Container.get(ClipDragInteraction);
+  const clipDragInteraction = get(ClipDragInteraction);
 
   const startX = mouseDown.pageX;
   const startY = mouseDown.pageY;

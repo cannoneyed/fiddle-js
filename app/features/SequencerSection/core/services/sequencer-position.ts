@@ -1,12 +1,12 @@
 import { Service } from 'typedi';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { GridLayout } from 'core/state/layouts/sequencer/grid';
-import { TimelineState } from 'core/state/app/sequencer/timeline';
+import { GridLayout } from 'features/SequencerSection/core/grid';
+import { Timeline } from 'features/SequencerSection/core/timeline';
 
-@Service({ global: true })
+@Service()
 export class SequencerPositionService {
-  constructor(private gridLayout: GridLayout, private timelineState: TimelineState) {}
+  constructor(private gridLayout: GridLayout, private timeline: Timeline) {}
 
   getTimelineVectorFromOffsetX = (offsetX: number) => {
     const { barWidth } = this.gridLayout;
@@ -31,6 +31,6 @@ export class SequencerPositionService {
   };
 
   getTimelineEnd = () => {
-    return new TimelineVector(this.timelineState.length.primary);
+    return new TimelineVector(this.timeline.length.primary);
   };
 }

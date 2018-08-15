@@ -1,15 +1,15 @@
 import { Inject, Service } from 'typedi';
 
-import { SequencerSectionLayout } from 'core/state/layouts/sequencer/section';
-import { TracksLayout } from 'core/state/layouts/sequencer/tracks';
+import { SequencerLayout } from 'features/SequencerSection/core/layout';
+import { TracksLayout } from 'features/SequencerSection/core/tracks';
 import { TrackStore } from 'core/state/stores/tracks';
 
-@Service({ global: true })
+@Service()
 export class TracksPositionService {
   @Inject(type => TracksLayout)
   private tracksLayout: TracksLayout;
-  @Inject(type => SequencerSectionLayout)
-  private sequencerSectionLayout: SequencerSectionLayout;
+  @Inject(type => SequencerLayout)
+  private sequencerSectionLayout: SequencerLayout;
   @Inject(type => TrackStore)
   private trackStore: TrackStore;
 

@@ -8,13 +8,14 @@ import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { ClipActions } from 'core/actions/clip';
-import { ClipSelectInteraction } from 'core/interactions/clip/select';
-import { ClipMoveService } from 'core/services/sequencer/clip-move';
-import { GridService } from 'core/services/sequencer/grid';
-import { SequencerPositionService } from 'core/services/sequencer/position';
-import { TracksPositionService } from 'core/services/sequencer/position/tracks';
 import { ClipStore } from 'core/state/stores/clips';
 import { TrackStore } from 'core/state/stores/tracks';
+
+import { ClipSelectInteraction } from 'features/SequencerSection/core/interactions/clip-select';
+import { ClipMoveService } from 'features/SequencerSection/core/services/clip-move';
+import { GridService } from 'features/SequencerSection/core/services/grid';
+import { SequencerPositionService } from 'features/SequencerSection/core/services/sequencer-position';
+import { TracksPositionService } from 'features/SequencerSection/core/services/tracks-position';
 
 export const DRAG_DELAY: number = 200;
 
@@ -33,20 +34,30 @@ export class ClipDragInteraction {
     private trackStore: TrackStore
   ) {}
 
-  @observable isDragging: boolean = false;
+  @observable
+  isDragging: boolean = false;
 
-  @observable deltaX: number = 0;
-  @observable deltaY: number = 0;
+  @observable
+  deltaX: number = 0;
+  @observable
+  deltaY: number = 0;
 
-  @observable startX: number;
-  @observable startY: number;
+  @observable
+  startX: number;
+  @observable
+  startY: number;
 
-  @observable handleClip: Clip;
-  @observable handleClipOffsetX: number;
-  @observable relativePositions = observable.map<string, ScreenVector>({});
+  @observable
+  handleClip: Clip;
+  @observable
+  handleClipOffsetX: number;
+  @observable
+  relativePositions = observable.map<string, ScreenVector>({});
 
-  @observable dropTargetTimelinePosition: TimelineVector;
-  @observable dropTargetTrackIndex: number;
+  @observable
+  dropTargetTimelinePosition: TimelineVector;
+  @observable
+  dropTargetTrackIndex: number;
 
   deltaTimelinePosition = new TimelineVector();
   deltaTrackIndex: number;

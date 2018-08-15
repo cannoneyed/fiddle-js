@@ -7,7 +7,7 @@ import { makePoints } from 'utils/konva';
 
 import { Dimensions } from 'core/interfaces';
 
-import { SequencerPositionService } from 'core/services/sequencer/position';
+import { SequencerPositionService } from 'features/SequencerSection/core/services/sequencer-position';
 
 import { TracksLayout } from 'features/SequencerSection/core/tracks';
 import { Timeline } from 'features/SequencerSection/core/timeline';

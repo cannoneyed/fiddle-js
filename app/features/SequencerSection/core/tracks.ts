@@ -4,9 +4,10 @@ import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
 import { filterMethods } from 'utils/log-filter';
 
-import { SequencerCore } from 'features/SequencerSection/core/sequencer';
-import { GridLayout } from './grid';
-import { SequencerLayout } from './layout';
+import { SequencerState } from 'features/SequencerSection/core/state';
+import { GridLayout } from 'features/SequencerSection/core/grid';
+import { SequencerLayout } from 'features/SequencerSection/core/layout';
+import { Timeline } from 'features/SequencerSection/core/timeline';
 import { TrackStore } from 'core/state/stores/tracks';
 
 import { Dimensions } from 'core/interfaces';
@@ -16,9 +17,10 @@ export class TracksLayout {
   static mobxLoggerConfig = filterMethods('resetScrollOnResize', 'setTracksScroll');
 
   constructor(
-    private core: SequencerCore,
+    private sequencerState: SequencerState,
     private gridLayout: GridLayout,
     private sectionLayout: SequencerLayout,
+    private timeline: Timeline,
     private trackStore: TrackStore
   ) {
     // We need to observe when the view percent has changed to 1, meaning the viewport has grown to be larger
@@ -31,6 +33,12 @@ export class TracksLayout {
         this.resetScrollOnResize(0, this.scrollPercentY);
       }
     });
+  }
+
+  @action
+  private resetScrollOnResize(x: number, y: number) {
+    this.scrollPercentX = x;
+    this.scrollPercentY = y;
   }
 
   @observable
@@ -47,12 +55,12 @@ export class TracksLayout {
 
   @computed
   get trackHeight() {
-    return this.core.zoom.vertical.level * defaults.trackHeight;
+    return this.sequencerState.zoom.vertical.level * defaults.trackHeight;
   }
 
   @computed
   get trackWidth() {
-    return this.core.timeline.length.primary * this.gridLayout.barWidth;
+    return this.timeline.length.primary * this.gridLayout.barWidth;
   }
 
   @computed
@@ -106,11 +114,5 @@ export class TracksLayout {
       height: Math.max(this.sectionLayout.tracksDimensions.height, this.tracksHeight),
       width: Math.max(this.sectionLayout.tracksDimensions.width, this.trackWidth),
     };
-  }
-
-  @action
-  private resetScrollOnResize(x: number, y: number) {
-    this.scrollPercentX = x;
-    this.scrollPercentY = y;
   }
 }

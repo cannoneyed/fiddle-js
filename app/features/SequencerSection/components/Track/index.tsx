@@ -7,7 +7,7 @@ import theme from 'styles/theme';
 import { Group, Line, Rect } from 'react-konva';
 import { makeHandler, makePoints } from 'utils/konva';
 
-import TrackContextMenu from 'features/ContextMenus/TrackContextMenu';
+import TrackContextMenu from 'features/SequencerSection/components/ContextMenus/TrackContextMenu';
 import Clip from 'features/SequencerSection/components/Clip';
 
 import { Dimensions } from 'core/interfaces';

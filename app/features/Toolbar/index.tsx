@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
-import { Container } from 'typedi';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 import { Button } from '@blueprintjs/core';
@@ -10,7 +9,7 @@ import SelectSnapToGrid from 'components/SelectSnapToGrid';
 
 import { TrackActions } from 'core/actions/track';
 
-import { SequencerCore } from 'features/SequencerSection/core/sequencer';
+import { SequencerState } from 'features/SequencerSection/core/state';
 import { get } from 'features/SequencerSection/core';
 
 export interface Props {}
@@ -21,13 +20,13 @@ export interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const core = get(SequencerCore);
-  const trackActions = Container.get(TrackActions);
+  const sequencerState = get(SequencerState);
+  const trackActions = get(TrackActions);
 
   return {
     createTrack: () => trackActions.createTrack(),
-    zoomInHorizontal: () => core.zoom.zoomInHorizontal(),
-    zoomOutHorizontal: () => core.zoom.zoomOutHorizontal(),
+    zoomInHorizontal: () => sequencerState.zoom.zoomInHorizontal(),
+    zoomOutHorizontal: () => sequencerState.zoom.zoomOutHorizontal(),
   };
 });
 
