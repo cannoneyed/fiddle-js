@@ -9,7 +9,7 @@ export interface ZoomLayout {
   horizontal: ZoomLevel;
 }
 
-export interface TimelineState {
+export interface TimelineLayout {
   length: TimelineVector;
 }
 
@@ -17,7 +17,7 @@ const MIN_DIVISION_WIDTH = 15;
 const MAX_DIVISION_WIDTH = 25;
 
 export class GridLayoutBase {
-  protected timelineState: TimelineState;
+  protected timelineLayout: TimelineLayout;
   protected zoomLayout: ZoomLayout;
 
   barsPerGridSegment = 1;
@@ -30,7 +30,7 @@ export class GridLayoutBase {
 
   @computed
   get gridCount(): number {
-    return this.timelineState.length.primary;
+    return this.timelineLayout.length.primary;
   }
 
   @computed
@@ -66,7 +66,7 @@ export class GridLayoutBase {
 
   @computed
   get nDivisions(): number {
-    return this.division.inverse().multiplyScalar(this.timelineState.length.primary);
+    return this.division.inverse().multiplyScalar(this.timelineLayout.length.primary);
   }
 
   @computed

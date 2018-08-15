@@ -1,12 +1,15 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { action } from 'mobx';
 
-import { ClipActions } from 'core/actions/clip';
-import { TrackStore } from 'core/state/stores/tracks';
+import { ClipActions, TrackStore } from 'core';
 
 @Service({ global: true })
-export class TrackActions {
-  constructor(private clipActions: ClipActions, private trackStore: TrackStore) {}
+export default class __TrackActions {
+  @Inject(type => ClipActions)
+  private clipActions: ClipActions;
+
+  @Inject(type => TrackStore)
+  private trackStore: TrackStore;
 
   @action
   createTrack = () => {

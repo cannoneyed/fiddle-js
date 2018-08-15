@@ -1,11 +1,11 @@
 import { Service } from 'typedi';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { GridLayout } from 'features/SequencerSection/core/grid';
-import { Timeline } from 'features/SequencerSection/core/timeline';
+import { GridLayout } from 'features/SequencerSection/core';
+import { Timeline } from 'features/SequencerSection/core';
 
 @Service()
-export class SequencerPositionService {
+export default class __SequencerPositionService {
   constructor(private gridLayout: GridLayout, private timeline: Timeline) {}
 
   getTimelineVectorFromOffsetX = (offsetX: number) => {

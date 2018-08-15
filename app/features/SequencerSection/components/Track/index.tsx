@@ -14,9 +14,7 @@ import { Dimensions } from 'core/interfaces';
 import { Clip as ClipModel } from 'core/models/clip';
 import { Track as TrackModel } from 'core/models/track';
 
-import { TracksLayout } from 'features/SequencerSection/core/tracks';
-import { TracksInteraction } from 'features/SequencerSection/core/interactions/tracks';
-import { get } from 'features/SequencerSection/core';
+import { get, TracksInteraction, TracksLayout } from 'features/SequencerSection/core';
 
 import { ClipVisibilityHelper } from './helpers';
 

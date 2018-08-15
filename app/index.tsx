@@ -6,12 +6,11 @@ import { configure } from 'mobx';
 import { configureDevtool } from 'mobx-react-devtools';
 import { enableLogging } from 'mobx-logger';
 
-import { registerServices } from 'core/register-services';
+import { registerServices } from 'core';
 import { logStores } from 'utils/log-stores';
 import { initializeStats } from 'utils/stats';
 
-import { LoadService } from 'core/services/load';
-import { UndoService } from 'core/services/undo';
+import { LoadService, UndoService } from 'core';
 
 import Root from './pages/Root';
 

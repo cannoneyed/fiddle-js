@@ -11,10 +11,12 @@ import ClipContextMenu from 'features/SequencerSection/components/ContextMenus/C
 
 import { Clip as ClipModel } from 'core/models/clip';
 
-import { ClipSelectInteraction } from 'features/SequencerSection/core/interactions/clip-select';
 import * as clipDragHandlers from 'features/SequencerSection/core/interactions/clip-drag/handlers';
-import { SequencerPositionService } from 'features/SequencerSection/core/services/sequencer-position';
-import { get } from 'features/SequencerSection/core';
+import {
+  get,
+  ClipSelectInteraction,
+  SequencerPositionService,
+} from 'features/SequencerSection/core';
 
 interface Props {
   clip: ClipModel;

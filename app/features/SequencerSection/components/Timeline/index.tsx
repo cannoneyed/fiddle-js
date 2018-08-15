@@ -6,9 +6,7 @@ import { Fraction } from 'core/primitives/fraction';
 
 import Timeline from 'components/Timeline';
 
-import { GridLayout } from 'features/SequencerSection/core/grid';
-import { TracksLayout } from 'features/SequencerSection/core/tracks';
-import { get } from 'features/SequencerSection/core';
+import { get, GridLayout, TracksLayout } from 'features/SequencerSection/core';
 
 interface Props {}
 interface InjectedProps {

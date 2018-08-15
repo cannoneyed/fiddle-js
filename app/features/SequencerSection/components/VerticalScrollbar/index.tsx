@@ -4,8 +4,7 @@ import { injector } from 'utils/injector';
 
 import VerticalScroll from 'components/Scrollbars/Vertical';
 
-import { TracksLayout } from 'features/SequencerSection/core/tracks';
-import { get } from 'features/SequencerSection/core';
+import { get, TracksLayout } from 'features/SequencerSection/core';
 
 interface Props {}
 interface InjectedProps {

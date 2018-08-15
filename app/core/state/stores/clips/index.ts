@@ -2,11 +2,11 @@ import { Service } from 'typedi';
 import { observable } from 'mobx';
 import { json } from 'core/serialization/json';
 
-import { DraggedClips } from './dragged';
+import { DraggedClips } from 'core';
 import { Clip, ClipParams } from 'core/models/clip';
 
 @Service({ global: true })
-export class ClipStore {
+export default class __ClipStore {
   constructor(private draggedClipsStore: DraggedClips) {}
 
   // The main store for clips (by id)

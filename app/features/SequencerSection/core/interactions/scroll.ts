@@ -1,9 +1,9 @@
 import { Service } from 'typedi';
 
-import { TracksLayout } from 'features/SequencerSection/core/tracks';
+import { TracksLayout } from 'features/SequencerSection/core';
 
 @Service()
-export class SequencerScrollInteraction {
+export default class __SequencerScrollInteraction {
   constructor(private tracksLayout: TracksLayout) {}
 
   handleScroll = (deltaX: number, deltaY: number) => {

@@ -5,9 +5,7 @@ import { injector } from 'utils/injector';
 import { Coordinates, Dimensions } from 'core/interfaces';
 import { VerticalGrid } from 'components/VerticalGrid';
 
-import { GridLayout } from 'features/SequencerSection/core/grid';
-import { TracksLayout } from 'features/SequencerSection/core/tracks';
-import { get } from 'features/SequencerSection/core';
+import { get, GridLayout, TracksLayout } from 'features/SequencerSection/core';
 
 interface Props {
   dimensions: Dimensions;

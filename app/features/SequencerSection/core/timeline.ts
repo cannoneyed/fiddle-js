@@ -3,12 +3,12 @@ import { computed } from 'mobx';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-// import { ClipDragInteraction } from 'features/SequencerSection/core/interactions/clip-drag';
-// import { get } from 'features/SequencerSection/core';
+// import { ClipDragInteraction } from 'features/SequencerSection/core';
 
 @Service()
-export class Timeline {
-  // private clipDragInteraction = get(ClipDragInteraction);
+export default class __Timeline {
+  // @Inject(type => ClipDragInteraction)
+  // clipDragInteraction: ClipDragInteraction;
 
   @computed
   get dropTargetPosition() {

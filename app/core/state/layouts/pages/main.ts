@@ -1,17 +1,20 @@
 import { action, computed, observable } from 'mobx';
+import { Inject, Service } from 'typedi';
 import { createTransformer } from 'mobx-utils';
-import { Service } from 'typedi';
 import { filterMethods } from 'utils/log-filter';
 
 import { Dimensions } from 'core/interfaces';
 
-import { WindowLayout } from 'core/state/layouts/window';
+import { WindowLayout } from 'core';
 
-@Service({ global: true })
-export class MainPageLayout {
+@Service()
+export default class __MainPageLayout {
   static mobxLoggerConfig = filterMethods('deltaSectionDivider');
 
-  constructor(private windowLayout: WindowLayout) {
+  @Inject(type => WindowLayout)
+  private windowLayout: WindowLayout;
+
+  constructor() {
     // TODO: Dealing with some weird context binding issues for mobx observable logging, figure out why the action isn't being bound properly.
     this.deltaSectionDivider = this.deltaSectionDivider.bind(this);
   }

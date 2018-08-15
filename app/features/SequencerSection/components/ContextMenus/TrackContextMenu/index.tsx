@@ -4,12 +4,10 @@ import { injector } from 'utils/injector';
 
 import { Menu, MenuItem } from '@blueprintjs/core';
 
-import { ClipActions } from 'core/actions/clip';
 import { TimelineVector } from 'core/primitives/timeline-vector';
-import { TrackActions } from 'core/actions/track';
 
-import { SequencerPositionService } from 'features/SequencerSection/core/services/sequencer-position';
-import { get } from 'features/SequencerSection/core';
+import { ClipActions, TrackActions } from 'core';
+import { get, SequencerPositionService } from 'features/SequencerSection/core';
 
 interface Props {
   trackId: string;

@@ -4,10 +4,9 @@ import { injector } from 'utils/injector';
 import { Menu, MenuItem } from '@blueprintjs/core';
 
 import { Clip } from 'core/models/clip';
-import { ClipActions } from 'core/actions/clip';
 
-import { ClipSelectInteraction } from 'features/SequencerSection/core/interactions/clip-select';
-import { get } from 'features/SequencerSection/core';
+import { ClipActions } from 'core';
+import { get, ClipSelectInteraction } from 'features/SequencerSection/core';
 
 interface Props {
   clip: Clip;

@@ -3,10 +3,10 @@ import { action } from 'mobx';
 
 import { Snip, SnipParams } from 'core/models/snip';
 
-import { SnipStore } from 'core/state/stores/snips';
+import { SnipStore } from 'core';
 
 @Service({ global: true })
-export class SnipActions {
+export default class __SnipActions {
   constructor(private snipStore: SnipStore) {}
 
   @action

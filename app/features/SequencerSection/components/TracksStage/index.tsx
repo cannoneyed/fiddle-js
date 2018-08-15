@@ -11,9 +11,7 @@ import Grid from 'features/SequencerSection/components/Grid';
 import Timeline from 'features/SequencerSection/components/Timeline';
 import Tracks from 'features/SequencerSection/components/Tracks';
 
-import { SequencerScrollInteraction } from 'features/SequencerSection/core/interactions/scroll';
-import { SequencerLayout } from 'features/SequencerSection/core/layout';
-import { get } from 'features/SequencerSection/core';
+import { get, SequencerLayout, SequencerScrollInteraction } from 'features/SequencerSection/core';
 
 interface Props {
   dimensions: Dimensions;

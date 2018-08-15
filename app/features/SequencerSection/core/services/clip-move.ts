@@ -3,10 +3,10 @@ import { Service } from 'typedi';
 import { Clip } from 'core/models/clip';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { TrackStore } from 'core/state/stores/tracks';
+import { TrackStore } from 'core';
 
 @Service()
-export class ClipMoveService {
+export default class __ClipMoveService {
   constructor(private trackStore: TrackStore) {}
 
   moveClip(clip: Clip, deltaTimeline: TimelineVector, deltaTrackIndex = 0) {

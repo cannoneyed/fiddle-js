@@ -7,7 +7,7 @@ export interface withDomId {
 }
 
 @Service({ global: true })
-export class DomPositionService {
+export default class __DomPositionService {
   getScreenVector = (model: withDomId): ScreenVector => {
     const element = document.getElementById(model.domId);
     if (element) {

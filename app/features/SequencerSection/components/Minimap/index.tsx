@@ -3,9 +3,7 @@ import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 
 import { Draggable, Unregister } from 'core/interactions/handlers/draggable';
-
-import { TracksLayout } from 'features/SequencerSection/core/tracks';
-import { get } from 'features/SequencerSection/core';
+import { get, TracksLayout } from 'features/SequencerSection/core';
 
 import { MinimapContainer, MinimapThumb } from './styled-components';
 

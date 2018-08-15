@@ -7,11 +7,11 @@ import { injector } from 'utils/injector';
 
 import { Dimensions } from 'core/interfaces';
 
-import ClipEditorSection from 'features/ClipEditorSection';
+// import ClipEditorSection from 'features/ClipEditorSection';
 import SequencerSection from 'features/SequencerSection';
 import SectionDivider from 'features/SectionDivider';
 
-import { MainPageLayout } from 'core/state/layouts/pages/main';
+import { MainPageLayout } from 'core';
 
 interface Props {}
 interface InjectedProps {
@@ -36,13 +36,13 @@ export class MainPage extends React.Component<Props & InjectedProps, {}> {
   };
 
   render() {
-    const { clipEditorDimensions, sequencerDimensions } = this.props;
+    const { sequencerDimensions } = this.props;
 
     return (
       <PageWrapper>
         <SequencerSection dimensions={sequencerDimensions} />
         <SectionDivider onDrag={this.handleSectionDividerDrag} />
-        <ClipEditorSection dimensions={clipEditorDimensions} />
+        {/* <ClipEditorSection dimensions={clipEditorDimensions} /> */}
       </PageWrapper>
     );
   }

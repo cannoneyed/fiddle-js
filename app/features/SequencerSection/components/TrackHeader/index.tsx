@@ -6,8 +6,7 @@ import { injector } from 'utils/injector';
 
 import { Track } from 'core/models/track';
 
-import { TracksLayout } from 'features/SequencerSection/core/tracks';
-import { get } from 'features/SequencerSection/core';
+import { get, TracksLayout } from 'features/SequencerSection/core';
 
 interface Props {
   index: number;

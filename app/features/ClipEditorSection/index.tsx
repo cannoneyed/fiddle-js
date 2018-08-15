@@ -6,13 +6,11 @@ import { injector } from 'utils/injector';
 import { Dimensions } from 'core/interfaces';
 import { Clip } from 'core/models/clip';
 
-import { ClipEditorState } from 'core/state/app/clip-editor';
-import { ClipStore } from 'core/state/stores/clips';
-
 import Empty from 'features/ClipEditorSection/components/Empty';
 import Layout from 'features/ClipEditorSection/components/Layout';
 
 import { ClipEditorCore, Provider } from 'features/ClipEditorSection/core';
+import { ClipEditorState, ClipStore } from 'core';
 
 const coreCache = new Map<Clip, ClipEditorCore>();
 

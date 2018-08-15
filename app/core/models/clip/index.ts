@@ -3,8 +3,7 @@ import { computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';
-import { SnipStore } from 'core/state/stores/snips';
-import { TrackStore } from 'core/state/stores/tracks';
+import { SnipStore, TrackStore } from 'core';
 
 import { Layer } from './layer';
 
@@ -21,17 +20,24 @@ export class Clip {
 
   id: string;
 
-  @observable trackId: string;
+  @observable
+  trackId: string;
 
-  @observable length: TimelineVector;
+  @observable
+  length: TimelineVector;
 
-  @observable position: TimelineVector;
+  @observable
+  position: TimelineVector;
 
-  @observable snipIds: string[] = [];
-  @observable layers: Layer[] = [];
+  @observable
+  snipIds: string[] = [];
+  @observable
+  layers: Layer[] = [];
 
-  @observable isSelected = false;
-  @observable isDragging = false;
+  @observable
+  isSelected = false;
+  @observable
+  isDragging = false;
 
   constructor(params: ClipParams) {
     const { trackId, position, length, snipIds } = params;

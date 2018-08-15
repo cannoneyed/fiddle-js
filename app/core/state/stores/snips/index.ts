@@ -5,7 +5,7 @@ import { json } from 'core/serialization/json';
 import { Snip, SnipParams } from 'core/models/snip';
 
 @Service({ global: true })
-export class SnipStore {
+export default class __SnipStore {
   // The main store for snips (by id)
   @json
   @observable

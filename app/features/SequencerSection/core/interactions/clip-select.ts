@@ -3,10 +3,10 @@ import { action, computed } from 'mobx';
 
 import { Clip } from 'core/models/Clip';
 
-import { ClipStore } from 'core/state/stores/clips';
+import { ClipStore } from 'core';
 
 @Service()
-export class ClipSelectInteraction {
+export default class __ClipSelectInteraction {
   constructor(private clipStore: ClipStore) {}
 
   @computed

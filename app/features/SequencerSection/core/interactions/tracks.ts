@@ -2,10 +2,10 @@ import { Service } from 'typedi';
 import { action } from 'mobx';
 
 import { Track } from 'core/models/Track';
-import { ClipSelectInteraction } from 'features/SequencerSection/core/interactions/clip-select';
+import { ClipSelectInteraction } from 'features/SequencerSection/core';
 
 @Service()
-export class TracksInteraction {
+export default class __TracksInteraction {
   constructor(private clipSelect: ClipSelectInteraction) {}
 
   @action

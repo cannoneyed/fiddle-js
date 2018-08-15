@@ -4,7 +4,7 @@ import { action, computed, observable } from 'mobx';
 import { Dimensions, Position, Rectangle } from 'core/interfaces';
 
 @Service()
-export class SequencerLayout {
+export default class __SequencerLayout {
   @observable
   dimensions = {
     height: 0,

@@ -1,7 +1,6 @@
 import { Clip as ClipModel } from 'core/models/clip';
 
-import { SequencerPositionService } from 'features/SequencerSection/core/services/sequencer-position';
-import { get } from 'features/SequencerSection/core';
+import { get, SequencerPositionService } from 'features/SequencerSection/core';
 
 // TODO: Eventually handle different track heights
 export class ClipVisibilityHelper {

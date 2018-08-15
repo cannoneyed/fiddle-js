@@ -1,24 +1,27 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { action } from 'mobx';
 
 import { Clip, ClipParams } from 'core/models/clip';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { ClipEditorState } from 'core/state/app/clip-editor';
-import { ClipStore } from 'core/state/stores/clips';
-import { SnipStore } from 'core/state/stores/snips';
-import { DraggedClips } from 'core/state/stores/clips/dragged';
-import { TrackStore } from 'core/state/stores/tracks';
+import { ClipEditorState, ClipStore, DraggedClips, SnipStore, TrackStore } from 'core';
 
 @Service({ global: true })
-export class ClipActions {
-  constructor(
-    private clipEditorState: ClipEditorState,
-    private clipStore: ClipStore,
-    private draggedClips: DraggedClips,
-    private snipStore: SnipStore,
-    private trackStore: TrackStore
-  ) {}
+export default class __ClipActions {
+  @Inject(type => ClipEditorState)
+  private clipEditorState: ClipEditorState;
+
+  @Inject(type => ClipStore)
+  private clipStore: ClipStore;
+
+  @Inject(type => DraggedClips)
+  private draggedClips: DraggedClips;
+
+  @Inject(type => SnipStore)
+  private snipStore: SnipStore;
+
+  @Inject(type => TrackStore)
+  private trackStore: TrackStore;
 
   @action
   createClips(params: ClipParams[]) {

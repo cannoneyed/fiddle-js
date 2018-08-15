@@ -1,10 +1,7 @@
 import { Clip } from 'core/models/clip';
 
-import {
-  ClipDragInteraction,
-  DRAG_DELAY,
-} from 'features/SequencerSection/core/interactions/clip-drag';
-import { get } from 'features/SequencerSection/core';
+import { DRAG_DELAY } from './index';
+import { get, ClipDragInteraction } from 'features/SequencerSection/core';
 
 export const register = (clip: Clip, mouseDown: MouseEvent) => {
   const clipDragInteraction = get(ClipDragInteraction);

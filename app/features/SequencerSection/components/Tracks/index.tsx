@@ -6,7 +6,6 @@ import { Group, Rect } from 'react-konva';
 import { makeHandler } from 'utils/konva';
 
 import { Track as TrackModel } from 'core/models/track';
-import { TrackStore } from 'core/state/stores/tracks';
 import { Coordinates, Dimensions } from 'core/interfaces';
 
 import { TrackVisibilityHelper } from './helpers';
@@ -14,10 +13,13 @@ import { TrackVisibilityHelper } from './helpers';
 import DragToMarkers from 'features/SequencerSection/components/DragToMarkers';
 import Track from 'features/SequencerSection/components/Track';
 
-import { SequencerScrollInteraction } from 'features/SequencerSection/core/interactions/scroll';
-import { TracksLayout } from 'features/SequencerSection/core/tracks';
-import { TracksInteraction } from 'features/SequencerSection/core/interactions/tracks';
-import { get } from 'features/SequencerSection/core';
+import {
+  get,
+  SequencerScrollInteraction,
+  TracksLayout,
+  TracksInteraction,
+} from 'features/SequencerSection/core';
+import { TrackStore } from 'core';
 
 interface Props {
   dimensions: Dimensions;

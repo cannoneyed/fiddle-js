@@ -5,8 +5,7 @@ import { Dimensions } from 'core/interfaces';
 
 import Layout from 'features/SequencerSection/components/Layout';
 
-import { SequencerLayout } from 'features/SequencerSection/core/layout';
-import { get } from 'features/SequencerSection/core';
+import { get, SequencerLayout } from 'features/SequencerSection/core';
 
 export interface Props {
   dimensions: Dimensions;

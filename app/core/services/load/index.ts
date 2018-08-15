@@ -1,14 +1,18 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { action } from 'mobx';
 import { range } from 'lodash';
 
-import { ClipActions } from 'core/actions/clip';
-import { TrackStore } from 'core/state/stores/tracks';
 import { TimelineVector } from '../../primitives/timeline-vector';
 
+import { ClipActions, TrackStore } from 'core';
+
 @Service({ global: true })
-export class LoadService {
-  constructor(private clipActions: ClipActions, private trackStore: TrackStore) {}
+export default class __LoadService {
+  @Inject(type => TrackStore)
+  private trackStore: TrackStore;
+
+  @Inject(type => ClipActions)
+  private clipActions: ClipActions;
 
   @action
   loadSession() {

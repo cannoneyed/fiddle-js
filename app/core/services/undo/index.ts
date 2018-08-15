@@ -1,10 +1,11 @@
 import { Service } from 'typedi';
 
-import { ClipStore } from 'core/state/stores/clips';
 import { UndoManager } from './manager';
 
+import { ClipStore } from 'core';
+
 @Service()
-export class UndoService {
+export default class __UndoService {
   constructor(private clipStore: ClipStore) {}
 
   private undoManager: UndoManager;

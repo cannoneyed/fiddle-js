@@ -12,8 +12,7 @@ import VerticalScrollbar from 'features/SequencerSection/components/VerticalScro
 
 import { Dimensions, Rectangle } from 'core/interfaces';
 
-import { SequencerLayout } from 'features/SequencerSection/core/layout';
-import { get } from 'features/SequencerSection/core';
+import { get, SequencerLayout } from 'features/SequencerSection/core';
 
 import {
   BottomWrapper,
@@ -99,8 +98,6 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
       height: bottomWrapperStyle.height,
       width: dimensions.width - gutterWrapperStyle.width - verticalScrollWrapperStyle.width,
     };
-
-    console.log(sequencerSectionStyle);
 
     return (
       <SequencerSectionWrapper style={sequencerSectionStyle}>

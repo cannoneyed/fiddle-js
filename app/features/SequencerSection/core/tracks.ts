@@ -1,28 +1,31 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { action, autorun, computed, observable } from 'mobx';
 import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
 import { filterMethods } from 'utils/log-filter';
 
-import { SequencerState } from 'features/SequencerSection/core/state';
-import { GridLayout } from 'features/SequencerSection/core/grid';
-import { SequencerLayout } from 'features/SequencerSection/core/layout';
-import { Timeline } from 'features/SequencerSection/core/timeline';
-import { TrackStore } from 'core/state/stores/tracks';
+import { GridLayout, SequencerLayout, Timeline, ZoomLayout } from 'features/SequencerSection/core';
+import { TrackStore } from 'core';
 
 import { Dimensions } from 'core/interfaces';
 
 @Service()
-export class TracksLayout {
+export default class __TracksLayout {
   static mobxLoggerConfig = filterMethods('resetScrollOnResize', 'setTracksScroll');
 
-  constructor(
-    private sequencerState: SequencerState,
-    private gridLayout: GridLayout,
-    private sectionLayout: SequencerLayout,
-    private timeline: Timeline,
-    private trackStore: TrackStore
-  ) {
+  @Inject(type => GridLayout)
+  gridLayout: GridLayout;
+
+  @Inject(type => SequencerLayout)
+  sectionLayout: SequencerLayout;
+
+  @Inject(type => Timeline)
+  timeline: Timeline;
+
+  @Inject(type => ZoomLayout)
+  zoomLayout: ZoomLayout;
+
+  constructor(private trackStore: TrackStore) {
     // We need to observe when the view percent has changed to 1, meaning the viewport has grown to be larger
     // than all contained tracks, and reset scroll to 0 so the tracks reset to the top of the viewport.
     autorun(() => {
@@ -55,7 +58,7 @@ export class TracksLayout {
 
   @computed
   get trackHeight() {
-    return this.sequencerState.zoom.vertical.level * defaults.trackHeight;
+    return this.zoomLayout.vertical.level * defaults.trackHeight;
   }
 
   @computed

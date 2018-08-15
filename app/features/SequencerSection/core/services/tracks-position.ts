@@ -1,11 +1,11 @@
 import { Inject, Service } from 'typedi';
 
-import { SequencerLayout } from 'features/SequencerSection/core/layout';
-import { TracksLayout } from 'features/SequencerSection/core/tracks';
-import { TrackStore } from 'core/state/stores/tracks';
+import { SequencerLayout } from 'features/SequencerSection/core';
+import { TracksLayout } from 'features/SequencerSection/core';
+import { TrackStore } from 'core';
 
 @Service()
-export class TracksPositionService {
+export default class __TracksPositionService {
   @Inject(type => TracksLayout)
   private tracksLayout: TracksLayout;
   @Inject(type => SequencerLayout)

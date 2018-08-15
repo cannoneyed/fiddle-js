@@ -1,12 +1,13 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { GridLayoutBase } from 'core/state/layouts/shared/grid';
 
-import { Timeline } from './timeline';
-import { ZoomState } from './zoom';
+import { Timeline, ZoomLayout } from 'features/SequencerSection/core';
 
 @Service()
-export class GridLayout extends GridLayoutBase {
-  constructor(protected timelineState: Timeline, protected zoomLayout: ZoomState) {
-    super();
-  }
+export default class __GridLayout extends GridLayoutBase {
+  @Inject(type => ZoomLayout)
+  protected zoomLayout: ZoomLayout;
+
+  @Inject(type => Timeline)
+  protected timelineLayout: Timeline;
 }

@@ -7,11 +7,12 @@ import { makePoints } from 'utils/konva';
 
 import { Dimensions } from 'core/interfaces';
 
-import { SequencerPositionService } from 'features/SequencerSection/core/services/sequencer-position';
-
-import { TracksLayout } from 'features/SequencerSection/core/tracks';
-import { Timeline } from 'features/SequencerSection/core/timeline';
-import { get } from 'features/SequencerSection/core';
+import {
+  get,
+  SequencerPositionService,
+  Timeline,
+  TracksLayout,
+} from 'features/SequencerSection/core';
 
 interface Props {}
 interface InjectedProps {

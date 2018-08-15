@@ -1,8 +1,8 @@
 import { Service } from 'typedi';
 import { action, observable } from 'mobx';
 
-@Service({ global: true })
-export class WindowLayout {
+@Service()
+export default class __WindowLayout {
   @observable
   width = window.innerWidth;
   @observable

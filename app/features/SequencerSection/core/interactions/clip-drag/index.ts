@@ -1,5 +1,5 @@
 import { action, observable } from 'mobx';
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { logMethods } from 'utils/log-filter';
 import { clamp, first, last, min, max } from 'lodash';
 
@@ -7,32 +7,45 @@ import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { ClipActions } from 'core/actions/clip';
-import { ClipStore } from 'core/state/stores/clips';
-import { TrackStore } from 'core/state/stores/tracks';
+import { ClipActions, ClipStore, TrackStore } from 'core';
 
-import { ClipSelectInteraction } from 'features/SequencerSection/core/interactions/clip-select';
-import { ClipMoveService } from 'features/SequencerSection/core/services/clip-move';
-import { GridService } from 'features/SequencerSection/core/services/grid';
-import { SequencerPositionService } from 'features/SequencerSection/core/services/sequencer-position';
-import { TracksPositionService } from 'features/SequencerSection/core/services/tracks-position';
+import {
+  ClipMoveService,
+  ClipSelectInteraction,
+  GridService,
+  SequencerPositionService,
+  TracksPositionService,
+} from 'features/SequencerSection/core';
 
 export const DRAG_DELAY: number = 200;
 
 @Service()
-export class ClipDragInteraction {
+export default class __ClipDragInteraction {
   static mobxLoggerConfig = logMethods('beginDrag', 'endDrag');
 
-  constructor(
-    private clipActions: ClipActions,
-    private clipSelect: ClipSelectInteraction,
-    private clipStore: ClipStore,
-    private clipMoveService: ClipMoveService,
-    private gridService: GridService,
-    private sequencerPositionService: SequencerPositionService,
-    private tracksPositionService: TracksPositionService,
-    private trackStore: TrackStore
-  ) {}
+  @Inject(type => ClipActions)
+  private clipActions: ClipActions;
+
+  @Inject(type => ClipSelectInteraction)
+  private clipSelect: ClipSelectInteraction;
+
+  @Inject(type => ClipStore)
+  private clipStore: ClipStore;
+
+  @Inject(type => ClipMoveService)
+  private clipMoveService: ClipMoveService;
+
+  @Inject(type => GridService)
+  private gridService: GridService;
+
+  @Inject(type => SequencerPositionService)
+  private sequencerPositionService: SequencerPositionService;
+
+  @Inject(type => TracksPositionService)
+  private tracksPositionService: TracksPositionService;
+
+  @Inject(type => TrackStore)
+  private trackStore: TrackStore;
 
   @observable
   isDragging: boolean = false;
@@ -139,6 +152,8 @@ export class ClipDragInteraction {
   beginDrag = (handleClip: Clip) => {
     this.isDragging = true;
     this.handleClip = handleClip;
+
+    console.log('👍', this);
 
     // Set the position of the handled clip to relatively position the other selected clips on the
     // DraggedClips container div

@@ -3,15 +3,17 @@ import { computed, observable } from 'mobx';
 import { filterMethods } from 'utils/log-filter';
 import { generateId } from 'utils/generate-id';
 
-import { ClipStore } from 'core/state/stores/clips';
+import { ClipStore } from 'core';
 
 export class Track {
   static mobxLoggerConfig = filterMethods('setIsMouseOver');
 
   clipStore = Container.get(ClipStore);
 
-  @observable id: string;
-  @observable index: number;
+  @observable
+  id: string;
+  @observable
+  index: number;
 
   constructor() {
     this.id = generateId();

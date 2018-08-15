@@ -4,8 +4,7 @@ import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 
-import { SequencerLayout } from 'features/SequencerSection/core/layout';
-import { get } from 'features/SequencerSection/core';
+import { get, SequencerLayout } from 'features/SequencerSection/core';
 
 interface Props {}
 interface InjectedProps {
