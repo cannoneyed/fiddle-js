@@ -13,19 +13,19 @@ import { Dimensions } from 'core/interfaces';
 export default class __TracksLayout {
   static mobxLoggerConfig = filterMethods('resetScrollOnResize', 'setTracksScroll');
 
-  @Inject(type => GridLayout)
-  gridLayout: GridLayout;
+  @Inject(_ => GridLayout)
+  private gridLayout: GridLayout;
+  @Inject(_ => SequencerLayout)
+  private sectionLayout: SequencerLayout;
+  @Inject(_ => Timeline)
+  private timeline: Timeline;
+  @Inject(_ => ZoomLayout)
+  private zoomLayout: ZoomLayout;
 
-  @Inject(type => SequencerLayout)
-  sectionLayout: SequencerLayout;
+  @Inject(_ => TrackStore)
+  private trackStore: TrackStore;
 
-  @Inject(type => Timeline)
-  timeline: Timeline;
-
-  @Inject(type => ZoomLayout)
-  zoomLayout: ZoomLayout;
-
-  constructor(private trackStore: TrackStore) {
+  constructor() {
     // We need to observe when the view percent has changed to 1, meaning the viewport has grown to be larger
     // than all contained tracks, and reset scroll to 0 so the tracks reset to the top of the viewport.
     autorun(() => {

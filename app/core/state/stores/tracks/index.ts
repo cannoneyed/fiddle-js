@@ -7,6 +7,10 @@ import { Track } from 'core/models/track';
 
 @Service({ global: true })
 export default class __TrackStore {
+  constructor() {
+    console.log(this.constructor.name, this);
+  }
+
   static mobxLoggerConfig = filterMethods('updateTrackIndices');
 
   // The main store for tracks (by id)

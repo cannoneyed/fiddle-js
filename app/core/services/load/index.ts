@@ -16,7 +16,7 @@ export default class __LoadService {
 
   @action
   loadSession() {
-    const tracksCount = 64;
+    const tracksCount = 1;
 
     const tracks = range(tracksCount).map(() => this.trackStore.createTrack());
 

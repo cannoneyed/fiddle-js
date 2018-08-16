@@ -10723,10 +10723,6 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typedi@^0.7.2:
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/typedi/-/typedi-0.7.3.tgz#872fb8d608ed6076e95c1f8cbd2bb33b7d089f0f"
-
 typescript@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.0.1.tgz#43738f29585d3a87575520a4b93ab6026ef11fdb"

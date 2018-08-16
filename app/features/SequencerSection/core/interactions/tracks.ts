@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { action } from 'mobx';
 
 import { Track } from 'core/models/Track';
@@ -6,7 +6,8 @@ import { ClipSelectInteraction } from 'features/SequencerSection/core';
 
 @Service()
 export default class __TracksInteraction {
-  constructor(private clipSelect: ClipSelectInteraction) {}
+  @Inject(_ => ClipSelectInteraction)
+  private clipSelect: ClipSelectInteraction;
 
   @action
   handleTrackClick = (track: Track, event: MouseEvent) => {

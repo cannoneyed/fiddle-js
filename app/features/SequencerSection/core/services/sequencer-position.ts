@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { GridLayout } from 'features/SequencerSection/core';
@@ -6,7 +6,10 @@ import { Timeline } from 'features/SequencerSection/core';
 
 @Service()
 export default class __SequencerPositionService {
-  constructor(private gridLayout: GridLayout, private timeline: Timeline) {}
+  @Inject(_ => GridLayout)
+  private gridLayout: GridLayout;
+  @Inject(_ => Timeline)
+  private timeline: Timeline;
 
   getTimelineVectorFromOffsetX = (offsetX: number) => {
     const { barWidth } = this.gridLayout;

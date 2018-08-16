@@ -23,28 +23,21 @@ export const DRAG_DELAY: number = 200;
 export default class __ClipDragInteraction {
   static mobxLoggerConfig = logMethods('beginDrag', 'endDrag');
 
-  @Inject(type => ClipActions)
+  @Inject(_ => ClipActions)
   private clipActions: ClipActions;
-
-  @Inject(type => ClipSelectInteraction)
-  private clipSelect: ClipSelectInteraction;
-
-  @Inject(type => ClipStore)
-  private clipStore: ClipStore;
-
-  @Inject(type => ClipMoveService)
+  @Inject(_ => ClipMoveService)
   private clipMoveService: ClipMoveService;
-
-  @Inject(type => GridService)
+  @Inject(_ => ClipSelectInteraction)
+  private clipSelect: ClipSelectInteraction;
+  @Inject(_ => ClipStore)
+  private clipStore: ClipStore;
+  @Inject(_ => GridService)
   private gridService: GridService;
-
-  @Inject(type => SequencerPositionService)
+  @Inject(_ => SequencerPositionService)
   private sequencerPositionService: SequencerPositionService;
-
-  @Inject(type => TracksPositionService)
+  @Inject(_ => TracksPositionService)
   private tracksPositionService: TracksPositionService;
-
-  @Inject(type => TrackStore)
+  @Inject(_ => TrackStore)
   private trackStore: TrackStore;
 
   @observable

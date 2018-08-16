@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 
 import { Fraction } from 'core/primitives/fraction';
 import { TimelineVector } from 'core/primitives/timeline-vector';
@@ -12,9 +12,10 @@ export enum DivisionType {
   quaternary,
 }
 
-@Service({ global: true })
+@Service()
 export default class __GridService {
-  constructor(private gridLayout: GridLayout) {}
+  @Inject(_ => GridLayout)
+  private gridLayout: GridLayout;
 
   getNearestSnapPosition = (offsetX: number) => {
     const { divisionWidth, division } = this.gridLayout;

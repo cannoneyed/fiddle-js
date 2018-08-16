@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { action, computed } from 'mobx';
 
 import { Clip } from 'core/models/Clip';
@@ -7,7 +7,8 @@ import { ClipStore } from 'core';
 
 @Service()
 export default class __ClipSelectInteraction {
-  constructor(private clipStore: ClipStore) {}
+  @Inject(_ => ClipStore)
+  private clipStore: ClipStore;
 
   @computed
   get selectedClips() {

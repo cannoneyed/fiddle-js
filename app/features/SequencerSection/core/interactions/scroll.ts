@@ -1,10 +1,11 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 
 import { TracksLayout } from 'features/SequencerSection/core';
 
 @Service()
 export default class __SequencerScrollInteraction {
-  constructor(private tracksLayout: TracksLayout) {}
+  @Inject(_ => TracksLayout)
+  private tracksLayout: TracksLayout;
 
   handleScroll = (deltaX: number, deltaY: number) => {
     const {
