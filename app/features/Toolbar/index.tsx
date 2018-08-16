@@ -8,7 +8,7 @@ import { Button } from '@blueprintjs/core';
 import SelectSnapToGrid from 'components/SelectSnapToGrid';
 
 import { TrackActions } from 'core';
-import { get, ZoomLayout } from 'features/SequencerSection/core';
+import { get, ZoomLayout } from 'features/Sequencer/core';
 
 export interface Props {}
 export interface InjectedProps {

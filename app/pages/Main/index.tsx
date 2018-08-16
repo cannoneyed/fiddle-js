@@ -8,7 +8,7 @@ import { injector } from 'utils/injector';
 import { Dimensions } from 'core/interfaces';
 
 // import ClipEditorSection from 'features/ClipEditorSection';
-import SequencerSection from 'features/SequencerSection';
+import Sequencer from 'features/Sequencer';
 import SectionDivider from 'features/SectionDivider';
 
 import { MainPageLayout } from 'core';
@@ -40,7 +40,7 @@ export class MainPage extends React.Component<Props & InjectedProps, {}> {
 
     return (
       <PageWrapper>
-        <SequencerSection dimensions={sequencerDimensions} />
+        <Sequencer dimensions={sequencerDimensions} />
         <SectionDivider onDrag={this.handleSectionDividerDrag} />
         {/* <ClipEditorSection dimensions={clipEditorDimensions} /> */}
       </PageWrapper>

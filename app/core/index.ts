@@ -20,7 +20,7 @@ export { default as ClipStore } from 'core/state/stores/clips';
 export { default as SnipStore } from 'core/state/stores/snips';
 export { default as TrackStore } from 'core/state/stores/tracks';
 
-import { registerSevices as registerSequencerServices } from 'features/SequencerSection/core';
+import { registerSevices as registerSequencerServices } from 'features/Sequencer/core';
 
 export function registerServices() {
   registerSequencerServices();
