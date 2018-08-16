@@ -11,7 +11,7 @@ import { Envelope as EnvelopeModel } from 'core/models/envelope';
 import VerticalGrid from 'components/VerticalGrid';
 import Envelope from 'features/EnvelopeEditor/components/Envelope';
 
-import { getCore } from 'features/EnvelopeEditor/core';
+import { get, EnvelopeEditorLayout } from 'features/EnvelopeEditor/core';
 
 interface Props {
   envelope: EnvelopeModel;
@@ -22,10 +22,10 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const core = getCore(props.envelope);
+  const layout = get(props.envelope, EnvelopeEditorLayout);
   return {
-    dimensions: core.layout.dimensions,
-    gridSegmentWidth: core.layout.gridSegmentWidth,
+    dimensions: layout.dimensions,
+    gridSegmentWidth: layout.gridSegmentWidth,
   };
 });
 

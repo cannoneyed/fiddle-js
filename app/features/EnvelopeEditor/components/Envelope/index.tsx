@@ -11,7 +11,7 @@ import Point from 'features/EnvelopeEditor/components/Point';
 import Popover from 'features/EnvelopeEditor/components/Popover';
 import Connection from 'features/EnvelopeEditor/components/Connection';
 
-import { getCore } from 'features/EnvelopeEditor/core';
+import { get, EnvelopeEditorInteractions } from 'features/EnvelopeEditor/core';
 import { ClickTarget } from 'features/EnvelopeEditor/core/interactions';
 
 export interface Props {
@@ -30,14 +30,13 @@ export interface State {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const core = getCore(props.envelope);
+  const interactions = get(props.envelope, EnvelopeEditorInteractions);
   return {
-    envelope: core.envelope,
-    getPointScreenVector: core.interactions.getPointScreenVector,
-    handleDoubleClick: core.interactions.handleDoubleClick,
-    handleMouseDown: core.interactions.handleMouseDown,
-    setContainerElement: core.interactions.setContainerElement,
-    showPopover: core.interactions.showPopover,
+    getPointScreenVector: interactions.getPointScreenVector,
+    handleDoubleClick: interactions.handleDoubleClick,
+    handleMouseDown: interactions.handleMouseDown,
+    setContainerElement: interactions.setContainerElement,
+    showPopover: interactions.showPopover,
   };
 });
 

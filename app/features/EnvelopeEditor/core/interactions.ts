@@ -1,3 +1,4 @@
+import { Inject, Service } from 'typedi';
 import { clamp } from 'lodash';
 import { computed, observable } from 'mobx';
 
@@ -7,18 +8,22 @@ import { Connection as ConnectionModel } from 'core/models/envelope/connection';
 import { Point as PointModel } from 'core/models/envelope/point';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { EnvelopeEditorCore } from './index';
+import { EnvelopeEditorLayout, EnvelopeEditorState } from 'features/EnvelopeEditor/core';
 
 export type ClickTarget = PointModel | ConnectionModel | null;
 
-export class EnvelopeEditorInteractions {
+@Service()
+export default class __EnvelopeEditorInteractions {
   @observable
   isDragging = false;
   @observable
   draggingPoint: PointModel | null;
   container: SVGElement;
 
-  constructor(private core: EnvelopeEditorCore) {}
+  @Inject(_ => EnvelopeEditorState)
+  state: EnvelopeEditorState;
+  @Inject(_ => EnvelopeEditorLayout)
+  layout: EnvelopeEditorLayout;
 
   @computed
   get showPopover(): boolean {
@@ -43,8 +48,8 @@ export class EnvelopeEditorInteractions {
   }
 
   private getScreenVector(position: TimelineVector, value: number) {
-    const { envelope, layout } = this.core;
-    const { dimensions } = layout;
+    const { envelope } = this.state;
+    const { dimensions } = this.layout;
     const x = (position.absoluteTicks / envelope.length.absoluteTicks) * dimensions.width;
     const y = (1 - value) * dimensions.height;
     return new ScreenVector(x, y);
@@ -55,8 +60,8 @@ export class EnvelopeEditorInteractions {
   };
 
   getQuantizedPositionAndValue = (offsetX: number, offsetY: number) => {
-    const { envelope, layout, snapToGrid } = this.core;
-    const { dimensions, gridSegmentWidth } = layout;
+    const { envelope, snapToGrid } = this.state;
+    const { dimensions, gridSegmentWidth } = this.layout;
     const { height, width } = dimensions;
 
     const x = clamp(offsetX, 0, width);
@@ -77,7 +82,7 @@ export class EnvelopeEditorInteractions {
   };
 
   handleDoubleClick = (target: ClickTarget) => (event: React.MouseEvent) => {
-    const { envelope } = this.core;
+    const { envelope } = this.state;
     const { offsetX, offsetY } = event.nativeEvent;
     const quantized = this.getQuantizedPositionAndValue(offsetX, offsetY);
 
@@ -101,7 +106,7 @@ export class EnvelopeEditorInteractions {
   };
 
   private handlePointMouseDown = (event: React.MouseEvent, point: PointModel) => {
-    const { envelope } = this.core;
+    const { envelope } = this.state;
     point.selected = true;
 
     const containerRect = this.container.getBoundingClientRect();

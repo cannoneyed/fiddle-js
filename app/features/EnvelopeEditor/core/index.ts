@@ -1,38 +1,19 @@
-// import { createMandatoryContext, makeCoreInjector } from 'utils/context';
-import { action } from 'mobx';
+import { Container, ObjectType } from 'typedi';
 
-import { EnvelopeEditorInteractions } from './interactions';
-import { EnvelopeEditorLayout } from './layout';
+import { default as EnvelopeEditorState } from './state';
+export { default as EnvelopeEditorState } from './state';
+export { default as EnvelopeEditorInteractions } from './interactions';
+export { default as EnvelopeEditorLayout } from './layout';
 
 import { Envelope } from 'core/models/envelope';
-import { SnapToGrid } from 'core/models/snap-to-grid';
 
-import { Props } from 'features/EnvelopeEditor';
-
-export class EnvelopeEditorCore {
-  constructor(public envelope: Envelope) {}
-
-  interactions = new EnvelopeEditorInteractions(this);
-  layout = new EnvelopeEditorLayout(this);
-
-  snapToGrid = new SnapToGrid();
-
-  @action
-  updateFromProps(props: Props) {
-    this.layout.dimensions = props.dimensions;
-    this.snapToGrid = props.snapToGrid;
-  }
+export function get<T>(envelope: Envelope, type: ObjectType<T>): T {
+  return Container.of(envelope).get(type);
 }
 
-const coreRegister = new Map<Envelope, EnvelopeEditorCore>();
-export function getCore(envelope: Envelope) {
-  const core = coreRegister.has(envelope)
-    ? coreRegister.get(envelope)!
-    : new EnvelopeEditorCore(envelope);
-  coreRegister.set(envelope, core);
-  return core;
+export function instantiateState(
+  envelope: Envelope,
+  type: ObjectType<EnvelopeEditorState>
+): EnvelopeEditorState {
+  return Container.of(envelope).get(type, envelope);
 }
-// const { Provider, Consumer } = createMandatoryContext<EnvelopeEditorCore>();
-// export { Provider, Consumer };
-
-// export const injectCore = makeCoreInjector(Consumer);

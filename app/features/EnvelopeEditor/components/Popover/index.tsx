@@ -8,7 +8,7 @@ import { Envelope as EnvelopeModel } from 'core/models/envelope';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { Point as PointModel } from 'core/models/envelope/point';
 
-import { getCore } from 'features/EnvelopeEditor/core';
+import { get, EnvelopeEditorInteractions } from 'features/EnvelopeEditor/core';
 
 const BORDER_WIDTH = 1;
 const CARET_SIZE = 8;
@@ -25,10 +25,10 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const core = getCore(props.envelope);
+  const interactions = get(props.envelope, EnvelopeEditorInteractions);
   return {
-    point: core.interactions.draggingPoint!,
-    screenVector: core.interactions.getPopoverScreenVector(),
+    point: interactions.draggingPoint!,
+    screenVector: interactions.getPopoverScreenVector(),
   };
 });
 
