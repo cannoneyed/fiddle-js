@@ -1,11 +1,12 @@
 import { Container, ObjectType } from 'typedi';
 
-export { default as GridLayout } from './grid';
-export { default as SequencerLayout } from './layout';
-export { default as SequencerState } from './state';
+export { default as GridLayout } from './layout/grid';
+export { default as SequencerLayout } from './layout/layout';
+export { default as TracksLayout } from './layout/tracks';
+export { default as ZoomLayout } from './layout/zoom';
+
 export { default as Timeline } from './timeline';
-export { default as TracksLayout } from './tracks';
-export { default as ZoomLayout } from './zoom';
+export { default as SequencerState } from './state';
 
 export { default as ClipDragInteraction } from './interactions/clip-drag';
 export { default as ClipSelectInteraction } from './interactions/clip-select';
