@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 
 import { UndoManager } from './manager';
 
@@ -6,7 +6,8 @@ import { ClipStore } from 'core';
 
 @Service()
 export default class __UndoService {
-  constructor(private clipStore: ClipStore) {}
+  @Inject(_ => ClipStore)
+  private clipStore: ClipStore;
 
   private undoManager: UndoManager;
 

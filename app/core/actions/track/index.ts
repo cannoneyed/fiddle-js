@@ -5,14 +5,10 @@ import { ClipActions, TrackStore } from 'core';
 
 @Service({ global: true })
 export default class __TrackActions {
-  constructor() {
-    console.log(this.constructor.name, this);
-  }
-
-  @Inject(type => ClipActions)
+  @Inject(_ => ClipActions)
   private clipActions: ClipActions;
 
-  @Inject(type => TrackStore)
+  @Inject(_ => TrackStore)
   private trackStore: TrackStore;
 
   @action

@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
 import { action } from 'mobx';
 
 import { Snip, SnipParams } from 'core/models/snip';
@@ -7,7 +7,8 @@ import { SnipStore } from 'core';
 
 @Service({ global: true })
 export default class __SnipActions {
-  constructor(private snipStore: SnipStore) {}
+  @Inject(_ => SnipStore)
+  private snipStore: SnipStore;
 
   @action
   createSnip(params: SnipParams) {

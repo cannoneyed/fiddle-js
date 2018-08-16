@@ -17,12 +17,9 @@ export { default as GridService } from './services/grid';
 export { default as SequencerPositionService } from './services/sequencer-position';
 export { default as TracksPositionService } from './services/tracks-position';
 
-const token = Symbol('sequencer');
-
+const token = Symbol('SEQUENCER');
 export function get<T>(type: ObjectType<T>): T {
   return Container.of(token).get(type);
 }
 
-export function registerSevices() {
-  console.log('🔥', 'registered sequencer section core');
-}
+export function registerSevices() {}

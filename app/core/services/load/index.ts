@@ -8,10 +8,10 @@ import { ClipActions, TrackStore } from 'core';
 
 @Service({ global: true })
 export default class __LoadService {
-  @Inject(type => TrackStore)
+  @Inject(_ => TrackStore)
   private trackStore: TrackStore;
 
-  @Inject(type => ClipActions)
+  @Inject(_ => ClipActions)
   private clipActions: ClipActions;
 
   @action

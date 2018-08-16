@@ -3,7 +3,6 @@ export { default as ClipActions } from 'core/actions/clip';
 export { default as TrackActions } from 'core/actions/track';
 
 // From services
-export { default as DomPositionService } from 'core/services/dom/position';
 export { default as LoadService } from 'core/services/load';
 export { default as UndoService } from 'core/services/undo';
 
@@ -24,6 +23,5 @@ export { default as TrackStore } from 'core/state/stores/tracks';
 import { registerSevices as registerSequencerServices } from 'features/SequencerSection/core';
 
 export function registerServices() {
-  console.log('🔥 registered app core');
   registerSequencerServices();
 }

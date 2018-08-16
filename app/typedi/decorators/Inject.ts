@@ -22,49 +22,7 @@ export function Inject(token: Token<any>): Function;
  */
 export function Inject(typeOrName?: ((type?: any) => Function) | string | Token<any>): Function {
   return function(target: Object, propertyName: string, index?: number) {
-    if (!typeOrName)
-      typeOrName = () => (Reflect as any).getMetadata('design:type', target, propertyName);
-
-    Container.registerHandler({
-      object: target,
-      propertyName: propertyName,
-      index: index,
-      value: containerInstance => {
-        let identifier: any;
-        if (typeof typeOrName === 'string') {
-          identifier = typeOrName;
-        } else if (typeOrName instanceof Token) {
-          identifier = typeOrName;
-        } else {
-          identifier = typeOrName === undefined ? undefined : typeOrName();
-        }
-
-        if (identifier === Object) throw new CannotInjectError(target, propertyName);
-
-        return containerInstance.get<any>(identifier);
-      },
-    });
-  };
-}
-
-/**
- * Injects a service into a class property or constructor parameter.
- */
-export function Lnject(typeOrName?: ((type?: any) => Function) | string | Token<any>): Function {
-  return function(target: Object, propertyName: string, index?: number) {
-    let a = false;
-    if (!typeOrName) {
-      a = true;
-      typeOrName = () => (Reflect as any).getMetadata('design:type', target, propertyName);
-    }
-
-    if (a) {
-      console.log('🔥', (typeOrName as any)(), a);
-      debugger;
-      return;
-    }
-
-    console.log('🔥', typeOrName, a);
+    if (!typeOrName) typeOrName = () => Reflect.getMetadata('design:type', target, propertyName);
 
     Container.registerHandler({
       object: target,

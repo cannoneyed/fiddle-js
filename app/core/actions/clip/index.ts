@@ -8,23 +8,19 @@ import { ClipEditorState, ClipStore, DraggedClips, SnipStore, TrackStore } from 
 
 @Service({ global: true })
 export default class __ClipActions {
-  constructor() {
-    console.log(this.constructor.name, this);
-  }
-
-  @Inject(type => ClipEditorState)
+  @Inject(_ => ClipEditorState)
   private clipEditorState: ClipEditorState;
 
-  @Inject(type => ClipStore)
+  @Inject(_ => ClipStore)
   private clipStore: ClipStore;
 
-  @Inject(type => DraggedClips)
+  @Inject(_ => DraggedClips)
   private draggedClips: DraggedClips;
 
-  @Inject(type => SnipStore)
+  @Inject(_ => SnipStore)
   private snipStore: SnipStore;
 
-  @Inject(type => TrackStore)
+  @Inject(_ => TrackStore)
   private trackStore: TrackStore;
 
   @action
