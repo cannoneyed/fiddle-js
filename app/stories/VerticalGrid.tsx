@@ -1,7 +1,5 @@
 import React from 'react';
-import theme from 'styles/theme';
-import { Wrapper } from './helpers';
-import { Layer, Rect, Stage } from 'react-konva';
+import { KonvaWrapper } from './helpers';
 
 import { storiesOf } from '@storybook/react';
 import { withKnobs, number } from '@storybook/addon-knobs';
@@ -46,17 +44,12 @@ stories.add('default', () => {
   };
 
   return (
-    <Wrapper>
-      <Stage {...dimensions}>
-        <Layer>
-          <Rect {...dimensions} fill={theme.colors.darkGray.toRgbString()} />
-        </Layer>
-        <VerticalGrid
-          dimensions={dimensions}
-          colWidth={gridSegmentWidth}
-          getOffsetX={() => offsetX}
-        />
-      </Stage>
-    </Wrapper>
+    <KonvaWrapper dimensions={dimensions}>
+      <VerticalGrid
+        dimensions={dimensions}
+        colWidth={gridSegmentWidth}
+        getOffsetX={() => offsetX}
+      />
+    </KonvaWrapper>
   );
 });

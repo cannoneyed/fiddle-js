@@ -1,7 +1,5 @@
 import React from 'react';
-import theme from 'styles/theme';
-import { Wrapper } from './helpers';
-import { Layer, Rect, Stage } from 'react-konva';
+import { KonvaWrapper } from './helpers';
 
 import { storiesOf } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
@@ -34,13 +32,8 @@ stories.add('default', () => {
   };
 
   return (
-    <Wrapper>
-      <Stage {...dimensions}>
-        <Layer>
-          <Rect {...dimensions} fill={theme.colors.black.toRgbString()} />
-        </Layer>
-        <Timeline {...props} />
-      </Stage>
-    </Wrapper>
+    <KonvaWrapper dimensions={dimensions}>
+      <Timeline {...props} />
+    </KonvaWrapper>
   );
 });

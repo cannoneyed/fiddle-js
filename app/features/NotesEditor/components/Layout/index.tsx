@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 import { getCore } from 'features/NotesEditor/core';
-import { Stage } from 'react-konva';
+import { Stage, Layer } from 'react-konva';
 import { injector } from 'utils/injector';
 
 import { Dimensions } from 'core/interfaces';
@@ -71,20 +71,22 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
     return (
       <NoteEditorWrapper style={editorWrapperStyle}>
         <Stage {...dimensions}>
-          <PianoRoll
-            dimensions={pianoRollDimensions}
-            keyHeight={rowHeight}
-            keyLayout={keyLayout}
-            getOffsetY={() => getScroll().y}
-          />
-          <Grid
-            colWidth={colWidth}
-            dimensions={notesDimensions}
-            position={notesPosition}
-            getOffset={getScroll}
-            rowHeight={rowHeight}
-          />
-          <Notes visibleDimensions={notesDimensions} position={notesPosition} notes={notes} />
+          <Layer>
+            <Grid
+              colWidth={colWidth}
+              dimensions={notesDimensions}
+              position={notesPosition}
+              getOffset={getScroll}
+              rowHeight={rowHeight}
+            />
+            <Notes visibleDimensions={notesDimensions} position={notesPosition} notes={notes} />
+            <PianoRoll
+              dimensions={pianoRollDimensions}
+              keyHeight={rowHeight}
+              keyLayout={keyLayout}
+              getOffsetY={() => getScroll().y}
+            />
+          </Layer>
         </Stage>
       </NoteEditorWrapper>
     );

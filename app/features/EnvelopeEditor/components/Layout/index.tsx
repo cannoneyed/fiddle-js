@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled, { css } from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
-import { Stage } from 'react-konva';
+import { Stage, Layer } from 'react-konva';
 import { injector } from 'utils/injector';
 
 import { Dimensions } from 'core/interfaces';
@@ -45,11 +45,13 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
         </EnvelopeWrapper>
         <GridWrapper>
           <Stage {...dimensions}>
-            <VerticalGrid
-              dimensions={dimensions}
-              colWidth={gridSegmentWidth}
-              getOffsetX={() => 0}
-            />
+            <Layer>
+              <VerticalGrid
+                dimensions={dimensions}
+                colWidth={gridSegmentWidth}
+                getOffsetX={() => 0}
+              />
+            </Layer>
           </Stage>
         </GridWrapper>
       </EnvelopeEditorWrapper>

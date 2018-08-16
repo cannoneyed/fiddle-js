@@ -1,7 +1,5 @@
 import React from 'react';
-import theme from 'styles/theme';
-import { Wrapper } from './helpers';
-import { Layer, Rect, Stage } from 'react-konva';
+import { KonvaWrapper } from './helpers';
 
 import { storiesOf } from '@storybook/react';
 import { withKnobs, number } from '@storybook/addon-knobs';
@@ -48,13 +46,8 @@ stories.add('default', () => {
   const props = { dimensions, getOffsetY, keyHeight, keyLayout };
 
   return (
-    <Wrapper>
-      <Stage {...dimensions}>
-        <Layer>
-          <Rect {...dimensions} fill={theme.colors.darkGray.toRgbString()} />
-        </Layer>
-        <PianoRoll {...props} />
-      </Stage>
-    </Wrapper>
+    <KonvaWrapper dimensions={dimensions}>
+      <PianoRoll {...props} />
+    </KonvaWrapper>
   );
 });

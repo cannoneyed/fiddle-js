@@ -2,7 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { range } from 'lodash';
 import theme from 'styles/theme';
-import { Group, Layer, Line, Rect } from 'react-konva';
+import { Group, Line, Rect } from 'react-konva';
 import { makePoints } from 'utils/konva';
 
 import { Coordinates, Dimensions } from 'core/interfaces';
@@ -70,11 +70,9 @@ export class PianoRoll extends React.Component<Props, {}> {
     });
 
     return (
-      <Layer>
-        <Group {...dimensions} {...position}>
-          <Group y={-offsetY}>{keys}</Group>
-        </Group>
-      </Layer>
+      <Group {...dimensions} {...position}>
+        <Group y={-offsetY}>{keys}</Group>
+      </Group>
     );
   }
 }

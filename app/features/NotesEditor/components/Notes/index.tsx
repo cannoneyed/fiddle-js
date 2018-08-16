@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Group, Layer } from 'react-konva';
+import { Group } from 'react-konva';
 import { KonvaEvent } from 'utils/konva';
 import { injector } from 'utils/injector';
 
@@ -76,30 +76,28 @@ export class Notes extends React.Component<Props & InjectedProps, {}> {
     const visibleRows = notes.notesByRow.slice(startIndex, endIndex);
 
     return (
-      <Layer onWheel={this.handleMouseWheel}>
-        <Group {...dimensions} {...position}>
-          <Group y={-offsetY}>
-            {visibleRows.map((notes, i) => {
-              // From the top of the visible set of rows
-              const offsetRows = keyLayout.nRows - endIndex;
-              // Correct for the fact that we're counting from bottom to top
-              const index = visibleRows.length - 1 - i + offsetRows;
-              const y = index * rowHeight;
+      <Group {...dimensions} {...position} onWheel={this.handleMouseWheel}>
+        <Group y={-offsetY}>
+          {visibleRows.map((notes, i) => {
+            // From the top of the visible set of rows
+            const offsetRows = keyLayout.nRows - endIndex;
+            // Correct for the fact that we're counting from bottom to top
+            const index = visibleRows.length - 1 - i + offsetRows;
+            const y = index * rowHeight;
 
-              return (
-                <Group key={index} y={y}>
-                  <Row
-                    height={rowHeight}
-                    notes={notes}
-                    offsetX={offsetX}
-                    visibleWidth={dimensions.width}
-                  />
-                </Group>
-              );
-            })}
-          </Group>
+            return (
+              <Group key={index} y={y}>
+                <Row
+                  height={rowHeight}
+                  notes={notes}
+                  offsetX={offsetX}
+                  visibleWidth={dimensions.width}
+                />
+              </Group>
+            );
+          })}
         </Group>
-      </Layer>
+      </Group>
     );
   }
 }
