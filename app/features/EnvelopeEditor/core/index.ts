@@ -11,9 +11,8 @@ export function get<T>(envelope: Envelope, type: ObjectType<T>): T {
   return Container.of(envelope).get(type);
 }
 
-export function instantiateState(
-  envelope: Envelope,
-  type: ObjectType<EnvelopeEditorState>
-): EnvelopeEditorState {
-  return Container.of(envelope).get(type, envelope);
+export function getState(envelope: Envelope): EnvelopeEditorState {
+  const state = Container.of(envelope).get(EnvelopeEditorState);
+  state.envelope = envelope;
+  return state;
 }

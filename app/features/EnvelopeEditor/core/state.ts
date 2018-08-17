@@ -13,9 +13,8 @@ export default class __EnvelopeEditorState {
   @Inject(_ => EnvelopeEditorLayout)
   private layout: EnvelopeEditorLayout;
 
-  constructor(public envelope: Envelope) {
-    console.log('🐸', arguments);
-  }
+  envelope: Envelope;
+
   snapToGrid = new SnapToGrid();
 
   @action

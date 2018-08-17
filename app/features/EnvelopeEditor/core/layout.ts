@@ -26,9 +26,6 @@ export default class __EnvelopeEditorLayout {
   @computed
   get gridSegmentWidth() {
     const { envelope, snapToGrid } = this.state;
-    console.log('🔥', this);
-    debugger;
-
     return SnapToGrid.getDivisionWidth(envelope.length, this.dimensions.width, snapToGrid);
   }
 

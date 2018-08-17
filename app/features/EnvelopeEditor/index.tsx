@@ -5,7 +5,7 @@ import { Dimensions } from 'core/interfaces';
 import { Envelope } from 'core/models/envelope';
 import { SnapToGrid } from 'core/models/snap-to-grid';
 
-import { EnvelopeEditorState, get } from 'features/EnvelopeEditor/core';
+import { getState } from 'features/EnvelopeEditor/core';
 
 import Layout from 'features/EnvelopeEditor/components/Layout';
 
@@ -22,7 +22,7 @@ export class EnvelopeEditor extends React.Component<Props, State> {
 
   static getDerivedStateFromProps(props: Props) {
     const { envelope } = props;
-    const state = get(envelope, EnvelopeEditorState);
+    const state = getState(envelope);
     state.updateFromProps(props);
     return {};
   }
