@@ -146,8 +146,6 @@ export default class __ClipDragInteraction {
     this.isDragging = true;
     this.handleClip = handleClip;
 
-    console.log('👍', this);
-
     // Set the position of the handled clip to relatively position the other selected clips on the
     // DraggedClips container div
     this.handleClipOffsetX = this.sequencerPositionService.getOffsetX(handleClip.position);
