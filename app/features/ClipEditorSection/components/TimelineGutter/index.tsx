@@ -2,17 +2,24 @@ import * as React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
+import { injector } from 'utils/injector';
 
-import { injectCore } from 'features/ClipEditorSection/core';
+import { Clip } from 'core/models/clip';
 
-interface Props {}
+import { get, ClipEditorLayout } from 'features/ClipEditorSection/core';
+
+interface Props {
+  clip: Clip;
+}
 interface InjectedProps {
   gutterWidth: number;
 }
 
-const inject = injectCore<Props, InjectedProps>((_, core) => {
+const inject = injector<Props, InjectedProps>(props => {
+  const layout = get(props.clip, ClipEditorLayout);
+
   return {
-    gutterWidth: core.layout.gutterWidth,
+    gutterWidth: layout.gutterWidth,
   };
 });
 

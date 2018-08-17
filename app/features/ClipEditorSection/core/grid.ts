@@ -1,10 +1,14 @@
+import { Inject, Service } from 'typedi';
+
 import { GridLayoutBase } from 'core/state/layouts/shared/grid';
 
-import { Timeline } from './timeline';
-import { ZoomState } from './zoom';
+import { ClipEditorTimeline, ClipEditorZoom } from 'features/ClipEditorSection/core';
 
-export class GridLayout extends GridLayoutBase {
-  constructor(protected timelineState: Timeline, protected zoomLayout: ZoomState) {
-    super();
-  }
+@Service()
+export default class __GridLayout extends GridLayoutBase {
+  @Inject(_ => ClipEditorTimeline)
+  timelineLayout: ClipEditorTimeline;
+
+  @Inject(_ => ClipEditorZoom)
+  zoomLayout: ClipEditorZoom;
 }

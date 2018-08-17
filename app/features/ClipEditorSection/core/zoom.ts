@@ -1,3 +1,6 @@
+import { Service } from 'typedi';
+
 import { ZoomLayoutBase } from 'core/state/layouts/shared/zoom';
 
-export class ZoomState extends ZoomLayoutBase {}
+@Service()
+export default class __ZoomState extends ZoomLayoutBase {}

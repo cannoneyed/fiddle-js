@@ -1,3 +1,4 @@
+import { Service } from 'typedi';
 import { action, computed, observable } from 'mobx';
 import { filterMethods } from 'utils/log-filter';
 
@@ -5,26 +6,29 @@ import { Dimensions, Rectangle, Position } from 'core/interfaces';
 
 import { SectionLayout } from 'core/state/layouts/shared/section';
 
-export class ClipEditorLayout implements SectionLayout {
+@Service()
+export default class __ClipEditorLayout implements SectionLayout {
   static mobxLoggerConfig = filterMethods('setDimensions');
 
-  @observable dimensions: Dimensions;
+  @observable
+  dimensions: Dimensions;
 
   @action
   setDimensions(dimensions: Dimensions) {
     this.dimensions = dimensions;
   }
 
-  constructor(dimensions: Dimensions) {
-    this.dimensions = dimensions;
-  }
+  @observable
+  minimapHeight = 30;
+  @observable
+  gutterWidth = 100;
+  @observable
+  timelineHeight = 30;
+  @observable
+  toolbarHeight = 40;
 
-  @observable minimapHeight = 30;
-  @observable gutterWidth = 100;
-  @observable timelineHeight = 30;
-  @observable toolbarHeight = 40;
-
-  @observable verticalScrollbarWidth = 14;
+  @observable
+  verticalScrollbarWidth = 14;
 
   @computed
   get editAreaDimensions(): Dimensions {

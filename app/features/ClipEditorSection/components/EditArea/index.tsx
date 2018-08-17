@@ -7,21 +7,12 @@ import ClipEdit from '../ClipEdit';
 
 import { Clip } from 'core/models/clip';
 
-import { injectCore } from 'features/ClipEditorSection/core';
-
-export interface Props {}
-export interface InjectedProps {
+export interface Props {
   clip: Clip;
 }
 
-const inject = injectCore<Props, InjectedProps>((_, core) => {
-  return {
-    clip: core.clip,
-  };
-});
-
 @observer
-export class EditArea extends React.Component<Props & InjectedProps, {}> {
+export class EditArea extends React.Component<Props, {}> {
   render() {
     const { clip } = this.props;
     return (
@@ -36,7 +27,7 @@ export class EditArea extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(EditArea);
+export default EditArea;
 
 const SnipsArea = styled.div``;
 

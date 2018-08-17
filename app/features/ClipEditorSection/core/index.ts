@@ -1,26 +1,20 @@
-import { createMandatoryContext, makeCoreInjector } from 'utils/context';
+import { Container, ObjectType } from 'typedi';
 
-import { Dimensions } from 'core/interfaces';
+import { default as ClipEditorState } from './state';
+export { default as ClipEditorState } from './state';
+export { default as ClipEditorGrid } from './grid';
+export { default as ClipEditorLayout } from './layout';
+export { default as ClipEditorTimeline } from './timeline';
+export { default as ClipEditorZoom } from './zoom';
+
 import { Clip } from 'core/models/clip';
-import { SnapToGrid } from 'core/models/snap-to-grid';
 
-import { GridLayout } from './grid';
-import { ClipEditorLayout } from './layout';
-import { Timeline } from './timeline';
-import { ZoomState } from './zoom';
-
-export class ClipEditorCore {
-  constructor(public clip: Clip, private dimensions: Dimensions) {}
-
-  snapToGrid = new SnapToGrid();
-  zoom = new ZoomState();
-  layout = new ClipEditorLayout(this.dimensions);
-  timeline = new Timeline(this.clip.length);
-
-  grid = new GridLayout(this.timeline, this.zoom);
+export function get<T>(clipe: Clip, type: ObjectType<T>): T {
+  return Container.of(clipe).get(type);
 }
 
-const { Provider, Consumer } = createMandatoryContext<ClipEditorCore>();
-export { Provider, Consumer };
-
-export const injectCore = makeCoreInjector(Consumer);
+export function getState(clip: Clip): ClipEditorState {
+  const state = Container.of(clip).get(ClipEditorState);
+  state.clip = clip;
+  return state;
+}

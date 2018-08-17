@@ -1,12 +1,17 @@
-import { observable } from 'mobx';
+import { Inject, Service } from 'typedi';
+import { computed } from 'mobx';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-export class Timeline {
-  @observable
-  length: TimelineVector;
+import { ClipEditorState } from 'features/ClipEditorSection/core';
 
-  constructor(length: TimelineVector) {
-    this.length = length;
+@Service()
+export default class __ClipEditorTimeline {
+  @Inject(_ => ClipEditorState)
+  state: ClipEditorState;
+
+  @computed
+  get length(): TimelineVector {
+    return this.state.clip.length;
   }
 }

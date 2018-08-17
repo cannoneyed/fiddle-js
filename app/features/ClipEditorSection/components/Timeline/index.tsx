@@ -1,21 +1,26 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { Layer, Stage } from 'react-konva';
+import { injector } from 'utils/injector';
 
+import { Clip } from 'core/models/clip';
 import { Fraction } from 'core/primitives/fraction';
+
 import Timeline from 'components/Timeline';
 
-import { injectCore } from 'features/ClipEditorSection/core';
+import { get, ClipEditorGrid } from 'features/ClipEditorSection/core';
 
-interface Props {}
+interface Props {
+  clip: Clip;
+}
 interface InjectedProps {
   division: Fraction;
   divisionWidth: number;
   nDivisions: number;
 }
 
-const inject = injectCore<Props, InjectedProps>((_, core) => {
-  const { division, divisionWidth, nDivisions } = core.grid;
+const inject = injector<Props, InjectedProps>(props => {
+  const { division, divisionWidth, nDivisions } = get(props.clip, ClipEditorGrid);
   return {
     division,
     divisionWidth,

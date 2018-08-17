@@ -9,20 +9,14 @@ import { Clip } from 'core/models/clip';
 import Empty from 'features/ClipEditorSection/components/Empty';
 import Layout from 'features/ClipEditorSection/components/Layout';
 
-import { ClipEditorCore, Provider } from 'features/ClipEditorSection/core';
 import { ClipEditorState, ClipStore } from 'core';
-
-const coreCache = new Map<Clip, ClipEditorCore>();
+import { getState } from 'features/ClipEditorSection/core';
 
 export interface Props {
   dimensions: Dimensions;
 }
-interface InjectedProps {
+export interface InjectedProps {
   clip: Clip | null;
-}
-
-interface State {
-  core: ClipEditorCore | null;
 }
 
 const inject = injector<Props, InjectedProps>(_ => {
@@ -36,41 +30,21 @@ const inject = injector<Props, InjectedProps>(_ => {
 });
 
 @observer
-export class ClipEditorSection extends React.Component<Props & InjectedProps, State> {
-  state = {
-    core: null,
-  };
+export class ClipEditorSection extends React.Component<Props & InjectedProps, {}> {
+  state = {};
 
   static getDerivedStateFromProps(props: Props & InjectedProps) {
-    const { clip, dimensions } = props;
-    if (!clip) {
-      return null;
+    const { clip } = props;
+    if (clip) {
+      const state = getState(clip);
+      state.updateFromProps(props);
     }
-
-    const cached = coreCache.get(clip);
-    let core: ClipEditorCore;
-    if (cached) {
-      core = cached;
-    } else {
-      core = new ClipEditorCore(clip, dimensions);
-    }
-    coreCache.set(clip, core);
-
-    // Ensure we update properties on the core
-    core.layout.setDimensions(dimensions);
-
-    return { core };
+    return {};
   }
 
   render() {
-    const { core } = this.state;
-    return core !== null ? (
-      <Provider value={core}>
-        <Layout />
-      </Provider>
-    ) : (
-      <Empty />
-    );
+    const { clip } = this.props;
+    return clip !== null ? <Layout clip={clip} /> : <Empty />;
   }
 }
 
