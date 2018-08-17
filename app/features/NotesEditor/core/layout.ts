@@ -1,14 +1,13 @@
+import { Inject, Service } from 'typedi';
 import { computed, observable } from 'mobx';
 import { Dimensions } from 'core/interfaces';
-import { NotesEditorCore } from './index';
-import { NotesEditorScroll } from './scroll';
 
-export class NotesEditorLayout {
+import { NotesEditorScroll } from 'features/NotesEditor/core';
+
+@Service()
+export default class __NotesEditorLayout {
+  @Inject(_ => NotesEditorScroll)
   scroll: NotesEditorScroll;
-
-  constructor(core: NotesEditorCore) {
-    this.scroll = new NotesEditorScroll(core, this);
-  }
 
   @observable
   dimensions: Dimensions = {
@@ -16,9 +15,11 @@ export class NotesEditorLayout {
     width: 1000,
   };
 
-  @observable rowHeight = 20;
+  @observable
+  rowHeight = 20;
 
-  @observable pianoRollWidth = 20;
+  @observable
+  pianoRollWidth = 20;
 
   @computed
   get pianoRollDimensions() {

@@ -1,32 +1,18 @@
-import { action } from 'mobx';
-import { NotesEditorLayout } from './layout';
+import { Container, ObjectType } from 'typedi';
+
+import { default as NotesEditorState } from './state';
+export { default as NotesEditorState } from './state';
+export { default as NotesEditorLayout } from './layout';
+export { default as NotesEditorScroll } from './scroll';
 
 import { Notes } from 'core/models/notes';
-import { KeyLayout, Piano88 } from 'core/models/notes/key-layout';
-import { SnapToGrid } from 'core/models/snap-to-grid';
 
-import { Props } from 'features/NotesEditor';
-
-export class NotesEditorCore {
-  constructor(public notes: Notes) {}
-
-  layout = new NotesEditorLayout(this);
-
-  snapToGrid = new SnapToGrid();
-  keyLayout: KeyLayout = new Piano88();
-
-  @action
-  updateFromProps(props: Props) {
-    this.layout.dimensions = props.dimensions;
-    this.layout.rowHeight = props.rowHeight;
-    this.keyLayout = props.keyLayout;
-    this.snapToGrid = props.snapToGrid;
-  }
+export function get<T>(notes: Notes, type: ObjectType<T>): T {
+  return Container.of(notes).get(type);
 }
 
-const coreRegister = new Map<Notes, NotesEditorCore>();
-export function getCore(notes: Notes) {
-  const core = coreRegister.has(notes) ? coreRegister.get(notes)! : new NotesEditorCore(notes);
-  coreRegister.set(notes, core);
-  return core;
+export function getState(notes: Notes): NotesEditorState {
+  const state = Container.of(notes).get(NotesEditorState);
+  state.notes = notes;
+  return state;
 }

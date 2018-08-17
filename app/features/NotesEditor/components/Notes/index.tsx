@@ -8,10 +8,15 @@ import { Coordinates, Dimensions } from 'core/interfaces';
 import { Notes as NotesModel } from 'core/models/notes';
 import { KeyLayout } from 'core/models/notes/key-layout';
 
+import Row from 'features/NotesEditor/components/Row';
 import { RowVisibilityHelper } from './helpers';
 
-import { getCore } from 'features/NotesEditor/core';
-import Row from 'features/NotesEditor/components/Row';
+import {
+  get,
+  NotesEditorLayout,
+  NotesEditorScroll,
+  NotesEditorState,
+} from 'features/NotesEditor/core';
 
 interface Props {
   notes: NotesModel;
@@ -28,14 +33,15 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const core = getCore(props.notes);
-  const { dimensions, rowHeight, scroll } = core.layout;
+  const { keyLayout } = get(props.notes, NotesEditorState);
+  const { getScroll, handleScroll } = get(props.notes, NotesEditorScroll);
+  const { dimensions, rowHeight } = get(props.notes, NotesEditorLayout);
+
   return {
-    dimensions: dimensions,
-    getScroll: scroll.getScroll,
-    handleScroll: scroll.handleScroll,
-    keyLayout: core.keyLayout,
-    notes: core.notes,
+    dimensions,
+    getScroll,
+    handleScroll,
+    keyLayout,
     rowHeight,
   };
 });

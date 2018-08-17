@@ -6,7 +6,7 @@ import { Notes } from 'core/models/notes';
 import { KeyLayout } from 'core/models/notes/key-layout';
 import { SnapToGrid } from 'core/models/snap-to-grid';
 
-import { NotesEditorCore, getCore } from 'features/NotesEditor/core';
+import { getState } from 'features/NotesEditor/core';
 
 import Layout from 'features/NotesEditor/components/Layout';
 
@@ -18,17 +18,13 @@ export interface Props {
   snapToGrid: SnapToGrid;
 }
 
-interface State {
-  core: NotesEditorCore;
-}
-
 @observer
-export class NotesEditor extends React.Component<Props, State> {
+export class NotesEditor extends React.Component<Props, {}> {
   static getDerivedStateFromProps(props: Props) {
     const { notes } = props;
-    const core = getCore(notes);
-    core.updateFromProps(props);
-    return { core };
+    const state = getState(notes);
+    state.updateFromProps(props);
+    return {};
   }
 
   render() {

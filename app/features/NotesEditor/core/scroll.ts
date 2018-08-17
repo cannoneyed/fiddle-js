@@ -1,13 +1,20 @@
+import { Inject, Service } from 'typedi';
 import { action, computed, observable } from 'mobx';
 import { clamp } from 'lodash';
-import { NotesEditorCore } from './index';
-import { NotesEditorLayout } from './layout';
 
-export class NotesEditorScroll {
-  constructor(private core: NotesEditorCore, private layout: NotesEditorLayout) {}
+import { NotesEditorState, NotesEditorLayout } from 'features/NotesEditor/core';
 
-  @observable private scrollX = 0;
-  @observable private scrollY = 0;
+@Service()
+export default class __NotesEditorScroll {
+  @Inject(_ => NotesEditorLayout)
+  layout: NotesEditorLayout;
+  @Inject(_ => NotesEditorState)
+  state: NotesEditorState;
+
+  @observable
+  private scrollX = 0;
+  @observable
+  private scrollY = 0;
 
   getScrollX = () => {
     return this.scrollX;
@@ -28,7 +35,7 @@ export class NotesEditorScroll {
   get scrollableDimensions() {
     const { dimensions, rowHeight } = this.layout;
     return {
-      height: rowHeight * this.core.keyLayout.nRows - dimensions.height,
+      height: rowHeight * this.state.keyLayout.nRows - dimensions.height,
       width: dimensions.width * 2 - dimensions.width,
     };
   }

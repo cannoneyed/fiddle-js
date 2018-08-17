@@ -2,7 +2,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
-import { getCore } from 'features/NotesEditor/core';
 import { Stage, Layer } from 'react-konva';
 import { injector } from 'utils/injector';
 
@@ -15,6 +14,8 @@ import { Grid } from 'components/Grid';
 import { PianoRoll } from 'components/PianoRoll';
 
 import Notes from 'features/NotesEditor/components/Notes';
+
+import { get, NotesEditorLayout, NotesEditorState } from 'features/NotesEditor/core';
 
 interface Props {
   notes: NotesModel;
@@ -30,15 +31,16 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const core = getCore(props.notes);
-  const { layout } = core;
+  const layout = get(props.notes, NotesEditorLayout);
+  const state = get(props.notes, NotesEditorState);
+
   return {
     dimensions: layout.dimensions,
     getScroll: layout.scroll.getScroll,
-    keyLayout: core.keyLayout,
+    keyLayout: state.keyLayout,
     pianoRollDimensions: layout.pianoRollDimensions,
     rowHeight: layout.rowHeight,
-    snapToGrid: core.snapToGrid,
+    snapToGrid: state.snapToGrid,
   };
 });
 
