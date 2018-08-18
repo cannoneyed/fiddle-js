@@ -27,6 +27,7 @@ export default class __LoadService {
     };
 
     const clip = this.clipActions.createClip(clipParams);
+
     clip.isSelected = true;
     this.clipActions.editClip(clip.id);
   }

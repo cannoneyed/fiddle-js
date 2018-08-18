@@ -2,6 +2,8 @@ import { Inject, Service } from 'typedi';
 import { action } from 'mobx';
 
 import { Clip, ClipParams } from 'core/models/clip';
+import { Envelope } from 'core/models/envelope';
+import { SnipLayer } from 'core/models/clip/layer';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { ClipEditorState, ClipStore, DraggedClips, SnipStore, TrackStore } from 'core';
@@ -36,12 +38,14 @@ export default class __ClipActions {
   }
 
   _createClip(params: ClipParams) {
+    const { length } = params;
     const clip = this.clipStore.createClip(params);
     const snip = this.snipStore.createSnip({
+      data: new Envelope(length),
       length: params.length,
-      position: new TimelineVector(0),
     });
-    clip.addSnip(snip.id);
+    const snipLayer = new SnipLayer(snip);
+    clip.addLayer(snipLayer);
     return clip;
   }
 
