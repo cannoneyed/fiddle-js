@@ -110,8 +110,6 @@ export default class __EnvelopeEditorInteractions {
     const { envelope } = this.state;
     point.selected = true;
 
-    console.log('🍕', this);
-
     const containerRect = this.container.getBoundingClientRect();
     const containerScreenVector = new ScreenVector(containerRect.left, containerRect.top);
 

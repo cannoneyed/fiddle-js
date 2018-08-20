@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { Layer, Stage } from 'react-konva';
 import { injector } from 'utils/injector';
 
+import { Dimensions } from 'core/interfaces';
 import { Clip } from 'core/models/clip';
 import { Fraction } from 'core/primitives/fraction';
 
@@ -12,6 +13,7 @@ import { get, ClipEditorGrid } from 'features/ClipEditorSection/core';
 
 interface Props {
   clip: Clip;
+  dimensions: Dimensions;
 }
 interface InjectedProps {
   division: Fraction;
@@ -31,12 +33,7 @@ const inject = injector<Props, InjectedProps>(props => {
 @observer
 export class TimelineContainer extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { division, divisionWidth, nDivisions } = this.props;
-
-    const dimensions = {
-      width: 1000,
-      height: 30,
-    };
+    const { dimensions, division, divisionWidth, nDivisions } = this.props;
 
     return (
       <Stage {...dimensions}>

@@ -85,7 +85,7 @@ const LayersGutterContainer = styled.div`
   padding: 0;
 
   box-sizing: border-box;
-  background-color: ${theme.colors.black.toRgbString()};
+  background-color: ${theme.colors.darkGray.toRgbString()};
   border-right: 1px solid ${theme.colors.mediumGray.toRgbString()};
   flex-grow: 0;
   z-index: ${theme.tracksZIndex};

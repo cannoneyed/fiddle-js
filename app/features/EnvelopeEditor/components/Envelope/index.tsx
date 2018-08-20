@@ -44,7 +44,7 @@ const inject = injector<Props, InjectedProps>(props => {
 export class Envelope extends React.Component<Props & InjectedProps, State> {
   private svgRef = React.createRef<SVGElement>();
 
-  componentDidUpdate() {
+  componentDidMount() {
     this.props.setContainerElement(this.svgRef.current!);
   }
 

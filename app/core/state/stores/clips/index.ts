@@ -1,6 +1,5 @@
 import { Inject, Service } from 'typedi';
 import { observable } from 'mobx';
-import { json } from 'core/serialization/json';
 
 import { DraggedClips } from 'core';
 import { Clip, ClipParams } from 'core/models/clip';
@@ -10,12 +9,7 @@ export default class __ClipStore {
   @Inject(type => DraggedClips)
   private draggedClipsStore: DraggedClips;
 
-  constructor() {
-    console.log(this.constructor.name, this);
-  }
-
   // The main store for clips (by id)
-  @json
   @observable
   clips = observable.map<string, Clip>({});
 

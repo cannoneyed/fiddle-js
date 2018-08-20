@@ -1,13 +1,11 @@
 import { Service } from 'typedi';
 import { observable } from 'mobx';
-import { json } from 'core/serialization/json';
 
 import { Snip, SnipParams } from 'core/models/snip';
 
 @Service({ global: true })
 export default class __SnipStore {
   // The main store for snips (by id)
-  @json
   @observable
   readonly snips = observable.map<string, Snip>({});
 

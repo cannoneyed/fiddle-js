@@ -1,6 +1,7 @@
-import { computed } from 'mobx';
+import { action, computed } from 'mobx';
 import * as defaults from 'defaults/view';
 
+import { Dimensions } from 'core/interfaces';
 import { Fraction } from 'core/primitives/fraction';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 import { ZoomLevel } from 'core/models/zoom-level';
@@ -25,7 +26,9 @@ export class GridLayoutBase {
   // Computed Fields
   @computed
   get barWidth() {
-    return Math.round(this.zoomLayout.horizontal.level * defaults.barWidth);
+    const x = Math.round(this.zoomLayout.horizontal.level * defaults.barWidth);
+    console.log(x);
+    return x;
   }
 
   @computed
@@ -72,5 +75,16 @@ export class GridLayoutBase {
   @computed
   get divisionWidth() {
     return this.division.multiplyScalar(this.barWidth);
+  }
+
+  @action
+  computeInitialGrid(length: TimelineVector, dimensions: Dimensions) {
+    const { width } = dimensions;
+    // TODO: Figure out actual bars w/ minor divisions here.
+    const bars = length.primary;
+    const barWidth = width / bars;
+
+    const zoomHorizontal = barWidth / defaults.barWidth;
+    this.zoomLayout.horizontal.level = zoomHorizontal;
   }
 }

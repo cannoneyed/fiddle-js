@@ -6,10 +6,6 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 
 @Service({ global: true })
 export default class __DraggedClips {
-  constructor() {
-    console.log(this.constructor.name, this);
-  }
-
   // The temporary store for clips being dragged in the sequencer
   @observable
   draggedClips = observable.map<string, Clip>({});

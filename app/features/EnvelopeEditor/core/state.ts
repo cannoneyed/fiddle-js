@@ -1,5 +1,6 @@
 import { Inject, Service } from 'typedi';
 import { action } from 'mobx';
+import { filterMethods } from 'utils/log-filter';
 
 import { EnvelopeEditorLayout } from 'features/EnvelopeEditor/core';
 
@@ -10,6 +11,8 @@ import { Props } from 'features/EnvelopeEditor';
 
 @Service()
 export default class __EnvelopeEditorState {
+  static mobxLoggerConfig = filterMethods('updateFromProps');
+
   @Inject(_ => EnvelopeEditorLayout)
   private layout: EnvelopeEditorLayout;
 

@@ -1,5 +1,6 @@
 import { Inject, Service } from 'typedi';
 import { action } from 'mobx';
+import { filterMethods } from 'utils/log-filter';
 
 import { Notes } from 'core/models/notes';
 import { KeyLayout, Piano88 } from 'core/models/notes/key-layout';
@@ -11,6 +12,8 @@ import { NotesEditorLayout } from 'features/NotesEditor/core';
 
 @Service()
 export default class __NotesEditorState {
+  static mobxLoggerConfig = filterMethods('updateFromProps');
+
   @Inject(_ => NotesEditorLayout)
   layout: NotesEditorLayout;
 
