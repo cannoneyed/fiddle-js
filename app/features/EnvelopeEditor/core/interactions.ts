@@ -18,7 +18,6 @@ export default class __EnvelopeEditorInteractions {
   isDragging = false;
   @observable
   draggingPoint: PointModel | null;
-  container: SVGElement;
 
   @Inject(_ => EnvelopeEditorState)
   state: EnvelopeEditorState;
@@ -43,9 +42,9 @@ export default class __EnvelopeEditorInteractions {
     }
   }
 
-  private setPopoverScreenVector(screenVector: ScreenVector) {
-    this.popoverScreenVector = screenVector;
-  }
+  // private setPopoverScreenVector(screenVector: ScreenVector) {
+  //   this.popoverScreenVector = screenVector;
+  // }
 
   private getScreenVector(position: TimelineVector, value: number) {
     const { envelope } = this.state;
@@ -82,9 +81,9 @@ export default class __EnvelopeEditorInteractions {
   };
 
   @action
-  handleDoubleClick = (target: ClickTarget) => (event: React.MouseEvent) => {
+  handleDoubleClick = (target: ClickTarget) => (event: MouseEvent) => {
     const { envelope } = this.state;
-    const { offsetX, offsetY } = event.nativeEvent;
+    const { offsetX, offsetY } = event;
     const quantized = this.getQuantizedPositionAndValue(offsetX, offsetY);
 
     if (target instanceof PointModel) {
@@ -93,7 +92,7 @@ export default class __EnvelopeEditorInteractions {
 
     envelope.createPoint(quantized.position, quantized.value);
   };
-  handleMouseDown = (target: ClickTarget) => (event: React.MouseEvent) => {
+  handleMouseDown = (target: ClickTarget) => (event: MouseEvent) => {
     if (target instanceof PointModel) {
       this.handlePointMouseDown(event, target);
     } else if (target instanceof ConnectionModel) {
@@ -101,29 +100,20 @@ export default class __EnvelopeEditorInteractions {
     }
   };
 
-  setContainerElement = (container: SVGElement) => {
-    this.container = container;
-  };
-
   @action
-  private handlePointMouseDown = (event: React.MouseEvent, point: PointModel) => {
+  private handlePointMouseDown = (event: MouseEvent, point: PointModel) => {
     const { envelope } = this.state;
     point.selected = true;
 
-    const containerRect = this.container.getBoundingClientRect();
-    const containerScreenVector = new ScreenVector(containerRect.left, containerRect.top);
-
     const handleMouseMove = action((event: MouseEvent) => {
-      const { pageX, pageY } = event;
-      const offsetX = pageX - containerScreenVector.x;
-      const offsetY = pageY - containerScreenVector.y;
+      const { offsetX, offsetY } = event;
 
       const quantized = this.getQuantizedPositionAndValue(offsetX, offsetY);
-      const quantizedScreenVector = this.getScreenVector(quantized.position, quantized.value);
+      // const quantizedScreenVector = this.getScreenVector(quantized.position, quantized.value);
 
       this.setIsDragging(true, point);
-      const popoverScreenVector = containerScreenVector.add(quantizedScreenVector);
-      this.setPopoverScreenVector(popoverScreenVector);
+      // const popoverScreenVector = containerScreenVector.add(quantizedScreenVector);
+      // this.setPopoverScreenVector(popoverScreenVector);
 
       if (!point.position.equals(quantized.position)) {
         envelope.setPointPosition(point, quantized.position);
@@ -144,5 +134,5 @@ export default class __EnvelopeEditorInteractions {
   };
 
   @action
-  private handleConnectionMouseDown = (event: React.MouseEvent, connection: ConnectionModel) => {};
+  private handleConnectionMouseDown = (event: MouseEvent, connection: ConnectionModel) => {};
 }

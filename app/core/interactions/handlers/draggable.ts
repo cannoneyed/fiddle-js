@@ -109,7 +109,7 @@ export class Draggable {
 }
 
 export const makeDragHandler = (onMouseMove: OnMouseMove, onMouseUp: OnMouseUp) => (
-  event: React.MouseEvent
+  event: React.MouseEvent | MouseEvent
 ) => {
   const mouseMove = (event: MouseEvent) => {
     onMouseMove(event);

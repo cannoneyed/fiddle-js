@@ -1,8 +1,7 @@
 import * as React from 'react';
-import styled, { css } from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
-import { Stage, Layer } from 'react-konva';
+import { Group, Rect } from 'react-konva';
 import { injector } from 'utils/injector';
 
 import { Dimensions } from 'core/interfaces';
@@ -34,50 +33,14 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
   render() {
     const { dimensions, envelope, gridSegmentWidth } = this.props;
 
-    const editorWrapperStyle = {
-      ...dimensions,
-    };
-
     return (
-      <EnvelopeEditorWrapper style={editorWrapperStyle}>
-        <EnvelopeWrapper>
-          <Envelope envelope={envelope} />
-        </EnvelopeWrapper>
-        <GridWrapper>
-          <Stage {...dimensions}>
-            <Layer>
-              <VerticalGrid
-                dimensions={dimensions}
-                colWidth={gridSegmentWidth}
-                getOffsetX={() => 0}
-              />
-            </Layer>
-          </Stage>
-        </GridWrapper>
-      </EnvelopeEditorWrapper>
+      <Group {...dimensions}>
+        <Rect {...dimensions} fill={theme.colors.darkGray.toRgbString()} />
+        <VerticalGrid dimensions={dimensions} colWidth={gridSegmentWidth} getOffsetX={() => 0} />
+        <Envelope dimensions={dimensions} envelope={envelope} />
+      </Group>
     );
   }
 }
 
 export default inject(Layout);
-
-const EnvelopeEditorWrapper = styled.div`
-  position: relative;
-  background-color: ${theme.colors.darkGray.toRgbString()};
-`;
-
-const absolute = css`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-`;
-
-const EnvelopeWrapper = styled.div`
-  ${absolute};
-  z-index: 10;
-`;
-
-const GridWrapper = styled.div`
-  ${absolute};
-  z-index: 0;
-`;

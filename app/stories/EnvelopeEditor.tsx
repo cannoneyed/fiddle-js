@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { select, withKnobs } from '@storybook/addon-knobs';
-import { Wrapper } from './helpers';
+import { KonvaWrapper } from './helpers';
 
 import { EnvelopeEditor } from 'features/EnvelopeEditor';
 
@@ -33,15 +33,17 @@ stories.add('default', () => {
   const defaultValue = 'snap_1_4';
   const value = select('Snap To Grid', snapToGridOptions, defaultValue);
 
+  const dimensions = { height, width };
+
   const props = {
-    dimensions: { height, width },
+    dimensions,
     envelope,
     snapToGrid: getSnapToGrid(value),
   };
 
   return (
-    <Wrapper>
+    <KonvaWrapper dimensions={dimensions}>
       <EnvelopeEditor {...props} />
-    </Wrapper>
+    </KonvaWrapper>
   );
 });
