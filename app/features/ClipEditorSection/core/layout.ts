@@ -35,7 +35,7 @@ export default class __ClipEditorLayout implements SectionLayout {
     const { width, height } = this.dimensions;
     return {
       height: height - this.toolbarHeight,
-      width: width - this.verticalScrollbarWidth,
+      width: width - this.gutterWidth - this.verticalScrollbarWidth,
     };
   }
 

@@ -5,17 +5,19 @@ import { injector } from 'utils/injector';
 import { Clip } from 'core/models/clip';
 
 import EditArea from 'features/ClipEditorSection/components/EditArea';
-import Timeline from 'features/ClipEditorSection/components/Timeline';
+import LayersGutter from 'features/ClipEditorSection/components/LayersGutter';
 import TimelineGutter from 'features/ClipEditorSection/components/TimelineGutter';
 import Toolbar from 'features/ClipEditorSection/components/Toolbar';
 
 import { get, ClipEditorLayout } from 'features/ClipEditorSection/core';
 
 import {
+  BottomWrapper,
   ClipEditorSectionWrapper,
   EditAreaWrapper,
-  TimelineWrapper,
+  GutterWrapper,
   ToolbarWrapper,
+  TopWrapper,
 } from './styled-components';
 
 import { Dimensions } from 'core/interfaces';
@@ -24,8 +26,9 @@ interface Props {
   clip: Clip;
 }
 interface InjectedProps {
+  dimensions: Dimensions;
   editAreaDimensions: Dimensions;
-  sectionHeight: number;
+  gutterWidth: number;
   timelineHeight: number;
   toolbarHeight: number;
 }
@@ -33,8 +36,9 @@ interface InjectedProps {
 const inject = injector<Props, InjectedProps>(props => {
   const layout = get(props.clip, ClipEditorLayout);
   return {
+    dimensions: layout.dimensions,
     editAreaDimensions: layout.editAreaDimensions,
-    sectionHeight: layout.dimensions.height,
+    gutterWidth: layout.gutterWidth,
     timelineHeight: layout.timelineHeight,
     toolbarHeight: layout.toolbarHeight,
   };
@@ -43,37 +47,52 @@ const inject = injector<Props, InjectedProps>(props => {
 @observer
 export class Layout extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { clip } = this.props;
-    const clipEditorSectionWrapperStyle = {
-      height: this.props.sectionHeight,
-    };
+    const { clip, dimensions, editAreaDimensions } = this.props;
 
-    const editAreaWrapperStyle = {
-      height: this.props.editAreaDimensions.height,
-      width: this.props.editAreaDimensions.width,
-    };
-
-    const timelineWrapperStyle = {
-      height: this.props.timelineHeight,
-      width: this.props.editAreaDimensions.width,
+    const topWrapperStyle = {
+      height: this.props.toolbarHeight,
     };
 
     const toolbarWrapperStyle = {
       height: this.props.toolbarHeight,
     };
 
+    const bottomWrapperStyle = {
+      top: topWrapperStyle.height,
+      height: dimensions.height - topWrapperStyle.height,
+    };
+
+    const gutterWrapperStyle = {
+      height: bottomWrapperStyle.height,
+      width: this.props.gutterWidth,
+    };
+
+    const clipEditorSectionWrapperStyle = {
+      height: this.props.dimensions.height,
+    };
+
+    const editAreaWrapperStyle = {
+      left: this.props.gutterWidth,
+      height: this.props.editAreaDimensions.height,
+      width: this.props.editAreaDimensions.width,
+    };
+
     return (
       <ClipEditorSectionWrapper style={clipEditorSectionWrapperStyle}>
-        <ToolbarWrapper style={toolbarWrapperStyle}>
-          <Toolbar clip={clip} />
-        </ToolbarWrapper>
-        <TimelineWrapper style={timelineWrapperStyle}>
-          <TimelineGutter clip={clip} />
-          <Timeline clip={clip} />
-        </TimelineWrapper>
-        <EditAreaWrapper style={editAreaWrapperStyle}>
-          <EditArea clip={clip} />
-        </EditAreaWrapper>
+        <TopWrapper style={topWrapperStyle}>
+          <ToolbarWrapper style={toolbarWrapperStyle}>
+            <Toolbar />
+          </ToolbarWrapper>
+        </TopWrapper>
+        <BottomWrapper style={bottomWrapperStyle}>
+          <GutterWrapper style={gutterWrapperStyle}>
+            <TimelineGutter />
+            <LayersGutter clip={clip} />
+          </GutterWrapper>
+          <EditAreaWrapper style={editAreaWrapperStyle}>
+            <EditArea clip={clip} dimensions={editAreaDimensions} />
+          </EditAreaWrapper>
+        </BottomWrapper>
       </ClipEditorSectionWrapper>
     );
   }

@@ -6,6 +6,7 @@ import { Envelope } from 'core/models/envelope';
 import { SnipLayer } from 'core/models/clip/layer';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
+import { Point } from 'core/models/envelope/point';
 import { ClipEditorState, ClipStore, DraggedClips, SnipStore, TrackStore } from 'core';
 
 @Service({ global: true })
@@ -37,13 +38,23 @@ export default class __ClipActions {
     return this._createClip(params);
   }
 
+  // TODO: Get rid of all of this functionality here.... move to some more sensible factory
   _createClip(params: ClipParams) {
     const { length } = params;
     const clip = this.clipStore.createClip(params);
+    const start = new TimelineVector(0);
+
+    const envelope = new Envelope(length);
+    const a = new Point(start, 0.75);
+    const b = new Point(length, 0.25);
+    envelope.addPoint(a);
+    envelope.addPoint(b);
+
     const snip = this.snipStore.createSnip({
-      data: new Envelope(length),
+      data: envelope,
       length: params.length,
     });
+
     const snipLayer = new SnipLayer(snip);
     clip.addLayer(snipLayer);
     return clip;

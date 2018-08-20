@@ -3,11 +3,7 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 
-import { Clip } from 'core/models/clip';
-
-export interface Props {
-  clip: Clip;
-}
+export interface Props {}
 
 @observer
 export default class Toolbar extends React.Component<Props, {}> {

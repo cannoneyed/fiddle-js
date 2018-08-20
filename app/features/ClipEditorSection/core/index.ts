@@ -9,8 +9,8 @@ export { default as ClipEditorZoom } from './zoom';
 
 import { Clip } from 'core/models/clip';
 
-export function get<T>(clipe: Clip, type: ObjectType<T>): T {
-  return Container.of(clipe).get(type);
+export function get<T>(clip: Clip, type: ObjectType<T>): T {
+  return Container.of(clip).get(type);
 }
 
 export function getState(clip: Clip): ClipEditorState {

@@ -9,6 +9,10 @@ export default class __TracksInteraction {
   @Inject(_ => ClipSelectInteraction)
   private clipSelect: ClipSelectInteraction;
 
+  constructor() {
+    this.handleStageClick = this.handleStageClick.bind(this);
+  }
+
   @action
   handleTrackClick = (track: Track, event: MouseEvent) => {
     if (event.ctrlKey) {

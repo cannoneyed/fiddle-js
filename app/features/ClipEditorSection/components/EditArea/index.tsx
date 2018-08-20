@@ -3,12 +3,15 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 
-import ClipEdit from '../ClipEdit';
-
+import { Dimensions } from 'core/interfaces';
 import { Clip } from 'core/models/clip';
+import { SnipLayer as SnipLayerModel } from 'core/models/clip/layer';
+
+import SnipLayer from 'features/ClipEditorSection/components/SnipLayer';
 
 export interface Props {
   clip: Clip;
+  dimensions: Dimensions;
 }
 
 @observer
@@ -18,9 +21,13 @@ export class EditArea extends React.Component<Props, {}> {
     return (
       <EditAreaContainer id="editArea">
         <EditAreaBody>
-          <SnipsArea>
-            <ClipEdit clip={clip} />
-          </SnipsArea>
+          {clip.layers.map((layer, index) => {
+            if (layer instanceof SnipLayerModel) {
+              return <SnipLayer key={index} clip={clip} layer={layer} />;
+            } else {
+              return null;
+            }
+          })}
         </EditAreaBody>
       </EditAreaContainer>
     );
@@ -28,8 +35,6 @@ export class EditArea extends React.Component<Props, {}> {
 }
 
 export default EditArea;
-
-const SnipsArea = styled.div``;
 
 const EditAreaBody = styled.div`
   width: 100%;

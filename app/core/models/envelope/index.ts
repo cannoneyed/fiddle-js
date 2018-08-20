@@ -1,5 +1,6 @@
-import { computed, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
+import { filterMethods } from 'utils/log-filter';
 
 import { Point } from './point';
 import { Connection, LineConnection } from './connection';
@@ -8,17 +9,23 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 const BEGINNING = new TimelineVector(0);
 
 export class Envelope {
+  static mobxLoggerConfig = filterMethods('setPointValue', 'setPointPosition');
   id = generateId();
 
-  @observable length: TimelineVector;
+  @observable
+  length: TimelineVector;
 
   pointIndices = new Map<Point, number>();
-  @observable points = observable.array<Point>([]);
+  @observable
+  points = observable.array<Point>([]);
 
-  @observable minimum: number = 0;
-  @observable maximum: number = 1;
+  @observable
+  minimum: number = 0;
+  @observable
+  maximum: number = 1;
 
-  @observable stepSize = 0;
+  @observable
+  stepSize = 0;
 
   constructor(length?: TimelineVector) {
     this.length = length || new TimelineVector(2);
@@ -35,11 +42,13 @@ export class Envelope {
     return connections;
   }
 
+  @action
   addPoint(point: Point, shouldSort = true) {
     this.points.push(point);
     shouldSort && this.sortPoints();
   }
 
+  @action
   removePoint(point: Point, shouldSort = true) {
     if (this.canRemovePoint(point)) {
       this.removePoint_(point, shouldSort);
@@ -52,6 +61,7 @@ export class Envelope {
     shouldSort && this.sortPoints();
   }
 
+  @action
   setPointPosition(point: Point, nextPosition: TimelineVector) {
     // Remove any overlapping points.
     const pointsToRemove = this.getPointsBeingDisplaced(point, nextPosition);
@@ -71,10 +81,12 @@ export class Envelope {
     this.sortPoints();
   }
 
+  @action
   setPointValue(point: Point, value: number) {
     point.value = value;
   }
 
+  @action
   createPoint(position: TimelineVector, value: number) {
     const othersAtPosition = this.points.filter(otherPoint => otherPoint.position.equals(position));
     if (othersAtPosition.length > 1) return;

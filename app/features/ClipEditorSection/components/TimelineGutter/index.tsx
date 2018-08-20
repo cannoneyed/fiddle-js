@@ -2,41 +2,18 @@ import * as React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
 
-import { Clip } from 'core/models/clip';
-
-import { get, ClipEditorLayout } from 'features/ClipEditorSection/core';
-
-interface Props {
-  clip: Clip;
-}
-interface InjectedProps {
-  gutterWidth: number;
-}
-
-const inject = injector<Props, InjectedProps>(props => {
-  const layout = get(props.clip, ClipEditorLayout);
-
-  return {
-    gutterWidth: layout.gutterWidth,
-  };
-});
+interface Props {}
+interface InjectedProps {}
 
 @observer
 export class TimelineGutter extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { gutterWidth } = this.props;
-
-    const style = {
-      minWidth: gutterWidth,
-    };
-
-    return <TimelineGutterContainer style={style} />;
+    return <TimelineGutterContainer />;
   }
 }
 
-export default inject(TimelineGutter);
+export default TimelineGutter;
 
 const TimelineGutterContainer = styled.div`
   position: relative;

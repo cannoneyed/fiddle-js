@@ -2,36 +2,18 @@ import * as React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
-
-import { get, SequencerLayout } from 'features/Sequencer/core';
 
 interface Props {}
-interface InjectedProps {
-  gutterWidth: number;
-}
-
-const inject = injector<Props, InjectedProps>(props => {
-  const layout = get(SequencerLayout);
-  return {
-    gutterWidth: layout.gutterWidth,
-  };
-});
+interface InjectedProps {}
 
 @observer
 export class TimelineGutter extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { gutterWidth } = this.props;
-
-    const style = {
-      minWidth: gutterWidth,
-    };
-
-    return <TimelineGutterContainer style={style} />;
+    return <TimelineGutterContainer />;
   }
 }
 
-export default inject(TimelineGutter);
+export default TimelineGutter;
 
 const TimelineGutterContainer = styled.div`
   position: relative;

@@ -22,7 +22,7 @@ export const snapToGridValues = new SnapToGridValues();
 export class SnapToGrid {
   value: SnapToGridValue;
 
-  constructor(value: SnapToGridValue = snapToGridValues.snap_1) {
+  constructor(value: SnapToGridValue = snapToGridValues.snap_1_4) {
     this.value = value;
   }
 

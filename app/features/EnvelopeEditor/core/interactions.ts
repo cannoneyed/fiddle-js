@@ -1,6 +1,6 @@
 import { Inject, Service } from 'typedi';
 import { clamp } from 'lodash';
-import { computed, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 
 import { makeDragHandler } from 'core/interactions/handlers/draggable';
 import { ScreenVector } from 'core/primitives/screen-vector';
@@ -81,6 +81,7 @@ export default class __EnvelopeEditorInteractions {
     return { position, value };
   };
 
+  @action
   handleDoubleClick = (target: ClickTarget) => (event: React.MouseEvent) => {
     const { envelope } = this.state;
     const { offsetX, offsetY } = event.nativeEvent;
@@ -92,7 +93,6 @@ export default class __EnvelopeEditorInteractions {
 
     envelope.createPoint(quantized.position, quantized.value);
   };
-
   handleMouseDown = (target: ClickTarget) => (event: React.MouseEvent) => {
     if (target instanceof PointModel) {
       this.handlePointMouseDown(event, target);
@@ -105,14 +105,17 @@ export default class __EnvelopeEditorInteractions {
     this.container = container;
   };
 
+  @action
   private handlePointMouseDown = (event: React.MouseEvent, point: PointModel) => {
     const { envelope } = this.state;
     point.selected = true;
 
+    console.log('🍕', this);
+
     const containerRect = this.container.getBoundingClientRect();
     const containerScreenVector = new ScreenVector(containerRect.left, containerRect.top);
 
-    const handleMouseMove = (event: MouseEvent) => {
+    const handleMouseMove = action((event: MouseEvent) => {
       const { pageX, pageY } = event;
       const offsetX = pageX - containerScreenVector.x;
       const offsetY = pageY - containerScreenVector.y;
@@ -131,16 +134,17 @@ export default class __EnvelopeEditorInteractions {
       if (!(point.value === quantized.value)) {
         envelope.setPointValue(point, quantized.value);
       }
-    };
+    });
 
-    const handleMouseUp = (event: MouseEvent) => {
+    const handleMouseUp = action((event: MouseEvent) => {
       point.selected = false;
       this.setIsDragging(false);
-    };
+    });
 
     const dragHandler = makeDragHandler(handleMouseMove, handleMouseUp);
     return dragHandler(event);
   };
 
+  @action
   private handleConnectionMouseDown = (event: React.MouseEvent, connection: ConnectionModel) => {};
 }
