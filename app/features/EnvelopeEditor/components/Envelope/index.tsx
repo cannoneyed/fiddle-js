@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Konva from 'konva';
 import { observer } from 'mobx-react';
 import { Group, Rect } from 'react-konva';
 import { injector } from 'utils/injector';
@@ -54,8 +55,9 @@ export class Envelope extends React.Component<Props & InjectedProps, State> {
     } = this.props;
     const { connections, points } = this.props.envelope;
 
-    const handleDoubleClickEnvelope = makeHandler((event: MouseEvent) => {
-      const screenVector = new ScreenVector(event.offsetX, event.offsetY);
+    const handleDoubleClickEnvelope = makeHandler((event: MouseEvent, target: Konva.Rect) => {
+      const { x, y } = target.getAbsolutePosition();
+      const screenVector = new ScreenVector(event.offsetX - x, event.offsetY - y);
       handleDoubleClick(null)(event, screenVector);
     });
 
