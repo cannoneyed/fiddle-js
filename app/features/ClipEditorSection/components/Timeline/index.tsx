@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Layer, Stage } from 'react-konva';
+import { Group } from 'react-konva';
 import { injector } from 'utils/injector';
 
 import { Dimensions } from 'core/interfaces';
@@ -36,17 +36,15 @@ export class TimelineContainer extends React.Component<Props & InjectedProps, {}
     const { dimensions, division, divisionWidth, nDivisions } = this.props;
 
     return (
-      <Stage {...dimensions}>
-        <Layer>
-          <Timeline
-            dimensions={dimensions}
-            getOffset={() => 0}
-            division={division}
-            divisionWidth={divisionWidth}
-            nDivisions={nDivisions}
-          />
-        </Layer>
-      </Stage>
+      <Group>
+        <Timeline
+          dimensions={dimensions}
+          getOffset={() => 0}
+          division={division}
+          divisionWidth={divisionWidth}
+          nDivisions={nDivisions}
+        />
+      </Group>
     );
   }
 }

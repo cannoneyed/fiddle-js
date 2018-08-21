@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
+import { Stage, Group, Layer } from 'react-konva';
 
 import { Dimensions } from 'core/interfaces';
 import { Clip } from 'core/models/clip';
@@ -33,8 +34,8 @@ export class EditArea extends React.Component<Props & Injected, {}> {
   render() {
     const { clip, dimensions, timelineHeight } = this.props;
 
-    const layersStyle = {
-      top: timelineHeight,
+    const layersProps = {
+      y: timelineHeight,
       height: dimensions.height - timelineHeight,
     };
 
@@ -45,34 +46,26 @@ export class EditArea extends React.Component<Props & Injected, {}> {
 
     return (
       <EditAreaWrapper>
-        <TimelineWrapper style={timelineDimensions}>
-          <Timeline clip={clip} dimensions={timelineDimensions} />
-        </TimelineWrapper>
-        <LayersWrapper style={layersStyle}>
-          {clip.layers.map((layer, index) => {
-            if (layer instanceof SnipLayerModel) {
-              return <SnipLayer key={index} clip={clip} layer={layer} />;
-            } else {
-              return null;
-            }
-          })}
-        </LayersWrapper>
+        <Stage {...dimensions}>
+          <Layer>
+            <Timeline clip={clip} dimensions={timelineDimensions} />
+            <Group {...layersProps}>
+              {clip.layers.map((layer, index) => {
+                if (layer instanceof SnipLayerModel) {
+                  return <SnipLayer key={index} clip={clip} layer={layer} />;
+                } else {
+                  return null;
+                }
+              })}
+            </Group>
+          </Layer>
+        </Stage>
       </EditAreaWrapper>
     );
   }
 }
 
 export default inject(EditArea);
-
-const LayersWrapper = styled.div`
-  position: absolute;
-  width: 100%;
-`;
-
-const TimelineWrapper = styled.div`
-  position: absolute;
-  width: 100%;
-`;
 
 const EditAreaWrapper = styled.div`
   background-color: ${theme.colors.black.toRgbString()};
