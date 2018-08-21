@@ -83,7 +83,6 @@ export default class __EnvelopeEditorInteractions {
   @action
   handleDoubleClick = (target: ClickTarget) => (event: MouseEvent, position: ScreenVector) => {
     const { envelope } = this.state;
-    console.log(event);
     const { x, y } = position;
     const quantized = this.getQuantizedPositionAndValue(x, y);
 
