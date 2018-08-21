@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi';
+import { Inject, Service } from 'libs/typedi';
 import { action, autorun, computed, observable } from 'mobx';
 import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';

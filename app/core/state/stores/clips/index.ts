@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi';
+import { Inject, Service } from 'libs/typedi';
 import { observable } from 'mobx';
 
 import { DraggedClips } from 'core';

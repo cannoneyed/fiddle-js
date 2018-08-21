@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Service } from 'libs/typedi';
 import { action, observable } from 'mobx';
 
 @Service()

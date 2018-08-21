@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Service } from 'libs/typedi';
 import { action, computed, observable } from 'mobx';
 
 import { Dimensions, Position, Rectangle } from 'core/interfaces';

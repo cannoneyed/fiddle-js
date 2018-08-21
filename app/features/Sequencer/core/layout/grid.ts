@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi';
+import { Inject, Service } from 'libs/typedi';
 import { GridLayoutBase } from 'core/state/layouts/shared/grid';
 
 import { Timeline, ZoomLayout } from 'features/Sequencer/core';

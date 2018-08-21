@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi';
+import { Inject, Service } from 'libs/typedi';
 import { computed } from 'mobx';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';

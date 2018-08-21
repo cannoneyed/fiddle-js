@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi';
+import { Inject, Service } from 'libs/typedi';
 
 import { SequencerLayout } from 'features/Sequencer/core';
 import { TracksLayout } from 'features/Sequencer/core';

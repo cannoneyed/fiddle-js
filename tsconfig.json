@@ -21,7 +21,11 @@
 
     "sourceMap": true,
 
-    "outDir": "dist"
+    "outDir": "dist",
+    "typeRoots": ["node_modules/@types"],
+    "paths": {
+      "react": ["node_modules/@types/react"]
+    }
   },
   "files": ["app/index.tsx"],
   "include": [

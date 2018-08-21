@@ -1,5 +1,5 @@
 import * as React from 'react';
-// import { Container } from 'typedi';
+// import { Container } from 'libs/typedi';
 import { observer } from 'mobx-react';
 // import { map } from 'lodash';
 

@@ -10,7 +10,7 @@ import { Point as PointModel } from 'core/models/envelope/point';
 import { ScreenVector } from 'core/primitives/screen-vector';
 
 import Point from 'features/EnvelopeEditor/components/Point';
-// import Popover from 'features/EnvelopeEditor/components/Popover';
+import Popover from 'features/EnvelopeEditor/components/Popover';
 import Connection from 'features/EnvelopeEditor/components/Connection';
 
 import { get, EnvelopeEditorInteractions } from 'features/EnvelopeEditor/core';
@@ -22,8 +22,8 @@ export interface Props {
 }
 export interface InjectedProps {
   getPointScreenVector: (point: PointModel) => ScreenVector;
-  handleDoubleClick: (target: ClickTarget) => (event: MouseEvent) => void;
-  handleMouseDown: (target: ClickTarget) => (event: MouseEvent) => void;
+  handleDoubleClick: (target: ClickTarget) => (event: MouseEvent, position: ScreenVector) => void;
+  handleMouseDown: (target: ClickTarget) => (event: MouseEvent, position: ScreenVector) => void;
   showPopover: boolean;
 }
 
@@ -43,26 +43,26 @@ const inject = injector<Props, InjectedProps>(props => {
 
 @observer
 export class Envelope extends React.Component<Props & InjectedProps, State> {
-  // private svgRef = React.createRef<SVGElement>();
-
-  componentDidMount() {
-    // this.props.setContainerElement(this.svgRef.current!);
-  }
-
   render() {
     const {
       dimensions,
-      // envelope,
+      envelope,
       getPointScreenVector,
       handleDoubleClick,
       handleMouseDown,
-      // showPopover,
+      showPopover,
     } = this.props;
     const { connections, points } = this.props.envelope;
 
+    const handleDoubleClickEnvelope = makeHandler((event: MouseEvent) => {
+      const screenVector = new ScreenVector(event.offsetX, event.offsetY);
+      handleDoubleClick(null)(event, screenVector);
+    });
+
     return (
       <Group {...dimensions}>
-        <Rect {...dimensions} onDblClick={makeHandler(handleDoubleClick(null))} />
+        {showPopover && <Popover envelope={envelope} />}
+        <Rect {...dimensions} onDblClick={handleDoubleClickEnvelope} />
         {connections.map(connection => {
           return (
             <Connection

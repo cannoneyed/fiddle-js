@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import React from 'react';
-import { Container } from 'typedi';
+import { Container } from 'libs/typedi';
 import { render } from 'react-dom';
 import { configure } from 'mobx';
 import { configureDevtool } from 'mobx-react-devtools';

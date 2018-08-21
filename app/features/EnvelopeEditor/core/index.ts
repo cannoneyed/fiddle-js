@@ -1,4 +1,4 @@
-import { Container, ObjectType } from 'typedi';
+import { Container, ObjectType } from 'libs/typedi';
 
 import { default as EnvelopeEditorState } from './state';
 export { default as EnvelopeEditorState } from './state';

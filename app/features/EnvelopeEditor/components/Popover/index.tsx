@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
+import Portal from 'libs/react-portal';
 
 import { Envelope as EnvelopeModel } from 'core/models/envelope';
 import { ScreenVector } from 'core/primitives/screen-vector';
@@ -58,20 +59,22 @@ export class Popover extends React.Component<Props & InjectedProps, {}> {
       left: screenVector.x + offsetX,
     };
     return (
-      <PopoverWrapper style={style}>
-        <ArrowBox>
-          <Row>
-            <Label>pos:</Label>
-            {this.renderPosition()}
-          </Row>
-          <Row>
-            <ValueText>
-              <Label>val:</Label>
-              {this.renderValue()}
-            </ValueText>
-          </Row>
-        </ArrowBox>
-      </PopoverWrapper>
+      <Portal isOpened={true}>
+        <PopoverWrapper style={style}>
+          <ArrowBox>
+            <Row>
+              <Label>pos:</Label>
+              {this.renderPosition()}
+            </Row>
+            <Row>
+              <ValueText>
+                <Label>val:</Label>
+                {this.renderValue()}
+              </ValueText>
+            </Row>
+          </ArrowBox>
+        </PopoverWrapper>
+      </Portal>
     );
   }
 }

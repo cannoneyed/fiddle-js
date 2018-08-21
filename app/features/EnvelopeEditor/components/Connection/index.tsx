@@ -12,8 +12,8 @@ import { Point as PointModel } from 'core/models/envelope/point';
 interface Props {
   connection: ConnectionModel;
   getScreenVector: (point: PointModel) => ScreenVector;
-  onDoubleClick: (event: MouseEvent) => void;
-  onMouseDown: (event: MouseEvent) => void;
+  onDoubleClick: (event: MouseEvent, position: ScreenVector) => void;
+  onMouseDown: (event: MouseEvent, position: ScreenVector) => void;
 }
 
 @observer
@@ -28,13 +28,23 @@ export class Connection extends React.Component<Props, {}> {
 
     const points = makePoints([startPosition, endPosition]);
 
+    const onMouseDown = (event: MouseEvent) => {
+      const screenVector = new ScreenVector(event.offsetX, event.offsetY);
+      this.props.onMouseDown(event, screenVector);
+    };
+
+    const onDoubleClick = (event: MouseEvent) => {
+      const screenVector = new ScreenVector(event.offsetX, event.offsetY);
+      this.props.onMouseDown(event, screenVector);
+    };
+
     return (
       <Line
         points={points}
         stroke={theme.colors.white.toRgbString()}
         strokeWidth={Connection.strokeWidth}
-        onMouseDown={makeHandler(this.props.onMouseDown)}
-        onDblClick={makeHandler(this.props.onDoubleClick)}
+        onMouseDown={makeHandler(onMouseDown)}
+        onDblClick={makeHandler(onDoubleClick)}
       />
     );
   }

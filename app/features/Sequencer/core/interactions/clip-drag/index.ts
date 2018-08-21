@@ -1,5 +1,5 @@
 import { action, observable } from 'mobx';
-import { Inject, Service } from 'typedi';
+import { Inject, Service } from 'libs/typedi';
 import { logMethods } from 'utils/log-filter';
 import { clamp, first, last, min, max } from 'lodash';
 

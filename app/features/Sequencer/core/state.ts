@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Service } from 'libs/typedi';
 
 import { SnapToGrid } from 'core/models/snap-to-grid';
 

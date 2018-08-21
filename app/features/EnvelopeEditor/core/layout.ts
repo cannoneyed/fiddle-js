@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi';
+import { Inject, Service } from 'libs/typedi';
 import { computed, observable } from 'mobx';
 
 import { Dimensions } from 'core/interfaces';

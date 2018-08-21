@@ -1,4 +1,4 @@
-import { Container, ObjectType } from 'typedi';
+import { Container, ObjectType } from 'libs/typedi';
 
 import { default as NotesEditorState } from './state';
 export { default as NotesEditorState } from './state';

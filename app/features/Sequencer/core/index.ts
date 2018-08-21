@@ -1,4 +1,4 @@
-import { Container, ObjectType } from 'typedi';
+import { Container, ObjectType } from 'libs/typedi';
 
 export { default as GridLayout } from './layout/grid';
 export { default as SequencerLayout } from './layout/layout';

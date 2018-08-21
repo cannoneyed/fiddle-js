@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Service } from 'libs/typedi';
 import { observable } from 'mobx';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';

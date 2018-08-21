@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi';
+import { Inject, Service } from 'libs/typedi';
 import { clamp } from 'lodash';
 import { action, computed, observable } from 'mobx';
 
@@ -42,9 +42,9 @@ export default class __EnvelopeEditorInteractions {
     }
   }
 
-  // private setPopoverScreenVector(screenVector: ScreenVector) {
-  //   this.popoverScreenVector = screenVector;
-  // }
+  private setPopoverScreenVector(screenVector: ScreenVector) {
+    this.popoverScreenVector = screenVector;
+  }
 
   private getScreenVector(position: TimelineVector, value: number) {
     const { envelope } = this.state;
@@ -81,7 +81,7 @@ export default class __EnvelopeEditorInteractions {
   };
 
   @action
-  handleDoubleClick = (target: ClickTarget) => (event: MouseEvent) => {
+  handleDoubleClick = (target: ClickTarget) => (event: MouseEvent, position: ScreenVector) => {
     const { envelope } = this.state;
     const { offsetX, offsetY } = event;
     const quantized = this.getQuantizedPositionAndValue(offsetX, offsetY);
@@ -92,28 +92,34 @@ export default class __EnvelopeEditorInteractions {
 
     envelope.createPoint(quantized.position, quantized.value);
   };
-  handleMouseDown = (target: ClickTarget) => (event: MouseEvent) => {
+  handleMouseDown = (target: ClickTarget) => (event: MouseEvent, position: ScreenVector) => {
     if (target instanceof PointModel) {
-      this.handlePointMouseDown(event, target);
+      this.handlePointMouseDown(event, target, position);
     } else if (target instanceof ConnectionModel) {
       this.handleConnectionMouseDown(event, target);
     }
   };
 
   @action
-  private handlePointMouseDown = (event: MouseEvent, point: PointModel) => {
+  private handlePointMouseDown = (event: MouseEvent, point: PointModel, position: ScreenVector) => {
     const { envelope } = this.state;
     point.selected = true;
 
+    const containerPageVector = new ScreenVector(
+      event.pageX - position.x,
+      event.pageY - position.y
+    );
+
     const handleMouseMove = action((event: MouseEvent) => {
-      const { offsetX, offsetY } = event;
+      const offsetX = event.pageX - containerPageVector.x;
+      const offsetY = event.pageY - containerPageVector.y;
 
       const quantized = this.getQuantizedPositionAndValue(offsetX, offsetY);
-      // const quantizedScreenVector = this.getScreenVector(quantized.position, quantized.value);
+      const quantizedScreenVector = this.getScreenVector(quantized.position, quantized.value);
 
       this.setIsDragging(true, point);
-      // const popoverScreenVector = containerScreenVector.add(quantizedScreenVector);
-      // this.setPopoverScreenVector(popoverScreenVector);
+      const popoverScreenVector = containerPageVector.add(quantizedScreenVector);
+      this.setPopoverScreenVector(popoverScreenVector);
 
       if (!point.position.equals(quantized.position)) {
         envelope.setPointPosition(point, quantized.position);

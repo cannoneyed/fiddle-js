@@ -1,4 +1,4 @@
-import { Container, ObjectType } from 'typedi';
+import { Container, ObjectType } from 'libs/typedi';
 
 import { default as ClipEditorState } from './state';
 import { default as ClipEditorGrid } from './grid';

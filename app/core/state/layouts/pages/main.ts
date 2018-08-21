@@ -1,5 +1,5 @@
 import { action, computed, observable } from 'mobx';
-import { Inject, Service } from 'typedi';
+import { Inject, Service } from 'libs/typedi';
 import { createTransformer } from 'mobx-utils';
 import { filterMethods } from 'utils/log-filter';
 

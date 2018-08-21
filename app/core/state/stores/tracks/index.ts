@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Service } from 'libs/typedi';
 import { computed, observable } from 'mobx';
 import { filterMethods } from 'utils/log-filter';
 import { first, last } from 'lodash';

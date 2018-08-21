@@ -11,25 +11,35 @@ import { Point as PointModel } from 'core/models/envelope/point';
 interface Props {
   point: PointModel;
   getScreenVector: (point: PointModel) => ScreenVector;
-  onDoubleClick: (event: MouseEvent) => void;
-  onMouseDown: (event: MouseEvent) => void;
+  onDoubleClick: (event: MouseEvent, position: ScreenVector) => void;
+  onMouseDown: (event: MouseEvent, position: ScreenVector) => void;
 }
 
 @observer
 export class Point extends React.Component<Props, {}> {
   render() {
     const { point, getScreenVector } = this.props;
-    const { x, y } = getScreenVector(point);
+    const screenVector = getScreenVector(point);
+    const { x, y } = screenVector;
 
     const color = point.selected ? 'red' : theme.colors.white.toRgbString();
+
+    const onMouseDown = (event: MouseEvent) => {
+      this.props.onMouseDown(event, screenVector);
+    };
+
+    const onDoubleClick = (event: MouseEvent) => {
+      this.props.onMouseDown(event, screenVector);
+    };
+
     return (
       <Circle
         radius={5}
         x={x}
         y={y}
         fill={color}
-        onMouseDown={makeHandler(this.props.onMouseDown)}
-        onDblClick={makeHandler(this.props.onDoubleClick)}
+        onMouseDown={makeHandler(onMouseDown)}
+        onDblClick={makeHandler(onDoubleClick)}
       />
     );
   }

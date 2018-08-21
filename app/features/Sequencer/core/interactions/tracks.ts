@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi';
+import { Inject, Service } from 'libs/typedi';
 import { action } from 'mobx';
 
 import { Track } from 'core/models/Track';

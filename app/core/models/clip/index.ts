@@ -1,4 +1,4 @@
-import { Container } from 'typedi';
+import { Container } from 'libs/typedi';
 import { computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 

@@ -1,4 +1,4 @@
-import { Service } from 'typedi';
+import { Service } from 'libs/typedi';
 
 import { ZoomLayoutBase } from 'core/state/layouts/shared/zoom';
 
