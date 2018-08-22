@@ -18,15 +18,14 @@ export interface Props {
 @observer
 export default class TimelineSegments extends React.Component<Props, {}> {
   renderTimelineLabel = (timelineLabel: number) => {
-    const { dimensions } = this.props;
     const color = theme.colors.lightGray.toRgbString();
 
     return (
       <Text
         text={`${timelineLabel}`}
         x={5}
-        y={dimensions.height - 12}
-        fontSize={10}
+        y={1}
+        fontSize={12}
         fontFamily="monospace"
         fill={color}
       />
@@ -40,11 +39,12 @@ export default class TimelineSegments extends React.Component<Props, {}> {
     const timelineSegments = range(nDivisions).map(n => {
       const { numerator, denominator } = division.multiply(n, 1).reduce();
 
-      const isMajorDivision = denominator === 1 && n % 2 == 0;
-      const timelineLabel = isMajorDivision ? numerator + 1 : null;
+      const isPrimaryDivision = denominator === 1 && n % 2 == 0;
+      const timelineLabel = isPrimaryDivision ? numerator + 1 : null;
 
       const x = n * divisionWidth;
-      const divisionHeight = 10;
+
+      const divisionHeight = isPrimaryDivision ? dimensions.height : dimensions.height / 2;
 
       const start = { x: 0, y: dimensions.height };
       const end = { x: 0, y: dimensions.height - divisionHeight };

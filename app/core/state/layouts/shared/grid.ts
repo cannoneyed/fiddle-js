@@ -27,7 +27,6 @@ export class GridLayoutBase {
   @computed
   get barWidth() {
     const x = Math.round(this.zoomLayout.horizontal.level * defaults.barWidth);
-    console.log(x);
     return x;
   }
 
