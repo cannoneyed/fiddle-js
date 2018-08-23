@@ -2,33 +2,28 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 
-import { Fraction } from 'core/primitives/fraction';
+import { Timeline as TimelineModel } from 'core/models/timeline';
 
-// import Timeline from 'components/Timeline';
+import Timeline from 'components/Timeline';
 
-import { get, GridLayout, TracksLayout } from 'features/Sequencer/core';
+import { get, TimelineState, TracksLayout } from 'features/Sequencer/core';
 
 interface Props {}
 interface InjectedProps {
-  division: Fraction;
-  divisionWidth: number;
   getOffset: () => number;
-  nDivisions: number;
+  timeline: TimelineModel;
   width: number;
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const gridLayout = get(GridLayout);
+  const { timeline } = get(TimelineState);
   const tracksLayout = get(TracksLayout);
-  const { division, divisionWidth, nDivisions } = gridLayout;
 
   const getOffset = () => tracksLayout.tracksScrolledX;
 
   return {
-    division,
-    divisionWidth,
     getOffset,
-    nDivisions,
+    timeline,
     width: tracksLayout.tracksDimensions.width,
   };
 });
@@ -36,21 +31,14 @@ const inject = injector<Props, InjectedProps>(props => {
 @observer
 export class TimelineContainer extends React.Component<Props & InjectedProps, {}> {
   render() {
-    // const { division, divisionWidth, getOffset, nDivisions, width } = this.props;
+    const { getOffset, timeline, width } = this.props;
 
-    // const dimensions = {
-    //   width,
-    //   height: 30,
-    // };
+    const dimensions = {
+      width,
+      height: 30,
+    };
 
-    return null;
-    // <Timeline
-    //   dimensions={dimensions}
-    //   division={division}
-    //   divisionWidth={divisionWidth}
-    //   getOffset={getOffset}
-    //   nDivisions={nDivisions}
-    // />
+    return <Timeline dimensions={dimensions} getOffset={getOffset} timeline={timeline} />;
   }
 }
 

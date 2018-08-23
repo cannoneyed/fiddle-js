@@ -97,6 +97,17 @@ export class Timeline {
   }
 
   @computed
+  get divisionWidth(): number {
+    return this.segmentWidth / this.segmentDivisions.length;
+  }
+
+  // TODO Fix legacy snap to grid implementation
+  @computed
+  get division(): Fraction {
+    return last(this.segmentDivisions) || new Fraction(1, 1);
+  }
+
+  @computed
   get barsPerSegment(): number {
     const firstDivision = this.getFirstDivision();
     return firstDivision.numerator;

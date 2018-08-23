@@ -7,7 +7,12 @@ import { makePoints } from 'utils/konva';
 
 import { Dimensions } from 'core/interfaces';
 
-import { get, SequencerPositionService, Timeline, TracksLayout } from 'features/Sequencer/core';
+import {
+  get,
+  SequencerPositionService,
+  TimelineLayout,
+  TracksLayout,
+} from 'features/Sequencer/core';
 
 interface Props {}
 interface InjectedProps {
@@ -19,9 +24,9 @@ interface InjectedProps {
 
 const inject = injector<Props, InjectedProps>(props => {
   const tracksLayout = get(TracksLayout);
-  const timeline = get(Timeline);
+  const timelineLayout = get(TimelineLayout);
   const sequencerPositionService = get(SequencerPositionService);
-  const { dropTargetPosition, dropTargetTrackIndex } = timeline;
+  const { dropTargetPosition, dropTargetTrackIndex } = timelineLayout;
   const { trackHeight } = tracksLayout;
 
   const offsetX = dropTargetPosition ? sequencerPositionService.getOffsetX(dropTargetPosition) : 0;

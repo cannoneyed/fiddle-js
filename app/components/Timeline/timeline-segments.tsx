@@ -64,7 +64,7 @@ export default class TimelineSegments extends React.Component<Props, {}> {
 
     return (
       <Group x={x} key={divisionIndex}>
-        <Line points={linePoints} stroke={color} />
+        <Line points={linePoints} stroke={color} strokeWidth={1} />
         {label}
       </Group>
     );
@@ -77,7 +77,7 @@ export default class TimelineSegments extends React.Component<Props, {}> {
     const key = segmentIndex;
 
     return (
-      <Group key={key} x={x + 1} height={dimensions.height} width={segmentWidth}>
+      <Group key={key} x={x} height={dimensions.height} width={segmentWidth}>
         {segmentDivisions.map((fraction, divisionIndex) => {
           return this.renderSegmentDivision(fraction, divisionIndex, segmentIndex);
         })}

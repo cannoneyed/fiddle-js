@@ -3,7 +3,7 @@ import { Inject, Service } from 'libs/typedi';
 import { Fraction } from 'core/primitives/fraction';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { GridLayout } from 'features/Sequencer/core';
+import { TimelineState } from 'features/Sequencer/core';
 
 export enum DivisionType {
   primary,
@@ -14,11 +14,13 @@ export enum DivisionType {
 
 @Service()
 export default class __GridService {
-  @Inject(_ => GridLayout)
-  private gridLayout: GridLayout;
+  @Inject(_ => TimelineState)
+  private timelineState: TimelineState;
 
   getNearestSnapPosition = (offsetX: number) => {
-    const { divisionWidth, division } = this.gridLayout;
+    const { timeline } = this.timelineState;
+    // TODO Fix legacy snap to grid implementation using division
+    const { divisionWidth, division } = timeline;
 
     const prevDivision = Math.floor(offsetX / divisionWidth);
     const nextDivision = prevDivision + 1;

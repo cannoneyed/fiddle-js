@@ -1,27 +1,27 @@
 import { Inject, Service } from 'libs/typedi';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { GridLayout } from 'features/Sequencer/core';
-import { Timeline } from 'features/Sequencer/core';
+import { TimelineState } from 'features/Sequencer/core';
 
 @Service()
 export default class __SequencerPositionService {
-  @Inject(_ => GridLayout)
-  private gridLayout: GridLayout;
-  @Inject(_ => Timeline)
-  private timeline: Timeline;
+  @Inject(_ => TimelineState)
+  private timelineState: TimelineState;
+
+  private getTimeline() {
+    return this.timelineState.timeline;
+  }
 
   getTimelineVectorFromOffsetX = (offsetX: number) => {
-    const { barWidth } = this.gridLayout;
+    const { barWidth } = this.getTimeline();
     const nearestBar = Math.floor(offsetX / barWidth);
     return new TimelineVector(nearestBar);
   };
 
   getOffsetX = (position: TimelineVector) => {
-    const { barWidth } = this.gridLayout;
+    const { barWidth } = this.getTimeline();
     const bar = position.primary * barWidth;
     const beats = position.beats.multiplyScalar(barWidth);
-
     return bar + beats;
   };
 
@@ -34,6 +34,7 @@ export default class __SequencerPositionService {
   };
 
   getTimelineEnd = () => {
-    return new TimelineVector(this.timeline.length.primary);
+    const timeline = this.getTimeline();
+    return new TimelineVector(timeline.length.primary);
   };
 }

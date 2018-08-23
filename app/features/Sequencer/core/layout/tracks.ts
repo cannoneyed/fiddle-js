@@ -4,7 +4,7 @@ import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
 import { filterMethods } from 'utils/log-filter';
 
-import { GridLayout, SequencerLayout, Timeline, ZoomLayout } from 'features/Sequencer/core';
+import { SequencerLayout, TimelineState, ZoomLayout } from 'features/Sequencer/core';
 import { TrackStore } from 'core';
 
 import { Dimensions } from 'core/interfaces';
@@ -13,12 +13,12 @@ import { Dimensions } from 'core/interfaces';
 export default class __TracksLayout {
   static mobxLoggerConfig = filterMethods('resetScrollOnResize', 'setTracksScroll');
 
-  @Inject(_ => GridLayout)
-  private gridLayout: GridLayout;
+  @Inject(_ => TimelineState)
+  private timelineState: TimelineState;
+
   @Inject(_ => SequencerLayout)
   private sectionLayout: SequencerLayout;
-  @Inject(_ => Timeline)
-  private timeline: Timeline;
+
   @Inject(_ => ZoomLayout)
   private zoomLayout: ZoomLayout;
 
@@ -63,7 +63,8 @@ export default class __TracksLayout {
 
   @computed
   get trackWidth() {
-    return this.timeline.length.primary * this.gridLayout.barWidth;
+    const { timeline } = this.timelineState;
+    return timeline.length.primary * timeline.barWidth;
   }
 
   @computed

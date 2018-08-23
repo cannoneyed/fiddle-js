@@ -5,7 +5,7 @@ import { injector } from 'utils/injector';
 import { Coordinates, Dimensions } from 'core/interfaces';
 import { VerticalGrid } from 'components/VerticalGrid';
 
-import { get, GridLayout, TracksLayout } from 'features/Sequencer/core';
+import { get, TimelineState, TracksLayout } from 'features/Sequencer/core';
 
 interface Props {
   dimensions: Dimensions;
@@ -17,11 +17,11 @@ interface InjectedProps {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const gridLayout = get(GridLayout);
+  const { timeline } = get(TimelineState);
   const tracksLayout = get(TracksLayout);
 
   return {
-    gridSegmentWidth: gridLayout.gridSegmentWidth,
+    gridSegmentWidth: timeline.segmentWidth,
     getOffsetX: () => tracksLayout.tracksScrolledX,
   };
 });
