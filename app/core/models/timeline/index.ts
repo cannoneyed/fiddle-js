@@ -1,8 +1,12 @@
 import { computed, observable } from 'mobx';
-// import { Fraction } from 'core/primitives/fraction';
-import { TimeSignature } from 'core/primitives/time-signature';
+import { first, last, range } from 'lodash';
 
-const DEFAULT_PRIMARY_DIVISION_WIDTH = 100;
+import { Fraction } from 'core/primitives/fraction';
+import { TimeSignature } from 'core/primitives/time-signature';
+import { TimelineVector } from 'core/primitives/timeline-vector';
+
+export const DEFAULT_PRIMARY_WIDTH = 25;
+
 const MIN_DIVISION_WIDTH = 15;
 const MAX_DIVISION_WIDTH = 25;
 
@@ -11,44 +15,90 @@ export class Timeline {
   timeSignature: TimeSignature;
 
   @observable
-  length: number;
+  length: TimelineVector;
 
   @observable
-  primaryDivisionWidth = DEFAULT_PRIMARY_DIVISION_WIDTH;
+  primaryWidth = DEFAULT_PRIMARY_WIDTH;
 
-  constructor(length = 64, timeSignature = new TimeSignature()) {
+  @computed
+  get barWidth() {
+    return this.primaryWidth * this.timeSignature.numerator;
+  }
+
+  constructor(length = new TimelineVector(64), timeSignature = new TimeSignature()) {
     this.length = length;
     this.timeSignature = timeSignature;
   }
 
-  @computed
-  get firstDivision(): number {
+  private getInitialFraction(): Fraction {
     const numerator = this.timeSignature.numerator;
-    for (let i = 2; i < numerator; i++) {
-      if (numerator % i === 0) return i;
+    for (let i = 2; i <= numerator; i++) {
+      if (numerator % i === 0) return new Fraction(1, i);
     }
-    return numerator;
+    return new Fraction(1, 2);
   }
 
   @computed
-  get divisionIndex(): number {
-    let divisionIndex = 0;
-    let divisionWidth = this.primaryDivisionWidth;
-    const firstDivision = this.firstDivision;
+  get segmentDivisions(): Fraction[] {
+    const divisions: Fraction[] = [];
+    let division = new Fraction(1, 1);
+    let fraction = this.getInitialFraction();
+    let divisionWidth = this.barWidth;
 
-    // If the current bar width is greater than minimum divison width, we need to increase our division size
-    if (divisionWidth < MIN_DIVISION_WIDTH) {
-      while (divisionWidth < MIN_DIVISION_WIDTH) {
-        divisionWidth = divisionWidth * 2;
-        divisionIndex += 1;
+    if (divisionWidth >= MAX_DIVISION_WIDTH) {
+      divisions.push(division);
+      while (divisionWidth >= MAX_DIVISION_WIDTH) {
+        division = division.multiply(fraction);
+        divisionWidth = division.multiplyScalar(this.barWidth);
+        if (divisionWidth >= MIN_DIVISION_WIDTH) {
+          divisions.push(division);
+        }
+        fraction = new Fraction(1, 2);
       }
-    } else if (divisionWidth > MAX_DIVISION_WIDTH) {
-      while (divisionWidth > MAX_DIVISION_WIDTH) {
-        const divisor = divisionIndex === 0 ? firstDivision : 2;
-        divisionWidth = divisionWidth / divisor;
-        divisionIndex -= 1;
+    } else {
+      fraction = new Fraction(2, 1);
+      if (divisionWidth >= MIN_DIVISION_WIDTH) {
+        divisions.unshift(division);
+      }
+      while (divisionWidth < MAX_DIVISION_WIDTH) {
+        division = division.multiply(fraction);
+        divisionWidth = division.multiplyScalar(this.barWidth);
+        if (divisionWidth >= MIN_DIVISION_WIDTH) {
+          divisions.unshift(division);
+        }
       }
     }
-    return divisionIndex;
+
+    // Convert from the array of division types into an array of each division marking.
+    const firstDivision = first(divisions) || new Fraction(1, 1);
+    const lastDivision = last(divisions) || new Fraction(1, 1);
+    const nDivisions = firstDivision.divide(lastDivision).reduce().numerator;
+    const segmentDivisions: Fraction[] = range(nDivisions).map(() => lastDivision.copy());
+    for (let i = divisions.length - 2; i > 0; i--) {
+      const fraction = divisions[i];
+      const ratio = fraction.divide(firstDivision);
+      const division = ratio.multiplyScalar(nDivisions);
+      for (let j = 0; j < nDivisions; j += division) {
+        segmentDivisions[j] = fraction.copy();
+      }
+    }
+    segmentDivisions[0] = divisions[0];
+    return segmentDivisions;
+  }
+
+  private getFirstDivision(): Fraction {
+    return this.segmentDivisions[0] || new Fraction(1, 1);
+  }
+
+  @computed
+  get segmentWidth(): number {
+    const firstDivision = this.getFirstDivision();
+    return firstDivision.multiplyScalar(this.barWidth);
+  }
+
+  @computed
+  get barsPerSegment(): number {
+    const firstDivision = this.getFirstDivision();
+    return firstDivision.numerator;
   }
 }

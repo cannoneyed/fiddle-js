@@ -117,4 +117,8 @@ export class Fraction {
   toString() {
     return `${this.numerator} / ${this.denominator}`;
   }
+
+  copy() {
+    return new Fraction(this.numerator, this.denominator);
+  }
 }

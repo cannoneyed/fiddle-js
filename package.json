@@ -111,7 +111,8 @@
     "setupFiles": [
       "jest-canvas-mock"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/app/test/jest-setup.ts"
+    "setupTestFrameworkScriptFile": "<rootDir>/app/test/jest-setup.ts",
+    "testURL": "http://localhost"
   },
   "devDependencies": {
     "@storybook/addon-knobs": "^3.4.8",

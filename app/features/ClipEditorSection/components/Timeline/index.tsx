@@ -7,7 +7,7 @@ import { Dimensions } from 'core/interfaces';
 import { Clip } from 'core/models/clip';
 import { Fraction } from 'core/primitives/fraction';
 
-import Timeline from 'components/Timeline';
+// import Timeline from 'components/Timeline';
 
 import { get, ClipEditorGrid } from 'features/ClipEditorSection/core';
 
@@ -33,17 +33,17 @@ const inject = injector<Props, InjectedProps>(props => {
 @observer
 export class TimelineContainer extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { dimensions, division, divisionWidth, nDivisions } = this.props;
+    // const { dimensions, division, divisionWidth, nDivisions } = this.props;
 
     return (
       <Group>
-        <Timeline
+        {/* <Timeline
           dimensions={dimensions}
           getOffset={() => 0}
           division={division}
           divisionWidth={divisionWidth}
           nDivisions={nDivisions}
-        />
+        /> */}
       </Group>
     );
   }

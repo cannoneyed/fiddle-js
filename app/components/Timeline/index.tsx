@@ -4,22 +4,20 @@ import { observer } from 'mobx-react';
 import { Group, Rect } from 'react-konva';
 
 import { Dimensions } from 'core/interfaces';
-import { Fraction } from 'core/primitives/fraction';
+import { Timeline as TimelineModel } from 'core/models/timeline';
 
 import TimelineSegments from './timeline-segments';
 
 export interface Props {
   dimensions: Dimensions;
-  division: Fraction;
-  divisionWidth: number;
   getOffset: () => number;
-  nDivisions: number;
+  timeline: TimelineModel;
 }
 
 @observer
 export default class Timeline extends React.Component<Props, {}> {
   render() {
-    const { dimensions, division, divisionWidth, getOffset, nDivisions } = this.props;
+    const { dimensions, getOffset, timeline } = this.props;
     const offsetX = getOffset();
 
     return (
@@ -28,9 +26,9 @@ export default class Timeline extends React.Component<Props, {}> {
         <Group x={-offsetX}>
           <TimelineSegments
             dimensions={dimensions}
-            division={division}
-            divisionWidth={divisionWidth}
-            nDivisions={nDivisions}
+            timeline={timeline}
+            offsetX={offsetX}
+            width={dimensions.width}
           />
         </Group>
       </Group>
