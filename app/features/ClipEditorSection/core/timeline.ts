@@ -1,17 +1,8 @@
-import { Inject, Service } from 'libs/typedi';
-import { computed } from 'mobx';
+import { Service } from 'libs/typedi';
 
-import { TimelineVector } from 'core/primitives/timeline-vector';
-
-import { ClipEditorState } from 'features/ClipEditorSection/core';
+import { Timeline } from 'core/models/timeline';
 
 @Service()
-export default class __ClipEditorTimeline {
-  @Inject(_ => ClipEditorState)
-  state: ClipEditorState;
-
-  @computed
-  get length(): TimelineVector {
-    return this.state.clip.length;
-  }
+export default class __ClipEditorTimelineState {
+  timeline = new Timeline();
 }

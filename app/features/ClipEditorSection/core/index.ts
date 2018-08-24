@@ -1,7 +1,6 @@
 import { Container, ObjectType } from 'libs/typedi';
 
 import { default as ClipEditorState } from './state';
-import { default as ClipEditorGrid } from './grid';
 import { default as ClipEditorLayout } from './layout';
 import { default as ClipEditorTimeline } from './timeline';
 import { default as ClipEditorZoom } from './zoom';
@@ -20,13 +19,13 @@ export function processState(clip: Clip, props: Props): ClipEditorState {
 
   // Initialize a newly constructed clip editor core
   if (state.newlyConstructed) {
-    const grid = get(clip, ClipEditorGrid);
     const layout = get(clip, ClipEditorLayout);
-    grid.computeInitialGrid(clip.length, layout.editAreaDimensions);
+    const { timeline } = get(clip, ClipEditorTimeline);
+    timeline.fitToWidth(layout.editAreaDimensions.width, clip.length);
   }
 
   state.clip = clip;
   return state;
 }
 
-export { ClipEditorState, ClipEditorGrid, ClipEditorLayout, ClipEditorTimeline, ClipEditorZoom };
+export { ClipEditorState, ClipEditorLayout, ClipEditorTimeline, ClipEditorZoom };

@@ -123,4 +123,11 @@ export class Timeline {
   zoomOut() {
     this.primaryWidth = this.primaryWidth / ZOOM_FACTOR;
   }
+
+  @action
+  fitToWidth(width: number, length: TimelineVector = this.length) {
+    const bars = length.primary;
+    const barWidth = width / bars;
+    this.primaryWidth = barWidth / this.timeSignature.numerator;
+  }
 }
