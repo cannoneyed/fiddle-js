@@ -4,7 +4,7 @@ import { clamp } from 'lodash';
 import * as defaults from 'defaults/view';
 import { filterMethods } from 'utils/log-filter';
 
-import { SequencerLayout, TimelineState, ZoomLayout } from 'features/Sequencer/core';
+import { SequencerLayout, TimelineState } from 'features/Sequencer/core';
 import { TrackStore } from 'core';
 
 import { Dimensions } from 'core/interfaces';
@@ -18,9 +18,6 @@ export default class __TracksLayout {
 
   @Inject(_ => SequencerLayout)
   private sectionLayout: SequencerLayout;
-
-  @Inject(_ => ZoomLayout)
-  private zoomLayout: ZoomLayout;
 
   @Inject(_ => TrackStore)
   private trackStore: TrackStore;
@@ -58,7 +55,7 @@ export default class __TracksLayout {
 
   @computed
   get trackHeight() {
-    return this.zoomLayout.vertical.level * defaults.trackHeight;
+    return defaults.trackHeight;
   }
 
   @computed

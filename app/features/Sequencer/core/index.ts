@@ -3,7 +3,6 @@ import { Container, ObjectType } from 'libs/typedi';
 export { default as SequencerLayout } from './layout/layout';
 export { default as TimelineLayout } from './layout/timeline';
 export { default as TracksLayout } from './layout/tracks';
-export { default as ZoomLayout } from './layout/zoom';
 
 export { default as SequencerState } from './state';
 export { default as TimelineState } from './timeline';

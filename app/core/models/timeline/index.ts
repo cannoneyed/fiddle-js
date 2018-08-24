@@ -1,4 +1,4 @@
-import { computed, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { first, last, range } from 'lodash';
 
 import { Fraction } from 'core/primitives/fraction';
@@ -6,6 +6,7 @@ import { TimeSignature } from 'core/primitives/time-signature';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 export const DEFAULT_PRIMARY_WIDTH = 25;
+export const ZOOM_FACTOR = 1.5;
 
 const MIN_DIVISION_WIDTH = 15;
 const MAX_DIVISION_WIDTH = 25;
@@ -111,5 +112,15 @@ export class Timeline {
   get barsPerSegment(): number {
     const firstDivision = this.getFirstDivision();
     return firstDivision.numerator;
+  }
+
+  @action
+  zoomIn() {
+    this.primaryWidth = this.primaryWidth * ZOOM_FACTOR;
+  }
+
+  @action
+  zoomOut() {
+    this.primaryWidth = this.primaryWidth / ZOOM_FACTOR;
   }
 }
