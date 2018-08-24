@@ -24,7 +24,7 @@ export default class Timeline extends React.Component<Props, {}> {
     const { barsPerSegment, length, segmentWidth } = timeline;
     const { floor, min } = Math;
     const firstSegmentIndex = floor(offsetX / segmentWidth);
-    const segmentsInTimeline = length.primary / barsPerSegment;
+    const segmentsInTimeline = length.bars / barsPerSegment;
     const nVisibleSegments = floor(dimensions.width / segmentWidth);
     const nSegmentsToRender = min(nVisibleSegments + 1, segmentsInTimeline);
 

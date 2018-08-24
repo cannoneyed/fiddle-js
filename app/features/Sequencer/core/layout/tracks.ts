@@ -61,7 +61,7 @@ export default class __TracksLayout {
   @computed
   get trackWidth() {
     const { timeline } = this.timelineState;
-    return timeline.length.primary * timeline.barWidth;
+    return timeline.length.bars * timeline.barWidth;
   }
 
   @computed

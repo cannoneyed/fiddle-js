@@ -32,7 +32,7 @@ export class GridLayoutBase {
 
   @computed
   get gridCount(): number {
-    return this.timelineLayout.length.primary;
+    return this.timelineLayout.length.bars;
   }
 
   @computed
@@ -68,7 +68,7 @@ export class GridLayoutBase {
 
   @computed
   get nDivisions(): number {
-    return this.division.inverse().multiplyScalar(this.timelineLayout.length.primary);
+    return this.division.inverse().multiplyScalar(this.timelineLayout.length.bars);
   }
 
   @computed
@@ -80,7 +80,7 @@ export class GridLayoutBase {
   computeInitialGrid(length: TimelineVector, dimensions: Dimensions) {
     const { width } = dimensions;
     // TODO: Figure out actual bars w/ minor divisions here.
-    const bars = length.primary;
+    const bars = length.bars;
     const barWidth = width / bars;
 
     const zoomHorizontal = barWidth / defaults.barWidth;

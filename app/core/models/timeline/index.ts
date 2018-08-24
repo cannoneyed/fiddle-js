@@ -126,7 +126,7 @@ export class Timeline {
 
   @action
   fitToWidth(width: number, length: TimelineVector = this.length) {
-    const bars = length.primary;
+    const bars = length.bars;
     const barWidth = width / bars;
     this.primaryWidth = barWidth / this.timeSignature.numerator;
   }

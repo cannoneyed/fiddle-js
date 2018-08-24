@@ -1,77 +1,74 @@
 import { Fraction } from 'core/primitives/fraction';
 import { absFloor } from 'utils/math';
 
-export const TICKS_PER_TERTIARY = 240;
+export const TICKS_PER_SECONDARY = 240;
 const defaultTimeSignature = () => new Fraction(4, 4);
 
-const computeTertiaryPerSecondary = (timeSignature: Fraction) => {
+const computeSecondaryPerPrimary = (timeSignature: Fraction) => {
   return 12; // TODO: Figure out 6/8 time signatures
 };
 
 const computeDivisions = (absoluteTicks: number, timeSignature: Fraction) => {
-  const tertiaryPerSecondary = computeTertiaryPerSecondary(timeSignature);
-  const secondaryPerPrimary = timeSignature.numerator;
-  const ticksPerSecondary = tertiaryPerSecondary * TICKS_PER_TERTIARY;
-  const ticksPerPrimary = ticksPerSecondary * secondaryPerPrimary;
+  const secondaryPerPrimary = computeSecondaryPerPrimary(timeSignature);
+  const primaryPerBar = timeSignature.numerator;
+  const ticksPerPrimary = secondaryPerPrimary * TICKS_PER_SECONDARY;
+  const ticksPerBar = ticksPerPrimary * primaryPerBar;
 
   let computedTicks = absoluteTicks;
+  const bars = absFloor(computedTicks / ticksPerBar);
+  computedTicks -= bars * ticksPerBar;
   const primary = absFloor(computedTicks / ticksPerPrimary);
   computedTicks -= primary * ticksPerPrimary;
-  const secondary = absFloor(computedTicks / ticksPerSecondary);
-  computedTicks -= secondary * ticksPerSecondary;
-  const tertiary = absFloor(computedTicks / TICKS_PER_TERTIARY);
-  computedTicks -= tertiary * TICKS_PER_TERTIARY;
+  const secondary = absFloor(computedTicks / TICKS_PER_SECONDARY);
+  computedTicks -= secondary * TICKS_PER_SECONDARY;
   const ticks = computedTicks;
 
-  return { primary, secondary, tertiary, ticks };
+  return { bars, primary, secondary, ticks };
 };
 
 export class TimelineVector {
   readonly absoluteTicks: number;
+  readonly bars: number;
   readonly primary: number;
   readonly secondary: number;
-  readonly tertiary: number;
   readonly ticks: number;
 
   constructor(
+    bars = 0,
     primary = 0,
     secondary = 0,
-    tertiary = 0,
     ticks = 0,
     public readonly timeSignature = defaultTimeSignature()
   ) {
-    const tertiaryPerSecondary = computeTertiaryPerSecondary(timeSignature);
-    const secondaryPerPrimary = timeSignature.numerator;
+    const secondaryPerPrimary = computeSecondaryPerPrimary(timeSignature);
+    const primaryPerBar = timeSignature.numerator;
 
-    const ticksPerSecondary = tertiaryPerSecondary * TICKS_PER_TERTIARY;
-    const ticksPerPrimary = ticksPerSecondary * secondaryPerPrimary;
+    const ticksPerPrimary = secondaryPerPrimary * TICKS_PER_SECONDARY;
+    const ticksPerBar = ticksPerPrimary * primaryPerBar;
 
     const absoluteTicks =
-      primary * ticksPerPrimary +
-      secondary * ticksPerSecondary +
-      tertiary * TICKS_PER_TERTIARY +
-      ticks;
+      bars * ticksPerBar + primary * ticksPerPrimary + secondary * TICKS_PER_SECONDARY + ticks;
     this.absoluteTicks = absoluteTicks;
 
     const computed = computeDivisions(absoluteTicks, timeSignature);
+    this.bars = computed.bars;
     this.primary = computed.primary;
     this.secondary = computed.secondary;
-    this.tertiary = computed.tertiary;
     this.ticks = computed.ticks;
   }
 
   get beats() {
     const { denominator } = this.timeSignature;
-    const tertiaryPerSecondary = computeTertiaryPerSecondary(this.timeSignature);
+    const secondaryPerPrimary = computeSecondaryPerPrimary(this.timeSignature);
     // TODO: Multiple time signatures
-    const secondary = new Fraction(this.secondary, denominator);
-    const tertiary = new Fraction(this.tertiary, tertiaryPerSecondary);
-    return secondary.add(tertiary).reduce();
+    const primary = new Fraction(this.primary, denominator);
+    const secondary = new Fraction(this.secondary, secondaryPerPrimary);
+    return primary.add(secondary).reduce();
   }
 
   makeNegative() {
-    const { primary, secondary, tertiary, ticks, timeSignature } = this;
-    return new TimelineVector(-primary, -secondary, -tertiary, -ticks, timeSignature);
+    const { bars, primary, secondary, ticks, timeSignature } = this;
+    return new TimelineVector(-bars, -primary, -secondary, -ticks, timeSignature);
   }
 
   add(delta: TimelineVector) {
@@ -105,9 +102,9 @@ export class TimelineVector {
 
   copy() {
     return new TimelineVector(
+      this.bars,
       this.primary,
       this.secondary,
-      this.tertiary,
       this.ticks,
       this.timeSignature
     );
@@ -152,29 +149,29 @@ export class TimelineVector {
   }
 
   static fromAbsoluteTicks(absoluteTicks: number, timeSignature = defaultTimeSignature()) {
-    const { primary, secondary, tertiary, ticks } = computeDivisions(absoluteTicks, timeSignature);
-    return new TimelineVector(primary, secondary, tertiary, ticks, timeSignature);
+    const { bars, primary, secondary, ticks } = computeDivisions(absoluteTicks, timeSignature);
+    return new TimelineVector(bars, primary, secondary, ticks, timeSignature);
   }
 
   static fromFraction(fraction: Fraction, timeSignature = defaultTimeSignature()) {
-    const tertiaryPerSecondary = computeTertiaryPerSecondary(timeSignature);
-    const secondaryPerPrimary = timeSignature.numerator;
+    const secondaryPerPrimary = computeSecondaryPerPrimary(timeSignature);
+    const primaryPerBar = timeSignature.numerator;
 
-    const ticksPerSecondary = tertiaryPerSecondary * TICKS_PER_TERTIARY;
-    const ticksPerPrimary = ticksPerSecondary * secondaryPerPrimary;
-    const ticks = fraction.multiplyScalar(ticksPerPrimary);
+    const ticksPerPrimary = secondaryPerPrimary * TICKS_PER_SECONDARY;
+    const ticksPerBar = ticksPerPrimary * primaryPerBar;
+    const ticks = fraction.multiplyScalar(ticksPerBar);
 
     return TimelineVector.fromAbsoluteTicks(ticks);
   }
 
   static getNDivisions(timelineVector: TimelineVector, division: Fraction) {
     const { timeSignature } = timelineVector;
-    const tertiaryPerSecondary = computeTertiaryPerSecondary(timeSignature);
-    const secondaryPerPrimary = timeSignature.numerator;
-    const tertiaryPerPrimary = tertiaryPerSecondary * secondaryPerPrimary;
-    const tertiaryDivision = new Fraction(1, tertiaryPerPrimary);
+    const secondaryPerPrimary = computeSecondaryPerPrimary(timeSignature);
+    const primaryPerBar = timeSignature.numerator;
+    const secondaryPerBar = secondaryPerPrimary * primaryPerBar;
+    const secondaryDivision = new Fraction(1, secondaryPerBar);
 
-    const ticksPerDivision = division.divide(tertiaryDivision).multiplyScalar(TICKS_PER_TERTIARY);
+    const ticksPerDivision = division.divide(secondaryDivision).multiplyScalar(TICKS_PER_SECONDARY);
     const divisions = absFloor(timelineVector.absoluteTicks / ticksPerDivision);
     const remainderTicks = timelineVector.absoluteTicks - divisions * ticksPerDivision;
     const remainder = TimelineVector.fromAbsoluteTicks(remainderTicks, timeSignature);

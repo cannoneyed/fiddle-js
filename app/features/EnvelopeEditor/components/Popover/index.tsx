@@ -37,8 +37,8 @@ const inject = injector<Props, InjectedProps>(props => {
 export class Popover extends React.Component<Props & InjectedProps, {}> {
   renderPosition() {
     const { point } = this.props;
-    const { primary, secondary, tertiary, ticks } = point.position;
-    const string = ` ${primary} ${secondary} ${tertiary} ${ticks}`;
+    const { bars, primary, secondary, ticks } = point.position;
+    const string = ` ${bars} ${primary} ${secondary} ${ticks}`;
     return <PositionText>{string}</PositionText>;
   }
 

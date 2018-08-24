@@ -20,7 +20,7 @@ export default class __SequencerPositionService {
 
   getOffsetX = (position: TimelineVector) => {
     const { barWidth } = this.getTimeline();
-    const bar = position.primary * barWidth;
+    const bar = position.bars * barWidth;
     const beats = position.beats.multiplyScalar(barWidth);
     return bar + beats;
   };
@@ -35,6 +35,6 @@ export default class __SequencerPositionService {
 
   getTimelineEnd = () => {
     const timeline = this.getTimeline();
-    return new TimelineVector(timeline.length.primary);
+    return new TimelineVector(timeline.length.bars);
   };
 }
