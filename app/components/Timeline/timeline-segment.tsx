@@ -2,7 +2,6 @@ import * as React from 'react';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 import { Group, Line, Text } from 'react-konva';
-import { range } from 'lodash';
 import { makePoints } from 'utils/konva';
 
 import { Dimensions } from 'core/interfaces';
@@ -10,14 +9,20 @@ import { Fraction } from 'core/primitives/fraction';
 import { Timeline } from 'core/models/timeline';
 
 export interface Props {
+  segmentIndex: number;
   dimensions: Dimensions;
-  offsetX: number;
   timeline: Timeline;
-  width: number;
 }
 
 @observer
-export default class TimelineSegments extends React.Component<Props, {}> {
+export default class TimelineSegment extends React.Component<Props, {}> {
+  computeDivisionHeight = (division: Fraction, height: number) => {
+    if (division.numerator / division.denominator >= 0.5) {
+      division = new Fraction(1, 2);
+    }
+    return division.multiplyScalar(height);
+  };
+
   renderTimelineLabel = (timelineLabel: number) => {
     const color = theme.colors.lightGray.toRgbString();
 
@@ -31,13 +36,6 @@ export default class TimelineSegments extends React.Component<Props, {}> {
         fill={color}
       />
     );
-  };
-
-  computeDivisionHeight = (division: Fraction, height: number) => {
-    if (division.numerator / division.denominator >= 0.5) {
-      division = new Fraction(1, 2);
-    }
-    return division.multiplyScalar(height);
   };
 
   renderSegmentDivision = (
@@ -70,7 +68,8 @@ export default class TimelineSegments extends React.Component<Props, {}> {
     );
   };
 
-  renderTimelineSegment = (segmentIndex: number) => {
+  render() {
+    const { segmentIndex } = this.props;
     const { segmentDivisions, segmentWidth } = this.props.timeline;
     const { dimensions } = this.props;
     const x = segmentIndex * segmentWidth;
@@ -83,25 +82,5 @@ export default class TimelineSegments extends React.Component<Props, {}> {
         })}
       </Group>
     );
-  };
-
-  render() {
-    const { dimensions, offsetX, timeline, width } = this.props;
-    const { barsPerSegment, length, segmentWidth } = timeline;
-
-    const firstSegmentIndex = Math.floor(offsetX / segmentWidth);
-    const nSegments = Math.floor(width / segmentWidth) + 1;
-
-    const nBars = nSegments * barsPerSegment;
-    const nBarsOverflow = Math.max(nBars - length.primary, 0);
-    const nSegmentsOverflow = nBarsOverflow / barsPerSegment;
-    const nSegmentsToDisplay = nSegments - nSegmentsOverflow;
-
-    const timelineSegments = range(nSegmentsToDisplay).map(n => {
-      const segmentIndex = firstSegmentIndex + n;
-      return this.renderTimelineSegment(segmentIndex);
-    });
-
-    return <Group {...dimensions}>{timelineSegments}</Group>;
   }
 }

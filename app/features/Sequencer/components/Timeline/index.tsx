@@ -6,7 +6,7 @@ import { Timeline as TimelineModel } from 'core/models/timeline';
 
 import Timeline from 'components/Timeline';
 
-import { get, TimelineState, TracksLayout } from 'features/Sequencer/core';
+import { get, SequencerLayout, TracksLayout, TimelineState } from 'features/Sequencer/core';
 
 interface Props {}
 interface InjectedProps {
@@ -17,6 +17,7 @@ interface InjectedProps {
 
 const inject = injector<Props, InjectedProps>(props => {
   const { timeline } = get(TimelineState);
+  const sequencerLayout = get(SequencerLayout);
   const tracksLayout = get(TracksLayout);
 
   const getOffset = () => tracksLayout.tracksScrolledX;
@@ -24,7 +25,7 @@ const inject = injector<Props, InjectedProps>(props => {
   return {
     getOffset,
     timeline,
-    width: tracksLayout.tracksDimensions.width,
+    width: sequencerLayout.tracksDimensions.width,
   };
 });
 
