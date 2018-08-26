@@ -7,11 +7,9 @@ fiddle will be a modern sequencer application specializing in arranging OSC data
 ```bash
 $ yarn            # https://yarnpkg.com
 
-$ yarn dev:web    # Run dev mode in browser
+$ yarn start      # Run dev mode in browser
 # or
-$ yarn storybook  # Run storybook component playground
-# or
-$ yarn dev        # Build run electron
+$ yarn storybook  # Run storybook component playground in browser
 ```
 
 #### Roadmap to v0.1
