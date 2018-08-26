@@ -7,7 +7,7 @@ import { Stage, Group, Layer } from 'react-konva';
 
 import { Dimensions } from 'core/interfaces';
 import { Clip } from 'core/models/clip';
-import { SnipLayer as SnipLayerModel } from 'core/models/clip/layer';
+import { SnipNode } from 'core/models/data';
 
 import SnipLayer from 'features/ClipEditorSection/components/SnipLayer';
 import Timeline from 'features/ClipEditorSection/components/Timeline';
@@ -50,9 +50,9 @@ export class EditArea extends React.Component<Props & Injected, {}> {
           <Layer>
             <Timeline clip={clip} dimensions={timelineDimensions} />
             <Group {...layersProps}>
-              {clip.layers.map((layer, index) => {
-                if (layer instanceof SnipLayerModel) {
-                  return <SnipLayer key={index} clip={clip} layer={layer} />;
+              {clip.nodes.map((node, index) => {
+                if (node instanceof SnipNode) {
+                  return <SnipLayer key={index} clip={clip} node={node} />;
                 } else {
                   return null;
                 }

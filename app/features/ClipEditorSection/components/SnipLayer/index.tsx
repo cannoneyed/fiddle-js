@@ -4,8 +4,8 @@ import { hot, injector } from 'utils/injector';
 
 import { Dimensions } from 'core/interfaces';
 import { Clip } from 'core/models/clip';
+import { SnipNode } from 'core/models/data';
 import { Envelope } from 'core/models/envelope';
-import { SnipLayer as SnipLayerModel } from 'core/models/clip/layer';
 import { SnapToGrid } from 'core/models/snap-to-grid';
 
 import EnvelopeEditor from 'features/EnvelopeEditor';
@@ -14,7 +14,7 @@ import { get, ClipEditorLayout, ClipEditorState } from 'features/ClipEditorSecti
 
 export interface Props {
   clip: Clip;
-  layer: SnipLayerModel;
+  node: SnipNode;
 }
 export interface InjectedProps {
   dimensions: Dimensions;
@@ -33,8 +33,8 @@ const inject = injector<Props, InjectedProps>(props => {
 @observer
 export class SnipLayer extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { layer, dimensions, snapToGrid } = this.props;
-    const { snip } = layer;
+    const { node, dimensions, snapToGrid } = this.props;
+    const { snip } = node;
 
     const layerDimensions = {
       width: dimensions.width,

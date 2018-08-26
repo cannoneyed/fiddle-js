@@ -2,8 +2,8 @@ import { Inject, Service } from 'libs/typedi';
 import { action } from 'mobx';
 
 import { Clip, ClipParams } from 'core/models/clip';
+import { SnipNode } from 'core/models/data';
 import { Envelope } from 'core/models/envelope';
-import { SnipLayer } from 'core/models/clip/layer';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 import { Point } from 'core/models/envelope/point';
@@ -55,8 +55,8 @@ export default class __ClipActions {
       length: params.length,
     });
 
-    const snipLayer = new SnipLayer(snip);
-    clip.addLayer(snipLayer);
+    const snipNode = new SnipNode(snip);
+    clip.graph = snipNode;
     return clip;
   }
 

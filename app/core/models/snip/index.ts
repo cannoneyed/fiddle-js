@@ -2,12 +2,11 @@ import { observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';
-
-import { Envelope } from 'core/models/envelope';
+import { Data } from 'core/models/data';
 
 export interface SnipParams {
   length: TimelineVector;
-  data?: SnipData;
+  data?: Data;
 }
 
 export const enum SnipType {
@@ -17,8 +16,6 @@ export const enum SnipType {
   trigger = 'trigger',
 }
 
-export type SnipData = Envelope | null;
-
 export class Snip {
   id = generateId();
 
@@ -26,7 +23,7 @@ export class Snip {
   length: TimelineVector;
 
   @observable
-  data: SnipData = null;
+  data: Data = null;
 
   constructor(params: SnipParams) {
     const { data = null, length } = params;

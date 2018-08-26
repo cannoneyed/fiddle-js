@@ -6,7 +6,7 @@
     "moduleResolution": "node",
     "module": "esnext",
     "jsx": "react",
-    "lib": ["dom", "es6", "dom.iterable", "scripthost"],
+    "lib": ["dom", "es7", "dom.iterable", "scripthost"],
     "types": [],
 
     "alwaysStrict": true,

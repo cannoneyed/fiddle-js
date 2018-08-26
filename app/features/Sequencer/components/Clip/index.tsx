@@ -2,14 +2,17 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { hot, injector } from 'utils/injector';
 import { Rect as KonvaRect } from 'konva';
-import { Rect } from 'react-konva';
+import { Group, Rect } from 'react-konva';
 import { KonvaEvent } from 'utils/konva';
 
 import { ContextMenu } from '@blueprintjs/core';
 
 import ClipContextMenu from 'features/Sequencer/components/ContextMenus/ClipContextMenu';
+import EnvelopeSnip from 'components/Snips/Envelope';
 
+import { Dimensions } from 'core/interfaces';
 import { Clip as ClipModel } from 'core/models/clip';
+import { Envelope } from 'core/models/envelope';
 
 import * as clipDragHandlers from 'features/Sequencer/core/interactions/clip-drag/handlers';
 import { get, ClipSelectInteraction, SequencerPositionService } from 'features/Sequencer/core';
@@ -79,27 +82,39 @@ export class Clip extends React.Component<Props & InjectedProps, State> {
     this.setState({ isContextMenuOpen: true });
   };
 
+  renderContents(dimensions: Dimensions) {
+    const { clip } = this.props;
+    const { output } = clip;
+    if (output instanceof Envelope) {
+      return <EnvelopeSnip dimensions={dimensions} envelope={output} />;
+    } else {
+      return null;
+    }
+  }
+
   render() {
     const { clip, height, isDragging, offsetX, width } = this.props;
 
     const opacity = isDragging ? 0.5 : 1;
-    const fill = clip.isSelected ? 'red' : 'gray';
-
-    const borderWidth = 2;
+    const borderWidth = clip.isSelected ? 2 : 1;
     const borderOffset = borderWidth / 2;
 
+    const dimensions = {
+      height: height - borderOffset,
+      width: width - borderOffset,
+    };
+
     return (
-      <Rect
-        x={offsetX + borderOffset}
-        y={borderOffset}
-        height={height - borderOffset}
-        width={width - borderOffset}
-        onMouseDown={this.handleMouseDown}
-        stroke={'#ccc'}
-        strokeWidth={2}
-        opacity={opacity}
-        fill={fill}
-      />
+      <Group x={offsetX + borderOffset} y={borderOffset} {...dimensions}>
+        {this.renderContents(dimensions)}
+        <Rect
+          {...dimensions}
+          onMouseDown={this.handleMouseDown}
+          stroke={'#ccc'}
+          strokeWidth={borderWidth}
+          opacity={opacity}
+        />
+      </Group>
     );
   }
 }
