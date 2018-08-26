@@ -4,10 +4,8 @@ import { filterMethods } from 'utils/log-filter';
 
 import { Dimensions, Rectangle, Position } from 'core/interfaces';
 
-import { SectionLayout } from 'core/state/layouts/shared/section';
-
 @Service()
-export default class __ClipEditorLayout implements SectionLayout {
+export default class __ClipEditorLayout {
   static mobxLoggerConfig = filterMethods('setDimensions');
 
   @observable

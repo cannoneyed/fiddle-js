@@ -1,13 +1,14 @@
 import { Inject, Service } from 'libs/typedi';
 import { action, autorun, computed, observable } from 'mobx';
 import { clamp } from 'lodash';
-import * as defaults from 'defaults/view';
 import { filterMethods } from 'utils/log-filter';
 
 import { SequencerLayout, TimelineState } from 'features/Sequencer/core';
 import { TrackStore } from 'core';
 
 import { Dimensions } from 'core/interfaces';
+
+export const DEFAULT_TRACK_HEIGHT = 50;
 
 @Service()
 export default class __TracksLayout {
@@ -55,7 +56,7 @@ export default class __TracksLayout {
 
   @computed
   get trackHeight() {
-    return defaults.trackHeight;
+    return DEFAULT_TRACK_HEIGHT;
   }
 
   @computed
