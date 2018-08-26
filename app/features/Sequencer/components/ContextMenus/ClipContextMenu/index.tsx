@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 import { Menu, MenuItem } from '@blueprintjs/core';
 
 import { Clip } from 'core/models/clip';
@@ -59,4 +59,4 @@ export class ClipContextMenu extends React.Component<Props & InjectedProps, {}> 
   }
 }
 
-export default inject(ClipContextMenu);
+export default inject(hot(module)(ClipContextMenu));

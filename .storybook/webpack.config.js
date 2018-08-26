@@ -1,3 +1,8 @@
-require('babel-register');
-const config = require('./webpack.config.es6.js');
-module.exports = config.default;
+const commonConfig = require('../configs/webpack/common');
+
+module.exports = (_, env, config) => {
+  config.module = commonConfig.module;
+  config.resolve = commonConfig.resolve;
+
+  return config;
+};

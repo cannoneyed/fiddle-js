@@ -53,6 +53,7 @@ const inject = injector<Props, InjectedProps>(props => {
 @observer
 export class Layout extends React.Component<Props & InjectedProps, {}> {
   render() {
+    console.log('render layout...');
     const { dimensions } = this.props;
 
     const minimapWrapperStyle = {

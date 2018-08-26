@@ -28,13 +28,13 @@ const inject = injector<Props, InjectedProps>(props => {
   };
 });
 
-@observer
 export class Toolbar extends React.Component<Props & InjectedProps, {}> {
   render() {
     const { createTrack, zoomInHorizontal, zoomOutHorizontal } = this.props;
 
     return (
       <ToolbarContainer>
+        you
         <Button icon="add" onClick={() => createTrack()}>
           Add Track
         </Button>
@@ -46,7 +46,7 @@ export class Toolbar extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(Toolbar);
+export default observer(inject(Toolbar));
 
 const ToolbarContainer = styled.div`
   position: absolute;

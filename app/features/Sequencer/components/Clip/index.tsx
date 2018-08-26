@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 import { Rect as KonvaRect } from 'konva';
 import { Rect } from 'react-konva';
 import { KonvaEvent } from 'utils/konva';
@@ -83,7 +83,7 @@ export class Clip extends React.Component<Props & InjectedProps, State> {
     const { clip, height, isDragging, offsetX, width } = this.props;
 
     const opacity = isDragging ? 0.5 : 1;
-    const fill = clip.isSelected ? 'purple' : 'gray';
+    const fill = clip.isSelected ? 'red' : 'gray';
 
     const borderWidth = 2;
     const borderOffset = borderWidth / 2;
@@ -104,4 +104,4 @@ export class Clip extends React.Component<Props & InjectedProps, State> {
   }
 }
 
-export default inject(Clip);
+export default inject(hot(module)(Clip));
