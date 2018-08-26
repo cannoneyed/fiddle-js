@@ -1,9 +1,9 @@
-import { Inject, Service } from 'libs/typedi';
+import { Service } from 'libs/typedi';
 
 import { Fraction } from 'core/primitives/fraction';
 import { TimelineVector } from 'core/primitives/timeline-vector';
-
-import { TimelineState } from 'features/Sequencer/core';
+import { SnapToGrid, snapToGridValues } from 'core/models/snap-to-grid';
+import { Timeline } from 'core/models/timeline';
 
 export enum DivisionType {
   primary,
@@ -14,13 +14,12 @@ export enum DivisionType {
 
 @Service()
 export default class __GridService {
-  @Inject(_ => TimelineState)
-  private timelineState: TimelineState;
-
-  getNearestSnapPosition = (offsetX: number) => {
-    const { timeline } = this.timelineState;
-    // TODO Fix legacy snap to grid implementation using division
-    const { divisionWidth, division } = timeline;
+  getNearestSnapPosition = (timeline: Timeline, offsetX: number, snapToGrid: SnapToGrid) => {
+    const isAuto = snapToGrid.value === snapToGridValues.snap_auto;
+    const division = isAuto ? timeline.division : snapToGrid.division;
+    const divisionWidth = isAuto
+      ? timeline.divisionWidth
+      : division.divide(timeline.division).multiplyScalar(timeline.divisionWidth);
 
     const prevDivision = Math.floor(offsetX / divisionWidth);
     const nextDivision = prevDivision + 1;

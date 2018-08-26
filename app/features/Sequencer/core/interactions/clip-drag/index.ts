@@ -7,13 +7,13 @@ import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { ClipActions, ClipStore, TrackStore } from 'core';
-
+import { ClipActions, ClipStore, GridService, TrackStore } from 'core';
 import {
   ClipMoveService,
   ClipSelectInteraction,
-  GridService,
   SequencerPositionService,
+  SequencerState,
+  TimelineState,
   TracksPositionService,
 } from 'features/Sequencer/core';
 
@@ -35,6 +35,10 @@ export default class __ClipDragInteraction {
   private gridService: GridService;
   @Inject(_ => SequencerPositionService)
   private sequencerPositionService: SequencerPositionService;
+  @Inject(_ => SequencerState)
+  private sequencerState: SequencerState;
+  @Inject(_ => TimelineState)
+  private timelineState: TimelineState;
   @Inject(_ => TracksPositionService)
   private tracksPositionService: TracksPositionService;
   @Inject(_ => TrackStore)
@@ -93,11 +97,17 @@ export default class __ClipDragInteraction {
 
   @action
   computeDragTargets = () => {
+    const { timeline } = this.timelineState;
+    const { snapToGrid } = this.sequencerState;
     const offsetX = this.handleClipOffsetX + this.deltaX;
     const y = this.startY + this.deltaY;
 
     // Compute the timeline position where the clip is being dragged to
-    const snapToGridPosition = this.gridService.getNearestSnapPosition(offsetX);
+    const snapToGridPosition = this.gridService.getNearestSnapPosition(
+      timeline,
+      offsetX,
+      snapToGrid
+    );
 
     const position = TimelineVector.clamp(
       snapToGridPosition,

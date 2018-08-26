@@ -13,7 +13,6 @@ export { default as SequencerScrollInteraction } from './interactions/scroll';
 export { default as TracksInteraction } from './interactions/tracks';
 
 export { default as ClipMoveService } from './services/clip-move';
-export { default as GridService } from './services/grid';
 export { default as SequencerPositionService } from './services/sequencer-position';
 export { default as TracksPositionService } from './services/tracks-position';
 

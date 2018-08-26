@@ -3,6 +3,7 @@ export { default as ClipActions } from 'core/actions/clip';
 export { default as TrackActions } from 'core/actions/track';
 
 // From services
+export { default as GridService } from 'core/services/grid';
 export { default as LoadService } from 'core/services/load';
 export { default as UndoService } from 'core/services/undo';
 

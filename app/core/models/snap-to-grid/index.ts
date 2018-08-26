@@ -7,6 +7,12 @@ export class SnapToGridValue {
   constructor(public name: string, public division: Fraction) {}
 }
 
+export class AutoSnapToGrid extends SnapToGridValue {
+  constructor() {
+    super('auto', new Fraction(1, 1));
+  }
+}
+
 export class SnapToGridValues {
   readonly snap_1 = new SnapToGridValue('1 bar', new Fraction(1, 1));
   readonly snap_1_2 = new SnapToGridValue('1/2', new Fraction(1, 2));
@@ -14,6 +20,7 @@ export class SnapToGridValues {
   readonly snap_1_8 = new SnapToGridValue('1/8', new Fraction(1, 8));
   readonly snap_1_16 = new SnapToGridValue('1/16', new Fraction(1, 16));
   readonly snap_1_32 = new SnapToGridValue('1/32', new Fraction(1, 32));
+  readonly snap_auto = new AutoSnapToGrid();
   readonly [key: string]: SnapToGridValue;
 }
 
