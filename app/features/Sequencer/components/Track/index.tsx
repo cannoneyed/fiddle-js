@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Konva from 'konva';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 import { ContextMenu } from '@blueprintjs/core';
 import theme from 'styles/theme';
 import { Group, Line, Rect } from 'react-konva';
@@ -104,4 +104,4 @@ export class Track extends React.Component<Props & InjectedProps, State> {
   }
 }
 
-export default inject(Track);
+export default inject(hot(module)(Track));

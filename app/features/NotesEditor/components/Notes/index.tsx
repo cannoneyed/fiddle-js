@@ -2,7 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { Group } from 'react-konva';
 import { KonvaEvent } from 'utils/konva';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 
 import { Coordinates, Dimensions } from 'core/interfaces';
 import { Notes as NotesModel } from 'core/models/notes';
@@ -108,4 +108,4 @@ export class Notes extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(Notes);
+export default inject(hot(module)(Notes));

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 
 import VerticalScroll from 'components/Scrollbars/Vertical';
 
@@ -45,4 +45,4 @@ export class VerticalScrollArea extends React.Component<Props & InjectedProps, {
   }
 }
 
-export default inject(VerticalScrollArea);
+export default inject(hot(module)(VerticalScrollArea));

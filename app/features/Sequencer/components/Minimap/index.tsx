@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 
 import { Draggable, Unregister } from 'core/interactions/handlers/draggable';
 import { get, TracksLayout } from 'features/Sequencer/core';
@@ -90,4 +90,4 @@ export class Minimap extends React.Component<Props & InjectedProps, State> {
   }
 }
 
-export default inject(Minimap);
+export default inject(hot(module)(Minimap));

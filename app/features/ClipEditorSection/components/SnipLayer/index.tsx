@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 
 import { Dimensions } from 'core/interfaces';
 import { Clip } from 'core/models/clip';
@@ -51,4 +51,4 @@ export class SnipLayer extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(SnipLayer);
+export default inject(hot(module)(SnipLayer));

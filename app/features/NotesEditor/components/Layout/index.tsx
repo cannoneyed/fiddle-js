@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 import { Stage, Layer } from 'react-konva';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 
 import { Dimensions } from 'core/interfaces';
 import { KeyLayout } from 'core/models/notes/key-layout';
@@ -95,7 +95,7 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(Layout);
+export default inject(hot(module)(Layout));
 
 const NoteEditorWrapper = styled.div`
   position: relative;

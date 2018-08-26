@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Konva from 'konva';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 import { Layer, Stage } from 'react-konva';
 import { makeHandler } from 'utils/konva';
 
@@ -66,4 +66,4 @@ export class TracksStage extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(TracksStage);
+export default inject(hot(module)(TracksStage));

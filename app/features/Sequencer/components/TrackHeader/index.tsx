@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 
 import { Track } from 'core/models/track';
 
@@ -40,7 +40,7 @@ export class TrackHeader extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(TrackHeader);
+export default inject(hot(module)(TrackHeader));
 
 const TrackHeaderContainer = styled.div`
   width: 100%;

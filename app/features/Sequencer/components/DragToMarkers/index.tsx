@@ -1,7 +1,7 @@
 import * as React from 'react';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 import { Group, Line } from 'react-konva';
 import { makePoints } from 'utils/konva';
 
@@ -78,4 +78,4 @@ export class DragToMarkers extends React.Component<{} & InjectedProps, {}> {
   }
 }
 
-export default inject(DragToMarkers);
+export default inject(hot(module)(DragToMarkers));

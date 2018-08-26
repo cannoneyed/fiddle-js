@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 
 import Toolbar from 'features/Toolbar';
 
@@ -53,7 +53,6 @@ const inject = injector<Props, InjectedProps>(props => {
 @observer
 export class Layout extends React.Component<Props & InjectedProps, {}> {
   render() {
-    console.log('render layout...');
     const { dimensions } = this.props;
 
     const minimapWrapperStyle = {
@@ -127,4 +126,4 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(Layout);
+export default inject(hot(module)(Layout));

@@ -2,7 +2,7 @@ import * as React from 'react';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 import { Group, Rect } from 'react-konva';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 
 import { Dimensions } from 'core/interfaces';
 import { Envelope as EnvelopeModel } from 'core/models/envelope';
@@ -43,4 +43,4 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(Layout);
+export default inject(hot(module)(Layout));

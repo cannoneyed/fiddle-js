@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Konva from 'konva';
 import { observer } from 'mobx-react';
 import { Group, Rect } from 'react-konva';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 import { makeHandler } from 'utils/konva';
 
 import { Dimensions } from 'core/interfaces';
@@ -92,4 +92,4 @@ export class Envelope extends React.Component<Props & InjectedProps, State> {
   }
 }
 
-export default inject(Envelope);
+export default inject(hot(module)(Envelope));

@@ -34,7 +34,6 @@ export class Toolbar extends React.Component<Props & InjectedProps, {}> {
 
     return (
       <ToolbarContainer>
-        you
         <Button icon="add" onClick={() => createTrack()}>
           Add Track
         </Button>

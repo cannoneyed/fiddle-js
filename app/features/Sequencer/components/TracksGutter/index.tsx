@@ -3,7 +3,7 @@ import { autorun, IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 
 import { Track as TrackModel } from 'core/models/track';
 import { Dimensions } from 'core/interfaces';
@@ -96,7 +96,7 @@ export class TracksGutter extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(TracksGutter);
+export default inject(hot(module)(TracksGutter));
 
 const TracksGutterContainer = styled.div`
   position: relative;

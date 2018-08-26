@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 
 import { Menu, MenuItem } from '@blueprintjs/core';
 
@@ -44,4 +44,4 @@ export class TrackContextMenu extends React.Component<Props & InjectedProps, {}>
   }
 }
 
-export default inject(TrackContextMenu);
+export default inject(hot(module)(TrackContextMenu));

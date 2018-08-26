@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 import Portal from 'libs/react-portal';
 
 import { Envelope as EnvelopeModel } from 'core/models/envelope';
@@ -79,7 +79,7 @@ export class Popover extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(Popover);
+export default inject(hot(module)(Popover));
 
 const PopoverWrapper = styled.div`
   position: fixed;

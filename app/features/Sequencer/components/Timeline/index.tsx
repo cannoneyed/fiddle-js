@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 
 import { Timeline as TimelineModel } from 'core/models/timeline';
 
@@ -43,4 +43,4 @@ export class TimelineContainer extends React.Component<Props & InjectedProps, {}
   }
 }
 
-export default inject(TimelineContainer);
+export default inject(hot(module)(TimelineContainer));

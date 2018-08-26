@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 
 import { Clip } from 'core/models/clip';
 
@@ -98,4 +98,4 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(Layout);
+export default inject(hot(module)(Layout));

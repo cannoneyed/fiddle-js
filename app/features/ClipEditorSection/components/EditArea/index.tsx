@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 import { Stage, Group, Layer } from 'react-konva';
 
 import { Dimensions } from 'core/interfaces';
@@ -65,7 +65,7 @@ export class EditArea extends React.Component<Props & Injected, {}> {
   }
 }
 
-export default inject(EditArea);
+export default inject(hot(module)(EditArea));
 
 const EditAreaWrapper = styled.div`
   background-color: ${theme.colors.black.toRgbString()};

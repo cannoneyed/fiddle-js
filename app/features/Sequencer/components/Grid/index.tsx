@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injector } from 'utils/injector';
+import { hot, injector } from 'utils/injector';
 
 import { Coordinates, Dimensions } from 'core/interfaces';
 import { VerticalGrid } from 'components/VerticalGrid';
@@ -46,4 +46,4 @@ export class Grid extends React.Component<Props & InjectedProps, {}> {
   }
 }
 
-export default inject(Grid);
+export default inject(hot(module)(Grid));
