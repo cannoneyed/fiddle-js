@@ -1,5 +1,4 @@
 import React from 'react';
-import DevTools from 'mobx-react-devtools';
 import { Provider } from 'mobx-react';
 import { ThemeProvider } from 'styled-components';
 import { hot } from 'react-hot-loader';
@@ -13,7 +12,6 @@ export const Root = () => (
     <ThemeProvider theme={theme}>
       <div className="pt-dark">
         <MainPage />
-        <DevTools />
       </div>
     </ThemeProvider>
   </Provider>

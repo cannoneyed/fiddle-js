@@ -67,7 +67,6 @@
     "image-webpack-loader": "^4.3.1",
     "jest": "^23.5.0",
     "jest-canvas-mock": "^1.1.0",
-    "mobx-react-devtools": "^5.0.1",
     "prettier": "^1.7.0",
     "react-hot-loader": "^4.3.4",
     "regenerator-runtime": "^0.12.1",

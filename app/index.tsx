@@ -3,7 +3,6 @@ import React from 'react';
 import { Container } from 'libs/typedi';
 import { render } from 'react-dom';
 import { configure } from 'mobx';
-import { configureDevtool } from 'mobx-react-devtools';
 import { enableLogging } from 'mobx-logger';
 
 import { registerServices } from 'core';
@@ -30,11 +29,6 @@ enableLogging({
   reaction: false,
   transaction: false,
   compute: false,
-});
-
-// Configure react devtool
-configureDevtool({
-  logEnabled: false,
 });
 
 // Configure mobx
