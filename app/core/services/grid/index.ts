@@ -14,12 +14,22 @@ export enum DivisionType {
 
 @Service()
 export default class __GridService {
-  getNearestSnapPosition = (timeline: Timeline, offsetX: number, snapToGrid: SnapToGrid) => {
+  private computeDivisionWidth(timeline: Timeline, snapToGrid: SnapToGrid) {
+    const { barWidth } = timeline;
+    return snapToGrid.division.multiplyScalar(barWidth);
+  }
+
+  getNearestSnapPosition = (
+    timeline: Timeline,
+    offsetX: number,
+    snapToGrid: SnapToGrid
+  ): TimelineVector => {
+    // TODO: Figure out the way to handle timelines with arbitrary changes in time signature
     const isAuto = snapToGrid.value === snapToGridValues.snap_auto;
     const division = isAuto ? timeline.division : snapToGrid.division;
     const divisionWidth = isAuto
       ? timeline.divisionWidth
-      : division.divide(timeline.division).multiplyScalar(timeline.divisionWidth);
+      : this.computeDivisionWidth(timeline, snapToGrid);
 
     const prevDivision = Math.floor(offsetX / divisionWidth);
     const nextDivision = prevDivision + 1;
@@ -29,17 +39,15 @@ export default class __GridService {
     const closestDivision = nextDifference > prevDifference ? prevDivision : nextDivision;
 
     const position = division.multiply(closestDivision, 1);
-    let bar = Math.floor(position.numerator / position.denominator);
-    let beats = position.subtract(position.denominator * bar, position.denominator);
+    let { number: bars, fraction: barFraction } = position.mixedNumber();
 
-    if (bar < 0) {
-      bar = 0;
-      beats = position.multiply(0, 1);
+    if (bars < 0) {
+      return new TimelineVector(0);
     }
 
-    const nearestBar = new TimelineVector(bar);
-    const nearestBeats = TimelineVector.fromFraction(beats);
-    return nearestBar.add(nearestBeats);
+    const barVector = new TimelineVector(bars);
+    const beatsVector = TimelineVector.fromFraction(barFraction, timeline.timeSignature);
+    return barVector.add(beatsVector);
   };
 
   getDivisionType(division: Fraction): DivisionType {

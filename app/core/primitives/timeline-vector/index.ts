@@ -1,14 +1,15 @@
 import { Fraction } from 'core/primitives/fraction';
+import { TimeSignature } from 'core/primitives/time-signature';
 import { absFloor } from 'utils/math';
 
 export const TICKS_PER_SECONDARY = 240;
-const defaultTimeSignature = () => new Fraction(4, 4);
+const defaultTimeSignature = () => new TimeSignature(4, 4);
 
-const computeSecondaryPerPrimary = (timeSignature: Fraction) => {
+const computeSecondaryPerPrimary = (timeSignature: TimeSignature) => {
   return 12; // TODO: Figure out 6/8 time signatures
 };
 
-const computeDivisions = (absoluteTicks: number, timeSignature: Fraction) => {
+const computeDivisions = (absoluteTicks: number, timeSignature: TimeSignature) => {
   const secondaryPerPrimary = computeSecondaryPerPrimary(timeSignature);
   const primaryPerBar = timeSignature.numerator;
   const ticksPerPrimary = secondaryPerPrimary * TICKS_PER_SECONDARY;
@@ -57,13 +58,17 @@ export class TimelineVector {
     this.ticks = computed.ticks;
   }
 
-  get beats() {
-    const { denominator } = this.timeSignature;
+  getFractionAfterBar() {
     const secondaryPerPrimary = computeSecondaryPerPrimary(this.timeSignature);
-    // TODO: Multiple time signatures
-    const primary = new Fraction(this.primary, denominator);
-    const secondary = new Fraction(this.secondary, secondaryPerPrimary);
-    return primary.add(secondary).reduce();
+    const primaryPerBar = this.timeSignature.numerator;
+    const ticksPerPrimary = secondaryPerPrimary * TICKS_PER_SECONDARY;
+    const ticksPerBar = ticksPerPrimary * primaryPerBar;
+
+    const primary = new Fraction(this.primary, primaryPerBar);
+    const secondary = new Fraction(this.secondary, secondaryPerPrimary * primaryPerBar);
+    const ticks = new Fraction(this.ticks, ticksPerBar);
+
+    return primary.add(secondary).add(ticks);
   }
 
   makeNegative() {

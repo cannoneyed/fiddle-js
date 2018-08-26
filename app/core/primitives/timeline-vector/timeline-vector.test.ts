@@ -67,14 +67,6 @@ describe('TimelineVector class', () => {
     expect(position.primary).toEqual(0);
   });
 
-  it('has a beats getter', () => {
-    let position = new TimelineVector(0, 1);
-    expect(position.beats).toEqual(new Fraction(1, 4));
-
-    position = new TimelineVector(0, 1, 3);
-    expect(position.beats).toEqual(new Fraction(1, 2));
-  });
-
   it('adds timeline vectors correctly', () => {
     let a, b, sum;
     // Sums beats to whole beats
