@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
-import { Button } from '@blueprintjs/core';
 
+import Button from 'components/Button';
 import SelectSnapToGrid from 'components/SelectSnapToGrid';
 
 import { TrackActions } from 'core';
@@ -34,11 +34,11 @@ export class Toolbar extends React.Component<Props & InjectedProps, {}> {
 
     return (
       <ToolbarContainer>
-        <Button icon="add" onClick={() => createTrack()}>
+        <Button onClick={() => createTrack()} icon="add-box">
           Add Track
         </Button>
-        <Button icon="zoom-in" onClick={() => zoomInHorizontal()} />
-        <Button icon="zoom-out" onClick={() => zoomOutHorizontal()} />
+        <Button onClick={() => zoomInHorizontal()} icon="zoom-in" />
+        <Button onClick={() => zoomOutHorizontal()} icon="zoom-out" />
         <SelectSnapToGrid />
       </ToolbarContainer>
     );

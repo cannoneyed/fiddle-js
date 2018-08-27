@@ -27,14 +27,7 @@ export default class TimelineSegment extends React.Component<Props, {}> {
     const color = theme.colors.lightGray.toRgbString();
 
     return (
-      <Text
-        text={`${timelineLabel}`}
-        x={5}
-        y={1}
-        fontSize={12}
-        fontFamily="monospace"
-        fill={color}
-      />
+      <Text text={`${timelineLabel}`} x={5} y={1} fontSize={12} fontFamily="Menlo" fill={color} />
     );
   };
 

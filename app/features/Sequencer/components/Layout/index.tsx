@@ -2,10 +2,9 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { hot, injector } from 'utils/injector';
 
-import Toolbar from 'features/Toolbar';
-
 import Minimap from 'features/Sequencer/components/Minimap';
 import TimelineGutter from 'features/Sequencer/components/TimelineGutter';
+import Toolbar from 'features/Sequencer/components/Toolbar';
 import TracksGutter from 'features/Sequencer/components/TracksGutter';
 import TracksStage from 'features/Sequencer/components/TracksStage';
 import VerticalScrollbar from 'features/Sequencer/components/VerticalScrollbar';
