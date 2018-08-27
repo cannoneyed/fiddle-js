@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import { injector } from 'utils/injector';
 
 import Button from 'components/Button';
-import SelectSnapToGrid from 'components/SelectSnapToGrid';
+import SelectSnapToGrid from 'features/Sequencer/components/SelectSnapToGrid';
 
 import { TrackActions } from 'core';
 import { get, TimelineState } from 'features/Sequencer/core';
