@@ -23,6 +23,7 @@ export function processState(clip: Clip, props: Props): ClipEditorState {
     const layout = get(clip, ClipEditorLayout);
     const { timeline } = get(clip, ClipEditorTimeline);
     timeline.fitToWidth(layout.editAreaDimensions.width, clip.length);
+    state.hasBeenInitialized = true;
   }
 
   state.clip = clip;

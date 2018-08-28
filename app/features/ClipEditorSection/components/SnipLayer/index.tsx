@@ -7,10 +7,16 @@ import { Clip } from 'core/models/clip';
 import { SnipNode } from 'core/models/data';
 import { Envelope } from 'core/models/envelope';
 import { SnapToGrid } from 'core/models/snap-to-grid';
+import { Timeline } from 'core/models/timeline';
 
 import EnvelopeEditor from 'features/EnvelopeEditor';
 
-import { get, ClipEditorLayout, ClipEditorState } from 'features/ClipEditorSection/core';
+import {
+  get,
+  ClipEditorLayout,
+  ClipEditorState,
+  ClipEditorTimeline,
+} from 'features/ClipEditorSection/core';
 
 export interface Props {
   clip: Clip;
@@ -19,21 +25,24 @@ export interface Props {
 export interface InjectedProps {
   dimensions: Dimensions;
   snapToGrid: SnapToGrid;
+  timeline: Timeline;
 }
 
 const inject = injector<Props, InjectedProps>(props => {
   const state = get(props.clip, ClipEditorState);
   const layout = get(props.clip, ClipEditorLayout);
+  const { timeline } = get(props.clip, ClipEditorTimeline);
   return {
     snapToGrid: state.snapToGrid,
     dimensions: layout.editAreaDimensions,
+    timeline,
   };
 });
 
 @observer
 export class SnipLayer extends React.Component<Props & InjectedProps, {}> {
   render() {
-    const { node, dimensions, snapToGrid } = this.props;
+    const { node, dimensions, snapToGrid, timeline } = this.props;
     const { snip } = node;
 
     const layerDimensions = {
@@ -43,7 +52,12 @@ export class SnipLayer extends React.Component<Props & InjectedProps, {}> {
 
     if (snip.data instanceof Envelope) {
       return (
-        <EnvelopeEditor dimensions={layerDimensions} envelope={snip.data} snapToGrid={snapToGrid} />
+        <EnvelopeEditor
+          dimensions={layerDimensions}
+          envelope={snip.data}
+          snapToGrid={snapToGrid}
+          timeline={timeline}
+        />
       );
     }
 

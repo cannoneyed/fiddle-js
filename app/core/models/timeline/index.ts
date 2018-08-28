@@ -102,6 +102,10 @@ export class Timeline {
     return this.segmentWidth / this.segmentDivisions.length;
   }
 
+  getFractionWidth(fraction: Fraction) {
+    return fraction.multiplyScalar(this.barWidth);
+  }
+
   // TODO Fix legacy snap to grid implementation
   @computed
   get division(): Fraction {

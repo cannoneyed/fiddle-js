@@ -6,8 +6,9 @@ import { KonvaWrapper } from './helpers';
 import { EnvelopeEditor } from 'features/EnvelopeEditor';
 
 import { Envelope, Point } from 'core/models/envelope';
-import { TimelineVector } from 'core/primitives/timeline-vector';
 import { SnapToGrid, snapToGridValues } from 'core/models/snap-to-grid';
+import { Timeline } from 'core/models/timeline';
+import { TimelineVector } from 'core/primitives/timeline-vector';
 
 const getSnapToGrid = (key: string) => {
   return new SnapToGrid(snapToGridValues[key]);
@@ -32,6 +33,7 @@ stories.add('default', () => {
   const snapToGridOptions = Object.keys(snapToGridValues);
   const defaultValue = 'snap_1_4';
   const value = select('Snap To Grid', snapToGridOptions, defaultValue);
+  const timeline = new Timeline(envelope.length);
 
   const dimensions = { height, width };
 
@@ -39,6 +41,7 @@ stories.add('default', () => {
     dimensions,
     envelope,
     snapToGrid: getSnapToGrid(value),
+    timeline,
   };
 
   return (

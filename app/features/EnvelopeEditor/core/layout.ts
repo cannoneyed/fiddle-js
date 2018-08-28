@@ -2,7 +2,6 @@ import { Inject, Service } from 'libs/typedi';
 import { computed, observable } from 'mobx';
 
 import { Dimensions } from 'core/interfaces';
-import { SnapToGrid } from 'core/models/snap-to-grid';
 
 import { EnvelopeEditorState } from 'features/EnvelopeEditor/core';
 
@@ -20,20 +19,9 @@ export default class __EnvelopeEditorLayout {
   @observable
   rowHeight = 20;
 
-  @observable
-  pianoRollWidth = 20;
-
   @computed
   get gridSegmentWidth() {
-    const { envelope, snapToGrid } = this.state;
-    return SnapToGrid.getDivisionWidth(envelope.length, this.dimensions.width, snapToGrid);
-  }
-
-  @computed
-  get pianoRollDimensions() {
-    return {
-      height: this.dimensions.height,
-      width: this.pianoRollWidth,
-    };
+    const { timeline, snapToGrid } = this.state;
+    return timeline.getFractionWidth(snapToGrid.division);
   }
 }

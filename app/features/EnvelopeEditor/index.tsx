@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { Dimensions } from 'core/interfaces';
 import { Envelope } from 'core/models/envelope';
 import { SnapToGrid } from 'core/models/snap-to-grid';
+import { Timeline } from 'core/models/timeline';
 
 import { getState } from 'features/EnvelopeEditor/core';
 
@@ -13,6 +14,7 @@ export interface Props {
   dimensions: Dimensions;
   envelope: Envelope;
   snapToGrid: SnapToGrid;
+  timeline: Timeline;
 }
 interface State {}
 
