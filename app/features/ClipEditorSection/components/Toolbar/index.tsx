@@ -3,14 +3,20 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
 
-export interface Props {}
+import { Clip } from 'core/models/clip';
+import SelectSnapToGrid from 'features/ClipEditorSection/components/SelectSnapToGrid';
+
+export interface Props {
+  clip: Clip;
+}
 
 @observer
 export default class Toolbar extends React.Component<Props, {}> {
   render() {
+    const { clip } = this.props;
     return (
-      <ToolbarContainer id="editAreaToolbar">
-        <h5>...</h5>
+      <ToolbarContainer>
+        <SelectSnapToGrid clip={clip} />
       </ToolbarContainer>
     );
   }

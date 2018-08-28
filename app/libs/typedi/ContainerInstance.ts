@@ -360,6 +360,10 @@ export class ContainerInstance {
 
     if (type) this.applyPropertyHandlers(type, value);
 
+    if (typeof value.afterConstruction === 'function') {
+      value.afterConstruction();
+    }
+
     return value;
   }
 

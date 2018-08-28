@@ -5,7 +5,7 @@ import { filterMethods } from 'utils/log-filter';
 import { Clip } from 'core/models/clip';
 import { SnapToGrid } from 'core/models/snap-to-grid';
 
-import { ClipEditorLayout } from 'features/ClipEditorSection/core';
+import { ClipEditorGlobalState, ClipEditorLayout } from 'features/ClipEditorSection/core';
 
 import { Props } from 'features/ClipEditorSection';
 
@@ -13,14 +13,19 @@ import { Props } from 'features/ClipEditorSection';
 export default class __ClipEditorState {
   static mobxLoggerConfig = filterMethods('updateFromProps');
 
-  newlyConstructed = true;
-
   @Inject(_ => ClipEditorLayout)
   layout: ClipEditorLayout;
 
+  @Inject(_ => ClipEditorGlobalState)
+  global: ClipEditorGlobalState;
+
+  hasBeenInitialized = false;
+
   clip: Clip;
 
-  snapToGrid = new SnapToGrid();
+  get snapToGrid(): SnapToGrid {
+    return this.global.snapToGrid;
+  }
 
   @action
   updateFromProps(props: Props) {

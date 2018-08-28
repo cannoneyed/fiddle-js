@@ -1,6 +1,7 @@
 import { Container, ObjectType } from 'libs/typedi';
 
 import { default as ClipEditorState } from './state';
+import { default as ClipEditorGlobalState } from './global';
 import { default as ClipEditorLayout } from './layout';
 import { default as ClipEditorTimeline } from './timeline';
 import { default as ClipEditorZoom } from './zoom';
@@ -18,7 +19,7 @@ export function processState(clip: Clip, props: Props): ClipEditorState {
   state.updateFromProps(props);
 
   // Initialize a newly constructed clip editor core
-  if (state.newlyConstructed) {
+  if (!state.hasBeenInitialized) {
     const layout = get(clip, ClipEditorLayout);
     const { timeline } = get(clip, ClipEditorTimeline);
     timeline.fitToWidth(layout.editAreaDimensions.width, clip.length);
@@ -28,4 +29,10 @@ export function processState(clip: Clip, props: Props): ClipEditorState {
   return state;
 }
 
-export { ClipEditorState, ClipEditorLayout, ClipEditorTimeline, ClipEditorZoom };
+export {
+  ClipEditorGlobalState,
+  ClipEditorState,
+  ClipEditorLayout,
+  ClipEditorTimeline,
+  ClipEditorZoom,
+};

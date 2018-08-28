@@ -81,7 +81,7 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
       <ClipEditorSectionWrapper style={clipEditorSectionWrapperStyle}>
         <TopWrapper style={topWrapperStyle}>
           <ToolbarWrapper style={toolbarWrapperStyle}>
-            <Toolbar />
+            <Toolbar clip={clip} />
           </ToolbarWrapper>
         </TopWrapper>
         <BottomWrapper style={bottomWrapperStyle}>
