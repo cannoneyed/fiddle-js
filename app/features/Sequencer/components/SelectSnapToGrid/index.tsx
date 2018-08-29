@@ -47,6 +47,7 @@ export class SelectSnapToGrid extends React.Component<Props & InjectedProps, {}>
             const value = snapToGridValues[key];
             setSnapToGrid(value);
           }}
+          value={snapToGrid.value.key}
         />
       </SelectWrapper>
     );

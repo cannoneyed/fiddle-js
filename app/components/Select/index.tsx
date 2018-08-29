@@ -11,6 +11,7 @@ export interface Props {
   options: IOption[];
   disabled?: boolean;
   onSelect(value: string | number): void;
+  value?: string | number;
 }
 
 export class Select extends React.Component<Props, {}> {
@@ -20,7 +21,7 @@ export class Select extends React.Component<Props, {}> {
   };
 
   render() {
-    const { onSelect, options, disabled } = this.props;
+    const { onSelect, options, disabled, value } = this.props;
     const selectClassName = classnames(disabled ? ':disabled' : null);
 
     return (
@@ -30,6 +31,7 @@ export class Select extends React.Component<Props, {}> {
           const target = event.target as HTMLSelectElement;
           onSelect(target.value);
         }}
+        value={value}
       >
         {options.map(option => (
           <option key={option.name} value={option.value}>

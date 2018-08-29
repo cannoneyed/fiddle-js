@@ -4,22 +4,22 @@ import { Fraction } from 'core/primitives/fraction';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 export class SnapToGridValue {
-  constructor(public name: string, public division: Fraction) {}
+  constructor(public name: string, public key: string, public division: Fraction) {}
 }
 
 export class AutoSnapToGrid extends SnapToGridValue {
   constructor() {
-    super('auto', new Fraction(1, 1));
+    super('auto', 'snap_auto', new Fraction(1, 1));
   }
 }
 
 export class SnapToGridValues {
-  readonly snap_1 = new SnapToGridValue('1 bar', new Fraction(1, 1));
-  readonly snap_1_2 = new SnapToGridValue('1/2', new Fraction(1, 2));
-  readonly snap_1_4 = new SnapToGridValue('1/4', new Fraction(1, 4));
-  readonly snap_1_8 = new SnapToGridValue('1/8', new Fraction(1, 8));
-  readonly snap_1_16 = new SnapToGridValue('1/16', new Fraction(1, 16));
-  readonly snap_1_32 = new SnapToGridValue('1/32', new Fraction(1, 32));
+  readonly snap_1 = new SnapToGridValue('1 bar', 'snap_1', new Fraction(1, 1));
+  readonly snap_1_2 = new SnapToGridValue('1/2', 'snap_1_2', new Fraction(1, 2));
+  readonly snap_1_4 = new SnapToGridValue('1/4', 'snap_1_4', new Fraction(1, 4));
+  readonly snap_1_8 = new SnapToGridValue('1/8', 'snap_1_8', new Fraction(1, 8));
+  readonly snap_1_16 = new SnapToGridValue('1/16', 'snap_1_16', new Fraction(1, 16));
+  readonly snap_1_32 = new SnapToGridValue('1/32', 'snap_1_32', new Fraction(1, 32));
   readonly snap_auto = new AutoSnapToGrid();
   readonly [key: string]: SnapToGridValue;
 }
