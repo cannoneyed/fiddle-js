@@ -10,7 +10,7 @@ import Empty from 'features/ClipEditorSection/components/Empty';
 import Layout from 'features/ClipEditorSection/components/Layout';
 
 import { ClipEditorState, ClipStore } from 'core';
-import { processState } from 'features/ClipEditorSection/core';
+import { deriveStateFromProps } from 'features/ClipEditorSection/core';
 
 export interface Props {
   dimensions: Dimensions;
@@ -36,7 +36,7 @@ export class ClipEditorSection extends React.Component<Props & InjectedProps, {}
   static getDerivedStateFromProps(props: Props & InjectedProps) {
     const { clip } = props;
     if (clip) {
-      processState(clip, props);
+      deriveStateFromProps(clip, props);
     }
     return {};
   }

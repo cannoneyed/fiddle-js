@@ -14,21 +14,35 @@ export function get<T>(clip: Clip, type: ObjectType<T>): T {
   return Container.of(clip).get(type);
 }
 
-export function processState(clip: Clip, props: Props): ClipEditorState {
+const lastPropsMap = new Map<Clip, Props>();
+export function deriveStateFromProps(clip: Clip, props: Props): ClipEditorState {
   const state = get(clip, ClipEditorState);
+
+  const lastProps = lastPropsMap.get(clip);
+  lastPropsMap.set(clip, props);
   state.updateFromProps(props);
 
   // Initialize a newly constructed clip editor core
   if (!state.hasBeenInitialized) {
-    const layout = get(clip, ClipEditorLayout);
-    const { timeline } = get(clip, ClipEditorTimeline);
-    timeline.fitToWidth(layout.editAreaDimensions.width, clip.length);
+    resizeTimeline(clip);
     state.hasBeenInitialized = true;
+  }
+
+  if (lastProps) {
+    if (props.dimensions.width !== lastProps.dimensions.width) {
+      resizeTimeline(clip);
+    }
   }
 
   state.clip = clip;
   return state;
 }
+
+const resizeTimeline = (clip: Clip) => {
+  const layout = get(clip, ClipEditorLayout);
+  const { timeline } = get(clip, ClipEditorTimeline);
+  timeline.fitToWidth(layout.editAreaDimensions.width, clip.length);
+};
 
 export {
   ClipEditorGlobalState,
