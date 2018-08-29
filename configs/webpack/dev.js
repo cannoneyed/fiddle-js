@@ -6,7 +6,12 @@ const path = require('path');
 
 module.exports = merge(commonConfig, {
   mode: 'development',
-  target: 'electron-renderer',
+  target: 'web',
+  resolve: {
+    alias: {
+      electron: path.resolve(__dirname, '../../app/libs/electron-browser-mock/index.ts'),
+    },
+  },
   entry: [
     'react-hot-loader/patch', // activate HMR for React
     'webpack-dev-server/client?http://localhost:8080', // bundle the client for webpack-dev-server and connect to the provided endpoint

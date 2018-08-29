@@ -18,13 +18,13 @@ To run in electron, first rebuild native libraries to work properly with electro
 $(npm bin)/electron-rebuild
 ```
 
-Then start both the electron process and webpack dev server.
+Then start both the main electron process and renderer webpack dev server.
 
 ```bash
-yarn electron:dev
+yarn electron-main:dev
 
 # Run the webpack dev server in a separate terminal
-yarn start:dev
+yarn electron-renderer:dev
 ```
 
 #### Roadmap to v0.1

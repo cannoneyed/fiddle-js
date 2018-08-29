@@ -5,7 +5,8 @@
   "scripts": {
     "start": "npm run start:dev",
     "start:dev": "webpack-dev-server --config=configs/webpack/dev.js",
-    "electron:dev": "webpack --config=configs/webpack/electron.dev.js && electron ./dist/main.js",
+    "electron-renderer:dev": "webpack-dev-server --config=configs/webpack/electron-renderer.dev.js",
+    "electron-main:dev": "webpack --config=configs/webpack/electron-main.dev.js && electron ./dist/main.js",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "test": "jest --watch --coverage --config=configs/jest.json"
   },

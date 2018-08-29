@@ -11,7 +11,7 @@ module.exports = merge({
   mode: 'development',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
-    modules: ['app/electron'],
+    modules: ['electron'],
   },
   context: resolve(__dirname, '../../app'),
   entry: [

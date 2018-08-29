@@ -40,7 +40,6 @@ function createWindow() {
   udpPort.open();
 
   ipcMain.on('sliderValue', (event: any, value: number) => {
-    console.log('🔥', event, value); // prints "ping"
     sendOSC(value);
   });
 

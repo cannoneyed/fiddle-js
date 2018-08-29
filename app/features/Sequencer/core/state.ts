@@ -18,7 +18,6 @@ export default class __SequencerState {
 
   constructor() {
     autorun(() => {
-      console.log('🍕', this.sliderValue);
       ipcRenderer.send('sliderValue', this.sliderValue);
     });
   }
