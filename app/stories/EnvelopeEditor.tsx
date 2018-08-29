@@ -31,9 +31,11 @@ stories.add('default', () => {
   const width = 1000;
 
   const snapToGridOptions = Object.keys(snapToGridValues);
-  const defaultValue = 'snap_1_4';
+  const defaultValue = 'snap_1_2';
   const value = select('Snap To Grid', snapToGridOptions, defaultValue);
+
   const timeline = new Timeline(envelope.length);
+  timeline.fitToWidth(width);
 
   const dimensions = { height, width };
 
