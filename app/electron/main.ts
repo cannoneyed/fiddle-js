@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from 'electron';
+import { ipcMain } from 'electron';
 import osc from 'osc';
 
 let mainWindow: Electron.BrowserWindow | null;
@@ -24,7 +25,38 @@ function createWindow() {
     mainWindow = null;
   });
 
-  sendOSC();
+  const udpPort = new osc.UDPPort({
+    // This is the port we're listening on.
+    localAddress: '127.0.0.1',
+    localPort: 57121,
+
+    // This is where sclang is listening for OSC messages.
+    remoteAddress: '127.0.0.1',
+    remotePort: 57120,
+    metadata: true,
+  });
+
+  // Open the socket.
+  udpPort.open();
+
+  ipcMain.on('sliderValue', (event: any, value: number) => {
+    console.log('🔥', event, value); // prints "ping"
+    sendOSC(value);
+  });
+
+  function sendOSC(value: number) {
+    const msg = {
+      address: '/slider/value',
+      args: [
+        {
+          type: 'f',
+          value,
+        },
+      ],
+    };
+
+    udpPort.send(msg);
+  }
 }
 
 // This method will be called when Electron has finished
@@ -51,41 +83,3 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
-
-function sendOSC() {
-  const udpPort = new osc.UDPPort({
-    // This is the port we're listening on.
-    localAddress: '127.0.0.1',
-    localPort: 57121,
-
-    // This is where sclang is listening for OSC messages.
-    remoteAddress: '127.0.0.1',
-    remotePort: 57120,
-    metadata: true,
-  });
-
-  // Open the socket.
-  udpPort.open();
-
-  // Every second, send an OSC message to SuperCollider
-  setInterval(function() {
-    var msg = {
-      address: '/hello/from/oscjs',
-      args: [
-        {
-          type: 'f',
-          value: Math.random(),
-        },
-      ],
-    };
-
-    console.log(
-      'Sending message',
-      msg.address,
-      msg.args,
-      'to',
-      udpPort.options.remoteAddress + ':' + udpPort.options.remotePort
-    );
-    udpPort.send(msg);
-  }, 1000);
-}
