@@ -5,11 +5,26 @@
 fiddle will be a modern sequencer application specializing in arranging OSC data on a timeline. fiddle is pre-alpha software, and is a proof of concept for writing a performant web-based sequencer application using React, typescript, and an architecture centered around observable data.
 
 ```bash
-$ yarn            # https://yarnpkg.com
+yarn            # https://yarnpkg.com
 
-$ yarn start      # Run dev mode in browser
+yarn start      # Run dev mode in browser
 # or
-$ yarn storybook  # Run storybook component playground in browser
+yarn storybook  # Run storybook component playground in browser
+```
+
+To run in electron, first rebuild native libraries to work properly with electron.
+
+```bash
+$(npm bin)/electron-rebuild
+```
+
+Then start both the electron process and webpack dev server.
+
+```bash
+yarn electron:dev
+
+# Run the webpack dev server in a separate terminal
+yarn start:dev
 ```
 
 #### Roadmap to v0.1

@@ -4,22 +4,24 @@ const merge = require('webpack-merge');
 const { CheckerPlugin } = require('awesome-typescript-loader');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = merge({
   target: 'electron-main',
   mode: 'development',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
-    modules: ['main', 'node_modules'],
+    modules: ['app/electron'],
   },
-  context: resolve(__dirname, '../../electron'),
+  context: resolve(__dirname, '../../app'),
   entry: [
-    './main.ts', // the entry point of our app
+    './electron/main.ts', // the entry point of our app
   ],
   node: {
     __dirname: false,
     __filename: false,
   },
+  externals: [nodeExternals()],
   module: {
     rules: [
       {
