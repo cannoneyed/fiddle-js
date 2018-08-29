@@ -7,7 +7,7 @@ import { Stage, Group, Layer } from 'react-konva';
 
 import { Dimensions } from 'core/interfaces';
 import { Clip } from 'core/models/clip';
-import { SnipNode } from 'core/models/data';
+import { SnipNode } from 'core/models/graph';
 
 import SnipLayer from 'features/ClipEditorSection/components/SnipLayer';
 import Timeline from 'features/ClipEditorSection/components/Timeline';
