@@ -33,7 +33,7 @@ enableLogging({
 
 // Configure mobx
 configure({
-  enforceActions: true,
+  enforceActions: 'observed',
 });
 
 const rootEl = document.getElementById('root');

@@ -16,7 +16,6 @@ export class Envelope {
   length: TimelineVector;
 
   pointIndices = new Map<Point, number>();
-  @observable
   points = observable.array<Point>([]);
 
   @observable
@@ -119,8 +118,10 @@ export class Envelope {
   };
 
   private sortPoints() {
-    this.points = this.points.sort((a: Point, b: Point) =>
-      TimelineVector.sortAscendingFn(a.position, b.position)
+    this.points.replace(
+      this.points
+        .slice()
+        .sort((a: Point, b: Point) => TimelineVector.sortAscendingFn(a.position, b.position))
     );
     this.points.forEach((point, index) => {
       this.pointIndices.set(point, index);
