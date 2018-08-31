@@ -43,10 +43,6 @@ export class Clip {
     this.length = length || new TimelineVector(2);
   }
 
-  get domId(): string {
-    return `clip_${this.id}`;
-  }
-
   @computed
   get end(): TimelineVector {
     return this.position.add(this.length);

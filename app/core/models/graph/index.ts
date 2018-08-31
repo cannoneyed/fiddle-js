@@ -1,14 +1,68 @@
-import { computed, observable, IObservableArray } from 'mobx';
+import { action, computed, observable, IObservableArray } from 'mobx';
 import { Envelope } from 'core/models/envelope';
 import { Snip } from 'core/models/snip';
 
+import { Coordinates } from 'core/interfaces';
+
 export type Data = Envelope | null;
+export type Connection = [Node, Node];
+
+export class Graph {
+  outputs: IObservableArray<OutputNode> = observable([new OutputNode()]);
+  nodes: IObservableArray<Node> = observable([]);
+
+  @computed
+  get mainOutput() {
+    return this.outputs[0];
+  }
+
+  @computed
+  get connections() {
+    const connections: Connection[] = [];
+    this.nodes.forEach(node => {
+      for (const output of node.outputs) {
+        connections.push([node, output]);
+      }
+    });
+    return connections;
+  }
+
+  @action
+  addNode(node: Node) {
+    this.nodes.push(node);
+  }
+
+  @action
+  removeNode(node: Node) {
+    this.nodes.remove(node);
+  }
+
+  @action
+  connect(from: Node, to: Node) {
+    from.connectTo(to);
+  }
+}
+
+export class Position {
+  @observable
+  x = 50;
+  @observable
+  y = 0;
+
+  @action
+  set = (position: Coordinates) => {
+    this.x = position.x;
+    this.y = position.y;
+  };
+}
 
 export abstract class Node {
   abstract output: Data;
 
   inputs: IObservableArray<Node> = observable([]);
   outputs: IObservableArray<Node> = observable([]);
+
+  position = new Position();
 
   isConnectedTo(node: Node) {
     return this.outputs.includes(node) && node.inputs.includes(this);
@@ -30,6 +84,13 @@ export abstract class Node {
 }
 
 export class EmptyNode extends Node {
+  @computed
+  get output() {
+    return null;
+  }
+}
+
+export class OutputNode extends Node {
   @computed
   get output() {
     return null;

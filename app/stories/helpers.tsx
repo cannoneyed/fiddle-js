@@ -2,8 +2,11 @@ import * as React from 'react';
 import { Stage, Layer, Rect } from 'react-konva';
 import styled from 'styled-components';
 import theme from 'styles/theme';
+import { initializeLogger } from 'utils/logger';
 
 import { Dimensions } from 'core/interfaces';
+
+initializeLogger();
 
 export const Wrapper = styled.div`
   background-color: #111;

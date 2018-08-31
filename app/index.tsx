@@ -6,7 +6,7 @@ import { configure } from 'mobx';
 import { enableLogging } from 'mobx-logger';
 
 import { registerServices } from 'core';
-import { logStores } from 'utils/log-stores';
+import { initializeLogger } from 'utils/logger';
 import { initializeStats } from 'utils/stats';
 
 import { LoadService, UndoService } from 'core';
@@ -20,7 +20,7 @@ registerServices();
 
 // Set up an ad-hoc logging function for inspecting the state of the
 // central stores
-logStores();
+initializeLogger();
 initializeStats();
 
 // Configure mobx logging
