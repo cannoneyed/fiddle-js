@@ -7,11 +7,14 @@ import { Snip } from 'core/models/snip';
 import { Coordinates } from 'core/interfaces';
 
 export type Data = Envelope | null;
+
+export interface Link {
+  node: Node;
+  index: number;
+}
 export interface Connection {
-  from: Node;
-  to: Node;
-  inputIndex: number;
-  outputIndex: number;
+  from: Link;
+  to: Link;
 }
 
 export class Graph {
@@ -33,9 +36,9 @@ export class Graph {
   get connections(): Connection[] {
     return [...this.connectionsMap.keys()].map(key => {
       const [fromId, outputIndex, toId, inputIndex] = key.split(':');
-      const from = this.nodesById.get(fromId)!;
-      const to = this.nodesById.get(toId)!;
-      return { from, to, outputIndex: Number(outputIndex), inputIndex: Number(inputIndex) };
+      const from = { node: this.nodesById.get(fromId)!, index: Number(outputIndex) };
+      const to = { node: this.nodesById.get(toId)!, index: Number(inputIndex) };
+      return { from, to };
     });
   }
 
@@ -104,6 +107,16 @@ export abstract class Node {
   outputs: IObservableArray<Node> = observable([]);
 
   position = new Position();
+
+  connectTo(other: Node) {
+    this.outputs.push(other);
+    other.inputs.push(this);
+  }
+
+  disconnectFrom(other: Node) {
+    this.outputs.remove(other);
+    other.inputs.remove(this);
+  }
 }
 
 export class EmptyNode extends Node {
@@ -177,7 +190,8 @@ export class OperatorNode extends Node {
 
   @computed
   get output() {
-    return null;
+    const inputData = this.inputs.map(input => input.output);
+    return this.operator.operate(inputData);
   }
 
   @observable

@@ -37,7 +37,7 @@ export class NodeComponent extends React.Component<Props, {}> {
   renderInputs() {
     const { nInputs } = this.props.node;
     return range(nInputs).map(i => {
-      const inputPosition = getInputPosition(this.props.node, i);
+      const inputPosition = getInputPosition(i);
       return (
         <Wedge
           {...inputPosition}
@@ -54,7 +54,7 @@ export class NodeComponent extends React.Component<Props, {}> {
   renderOutputs() {
     const { nOutputs } = this.props.node;
     return range(nOutputs).map(i => {
-      const outputPosition = getOutputPosition(this.props.node, i);
+      const outputPosition = getOutputPosition(i);
       return (
         <Wedge
           {...outputPosition}

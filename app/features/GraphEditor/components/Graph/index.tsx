@@ -27,16 +27,8 @@ export class Graph extends React.Component<Props, {}> {
           return <NodeComponent node={node} key={node.id} />;
         })}
         {graph.connections.map((connection, index) => {
-          const { from, to, outputIndex, inputIndex } = connection;
-          return (
-            <ConnectionComponent
-              key={index}
-              from={from}
-              to={to}
-              inputIndex={inputIndex}
-              outputIndex={outputIndex}
-            />
-          );
+          const { from, to } = connection;
+          return <ConnectionComponent key={index} from={from} to={to} />;
         })}
       </Group>
     );
