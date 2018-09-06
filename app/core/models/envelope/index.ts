@@ -42,6 +42,12 @@ export class Envelope {
   }
 
   @action
+  setPoints(points: Point[]) {
+    this.points.replace(points);
+    this.sortPoints();
+  }
+
+  @action
   addPoint(point: Point, shouldSort = true) {
     this.points.push(point);
     shouldSort && this.sortPoints();

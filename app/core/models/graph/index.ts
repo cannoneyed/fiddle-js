@@ -1,5 +1,7 @@
 import { action, computed, observable, IObservableArray } from 'mobx';
+import { generateId } from 'utils/generate-id';
 import { Envelope } from 'core/models/envelope';
+import { Operator } from 'core/models/operator';
 import { Snip } from 'core/models/snip';
 
 import { Coordinates } from 'core/interfaces';
@@ -57,7 +59,12 @@ export class Position {
 }
 
 export abstract class Node {
+  id = generateId();
   abstract output: Data;
+  label: string;
+
+  nInputs: number;
+  nOutputs: number;
 
   inputs: IObservableArray<Node> = observable([]);
   outputs: IObservableArray<Node> = observable([]);
@@ -84,6 +91,8 @@ export abstract class Node {
 }
 
 export class EmptyNode extends Node {
+  label = 'empty';
+
   @computed
   get output() {
     return null;
@@ -91,6 +100,11 @@ export class EmptyNode extends Node {
 }
 
 export class OutputNode extends Node {
+  label = 'output';
+
+  nInputs = 1;
+  nOutputs = 0;
+
   @computed
   get output() {
     return null;
@@ -98,6 +112,9 @@ export class OutputNode extends Node {
 }
 
 export class DataNode extends Node {
+  nInputs = 0;
+  nOutputs = 1;
+
   @computed
   get output() {
     return this.data;
@@ -108,6 +125,13 @@ export class DataNode extends Node {
 }
 
 export class SnipNode extends Node {
+  nInputs = 0;
+  nOutputs = 1;
+
+  get label() {
+    return this.snip.data instanceof Envelope ? 'envelope' : 'snip';
+  }
+
   @computed
   get output() {
     return this.snip.data;
@@ -119,5 +143,32 @@ export class SnipNode extends Node {
   constructor(snip: Snip) {
     super();
     this.snip = snip;
+  }
+}
+
+export class OperatorNode extends Node {
+  get nInputs() {
+    return 1;
+  }
+
+  get nOutputs() {
+    return 1;
+  }
+
+  get label() {
+    return this.operator.label;
+  }
+
+  @computed
+  get output() {
+    return null;
+  }
+
+  @observable
+  operator: Operator;
+
+  constructor(operator: Operator) {
+    super();
+    this.operator = operator;
   }
 }
