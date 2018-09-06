@@ -37,6 +37,20 @@ const constructGraph = (): Graph => {
     graph.mainOutput
   );
 
+  graph.connect(
+    envelopeNodeA,
+    multiplyNode,
+    0,
+    0
+  );
+
+  graph.connect(
+    envelopeNodeB,
+    multiplyNode,
+    0,
+    1
+  );
+
   return graph;
 };
 

@@ -1,7 +1,9 @@
 import { Envelope, Point } from 'core/models/envelope';
 
 export abstract class Operator {
-  protected nInputs: number;
+  nInputs = 1;
+  nOutputs = 1;
+
   protected inputTypes: Set<any>;
   label: string;
 }

@@ -4,19 +4,13 @@ import { Wedge, Group, Rect, Text } from 'react-konva';
 import { makeHandler } from 'utils/konva';
 import theme from 'styles/theme';
 import { range } from 'lodash';
+import { dimensions, getInputPosition, getOutputPosition, IO_RADIUS } from '../../helpers/layout';
 
 import { Node as NodeModel } from 'core/models/graph';
 
 export interface Props {
   node: NodeModel;
 }
-
-const dimensions = {
-  width: 100,
-  height: 25,
-};
-
-const IO_RADIUS = 5;
 
 @observer
 export class NodeComponent extends React.Component<Props, {}> {
@@ -43,11 +37,11 @@ export class NodeComponent extends React.Component<Props, {}> {
   renderInputs() {
     const { nInputs } = this.props.node;
     return range(nInputs).map(i => {
+      const inputPosition = getInputPosition(this.props.node, i);
       return (
         <Wedge
+          {...inputPosition}
           key={`input-${i}`}
-          x={10 * (i + 1)}
-          y={dimensions.height}
           radius={IO_RADIUS}
           angle={180}
           rotation={180}
@@ -60,11 +54,11 @@ export class NodeComponent extends React.Component<Props, {}> {
   renderOutputs() {
     const { nOutputs } = this.props.node;
     return range(nOutputs).map(i => {
+      const outputPosition = getOutputPosition(this.props.node, i);
       return (
         <Wedge
+          {...outputPosition}
           key={`output-${i}`}
-          x={10}
-          y={0}
           radius={IO_RADIUS}
           angle={180}
           fill={theme.colors.white.toRgbString()}
