@@ -6,7 +6,6 @@ import { configure } from 'mobx';
 import { enableLogging } from 'mobx-logger';
 
 import { registerServices } from 'core';
-import { initializeLogger } from 'utils/logger';
 import { initializeStats } from 'utils/stats';
 
 import { LoadService, UndoService } from 'core';
@@ -17,10 +16,6 @@ import './app.global.css';
 
 // Ensure that all services are registered with the DI provider.
 registerServices();
-
-// Set up an ad-hoc logging function for inspecting the state of the
-// central stores
-initializeLogger();
 initializeStats();
 
 // Configure mobx logging

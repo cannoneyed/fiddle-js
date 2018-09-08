@@ -182,4 +182,8 @@ export class TimelineVector {
     const remainder = TimelineVector.fromAbsoluteTicks(remainderTicks, timeSignature);
     return { divisions, remainder };
   }
+
+  static getNPeriods(timelineVector: TimelineVector, period: TimelineVector) {
+    return Math.floor(timelineVector.absoluteTicks / period.absoluteTicks);
+  }
 }

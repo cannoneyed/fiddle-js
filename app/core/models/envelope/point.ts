@@ -5,10 +5,13 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 
 export class Point {
   id = generateId();
-  @observable position: TimelineVector;
+  @observable
+  position: TimelineVector;
 
-  @observable value: number;
-  @observable selected = false;
+  @observable
+  value: number;
+  @observable
+  selected = false;
 
   constructor(position: TimelineVector, value: number) {
     this.position = position;

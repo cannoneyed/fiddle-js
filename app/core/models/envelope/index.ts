@@ -30,6 +30,14 @@ export class Envelope {
     this.length = length || new TimelineVector(2);
   }
 
+  get start() {
+    return new TimelineVector(0);
+  }
+
+  get end() {
+    return this.length;
+  }
+
   @computed
   get connections() {
     const connections = [];

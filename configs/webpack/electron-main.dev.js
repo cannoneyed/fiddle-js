@@ -26,7 +26,7 @@ module.exports = merge({
     rules: [
       {
         test: /\.tsx?$/,
-        use: ['babel-loader', 'awesome-typescript-loader'],
+        use: ['babel-loader', 'ts-loader'],
       },
     ],
   },

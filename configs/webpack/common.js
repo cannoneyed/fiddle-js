@@ -1,6 +1,5 @@
 // shared config (dev and prod)
 const { resolve } = require('path');
-const { CheckerPlugin } = require('awesome-typescript-loader');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -19,7 +18,7 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        use: ['babel-loader', 'awesome-typescript-loader'],
+        use: ['babel-loader', 'ts-loader'],
       },
       {
         test: /\.css$/,
@@ -42,11 +41,7 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new CheckerPlugin(),
-    new StyleLintPlugin(),
-    new HtmlWebpackPlugin({ template: 'app.html' }),
-  ],
+  plugins: [new StyleLintPlugin(), new HtmlWebpackPlugin({ template: 'app.html' })],
   performance: {
     hints: false,
   },
