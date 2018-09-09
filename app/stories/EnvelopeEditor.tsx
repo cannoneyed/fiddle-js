@@ -120,13 +120,35 @@ stories.add('basic sawtooth envelope', () => {
   );
 });
 
+stories.add('basic square envelope', () => {
+  const envelope = envelopeFactory.makeSimpleSquareEnvelope();
+
+  const timeline = new Timeline(envelope.length);
+  timeline.fitToWidth(width);
+  const dimensions = { height, width };
+  const snapToGrid = new SnapToGrid(snapToGridValues.snap_1_4);
+
+  const props = {
+    dimensions,
+    envelope,
+    snapToGrid,
+    timeline,
+  };
+
+  return (
+    <KonvaWrapper dimensions={dimensions}>
+      <EnvelopeEditor {...props} />
+    </KonvaWrapper>
+  );
+});
+
 import { AddOperator } from 'core/models/operator';
 
 stories.add('sum operator', () => {
   const operator = new AddOperator();
   const length = new TimelineVector(2);
   const value = 0.5;
-  const envelopeA = envelopeFactory.makeSimpleSawtoothEnvelope(length, value);
+  const envelopeA = envelopeFactory.makeSimpleSquareEnvelope(length, value);
   const envelopeB = envelopeFactory.makeSimpleSawtoothEnvelope(length, value);
   const inputs: Envelope[] = [envelopeA, envelopeB];
   const envelope = operator.operate(inputs)!;

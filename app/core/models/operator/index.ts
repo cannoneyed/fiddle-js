@@ -2,7 +2,7 @@ import { Envelope, Point } from 'core/models/envelope';
 import { Data } from 'core/models/graph';
 import { SortedMap } from 'libs/sorted-map';
 
-type PointByTick = { point: Point; ticks: number; envelope: Envelope };
+type PointByTick = { point: Point; envelope: Envelope; index: number };
 
 const arrangeByLength = (inputA: Envelope, inputB: Envelope) => {
   const larger = inputA.length.gte(inputB.length) ? inputA : inputB;
@@ -10,9 +10,7 @@ const arrangeByLength = (inputA: Envelope, inputB: Envelope) => {
   return { larger, smaller };
 };
 
-const entryByValue = (a: PointByTick, b: PointByTick) => {
-  return a.point.value - b.point.value;
-};
+const entryByIndex = (a: PointByTick, b: PointByTick) => a.index - b.index;
 
 const getPointsByTick = (inputA: Envelope, inputB: Envelope) => {
   const pointsByTick = new SortedMap<number, PointByTick[]>();
@@ -21,7 +19,7 @@ const getPointsByTick = (inputA: Envelope, inputB: Envelope) => {
     for (const point of envelope.points) {
       const ticks = point.position.absoluteTicks;
       const group = pointsByTick.get(ticks, [])!;
-      const pointByTick = { point, ticks, envelope };
+      const pointByTick = { point, envelope, index: envelope.getIndex(point) };
       pointsByTick.set(ticks, [...group, pointByTick]);
     }
   };
@@ -98,21 +96,26 @@ export class AddOperator extends Operator {
         const entryOne = group[0];
         const entryTwo = group[1];
         const otherEnvelope = getOther(entryOne.envelope);
-        const otherValue = Envelope.getValueAtTicks(otherEnvelope, entryOne.ticks);
+        const otherValue = Envelope.getValueAtTicks(
+          otherEnvelope,
+          entryOne.point.position.absoluteTicks
+        );
         nextPoints.push(new Point(entryOne.point.position, entryOne.point.value + otherValue));
         nextPoints.push(new Point(entryTwo.point.position, entryTwo.point.value + otherValue));
       } else if (groupType === PointGroupType.FOUR_DIFFERENT) {
-        const [largerA, smallerA] = group
+        const [firstA, secondA] = group
           .filter(entry => entry.envelope === inputA)
-          .sort(entryByValue);
-        const [largerB, smallerB] = group
-          .filter(entry => entry.envelope === inputA)
-          .sort(entryByValue);
+          .sort(entryByIndex);
+        const [firstB, secondB] = group
+          .filter(entry => entry.envelope === inputB)
+          .sort(entryByIndex);
+
+        console.log({ firstA, secondA });
+        console.log({ firstB, secondB });
+
+        nextPoints.push(new Point(firstA.point.position, firstA.point.value + firstB.point.value));
         nextPoints.push(
-          new Point(largerA.point.position, largerA.point.value + largerB.point.value)
-        );
-        nextPoints.push(
-          new Point(smallerA.point.position, smallerA.point.value + smallerB.point.value)
+          new Point(secondA.point.position, secondA.point.value + secondB.point.value)
         );
       }
     }

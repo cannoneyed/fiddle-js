@@ -16,6 +16,19 @@ export default class __EnvelopeEditorLayout {
     width: 1000,
   };
 
+  envelopePadding = {
+    horizontal: 0,
+    vertical: 1,
+  };
+
+  @computed
+  get envelopeDimensions(): Dimensions {
+    return {
+      height: this.dimensions.height - 2 * this.envelopePadding.vertical,
+      width: this.dimensions.width,
+    };
+  }
+
   @observable
   rowHeight = 20;
 

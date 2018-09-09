@@ -48,9 +48,11 @@ export default class __EnvelopeEditorInteractions {
 
   private getScreenVector(position: TimelineVector, value: number) {
     const { envelope } = this.state;
-    const { dimensions } = this.layout;
-    const x = (position.absoluteTicks / envelope.length.absoluteTicks) * dimensions.width;
-    const y = (1 - value) * dimensions.height;
+    const { envelopeDimensions, envelopePadding } = this.layout;
+    const x =
+      (position.absoluteTicks / envelope.length.absoluteTicks) * envelopeDimensions.width +
+      envelopePadding.horizontal;
+    const y = (1 - value) * envelopeDimensions.height + envelopePadding.vertical;
     return new ScreenVector(x, y);
   }
 

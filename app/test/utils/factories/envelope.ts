@@ -35,3 +35,24 @@ export const makeSimpleSawtoothEnvelope = (
   envelope.setPoints(points);
   return envelope;
 };
+
+export const makeSimpleSquareEnvelope = (
+  length = new TimelineVector(2),
+  value = 1,
+  period = new TimelineVector(1)
+) => {
+  const envelope = new Envelope(length);
+  const points: Point[] = [];
+
+  const nIterations = TimelineVector.getNPeriods(length, period);
+  for (const n of range(nIterations)) {
+    const cycleValue = n % 2 === 0 ? value : 0;
+    const startPosition = TimelineVector.fromAbsoluteTicks(period.absoluteTicks * n);
+    const endPosition = TimelineVector.fromAbsoluteTicks(period.absoluteTicks * (n + 1));
+    points.push(new Point(startPosition, cycleValue));
+    points.push(new Point(endPosition, cycleValue));
+  }
+
+  envelope.setPoints(points);
+  return envelope;
+};

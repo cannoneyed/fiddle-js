@@ -17,6 +17,7 @@ export class Envelope {
   @observable
   length: TimelineVector;
 
+  private pointIndices = new Map<Point, number>();
   private pointsByTick = new PointsByTick();
   points = observable.array<Point>([]);
 
@@ -72,6 +73,13 @@ export class Envelope {
   private addPointAtIndex(point: Point, index: number) {
     this.points.splice(index, 0, point);
     this.pointsByTick.add(point);
+    this.updatePointIndices();
+  }
+
+  private updatePointIndices() {
+    this.points.forEach((p, index) => {
+      this.pointIndices.set(p, index);
+    });
   }
 
   @action
@@ -89,6 +97,8 @@ export class Envelope {
   private removePoint_(point: Point) {
     this.points.remove(point);
     this.pointsByTick.remove(point);
+    this.pointIndices.delete(point);
+    this.updatePointIndices();
   }
 
   @action
@@ -136,16 +146,17 @@ export class Envelope {
     }
   }
 
+  getIndex = (point: Point) => {
+    const index = this.pointIndices.get(point);
+    return index === undefined ? -1 : index;
+  };
+
   private getBeginningPoint = () => this.points[0];
   private getEndPoint = () => this.points[this.points.length - 1];
   private isAtBeginning = (position: TimelineVector) => position.equals(BEGINNING);
   private isAtEnd = (position: TimelineVector) => position.equals(this.length);
   private isAtBeginningOrEnd = (position: TimelineVector) =>
     this.isAtBeginning(position) || this.isAtEnd(position);
-
-  private getIndex = (point: Point) => {
-    return this.points.indexOf(point);
-  };
 
   private canRemovePoint = (point: Point) => {
     const isBeginningOrEnd = this.isAtBeginningOrEnd(point.position);
