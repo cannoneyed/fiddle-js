@@ -26,6 +26,10 @@ export class PointsByTick {
     }
   }
 
+  get(ticks: number) {
+    return this.map.get(ticks);
+  }
+
   points(): PointEntry[] {
     return this.map.values();
   }

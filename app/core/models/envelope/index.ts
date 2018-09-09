@@ -230,6 +230,13 @@ export class Envelope {
     const value = deltaValue * percent + pointBefore.value;
     return value;
   }
+
+  // Return points at tick position, sorted by ascending index.
+  static getPointsAtTicks(e: Envelope, ticks: number) {
+    const p = e.pointsByTick.get(ticks);
+    const output = p instanceof Array ? p : p instanceof Point ? [p] : [];
+    return output.sort((a, b) => e.getIndex(a) - e.getIndex(b));
+  }
 }
 
 const isSorted = (points: Point[]) => {
