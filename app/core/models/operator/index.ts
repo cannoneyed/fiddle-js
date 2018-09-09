@@ -98,7 +98,7 @@ export class AddOperator extends Operator {
         const entryOne = group[0];
         const entryTwo = group[1];
         const otherEnvelope = getOther(entryOne.envelope);
-        const otherValue = otherEnvelope.getValueAtTicks(entryOne.ticks);
+        const otherValue = Envelope.getValueAtTicks(otherEnvelope, entryOne.ticks);
         nextPoints.push(new Point(entryOne.point.position, entryOne.point.value + otherValue));
         nextPoints.push(new Point(entryTwo.point.position, entryTwo.point.value + otherValue));
       } else if (groupType === PointGroupType.FOUR_DIFFERENT) {

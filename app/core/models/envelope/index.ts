@@ -2,8 +2,10 @@ import { action, computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 import { filterMethods } from 'utils/log-filter';
 
-import { Point } from './point';
 import { Connection, LineConnection } from './connection';
+import { Point } from './point';
+import { PointsByTick } from './points-by-tick';
+
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 const BEGINNING = new TimelineVector(0);
@@ -15,7 +17,7 @@ export class Envelope {
   @observable
   length: TimelineVector;
 
-  pointIndices = new Map<Point, number>();
+  private pointsByTick = new PointsByTick();
   points = observable.array<Point>([]);
 
   @observable
@@ -51,47 +53,60 @@ export class Envelope {
 
   @action
   setPoints(points: Point[]) {
-    this.points.replace(points);
-    this.sortPoints();
-  }
-
-  @action
-  addPoint(point: Point, shouldSort = true) {
-    this.points.push(point);
-    shouldSort && this.sortPoints();
-  }
-
-  @action
-  removePoint(point: Point, shouldSort = true) {
-    if (this.canRemovePoint(point)) {
-      this.removePoint_(point, shouldSort);
+    if (!isSorted(points)) {
+      points = points.slice().sort(sortAscending);
+    }
+    for (const point of points) {
+      this.addPointAtEnd(point);
     }
   }
 
-  private removePoint_(point: Point, shouldSort = true) {
+  private addPointAtEnd(point: Point) {
+    this.addPointAtIndex(point, this.points.length);
+  }
+
+  private addPointAtBeginning(point: Point) {
+    this.addPointAtIndex(point, 0);
+  }
+
+  private addPointAtIndex(point: Point, index: number) {
+    this.points.splice(index, 0, point);
+    this.pointsByTick.add(point);
+  }
+
+  @action
+  addPoint(point: Point) {
+    this.addPointAtEnd(point);
+  }
+
+  @action
+  removePoint(point: Point) {
+    if (this.canRemovePoint(point)) {
+      this.removePoint_(point);
+    }
+  }
+
+  private removePoint_(point: Point) {
     this.points.remove(point);
-    this.pointIndices.delete(point);
-    shouldSort && this.sortPoints();
+    this.pointsByTick.remove(point);
   }
 
   @action
   setPointPosition(point: Point, nextPosition: TimelineVector) {
     // Remove any overlapping points.
+    // TODO: Make this non-permanent until the mouse is released.
     const pointsToRemove = this.getPointsBeingDisplaced(point, nextPosition);
-    pointsToRemove.forEach(point => this.removePoint_(point, false));
+    pointsToRemove.forEach(point => this.removePoint_(point));
 
     // Ensure that moving the point from the beginning or end of the envelope instantiates a new point at that position.
     if (this.isAtBeginning(point.position) && !this.isAtBeginning(nextPosition)) {
-      const beginning = this.clonePoint(point);
-      this.addPoint(beginning, false);
+      this.addPointAtBeginning(this.clonePoint(point));
     } else if (this.isAtEnd(point.position) && !this.isAtEnd(nextPosition)) {
-      const end = this.clonePoint(point);
-      this.addPoint(end, false);
+      this.addPointAtEnd(this.clonePoint(point));
     }
 
     // Finally, set the position of the point.
     point.position = nextPosition;
-    this.sortPoints();
   }
 
   @action
@@ -112,10 +127,12 @@ export class Envelope {
       const end = this.getEndPoint();
       end && (end.value = value);
     }
-    // Otherwise, create a new point
+    // Otherwise, create a new point, inserted at the correct index
     else {
+      const insertionIndex =
+        this.points.findIndex(point => point.position.absoluteTicks > position.absoluteTicks) || 1;
       const point = new Point(position, value);
-      this.addPoint(point);
+      this.addPointAtIndex(point, insertionIndex);
     }
   }
 
@@ -127,20 +144,8 @@ export class Envelope {
     this.isAtBeginning(position) || this.isAtEnd(position);
 
   private getIndex = (point: Point) => {
-    const index = this.pointIndices.get(point);
-    return index !== undefined ? index : this.points.indexOf(point);
+    return this.points.indexOf(point);
   };
-
-  private sortPoints() {
-    this.points.replace(
-      this.points
-        .slice()
-        .sort((a: Point, b: Point) => TimelineVector.sortAscendingFn(a.position, b.position))
-    );
-    this.points.forEach((point, index) => {
-      this.pointIndices.set(point, index);
-    });
-  }
 
   private canRemovePoint = (point: Point) => {
     const isBeginningOrEnd = this.isAtBeginningOrEnd(point.position);
@@ -200,12 +205,12 @@ export class Envelope {
     return [...pointsToRemove, ...morePointsToRemove];
   }
 
-  getValueAtTicks(ticks: number) {
-    const indexAfter = this.points.findIndex(point => {
+  static getValueAtTicks(e: Envelope, ticks: number) {
+    const indexAfter = e.points.findIndex(point => {
       return point.position.absoluteTicks > ticks;
     });
-    const pointBefore = this.points[indexAfter - 1];
-    const pointAfter = this.points[indexAfter];
+    const pointBefore = e.points[indexAfter - 1];
+    const pointAfter = e.points[indexAfter];
     const deltaValue = pointAfter.value - pointBefore.value;
     const ticksBetween = pointAfter.position.absoluteTicks - pointBefore.position.absoluteTicks;
     const deltaTicks = ticks - pointBefore.position.absoluteTicks;
@@ -214,5 +219,18 @@ export class Envelope {
     return value;
   }
 }
+
+const isSorted = (points: Point[]) => {
+  const lastPosition = points[0].position;
+  for (const point of points) {
+    if (point.position.lte(lastPosition)) {
+      return false;
+    }
+  }
+  return true;
+};
+
+const sortAscending = (a: Point, b: Point) =>
+  TimelineVector.sortAscendingFn(a.position, b.position);
 
 export { Connection, LineConnection, Point };
