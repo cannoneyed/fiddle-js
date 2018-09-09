@@ -86,11 +86,15 @@ export class AddOperator extends Operator {
     for (const group of pointsByTick.values()) {
       const groupType = getPointGroupType(group);
 
+      const entriesA = group.filter(entry => entry.envelope === inputA);
+      const entriesB = group.filter(entry => entry.envelope === inputB);
+      const position = group[0].point.position;
+
       if (groupType === PointGroupType.TWO_DIFFERENT) {
-        const entryA = group.find(entry => entry.envelope === inputA)!;
-        const entryB = group.find(entry => entry.envelope === inputB)!;
+        const entryA = entriesA[0];
+        const entryB = entriesB[0];
         const nextValue = entryA.point.value + entryB.point.value;
-        const nextPoint = new Point(entryA.point.position, nextValue);
+        const nextPoint = new Point(position, nextValue);
         nextPoints.push(nextPoint);
       } else if (groupType === PointGroupType.TWO_SAME) {
         const entryOne = group[0];
@@ -100,18 +104,17 @@ export class AddOperator extends Operator {
           otherEnvelope,
           entryOne.point.position.absoluteTicks
         );
-        nextPoints.push(new Point(entryOne.point.position, entryOne.point.value + otherValue));
-        nextPoints.push(new Point(entryTwo.point.position, entryTwo.point.value + otherValue));
+        nextPoints.push(new Point(position, entryOne.point.value + otherValue));
+        nextPoints.push(new Point(position, entryTwo.point.value + otherValue));
+      } else if (groupType === PointGroupType.THREE_DIFFERENT) {
+        const singleEntry = entriesA.length === 1 ? entriesA[0] : entriesB[0];
+        const pair = entriesA.length === 1 ? entriesB : entriesA;
+        const sortedPair = pair.sort(entryByIndex);
+        nextPoints.push(new Point(position, sortedPair[0].point.value + singleEntry.point.value));
+        nextPoints.push(new Point(position, sortedPair[1].point.value + singleEntry.point.value));
       } else if (groupType === PointGroupType.FOUR_DIFFERENT) {
-        const [firstA, secondA] = group
-          .filter(entry => entry.envelope === inputA)
-          .sort(entryByIndex);
-        const [firstB, secondB] = group
-          .filter(entry => entry.envelope === inputB)
-          .sort(entryByIndex);
-
-        console.log({ firstA, secondA });
-        console.log({ firstB, secondB });
+        const [firstA, secondA] = entriesA.sort(entryByIndex);
+        const [firstB, secondB] = entriesB.sort(entryByIndex);
 
         nextPoints.push(new Point(firstA.point.position, firstA.point.value + firstB.point.value));
         nextPoints.push(

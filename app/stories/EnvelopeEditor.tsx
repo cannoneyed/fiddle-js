@@ -148,8 +148,13 @@ stories.add('sum operator', () => {
   const operator = new AddOperator();
   const length = new TimelineVector(2);
   const value = 0.5;
-  const envelopeA = envelopeFactory.makeSimpleSquareEnvelope(length, value);
-  const envelopeB = envelopeFactory.makeSimpleSawtoothEnvelope(length, value);
+  const envelopeA = envelopeFactory.makeSimpleSawtoothEnvelope(length, value);
+  const pointsB = [
+    new Point(new TimelineVector(0), 0),
+    new Point(new TimelineVector(1), 0.25),
+    new Point(new TimelineVector(2), 0.5),
+  ];
+  const envelopeB = new Envelope(length, pointsB);
   const inputs: Envelope[] = [envelopeA, envelopeB];
   const envelope = operator.operate(inputs)!;
 

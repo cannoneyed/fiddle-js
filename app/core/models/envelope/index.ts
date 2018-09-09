@@ -29,8 +29,9 @@ export class Envelope {
   @observable
   stepSize = 0;
 
-  constructor(length?: TimelineVector) {
-    this.length = length || new TimelineVector(2);
+  constructor(length = new TimelineVector(2), points: Point[] = []) {
+    this.length = length;
+    this.setPoints(points);
   }
 
   get start() {
@@ -232,6 +233,7 @@ export class Envelope {
 }
 
 const isSorted = (points: Point[]) => {
+  if (points.length === 0) return true;
   const lastPosition = points[0].position;
   for (const point of points) {
     if (point.position.lte(lastPosition)) {
