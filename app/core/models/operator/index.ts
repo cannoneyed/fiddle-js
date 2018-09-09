@@ -2,13 +2,18 @@ import { Envelope, Point } from 'core/models/envelope';
 import { Data } from 'core/models/graph';
 import { SortedMap } from 'libs/sorted-map';
 
+type PointByTick = { point: Point; ticks: number; envelope: Envelope };
+
 const arrangeByLength = (inputA: Envelope, inputB: Envelope) => {
   const larger = inputA.length.gte(inputB.length) ? inputA : inputB;
   const smaller = larger === inputB ? inputA : inputB;
   return { larger, smaller };
 };
 
-type PointByTick = { point: Point; ticks: number; envelope: Envelope };
+const entryByValue = (a: PointByTick, b: PointByTick) => {
+  return a.point.value - b.point.value;
+};
+
 const getPointsByTick = (inputA: Envelope, inputB: Envelope) => {
   const pointsByTick = new SortedMap<number, PointByTick[]>();
 
@@ -71,6 +76,8 @@ export class AddOperator extends Operator {
     if (!inputB) return inputA;
 
     const { larger, smaller } = arrangeByLength(inputA, inputB);
+    const getOther = (e: Envelope) => (e === inputA ? inputB : inputA);
+
     const output = new Envelope(larger.length);
     output.maximum = larger.maximum * smaller.maximum;
     output.minimum = larger.minimum * smaller.minimum;
@@ -80,14 +87,33 @@ export class AddOperator extends Operator {
 
     for (const group of pointsByTick.values()) {
       const groupType = getPointGroupType(group);
-      const entryA = group[0];
-      const entryB = group[1];
 
       if (groupType === PointGroupType.TWO_DIFFERENT) {
+        const entryA = group.find(entry => entry.envelope === inputA)!;
+        const entryB = group.find(entry => entry.envelope === inputB)!;
         const nextValue = entryA.point.value + entryB.point.value;
         const nextPoint = new Point(entryA.point.position, nextValue);
         nextPoints.push(nextPoint);
       } else if (groupType === PointGroupType.TWO_SAME) {
+        const entryOne = group[0];
+        const entryTwo = group[1];
+        const otherEnvelope = getOther(entryOne.envelope);
+        const otherValue = otherEnvelope.getValueAtTicks(entryOne.ticks);
+        nextPoints.push(new Point(entryOne.point.position, entryOne.point.value + otherValue));
+        nextPoints.push(new Point(entryTwo.point.position, entryTwo.point.value + otherValue));
+      } else if (groupType === PointGroupType.FOUR_DIFFERENT) {
+        const [largerA, smallerA] = group
+          .filter(entry => entry.envelope === inputA)
+          .sort(entryByValue);
+        const [largerB, smallerB] = group
+          .filter(entry => entry.envelope === inputA)
+          .sort(entryByValue);
+        nextPoints.push(
+          new Point(largerA.point.position, largerA.point.value + largerB.point.value)
+        );
+        nextPoints.push(
+          new Point(smallerA.point.position, smallerA.point.value + smallerB.point.value)
+        );
       }
     }
 

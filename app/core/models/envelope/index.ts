@@ -199,6 +199,20 @@ export class Envelope {
     );
     return [...pointsToRemove, ...morePointsToRemove];
   }
+
+  getValueAtTicks(ticks: number) {
+    const indexAfter = this.points.findIndex(point => {
+      return point.position.absoluteTicks > ticks;
+    });
+    const pointBefore = this.points[indexAfter - 1];
+    const pointAfter = this.points[indexAfter];
+    const deltaValue = pointAfter.value - pointBefore.value;
+    const ticksBetween = pointAfter.position.absoluteTicks - pointBefore.position.absoluteTicks;
+    const deltaTicks = ticks - pointBefore.position.absoluteTicks;
+    const percent = deltaTicks / ticksBetween;
+    const value = deltaValue * percent + pointBefore.value;
+    return value;
+  }
 }
 
 export { Connection, LineConnection, Point };
