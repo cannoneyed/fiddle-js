@@ -20,7 +20,7 @@ describe('Add Envelope Operator Test', () => {
     expect(result).toBe(envelopeA);
   });
 
-  it.only('returns the sum of two flat envelopes', () => {
+  it('returns the sum of two flat envelopes', () => {
     const operator = new AddOperator();
     const length = new TimelineVector(2);
     const value = 0.5;
@@ -58,7 +58,7 @@ describe('Add Envelope Operator Test', () => {
     expect(points[1].value).toEqual(0);
   });
 
-  it.only('returns the sum of a sawtooth and a flat envelope', () => {
+  it('returns the sum of a sawtooth and a flat envelope', () => {
     const operator = new AddOperator();
     const length = new TimelineVector(2);
     const value = 0.5;
@@ -81,7 +81,7 @@ describe('Add Envelope Operator Test', () => {
     expect(points[3].value).toEqual(0.5);
   });
 
-  it.only('returns the sum of a sawtooth and a ramp down', () => {
+  it('returns the sum of a sawtooth and a ramp down', () => {
     const operator = new AddOperator();
     const length = new TimelineVector(2);
     const value = 0.5;
@@ -104,7 +104,7 @@ describe('Add Envelope Operator Test', () => {
     expect(points[3].value).toEqual(0);
   });
 
-  it.only('returns the sum of a sawtooth and a sawtooth', () => {
+  it('returns the sum of a sawtooth and a sawtooth', () => {
     const operator = new AddOperator();
     const length = new TimelineVector(2);
     const value = 0.5;
@@ -120,9 +120,9 @@ describe('Add Envelope Operator Test', () => {
     expect(points[0].position).toEqual(result.start);
     expect(points[0].value).toEqual(1);
     expect(points[1].position).toEqual(new TimelineVector(1));
-    expect(points[1].value).toEqual(0.25);
+    expect(points[1].value).toEqual(0);
     expect(points[2].position).toEqual(new TimelineVector(1));
-    expect(points[2].value).toEqual(0.75);
+    expect(points[2].value).toEqual(1);
     expect(points[3].position).toEqual(result.end);
     expect(points[3].value).toEqual(0);
   });
