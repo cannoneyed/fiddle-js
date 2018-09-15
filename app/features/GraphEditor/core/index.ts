@@ -2,20 +2,23 @@ import { Container, ObjectType } from 'libs/typedi';
 
 import { default as GraphEditorLayout } from './layout';
 import { default as GraphEditorState } from './state';
+import { default as NodeDragInteraction } from './interactions/node-drag';
 
-import { Clip } from 'core/models/clip';
+import { Graph } from 'core/models/graph';
 
 import { Props } from 'features/GraphEditor';
 
-export function get<T>(clip: Clip, type: ObjectType<T>): T {
-  return Container.of(clip).get(type);
+export type Context = Graph | undefined;
+
+export function get<T>(context: Context, type: ObjectType<T>): T {
+  return Container.of(context).get(type);
 }
 
-const lastPropsMap = new Map<Clip, Props>();
-export function deriveStateFromProps(clip: Clip, props: Props): GraphEditorState {
-  const state = get(clip, GraphEditorState);
+const lastPropsMap = new Map<Graph, Props>();
+export function deriveStateFromProps(graph: Graph, props: Props): GraphEditorState {
+  const state = get(graph, GraphEditorState);
 
-  lastPropsMap.set(clip, props);
+  lastPropsMap.set(graph, props);
   state.updateFromProps(props);
 
   // Initialize a newly constructed clip editor core
@@ -23,8 +26,8 @@ export function deriveStateFromProps(clip: Clip, props: Props): GraphEditorState
     state.hasBeenInitialized = true;
   }
 
-  state.clip = clip;
+  state.graph = graph;
   return state;
 }
 
-export { GraphEditorState, GraphEditorLayout };
+export { GraphEditorLayout, GraphEditorState, NodeDragInteraction };

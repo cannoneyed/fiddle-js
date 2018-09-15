@@ -20,15 +20,15 @@ export class Graph extends React.Component<Props, {}> {
 
     return (
       <Group {...dimensions}>
-        {graph.outputs.map(output => {
-          return <NodeComponent node={output} key={output.id} />;
-        })}
-        {graph.nodes.map(node => {
-          return <NodeComponent node={node} key={node.id} />;
-        })}
         {graph.connections.map((connection, index) => {
           const { from, to } = connection;
-          return <ConnectionComponent key={index} from={from} to={to} />;
+          return <ConnectionComponent graph={graph} key={index} from={from} to={to} />;
+        })}
+        {graph.outputs.map(output => {
+          return <NodeComponent graph={graph} node={output} key={output.id} />;
+        })}
+        {graph.nodes.map(node => {
+          return <NodeComponent graph={graph} node={node} key={node.id} />;
         })}
       </Group>
     );

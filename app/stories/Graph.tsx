@@ -8,7 +8,7 @@ import { MultiplyOperator } from 'core/models/operator';
 import { Snip } from 'core/models/snip';
 import { Envelope } from 'core/models/envelope';
 
-import GraphEditor from 'features/GraphEditor/components/Graph';
+import GraphEditor from 'features/GraphEditor';
 
 const constructGraph = (): Graph => {
   const graph = new Graph();
@@ -68,6 +68,8 @@ stories.add('default', () => {
     dimensions,
     graph,
   };
+
+  console.log(props);
 
   return (
     <KonvaWrapper dimensions={dimensions}>

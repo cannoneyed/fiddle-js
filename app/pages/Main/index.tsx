@@ -7,7 +7,6 @@ import { injector } from 'utils/injector';
 
 import { Dimensions } from 'core/interfaces';
 
-import GraphEditor from 'features/GraphEditor';
 import Sequencer from 'features/Sequencer';
 import SectionDivider from 'features/SectionDivider';
 
@@ -36,13 +35,12 @@ export class MainPage extends React.Component<Props & InjectedProps, {}> {
   };
 
   render() {
-    const { clipEditorDimensions, sequencerDimensions } = this.props;
+    const { sequencerDimensions } = this.props;
 
     return (
       <PageWrapper>
         <Sequencer dimensions={sequencerDimensions} />
         <SectionDivider onDrag={this.handleSectionDividerDrag} />
-        <GraphEditor dimensions={clipEditorDimensions} />
       </PageWrapper>
     );
   }

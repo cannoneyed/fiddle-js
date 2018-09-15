@@ -50,7 +50,7 @@ export class EditArea extends React.Component<Props & Injected, {}> {
           <Layer>
             <Timeline clip={clip} dimensions={timelineDimensions} />
             <Group {...layersProps}>
-              {clip.nodes.map((node, index) => {
+              {clip.graph.nodes.map((node, index) => {
                 if (node instanceof SnipNode) {
                   return <SnipLayer key={index} clip={clip} node={node} />;
                 } else {

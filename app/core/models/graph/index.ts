@@ -4,7 +4,7 @@ import { Envelope } from 'core/models/envelope';
 import { Operator } from 'core/models/operator';
 import { Snip } from 'core/models/snip';
 
-import { Coordinates } from 'core/interfaces';
+import { Coordinates, Dimensions } from 'core/interfaces';
 
 export type Data = Envelope | null;
 
@@ -16,6 +16,11 @@ export interface Connection {
   from: Link;
   to: Link;
 }
+
+export const DEFAULT_NODE_DIMENSIONS: Dimensions = {
+  width: 100,
+  height: 30,
+};
 
 export class Graph {
   outputs: IObservableArray<OutputNode> = observable([]);
@@ -107,6 +112,10 @@ export abstract class Node {
   outputs: IObservableArray<Node> = observable([]);
 
   position = new Position();
+  @observable
+  dimensions: Dimensions = {
+    ...DEFAULT_NODE_DIMENSIONS,
+  };
 
   connectTo(other: Node) {
     this.outputs.push(other);

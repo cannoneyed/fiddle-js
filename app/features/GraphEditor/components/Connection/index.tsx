@@ -5,9 +5,10 @@ import { makePoints } from 'utils/konva';
 
 import { getInputConnectionPosition, getOutputConnectionPosition } from '../../helpers/layout';
 
-import { Link } from 'core/models/graph';
+import { Graph, Link } from 'core/models/graph';
 
 export interface Props {
+  graph: Graph;
   from: Link;
   to: Link;
 }

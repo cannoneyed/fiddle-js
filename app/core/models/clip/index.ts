@@ -2,7 +2,7 @@ import { Container } from 'libs/typedi';
 import { computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 
-import { Data, Node, EmptyNode } from 'core/models/graph';
+import { Graph } from 'core/models/graph';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 import { TrackStore } from 'core';
 
@@ -27,7 +27,7 @@ export class Clip {
   position: TimelineVector;
 
   @observable
-  graph: Node = new EmptyNode();
+  graph: Graph = new Graph();
 
   @observable
   isSelected = false;
@@ -51,16 +51,6 @@ export class Clip {
   @computed
   get track() {
     return this.trackStore.getTrackById(this.trackId)!;
-  }
-
-  @computed
-  get output(): Data {
-    return this.graph.output;
-  }
-
-  @computed
-  get nodes(): Node[] {
-    return [this.graph];
   }
 
   setPosition(position: TimelineVector) {

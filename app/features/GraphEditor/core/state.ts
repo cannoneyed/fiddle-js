@@ -2,8 +2,7 @@ import { Inject, Service } from 'libs/typedi';
 import { action } from 'mobx';
 import { filterMethods } from 'utils/log-filter';
 
-import { Clip } from 'core/models/clip';
-
+import { Graph } from 'core/models/graph';
 import { GraphEditorLayout } from 'features/GraphEditor/core';
 
 import { Props } from 'features/ClipEditorSection';
@@ -17,7 +16,7 @@ export default class __GraphEditorState {
 
   hasBeenInitialized = false;
 
-  clip: Clip;
+  graph: Graph;
 
   @action
   updateFromProps(props: Props) {

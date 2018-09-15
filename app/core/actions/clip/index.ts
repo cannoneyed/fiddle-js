@@ -2,7 +2,7 @@ import { Inject, Service } from 'libs/typedi';
 import { action } from 'mobx';
 
 import { Clip, ClipParams } from 'core/models/clip';
-import { SnipNode } from 'core/models/graph';
+import { Graph, SnipNode } from 'core/models/graph';
 import { Envelope } from 'core/models/envelope';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
@@ -56,7 +56,14 @@ export default class __ClipActions {
     });
 
     const snipNode = new SnipNode(snip);
-    clip.graph = snipNode;
+    const graph = new Graph();
+    graph.addNode(snipNode);
+    graph.connect(
+      snipNode,
+      graph.mainOutput
+    );
+
+    clip.graph = graph;
     return clip;
   }
 
