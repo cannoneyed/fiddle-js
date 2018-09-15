@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Group } from 'react-konva';
+import { Group, Rect } from 'react-konva';
+import { hot, injector } from 'utils/injector';
+import { makeHandler } from 'utils/konva';
+
+import { get, SelectInteraction } from 'features/GraphEditor/core';
 
 import { Dimensions } from 'core/interfaces';
 import { Graph as GraphModel } from 'core/models/graph';
@@ -12,14 +16,29 @@ export interface Props {
   graph: GraphModel;
   dimensions: Dimensions;
 }
+export interface InjectedProps {
+  deselectAllNodes: SelectInteraction['deselectAllNodes'];
+}
+
+const inject = injector<Props, InjectedProps>(props => {
+  const selectInteractions = get(props.graph, SelectInteraction);
+  return {
+    deselectAllNodes: selectInteractions.deselectAllNodes,
+  };
+});
 
 @observer
-export class Graph extends React.Component<Props, {}> {
+export class Graph extends React.Component<Props & InjectedProps, {}> {
+  handleClick = () => {
+    this.props.deselectAllNodes();
+  };
+
   render() {
     const { dimensions, graph } = this.props;
 
     return (
       <Group {...dimensions}>
+        <Rect {...dimensions} onClick={makeHandler(this.handleClick)} />
         {graph.connections.map((connection, index) => {
           const { from, to } = connection;
           return <ConnectionComponent graph={graph} key={index} from={from} to={to} />;
@@ -35,4 +54,4 @@ export class Graph extends React.Component<Props, {}> {
   }
 }
 
-export default Graph;
+export default inject(hot(module)(Graph));

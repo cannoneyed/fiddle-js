@@ -2,7 +2,8 @@ import { Container, ObjectType } from 'libs/typedi';
 
 import { default as GraphEditorLayout } from './layout';
 import { default as GraphEditorState } from './state';
-import { default as NodeDragInteraction } from './interactions/node-drag';
+import { default as DragInteraction } from './interactions/node-drag';
+import { default as SelectInteraction } from './interactions/node-select';
 
 import { Graph } from 'core/models/graph';
 
@@ -30,4 +31,4 @@ export function deriveStateFromProps(graph: Graph, props: Props): GraphEditorSta
   return state;
 }
 
-export { GraphEditorLayout, GraphEditorState, NodeDragInteraction };
+export { GraphEditorLayout, GraphEditorState, DragInteraction, SelectInteraction };

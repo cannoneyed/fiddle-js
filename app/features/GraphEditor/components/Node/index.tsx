@@ -7,9 +7,8 @@ import { range } from 'lodash';
 import { hot, injector } from 'utils/injector';
 
 import { getInputPosition, getOutputPosition } from 'features/GraphEditor/helpers/layout';
-import { get, GraphEditorLayout } from 'features/GraphEditor/core';
+import { get, DragInteraction, SelectInteraction } from 'features/GraphEditor/core';
 
-import { Coordinates } from 'core/interfaces';
 import { Graph, Node as NodeModel } from 'core/models/graph';
 
 import Port from 'features/GraphEditor/components/Port';
@@ -19,33 +18,41 @@ export interface Props {
   node: NodeModel;
 }
 export interface InjectedProps {
-  setNodePosition: (node: NodeModel, position: Coordinates) => void;
+  endDrag: DragInteraction['endDrag'];
+  isSelected: boolean;
+  selectNode: SelectInteraction['selectNode'];
+  handleNodeDrag: DragInteraction['handleNodeDrag'];
 }
 
 const FONT_SIZE = 12;
 const TEXT_PADDING_LEFT = 20;
 
 const inject = injector<Props, InjectedProps>(props => {
-  const layout = get(props.graph, GraphEditorLayout);
+  const dragInteraction = get(props.graph, DragInteraction);
+  const selectInteractions = get(props.graph, SelectInteraction);
   return {
-    setNodePosition: layout.setNodePosition,
+    isSelected: selectInteractions.isNodeSelected(props.node),
+    endDrag: dragInteraction.endDrag,
+    handleNodeDrag: dragInteraction.handleNodeDrag,
+    selectNode: selectInteractions.selectNode,
   };
 });
 
 @observer
 export class NodeComponent extends React.Component<Props & InjectedProps, {}> {
   handleMouseDown = (node: NodeModel) => (event: MouseEvent) => {
-    const { x: startX, y: startY } = node.position;
     const { pageX: startPageX, pageY: startPageY } = event;
 
+    const multiple = event.shiftKey;
+    this.props.selectNode(node, multiple);
+
     const handleMouseMove = (event: MouseEvent) => {
-      const deltaX = event.pageX - startPageX;
-      const deltaY = event.pageY - startPageY;
-      const position = { x: startX + deltaX, y: startY + deltaY };
-      this.props.setNodePosition(node, position);
+      const deltaPosition = { x: event.pageX - startPageX, y: event.pageY - startPageY };
+      this.props.handleNodeDrag(node, deltaPosition);
     };
 
     const handleMouseUp = () => {
+      this.props.endDrag();
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
@@ -71,7 +78,7 @@ export class NodeComponent extends React.Component<Props & InjectedProps, {}> {
   }
 
   render() {
-    const { node } = this.props;
+    const { node, isSelected } = this.props;
     const { dimensions } = node;
 
     const position = {
@@ -79,9 +86,11 @@ export class NodeComponent extends React.Component<Props & InjectedProps, {}> {
       ...dimensions,
     };
 
+    const outline = isSelected ? theme.colors.white.toRgbString() : undefined;
+
     return (
       <Group {...position} {...dimensions} onMouseDown={makeHandler(this.handleMouseDown(node))}>
-        <Rect {...dimensions} fill="gray" />
+        <Rect {...dimensions} fill="gray" strokeWidth={1} stroke={outline} />
         {this.renderInputs()}
         {this.renderOutputs()}
         <Text

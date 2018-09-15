@@ -69,8 +69,6 @@ stories.add('default', () => {
     graph,
   };
 
-  console.log(props);
-
   return (
     <KonvaWrapper dimensions={dimensions}>
       <GraphEditor {...props} />

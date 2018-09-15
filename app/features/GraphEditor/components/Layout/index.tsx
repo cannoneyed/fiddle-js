@@ -6,7 +6,7 @@ import { hot, injector } from 'utils/injector';
 import { Dimensions } from 'core/interfaces';
 import { Graph as GraphModel } from 'core/models/graph';
 
-import { Graph } from 'features/GraphEditor/components/Graph';
+import Graph from 'features/GraphEditor/components/Graph';
 
 import { get, GraphEditorLayout } from 'features/GraphEditor/core';
 
