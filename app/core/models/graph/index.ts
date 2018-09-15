@@ -3,6 +3,9 @@ import { generateId } from 'utils/generate-id';
 import { Envelope } from 'core/models/envelope';
 import { Operator } from 'core/models/operator';
 import { Snip } from 'core/models/snip';
+import { range } from 'lodash';
+
+import { getInputPosition, getOutputPosition } from 'features/GraphEditor/helpers/layout';
 
 import { Coordinates, Dimensions } from 'core/interfaces';
 
@@ -77,19 +80,40 @@ export class Graph {
   @action
   connect(from: Node, to: Node, outputIndex = 0, inputIndex = 0) {
     const key = `${from.id}:${outputIndex}:${to.id}:${inputIndex}`;
+    from.setOutput(to, outputIndex);
+    to.setInput(from, inputIndex);
     this.connectionsMap.set(key, true);
   }
 
   @action
   disconnect(from: Node, to: Node, outputIndex = 0, inputIndex = 0) {
     const key = `${from.id}:${outputIndex}:${to.id}:${inputIndex}`;
+    from.removeOutput(outputIndex);
+    to.removeInput(inputIndex);
     this.connectionsMap.delete(key);
+  }
+}
+
+export class Port {
+  position = new Position();
+  constructor(public node: Node, public index: number) {}
+}
+
+export class InputPort extends Port {
+  constructor(node: Node, index: number, public from: Node | undefined) {
+    super(node, index);
+  }
+}
+
+export class OutputPort extends Port {
+  constructor(node: Node, index: number, public to: Node | undefined) {
+    super(node, index);
   }
 }
 
 export class Position {
   @observable
-  x = 50;
+  x = 0;
   @observable
   y = 0;
 
@@ -108,8 +132,44 @@ export abstract class Node {
   nInputs: number;
   nOutputs: number;
 
-  inputs: IObservableArray<Node> = observable([]);
-  outputs: IObservableArray<Node> = observable([]);
+  private inputMap = observable.map<number, Node>();
+  private outputMap = observable.map<number, Node>();
+
+  @computed
+  get inputs(): (Node | null)[] {
+    return [...this.inputMap.keys()].sort().map(key => {
+      return this.inputMap.get(key) || null;
+    });
+  }
+
+  @computed
+  get outputs(): (Node | null)[] {
+    return [...this.inputMap.keys()].sort().map(key => {
+      return this.inputMap.get(key) || null;
+    });
+  }
+
+  @computed
+  get inputPorts(): InputPort[] {
+    return range(this.nInputs).map(index => {
+      const input = this.inputMap.get(index);
+      const port = new InputPort(this, index, input);
+      const position = getInputPosition(this, index);
+      port.position.set(position);
+      return port;
+    });
+  }
+
+  @computed
+  get outputPorts(): OutputPort[] {
+    return range(this.nOutputs).map(index => {
+      const output = this.outputMap.get(index);
+      const port = new OutputPort(this, index, output);
+      const position = getOutputPosition(index);
+      port.position.set(position);
+      return port;
+    });
+  }
 
   position = new Position();
   @observable
@@ -117,14 +177,20 @@ export abstract class Node {
     ...DEFAULT_NODE_DIMENSIONS,
   };
 
-  connectTo(other: Node) {
-    this.outputs.push(other);
-    other.inputs.push(this);
+  setInput(other: Node, index: number) {
+    this.inputMap.set(index, other);
   }
 
-  disconnectFrom(other: Node) {
-    this.outputs.remove(other);
-    other.inputs.remove(this);
+  removeInput(index: number) {
+    this.inputMap.delete(index);
+  }
+
+  setOutput(other: Node, index: number) {
+    this.outputMap.set(index, other);
+  }
+
+  removeOutput(index: number) {
+    this.outputMap.delete(index);
   }
 }
 
@@ -140,7 +206,9 @@ export class EmptyNode extends Node {
 export class OutputNode extends Node {
   label = 'output';
 
+  @observable
   nInputs = 1;
+  @observable
   nOutputs = 0;
 
   @computed
@@ -150,7 +218,9 @@ export class OutputNode extends Node {
 }
 
 export class DataNode extends Node {
+  @observable
   nInputs = 0;
+  @observable
   nOutputs = 1;
 
   @computed
@@ -163,7 +233,9 @@ export class DataNode extends Node {
 }
 
 export class SnipNode extends Node {
+  @observable
   nInputs = 0;
+  @observable
   nOutputs = 1;
 
   get label() {
@@ -193,13 +265,14 @@ export class OperatorNode extends Node {
     return this.operator.nOutputs || 1;
   }
 
+  @computed
   get label() {
     return this.operator.label;
   }
 
   @computed
   get output() {
-    const inputData = this.inputs.map(input => input.output);
+    const inputData = this.inputs.map(inputNode => (inputNode ? inputNode.output : null));
     return this.operator.operate(inputData);
   }
 

@@ -3,15 +3,16 @@ import { observer } from 'mobx-react';
 import { Group, Rect, Text } from 'react-konva';
 import { makeHandler } from 'utils/konva';
 import theme from 'styles/theme';
-import { range } from 'lodash';
 import { hot, injector } from 'utils/injector';
 
-import { getInputPosition, getOutputPosition } from 'features/GraphEditor/helpers/layout';
 import { get, DragInteraction, SelectInteraction } from 'features/GraphEditor/core';
 
 import { Graph, Node as NodeModel } from 'core/models/graph';
 
 import Port from 'features/GraphEditor/components/Port';
+
+const FONT_SIZE = 12;
+const TEXT_PADDING_LEFT = 20;
 
 export interface Props {
   graph: Graph;
@@ -23,9 +24,6 @@ export interface InjectedProps {
   selectNode: SelectInteraction['selectNode'];
   handleNodeDrag: DragInteraction['handleNodeDrag'];
 }
-
-const FONT_SIZE = 12;
-const TEXT_PADDING_LEFT = 20;
 
 const inject = injector<Props, InjectedProps>(props => {
   const dragInteraction = get(props.graph, DragInteraction);
@@ -62,18 +60,16 @@ export class NodeComponent extends React.Component<Props & InjectedProps, {}> {
   };
 
   renderInputs() {
-    const { nInputs } = this.props.node;
-    return range(nInputs).map(i => {
-      const inputPosition = getInputPosition(this.props.node, i);
-      return <Port position={inputPosition} key={`input-${i}`} />;
+    const { graph, node } = this.props;
+    return node.inputPorts.map(port => {
+      return <Port graph={graph} port={port} key={`input-${port.index}`} />;
     });
   }
 
   renderOutputs() {
-    const { nOutputs } = this.props.node;
-    return range(nOutputs).map(i => {
-      const outputPosition = getOutputPosition(i);
-      return <Port position={outputPosition} key={`output-${i}`} />;
+    const { graph, node } = this.props;
+    return node.outputPorts.map(port => {
+      return <Port graph={graph} port={port} key={`output-${port.index}`} />;
     });
   }
 
@@ -90,7 +86,7 @@ export class NodeComponent extends React.Component<Props & InjectedProps, {}> {
 
     return (
       <Group {...position} {...dimensions} onMouseDown={makeHandler(this.handleMouseDown(node))}>
-        <Rect {...dimensions} fill="gray" strokeWidth={1} stroke={outline} />
+        <Rect {...dimensions} cornerRadius={4} fill="gray" strokeWidth={2} stroke={outline} />
         {this.renderInputs()}
         {this.renderOutputs()}
         <Text

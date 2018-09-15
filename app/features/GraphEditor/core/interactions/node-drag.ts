@@ -1,6 +1,5 @@
 import { Inject, Service } from 'libs/typedi';
 import { action, observable } from 'mobx';
-import { logMethods } from 'utils/log-filter';
 
 import { Coordinates } from 'core/interfaces';
 import { Node as NodeModel } from 'core/models/graph';
@@ -9,8 +8,6 @@ import { GraphEditorLayout, SelectInteraction } from 'features/GraphEditor/core'
 
 @Service()
 export default class __NodeDragInteraction {
-  static mobxLoggerConfig = logMethods('beginDrag', 'endDrag');
-
   @Inject(type => GraphEditorLayout)
   layout: GraphEditorLayout;
 
@@ -19,9 +16,6 @@ export default class __NodeDragInteraction {
 
   @observable
   isDragging = false;
-
-  @action
-  setStartPosition = (startX: number, startY: number) => {};
 
   originalPositions = new Map<NodeModel, Coordinates>();
   @action

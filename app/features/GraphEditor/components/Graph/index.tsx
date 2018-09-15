@@ -11,6 +11,7 @@ import { Graph as GraphModel } from 'core/models/graph';
 
 import ConnectionComponent from 'features/GraphEditor/components/Connection';
 import NodeComponent from 'features/GraphEditor/components/Node';
+import DraggingConnection from 'features/GraphEditor/components/DraggingConnection';
 
 export interface Props {
   graph: GraphModel;
@@ -39,6 +40,7 @@ export class Graph extends React.Component<Props & InjectedProps, {}> {
     return (
       <Group {...dimensions}>
         <Rect {...dimensions} onClick={makeHandler(this.handleClick)} />
+        <DraggingConnection graph={graph} />
         {graph.connections.map((connection, index) => {
           const { from, to } = connection;
           return <ConnectionComponent graph={graph} key={index} from={from} to={to} />;
