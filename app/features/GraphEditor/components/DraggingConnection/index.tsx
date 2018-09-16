@@ -33,7 +33,9 @@ export class _DraggingConnection extends React.Component<Props & InjectedProps, 
     const { isDragging, startPosition, endPosition } = this.props;
     const points = makePoints([startPosition, endPosition]);
 
-    return isDragging ? <Line points={points} strokeWidth={2} stroke="white" /> : null;
+    return isDragging ? (
+      <Line points={points} dashEnabled={true} dash={[7, 4]} strokeWidth={2} stroke="white" />
+    ) : null;
   }
 }
 

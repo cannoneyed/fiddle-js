@@ -10,50 +10,69 @@ import { IO_RADIUS } from '../../helpers/layout';
 
 import { get, PortInteractions } from 'features/GraphEditor/core';
 
+export enum HoverState {
+  HOVER = 'HOVER',
+  NONE = 'NONE',
+}
+
 export interface Props {
   graph: Graph;
   port: Port;
 }
 export interface InjectedProps {
+  attemptToConnect: PortInteractions['attemptToConnect'];
   beginDragFromClick: PortInteractions['beginDragFromClick'];
+  getHoverState: PortInteractions['getHoverState'];
   handleDrag: PortInteractions['handleDrag'];
+  isDragging: boolean;
 }
 export interface State {
-  isHovered: boolean;
+  hover: boolean;
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const portInteraction = get(props.graph, PortInteractions);
+  const { graph, port } = props;
+  const portInteractions = get(props.graph, PortInteractions);
   return {
-    beginDragFromClick: portInteraction.beginDragFromClick,
-    handleDrag: portInteraction.handleDrag,
+    getHoverState: portInteractions.getHoverState,
+    attemptToConnect: portInteractions.attemptToConnect,
+    beginDragFromClick: portInteractions.beginDragFromClick,
+    handleDrag: portInteractions.handleDrag,
+    isDragging: portInteractions.isDragging,
   };
 });
 
 @observer
 export class _Port extends React.Component<Props & InjectedProps, {}> {
   state = {
-    isHovered: false,
+    hover: HoverState.NONE,
   };
 
   handleMouseEnter = () => {
-    this.setState({ isHovered: true });
+    const hover = this.props.getHoverState(this.props.port);
+    this.setState({ hover });
   };
 
   handleMouseLeave = () => {
-    this.setState({ isHovered: false });
+    const hover = this.props.getHoverState(this.props.port);
+    this.setState({ hover });
   };
 
   handleMouseDown = (event: MouseEvent) => {};
 
   handleClick = (event: MouseEvent) => {
-    const { port } = this.props;
-    this.props.beginDragFromClick(event, port);
+    const { port, isDragging } = this.props;
+    if (!isDragging) {
+      this.props.beginDragFromClick(event, port);
+    } else {
+      this.props.attemptToConnect(port);
+    }
   };
 
   render() {
     const { port } = this.props;
-    const { isHovered } = this.state;
+    const { hover } = this.state;
+    const isHovered = hover !== HoverState.NONE;
 
     const fill = isHovered ? 'red' : theme.colors.white.toRgbString();
     const radius = isHovered ? IO_RADIUS + 2 : IO_RADIUS;

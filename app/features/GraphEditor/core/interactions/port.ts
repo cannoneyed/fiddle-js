@@ -14,6 +14,9 @@ export default class __PortInteractions {
   @observable
   endPosition: Coordinates = { x: 0, y: 0 };
 
+  @observable
+  fromPort: Port | null = null;
+
   @computed
   get draggingConnection() {
     return { startPosition: this.startPosition, endPosition: this.endPosition };
@@ -21,17 +24,11 @@ export default class __PortInteractions {
 
   @action
   beginDragFromClick = (startEvent: MouseEvent, port: Port) => {
-    const startPosition = {
-      x: port.node.position.x + port.position.x,
-      y: port.node.position.y + port.position.y,
-    };
+    if (this.isDragging) {
+      return;
+    }
 
-    this.endPosition = {
-      ...startPosition,
-    };
-
-    this.startPosition = startPosition;
-    this.isDragging = true;
+    const startPosition = this.beginDrag(port);
 
     const { pageX: startPageX, pageY: startPageY } = startEvent;
     const handleMouseMove = (event: MouseEvent) => {
@@ -44,9 +41,36 @@ export default class __PortInteractions {
       document.removeEventListener('mouseup', handleMouseUp);
     };
 
+    const handleMouseDown = () => {
+      this.endDrag();
+      document.removeEventListener('mousedown', handleMouseDown);
+    };
+
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('mousedown', handleMouseDown);
   };
+
+  @action
+  beginDrag = (port: Port): Coordinates => {
+    const startPosition = {
+      x: port.node.position.x + port.position.x,
+      y: port.node.position.y + port.position.y,
+    };
+
+    this.endPosition = {
+      ...startPosition,
+    };
+
+    this.fromPort = port;
+    this.startPosition = startPosition;
+    this.isDragging = true;
+
+    return startPosition;
+  };
+
+  @action
+  attemptToConnect = (port: Port) => {};
 
   @action
   handleDrag = (node: Node, deltaPosition: Coordinates) => {
@@ -58,5 +82,6 @@ export default class __PortInteractions {
   @action
   endDrag = () => {
     this.isDragging = false;
+    this.fromPort = null;
   };
 }

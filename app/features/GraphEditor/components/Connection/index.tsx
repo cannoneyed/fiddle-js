@@ -21,9 +21,8 @@ export class Connection extends React.Component<Props, {}> {
     const startPosition = getOutputConnectionPosition(from);
     const endPosition = getInputConnectionPosition(to);
     const points = makePoints([startPosition, endPosition]);
-    const key = `${from.node.id}:${from.index}-${from.node.id}:${from.index}`;
 
-    return <Line key={key} points={points} strokeWidth={2} stroke="white" />;
+    return <Line points={points} strokeWidth={2} stroke="white" />;
   }
 }
 
