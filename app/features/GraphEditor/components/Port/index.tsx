@@ -5,15 +5,11 @@ import theme from 'styles/theme';
 import { makeHandler } from 'utils/konva';
 import { injector, hot } from 'utils/injector';
 
-import { Graph, Port } from 'core/models/graph';
+import { Graph } from 'core/models/graph';
+import { Port, InteractionState } from 'core/models/graph/port';
 import { IO_RADIUS } from '../../helpers/layout';
 
 import { get, PortInteractions } from 'features/GraphEditor/core';
-
-export enum HoverState {
-  HOVER = 'HOVER',
-  NONE = 'NONE',
-}
 
 export interface Props {
   graph: Graph;
@@ -22,40 +18,33 @@ export interface Props {
 export interface InjectedProps {
   attemptToConnect: PortInteractions['attemptToConnect'];
   beginDragFromClick: PortInteractions['beginDragFromClick'];
-  getHoverState: PortInteractions['getHoverState'];
+  handleMouseEnter: () => void;
+  handleMouseLeave: () => void;
   handleDrag: PortInteractions['handleDrag'];
   isDragging: boolean;
-}
-export interface State {
-  hover: boolean;
 }
 
 const inject = injector<Props, InjectedProps>(props => {
   const { graph, port } = props;
-  const portInteractions = get(props.graph, PortInteractions);
+  const portInteractions = get(graph, PortInteractions);
   return {
-    getHoverState: portInteractions.getHoverState,
     attemptToConnect: portInteractions.attemptToConnect,
     beginDragFromClick: portInteractions.beginDragFromClick,
     handleDrag: portInteractions.handleDrag,
+    handleMouseEnter: () => portInteractions.handleMouseEnter(port),
+    handleMouseLeave: () => portInteractions.handleMouseLeave(port),
     isDragging: portInteractions.isDragging,
   };
 });
 
 @observer
 export class _Port extends React.Component<Props & InjectedProps, {}> {
-  state = {
-    hover: HoverState.NONE,
-  };
-
   handleMouseEnter = () => {
-    const hover = this.props.getHoverState(this.props.port);
-    this.setState({ hover });
+    this.props.handleMouseEnter();
   };
 
   handleMouseLeave = () => {
-    const hover = this.props.getHoverState(this.props.port);
-    this.setState({ hover });
+    this.props.handleMouseLeave();
   };
 
   handleMouseDown = (event: MouseEvent) => {};
@@ -71,8 +60,8 @@ export class _Port extends React.Component<Props & InjectedProps, {}> {
 
   render() {
     const { port } = this.props;
-    const { hover } = this.state;
-    const isHovered = hover !== HoverState.NONE;
+
+    const isHovered = port.interactionState !== InteractionState.NONE;
 
     const fill = isHovered ? 'red' : theme.colors.white.toRgbString();
     const radius = isHovered ? IO_RADIUS + 2 : IO_RADIUS;

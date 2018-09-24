@@ -4,7 +4,7 @@ import { filterMethods } from 'utils/log-filter';
 import { clamp } from 'lodash';
 
 import { Coordinates, Dimensions } from 'core/interfaces';
-import { Node as NodeModel } from 'core/models/graph';
+import { Node as NodeModel } from 'core/models/graph/node';
 
 @Service()
 export default class __GraphEditorLayout {

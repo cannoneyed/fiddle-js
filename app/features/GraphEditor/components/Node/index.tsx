@@ -7,7 +7,8 @@ import { hot, injector } from 'utils/injector';
 
 import { get, DragInteraction, SelectInteraction } from 'features/GraphEditor/core';
 
-import { Graph, Node as NodeModel } from 'core/models/graph';
+import { Graph } from 'core/models/graph';
+import { Node as NodeModel } from 'core/models/graph/node';
 
 import Port from 'features/GraphEditor/components/Port';
 

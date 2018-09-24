@@ -1,5 +1,5 @@
 import { Link } from 'core/models/graph';
-import { Node as NodeModel } from 'core/models/graph';
+import { Node as NodeModel } from 'core/models/graph/node';
 
 export const IO_PADDING = 10;
 export const IO_OFFSET = 15;

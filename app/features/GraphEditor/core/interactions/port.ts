@@ -2,7 +2,8 @@ import { Service } from 'libs/typedi';
 import { action, computed, observable } from 'mobx';
 
 import { Coordinates } from 'core/interfaces';
-import { Node, Port } from 'core/models/graph';
+import { Node } from 'core/models/graph/node';
+import { Port, InteractionState } from 'core/models/graph/port';
 
 @Service()
 export default class __PortInteractions {
@@ -16,6 +17,24 @@ export default class __PortInteractions {
 
   @observable
   fromPort: Port | null = null;
+
+  @action
+  handleMouseEnter(port: Port) {
+    if (!this.isDragging) {
+      port.interactionState = InteractionState.HOVER;
+    }
+    if (this.isDragging && this.fromPort !== null) {
+      const canConnect = this.canConnect(this.fromPort, port);
+      if (canConnect) {
+        port.interactionState = InteractionState.HOVER;
+      }
+    }
+  }
+
+  @action
+  handleMouseLeave(port: Port) {
+    port.interactionState = InteractionState.NONE;
+  }
 
   @computed
   get draggingConnection() {
@@ -68,6 +87,10 @@ export default class __PortInteractions {
 
     return startPosition;
   };
+
+  private canConnect(from: Port, to: Port) {
+    return true;
+  }
 
   @action
   attemptToConnect = (port: Port) => {};

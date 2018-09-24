@@ -2,7 +2,7 @@ import { Inject, Service } from 'libs/typedi';
 import { action, observable } from 'mobx';
 
 import { Coordinates } from 'core/interfaces';
-import { Node as NodeModel } from 'core/models/graph';
+import { Node as NodeModel } from 'core/models/graph/node';
 
 import { GraphEditorLayout, SelectInteraction } from 'features/GraphEditor/core';
 

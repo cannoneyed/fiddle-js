@@ -2,7 +2,7 @@ import { observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 
 import { TimelineVector } from 'core/primitives/timeline-vector';
-import { Data } from 'core/models/graph';
+import { Data } from 'core/models/graph/node';
 
 export interface SnipParams {
   length: TimelineVector;

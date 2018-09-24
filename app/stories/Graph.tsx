@@ -3,7 +3,8 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
 import { KonvaWrapper } from './helpers';
 
-import { Graph, OperatorNode, SnipNode } from 'core/models/graph';
+import { Graph } from 'core/models/graph';
+import { OperatorNode, SnipNode } from 'core/models/graph/node';
 import { MultiplyOperator } from 'core/models/operator';
 import { Snip } from 'core/models/snip';
 import { Envelope } from 'core/models/envelope';

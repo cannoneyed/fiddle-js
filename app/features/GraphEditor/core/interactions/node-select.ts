@@ -1,7 +1,7 @@
 import { Service } from 'libs/typedi';
 import { action, observable } from 'mobx';
 
-import { Node as NodeModel } from 'core/models/graph';
+import { Node as NodeModel } from 'core/models/graph/node';
 
 @Service()
 export default class __SelectInteractions {

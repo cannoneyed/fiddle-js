@@ -4,7 +4,7 @@ import { hot, injector } from 'utils/injector';
 
 import { Dimensions } from 'core/interfaces';
 import { Clip } from 'core/models/clip';
-import { SnipNode } from 'core/models/graph';
+import { SnipNode } from 'core/models/graph/node';
 import { Envelope } from 'core/models/envelope';
 import { SnapToGrid } from 'core/models/snap-to-grid';
 import { Timeline } from 'core/models/timeline';

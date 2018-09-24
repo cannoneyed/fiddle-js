@@ -2,7 +2,8 @@ import { Inject, Service } from 'libs/typedi';
 import { action } from 'mobx';
 
 import { Clip, ClipParams } from 'core/models/clip';
-import { Graph, SnipNode } from 'core/models/graph';
+import { Graph } from 'core/models/graph';
+import { SnipNode } from 'core/models/graph/node';
 import { Envelope } from 'core/models/envelope';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 

@@ -1,5 +1,5 @@
 import { Envelope } from 'core/models/envelope';
-import { Data } from 'core/models/graph';
+import { Data } from 'core/models/graph/node';
 
 import { binaryOperate } from './binary-operate';
 
