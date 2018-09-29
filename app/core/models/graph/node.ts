@@ -108,7 +108,8 @@ export class OutputNode extends Node {
 
   @computed
   get output() {
-    return null;
+    const input = this.inputs[0];
+    return input ? input.output : null;
   }
 }
 

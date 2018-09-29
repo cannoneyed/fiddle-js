@@ -35,7 +35,7 @@ const constructGraph = (): Graph => {
 
   graph.connect(
     multiplyNode,
-    graph.mainOutput
+    graph.mainOutputNode
   );
 
   graph.connect(

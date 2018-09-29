@@ -84,9 +84,10 @@ export class Clip extends React.Component<Props & InjectedProps, State> {
 
   renderContents(dimensions: Dimensions) {
     const { clip } = this.props;
-    const { mainOutput } = clip.graph;
-    if (mainOutput instanceof Envelope) {
-      return <EnvelopeSnip dimensions={dimensions} envelope={mainOutput} />;
+    const { mainOutputData } = clip.graph;
+
+    if (mainOutputData instanceof Envelope) {
+      return <EnvelopeSnip dimensions={dimensions} envelope={mainOutputData} />;
     } else {
       return null;
     }

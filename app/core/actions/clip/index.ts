@@ -61,7 +61,7 @@ export default class __ClipActions {
     graph.addNode(snipNode);
     graph.connect(
       snipNode,
-      graph.mainOutput
+      graph.mainOutputNode
     );
 
     clip.graph = graph;

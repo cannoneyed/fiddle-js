@@ -39,8 +39,14 @@ export class Graph {
   }
 
   @computed
-  get mainOutput() {
+  get mainOutputNode() {
     return this.outputs[0];
+  }
+
+  @computed
+  get mainOutputData() {
+    const output = this.outputs[0];
+    return output ? output.output : null;
   }
 
   @action
@@ -67,6 +73,7 @@ export class Graph {
 
   @action
   connect(from: Node, to: Node, outputIndex = 0, inputIndex = 0) {
+    debugger;
     const key = `${from.id}:${outputIndex}:${to.id}:${inputIndex}`;
     from.setOutput(to, outputIndex);
     to.setInput(from, inputIndex);
