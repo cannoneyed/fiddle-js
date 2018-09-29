@@ -3,6 +3,7 @@ import { action, autorun, observable } from 'mobx';
 import { ipcRenderer } from 'electron';
 
 import { SnapToGrid } from 'core/models/snap-to-grid';
+import { TimelineVector } from 'core/primitives/timeline-vector';
 
 @Service()
 export default class __SequencerState {
@@ -10,6 +11,9 @@ export default class __SequencerState {
 
   @observable
   sliderValue = 50;
+
+  @observable
+  playheadPosition = new TimelineVector(1);
 
   @action
   setSliderValue = (value: number) => {

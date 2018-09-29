@@ -10,6 +10,7 @@ import { Dimensions } from 'core/interfaces';
 import Grid from 'features/Sequencer/components/Grid';
 import Timeline from 'features/Sequencer/components/Timeline';
 import Tracks from 'features/Sequencer/components/Tracks';
+import Playhead from 'features/Sequencer/components/Playhead';
 
 import { get, SequencerLayout, SequencerScrollInteraction } from 'features/Sequencer/core';
 
@@ -52,14 +53,13 @@ export class TracksStage extends React.Component<Props & InjectedProps, {}> {
       y: timelineHeight,
     };
 
-    console.log;
-
     return (
       <Stage {...dimensions} onWheel={this.handleMouseWheel}>
         <Layer>
           <Grid dimensions={tracksDimensions} position={tracksPosition} />
           <Tracks dimensions={tracksDimensions} position={tracksPosition} />
           <Timeline />
+          <Playhead timelineHeight={timelineHeight} dimensions={dimensions} />
         </Layer>
       </Stage>
     );

@@ -1,10 +1,17 @@
-import { Service } from 'libs/typedi';
+import { Inject, Service } from 'libs/typedi';
 import { action, computed, observable } from 'mobx';
 
 import { Dimensions, Position, Rectangle } from 'core/interfaces';
+import { SequencerState, SequencerPositionService } from 'features/Sequencer/core';
 
 @Service()
 export default class __SequencerLayout {
+  @Inject(type => SequencerState)
+  sequencerState: SequencerState;
+
+  @Inject(type => SequencerPositionService)
+  sequencerPositionService: SequencerPositionService;
+
   @observable
   dimensions = {
     height: 0,
@@ -83,5 +90,11 @@ export default class __SequencerLayout {
   @computed
   get verticalScrollbarRectangle(): Rectangle {
     return { ...this.verticalScrollbarDimensions, ...this.verticalScrollbarPosition };
+  }
+
+  @computed
+  get playheadPosition(): number {
+    const { playheadPosition } = this.sequencerState;
+    return this.sequencerPositionService.getOffsetX(playheadPosition);
   }
 }
