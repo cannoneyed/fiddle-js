@@ -12,18 +12,18 @@ import TimelineSegment from './timeline-segment';
 export interface Props {
   dimensions: Dimensions;
   getOffset: () => number;
-  onBottomClick: (event: MouseEvent) => void;
+  onBottomMouseDown: (event: MouseEvent) => void;
   timeline: TimelineModel;
 }
 
 @observer
 export default class Timeline extends React.Component<Props, {}> {
   static defaultProps = {
-    onBottomClick: () => {},
+    onBottomMouseDown: () => {},
   };
 
   render() {
-    const { dimensions, getOffset, onBottomClick, timeline } = this.props;
+    const { dimensions, getOffset, onBottomMouseDown, timeline } = this.props;
     const offsetX = getOffset();
 
     const { barsPerSegment, length, segmentWidth } = timeline;
@@ -41,7 +41,7 @@ export default class Timeline extends React.Component<Props, {}> {
           segmentIndex={segmentIndex}
           dimensions={dimensions}
           timeline={timeline}
-          onBottomClick={onBottomClick}
+          onBottomMouseDown={onBottomMouseDown}
         />
       );
     });

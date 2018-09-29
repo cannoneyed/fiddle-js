@@ -11,14 +11,14 @@ import { Timeline } from 'core/models/timeline';
 export interface Props {
   segmentIndex: number;
   dimensions: Dimensions;
-  onBottomClick: (event: MouseEvent) => void;
+  onBottomMouseDown: (event: MouseEvent) => void;
   timeline: Timeline;
 }
 
 @observer
 export default class TimelineSegment extends React.Component<Props, {}> {
   static defaultProps = {
-    onBottomClick: () => {},
+    onBottomMouseDown: () => {},
   };
 
   computeDivisionHeight = (division: Fraction, height: number) => {
@@ -72,7 +72,7 @@ export default class TimelineSegment extends React.Component<Props, {}> {
     const { dimensions } = this.props;
     const x = segmentIndex * segmentWidth;
 
-    const onBottomClick = makeHandler(this.props.onBottomClick);
+    const onBottomMouseDown = makeHandler(this.props.onBottomMouseDown);
 
     return (
       <Group x={x} height={dimensions.height} width={segmentWidth}>
@@ -83,7 +83,7 @@ export default class TimelineSegment extends React.Component<Props, {}> {
           y={dimensions.height / 2}
           height={dimensions.height / 2}
           width={segmentWidth}
-          onClick={onBottomClick}
+          onMouseDown={onBottomMouseDown}
         />
       </Group>
     );

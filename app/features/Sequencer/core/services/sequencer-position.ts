@@ -1,21 +1,34 @@
 import { Inject, Service } from 'libs/typedi';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { TimelineState } from 'features/Sequencer/core';
+import { SequencerState, TimelineState } from 'features/Sequencer/core';
+import { GridService } from 'core';
 
 @Service()
 export default class __SequencerPositionService {
   @Inject(_ => TimelineState)
   private timelineState: TimelineState;
 
+  @Inject(_ => GridService)
+  private gridService: GridService;
+
+  @Inject(_ => SequencerState)
+  private sequencerState: SequencerState;
+
   private getTimeline() {
     return this.timelineState.timeline;
   }
 
   getTimelineVectorFromOffsetX = (offsetX: number) => {
-    const { barWidth } = this.getTimeline();
-    const nearestBar = Math.floor(offsetX / barWidth);
-    return new TimelineVector(nearestBar);
+    const { snapToGrid } = this.sequencerState;
+    const timeline = this.getTimeline();
+
+    const snapToGridPosition = this.gridService.getNearestSnapPosition(
+      timeline,
+      offsetX,
+      snapToGrid
+    );
+    return snapToGridPosition;
   };
 
   getOffsetX = (position: TimelineVector) => {

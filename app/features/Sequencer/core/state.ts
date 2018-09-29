@@ -17,11 +17,11 @@ export default class __SequencerState {
   sliderValue = 50;
 
   @observable
-  playheadPosition = new TimelineVector(1);
+  playheadPosition = new TimelineVector();
 
   @action
-  setPlayheadPositionFromOffsetX = (offsetX: number) => {
-    this.playheadPosition = this.sequencerPositionService.getTimelineVectorFromOffsetX(offsetX);
+  setPlayheadPosition = (nextPosition: TimelineVector) => {
+    this.playheadPosition = nextPosition;
   };
 
   @action

@@ -47,7 +47,13 @@ export default class __GridService {
 
     const barVector = new TimelineVector(bars);
     const beatsVector = TimelineVector.fromFraction(barFraction, timeline.timeSignature);
-    return barVector.add(beatsVector);
+    const result = barVector.add(beatsVector);
+
+    if (result.absoluteTicks < 0) {
+      return new TimelineVector();
+    } else {
+      return result;
+    }
   };
 
   getDivisionType(division: Fraction): DivisionType {

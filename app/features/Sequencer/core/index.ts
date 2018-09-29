@@ -9,6 +9,7 @@ export { default as TimelineState } from './timeline';
 
 export { default as ClipDragInteraction } from './interactions/clip-drag';
 export { default as ClipSelectInteraction } from './interactions/clip-select';
+export { default as PlayheadDragInteraction } from './interactions/playhead-drag';
 export { default as SequencerScrollInteraction } from './interactions/scroll';
 export { default as TracksInteraction } from './interactions/tracks';
 

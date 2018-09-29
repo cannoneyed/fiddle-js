@@ -8,16 +8,16 @@ import Timeline from 'components/Timeline';
 
 import {
   get,
+  PlayheadDragInteraction,
   SequencerLayout,
-  SequencerState,
   TracksLayout,
   TimelineState,
 } from 'features/Sequencer/core';
 
 interface Props {}
 interface InjectedProps {
+  beginDragPlayhead: (mouseDown: MouseEvent) => void;
   getOffset: () => number;
-  handleTimelineBottomClick: (offsetX: number) => void;
   timeline: TimelineModel;
   width: number;
 }
@@ -25,17 +25,14 @@ interface InjectedProps {
 const inject = injector<Props, InjectedProps>(props => {
   const { timeline } = get(TimelineState);
   const sequencerLayout = get(SequencerLayout);
-  const sequencerState = get(SequencerState);
+  const playheadDrag = get(PlayheadDragInteraction);
   const tracksLayout = get(TracksLayout);
 
   const getOffset = () => tracksLayout.tracksScrolledX;
-  const handleTimelineBottomClick = (offsetX: number) => {
-    sequencerState.setPlayheadPositionFromOffsetX(offsetX);
-  };
 
   return {
+    beginDragPlayhead: playheadDrag.beginDrag,
     getOffset,
-    handleTimelineBottomClick,
     timeline,
     width: sequencerLayout.tracksDimensions.width,
   };
@@ -43,9 +40,8 @@ const inject = injector<Props, InjectedProps>(props => {
 
 @observer
 export class TimelineContainer extends React.Component<Props & InjectedProps, {}> {
-  handleTimelineBottomClick = (event: MouseEvent) => {
-    const { offsetX } = event;
-    this.props.handleTimelineBottomClick(offsetX);
+  handleTimelineBottomMouseDown = (event: MouseEvent) => {
+    this.props.beginDragPlayhead(event);
   };
 
   render() {
@@ -61,7 +57,7 @@ export class TimelineContainer extends React.Component<Props & InjectedProps, {}
         dimensions={dimensions}
         getOffset={getOffset}
         timeline={timeline}
-        onBottomClick={this.handleTimelineBottomClick}
+        onBottomMouseDown={this.handleTimelineBottomMouseDown}
       />
     );
   }
