@@ -1,8 +1,8 @@
 import * as React from 'react';
 import theme from 'styles/theme';
 import { observer } from 'mobx-react';
-import { Group, Line, Text } from 'react-konva';
-import { makePoints } from 'utils/konva';
+import { Group, Line, Rect, Text } from 'react-konva';
+import { makeHandler, makePoints } from 'utils/konva';
 
 import { Dimensions } from 'core/interfaces';
 import { Fraction } from 'core/primitives/fraction';
@@ -11,11 +11,16 @@ import { Timeline } from 'core/models/timeline';
 export interface Props {
   segmentIndex: number;
   dimensions: Dimensions;
+  onBottomClick: (event: MouseEvent) => void;
   timeline: Timeline;
 }
 
 @observer
 export default class TimelineSegment extends React.Component<Props, {}> {
+  static defaultProps = {
+    onBottomClick: () => {},
+  };
+
   computeDivisionHeight = (division: Fraction, height: number) => {
     if (division.numerator / division.denominator >= 0.5) {
       division = new Fraction(1, 2);
@@ -66,13 +71,20 @@ export default class TimelineSegment extends React.Component<Props, {}> {
     const { segmentDivisions, segmentWidth } = this.props.timeline;
     const { dimensions } = this.props;
     const x = segmentIndex * segmentWidth;
-    const key = segmentIndex;
+
+    const onBottomClick = makeHandler(this.props.onBottomClick);
 
     return (
-      <Group key={key} x={x} height={dimensions.height} width={segmentWidth}>
+      <Group x={x} height={dimensions.height} width={segmentWidth}>
         {segmentDivisions.map((fraction, divisionIndex) => {
           return this.renderSegmentDivision(fraction, divisionIndex, segmentIndex);
         })}
+        <Rect
+          y={dimensions.height / 2}
+          height={dimensions.height / 2}
+          width={segmentWidth}
+          onClick={onBottomClick}
+        />
       </Group>
     );
   }
