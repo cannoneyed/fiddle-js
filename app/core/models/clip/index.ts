@@ -2,6 +2,7 @@ import { Container } from 'libs/typedi';
 import { computed, observable } from 'mobx';
 import { generateId } from 'utils/generate-id';
 
+import { Data } from 'core/interfaces';
 import { Graph } from 'core/models/graph';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 import { TrackStore } from 'core';
@@ -28,6 +29,11 @@ export class Clip {
 
   @observable
   graph: Graph = new Graph();
+
+  @computed
+  get output(): Data {
+    return this.graph.mainOutputData;
+  }
 
   @observable
   isSelected = false;

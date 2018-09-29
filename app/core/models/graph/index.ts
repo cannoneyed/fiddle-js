@@ -1,6 +1,7 @@
 import { action, computed, observable, IObservableArray, ObservableMap } from 'mobx';
 import { generateId } from 'utils/generate-id';
 
+import { Data } from 'core/interfaces';
 import { Node, OutputNode } from 'core/models/graph/node';
 
 export interface Link {
@@ -44,7 +45,7 @@ export class Graph {
   }
 
   @computed
-  get mainOutputData() {
+  get mainOutputData(): Data {
     const output = this.outputs[0];
     return output ? output.output : null;
   }
@@ -73,7 +74,6 @@ export class Graph {
 
   @action
   connect(from: Node, to: Node, outputIndex = 0, inputIndex = 0) {
-    debugger;
     const key = `${from.id}:${outputIndex}:${to.id}:${inputIndex}`;
     from.setOutput(to, outputIndex);
     to.setInput(from, inputIndex);

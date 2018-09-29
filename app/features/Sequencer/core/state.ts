@@ -1,6 +1,6 @@
 import { Service } from 'libs/typedi';
 import { action, autorun, observable } from 'mobx';
-// import { ipcRenderer } from 'electron';
+import { ipcRenderer } from 'electron';
 
 import { SnapToGrid } from 'core/models/snap-to-grid';
 
@@ -18,7 +18,7 @@ export default class __SequencerState {
 
   constructor() {
     autorun(() => {
-      // ipcRenderer.send('sliderValue', this.sliderValue);
+      ipcRenderer.send('sliderValue', this.sliderValue);
     });
   }
 }
