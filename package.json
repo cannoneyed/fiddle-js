@@ -116,6 +116,7 @@
     "mobx-logger": "^0.7.0",
     "mobx-react": "^5.0.0",
     "mobx-utils": "^5.0.0",
+    "nanotimer": "^0.3.15",
     "osc": "^2.2.4",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",

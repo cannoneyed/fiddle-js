@@ -1,18 +1,15 @@
 import { app, BrowserWindow } from 'electron';
-import { ipcMain } from 'electron';
-import osc from 'osc';
+import { config } from './config';
+import engine from './engine';
 
 let mainWindow: Electron.BrowserWindow | null;
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({
-    height: 1000,
-    width: 1500,
-  });
+  mainWindow = new BrowserWindow({ ...config.browserWindow });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`http://localhost:3000`);
+  mainWindow.loadURL(config.browserUrl);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -25,37 +22,7 @@ function createWindow() {
     mainWindow = null;
   });
 
-  const udpPort = new osc.UDPPort({
-    // This is the port we're listening on.
-    localAddress: '127.0.0.1',
-    localPort: 57121,
-
-    // This is where sclang is listening for OSC messages.
-    remoteAddress: '127.0.0.1',
-    remotePort: 57120,
-    metadata: true,
-  });
-
-  // Open the socket.
-  udpPort.open();
-
-  ipcMain.on('sliderValue', (event: any, value: number) => {
-    sendOSC(value);
-  });
-
-  function sendOSC(value: number) {
-    const msg = {
-      address: '/slider/value',
-      args: [
-        {
-          type: 'f',
-          value,
-        },
-      ],
-    };
-
-    udpPort.send(msg);
-  }
+  engine.initialize();
 }
 
 // This method will be called when Electron has finished
@@ -79,6 +46,3 @@ app.on('activate', () => {
     createWindow();
   }
 });
-
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.
