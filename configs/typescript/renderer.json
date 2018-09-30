@@ -1,0 +1,20 @@
+{
+  "extends": "./base.json",
+  "compilerOptions": {
+    "outDir": "../../dist",
+    "baseUrl": "../../app",
+    "paths": {
+      "react": ["../../node_modules/@types/react"]
+    }
+  },
+  "files": ["../../app/index.tsx"],
+  "include": [
+    "../../node_modules/@types/**/*.d.ts",
+    "../../app/**/*.d.ts",
+    "../../app/**/*.ts",
+    "../../app/**/*.js",
+    "../../app/**/*.tsx",
+    "../../app/**/*.jsx"
+  ],
+  "exclude": ["../../dist"]
+}

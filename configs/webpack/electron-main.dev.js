@@ -1,7 +1,6 @@
 // electron development config
 const { resolve } = require('path');
 const merge = require('webpack-merge');
-const { CheckerPlugin } = require('awesome-typescript-loader');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
@@ -13,9 +12,9 @@ module.exports = merge({
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     modules: ['electron'],
   },
-  context: resolve(__dirname, '../../app'),
+  context: resolve(__dirname, '../../electron'),
   entry: [
-    './electron/main.ts', // the entry point of our app
+    './main.ts', // the entry point of our app
   ],
   node: {
     __dirname: false,
@@ -30,7 +29,6 @@ module.exports = merge({
       },
     ],
   },
-  plugins: [new CheckerPlugin()],
   performance: {
     hints: false,
   },

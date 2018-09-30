@@ -1,0 +1,14 @@
+{
+  "extends": "./base.json",
+  "compiler": {
+    "outDir": "../../dist"
+  },
+  "files": ["../../electron/main.ts"],
+  "include": [
+    "../../node_modules/@types/**/*.d.ts",
+    "../../electron/**/*.d.ts",
+    "../../electron/**/*.ts",
+    "../../electron/**/*.js"
+  ],
+  "exclude": ["../../dist"]
+}

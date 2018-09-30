@@ -167,7 +167,10 @@
     ],
     "globals": {
       "DEVELOPMENT": false,
-      "FAKE_SERVER": false
+      "FAKE_SERVER": false,
+      "ts-jest": {
+        "tsConfig": "<rootDir>/configs/typescript/renderer.json"
+      }
     },
     "testURL": "http://localhost",
     "verbose": false,
