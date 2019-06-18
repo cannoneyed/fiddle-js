@@ -37,7 +37,7 @@ const inject = injector<Props, InjectedProps>(props => {
 @observer
 export class TracksGutter extends React.Component<Props & InjectedProps, {}> {
   private disposeScrollObserver: IReactionDisposer;
-  private tracksGutterContainerRef = React.createRef<HTMLDivElement>();
+  private layersGutterContainerRef = React.createRef<HTMLDivElement>();
 
   componentDidMount() {
     this.disposeScrollObserver = autorun(this.handleScrollChange);
@@ -56,8 +56,8 @@ export class TracksGutter extends React.Component<Props & InjectedProps, {}> {
   handleScrollChange = () => {
     const y = this.props.getOffset();
     const transform = `translate3d(0px,${-Math.round(y)}px,0px)`;
-    const tracksGutterContainer = this.tracksGutterContainerRef.current as HTMLDivElement;
-    tracksGutterContainer.style.transform = transform;
+    const layersGutterContainer = this.layersGutterContainerRef.current as HTMLDivElement;
+    layersGutterContainer.style.transform = transform;
   };
 
   render() {
@@ -71,7 +71,7 @@ export class TracksGutter extends React.Component<Props & InjectedProps, {}> {
     return (
       <LayersGutterContainer
         style={tracksGutterStyle}
-        innerRef={this.tracksGutterContainerRef}
+        ref={this.layersGutterContainerRef}
         onWheel={this.handleMouseWheel}
       />
     );

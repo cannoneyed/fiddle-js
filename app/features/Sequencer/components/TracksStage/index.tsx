@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Konva from 'konva';
 import { observer } from 'mobx-react';
 import { hot, injector } from 'utils/injector';
 import { Layer, Stage } from 'react-konva';
@@ -35,7 +34,7 @@ const inject = injector<Props, InjectedProps>(() => {
 
 @observer
 export class TracksStage extends React.Component<Props & InjectedProps, {}> {
-  handleMouseWheel = makeHandler<WheelEvent, Konva.Rect>(event => {
+  handleMouseWheel = makeHandler<WheelEvent>(event => {
     const { deltaX, deltaY } = event;
     this.props.handleScroll(deltaX, deltaY);
   });

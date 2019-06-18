@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Konva from 'konva';
 import { observer } from 'mobx-react';
 import { hot, injector } from 'utils/injector';
 import { ContextMenu } from '@blueprintjs/core';
@@ -58,7 +57,7 @@ export class Track extends React.Component<Props & InjectedProps, State> {
     return <TrackContextMenu trackId={track.id} offsetX={offsetX} />;
   };
 
-  handleTrackClick = makeHandler<MouseEvent, Konva.Rect>(event => {
+  handleTrackClick = makeHandler<MouseEvent>(event => {
     if (event.ctrlKey) {
       return this.showContextMenu(event);
     }

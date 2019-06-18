@@ -69,7 +69,7 @@ export class TracksGutter extends React.Component<Props & InjectedProps, {}> {
   handleScrollChange = () => {
     const y = this.props.getOffset();
     const transform = `translate3d(0px,${-Math.round(y)}px,0px)`;
-    const tracksGutterContainer = this.tracksGutterContainerRef.current as HTMLDivElement;
+    const tracksGutterContainer = this.tracksGutterContainerRef.current!;
     tracksGutterContainer.style.transform = transform;
   };
 
@@ -85,7 +85,7 @@ export class TracksGutter extends React.Component<Props & InjectedProps, {}> {
     return (
       <TracksGutterContainer
         style={tracksGutterStyle}
-        innerRef={this.tracksGutterContainerRef}
+        ref={this.tracksGutterContainerRef}
         onWheel={this.handleMouseWheel}
       >
         {tracks.map((track, index) => (

@@ -31,15 +31,18 @@ export class VerticalScrollbar extends React.Component<Props, State> {
   draggable = new Draggable();
   unregisterDragHandlers: Unregister;
 
-  containerRef: HTMLDivElement;
-  thumbRef: HTMLDivElement;
+  private containerRef = React.createRef<HTMLDivElement>();
+  private thumbRef = React.createRef<HTMLDivElement>();
 
   componentDidMount() {
     const { draggable } = this;
     draggable.onDrag(this.props.onDrag);
     draggable.onDragStart(() => this.setState({ dragging: true }));
     draggable.onDragEnd(() => this.setState({ dragging: false }));
-    this.unregisterDragHandlers = this.draggable.register(this.containerRef!, this.thumbRef!);
+    this.unregisterDragHandlers = this.draggable.register(
+      this.containerRef.current!,
+      this.thumbRef.current!
+    );
   }
 
   componentWillUnmount() {
@@ -64,9 +67,9 @@ export class VerticalScrollbar extends React.Component<Props, State> {
     return (
       <ScrollbarWrapper>
         <ScrollBackButton />
-        <ScrollbarArea innerRef={ref => (this.containerRef = ref)}>
+        <ScrollbarArea ref={this.containerRef}>
           <ScrollbarThumb
-            innerRef={ref => (this.thumbRef = ref)}
+            ref={this.thumbRef}
             style={thumbStyle}
             highlight={highlight}
             onMouseOver={() => this.setState({ mouseover: true })}

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { Group } from 'react-konva';
-import { KonvaEvent } from 'utils/konva';
+import Konva from 'konva';
 import { hot, injector } from 'utils/injector';
 
 import { Coordinates, Dimensions } from 'core/interfaces';
@@ -54,7 +54,7 @@ export class Notes extends React.Component<Props & InjectedProps, {}> {
 
   private rowVisibilityHelper = new RowVisibilityHelper();
 
-  handleMouseWheel = (e: KonvaEvent<WheelEvent, any>) => {
+  handleMouseWheel = (e: Konva.KonvaEventObject<WheelEvent>) => {
     const event = e.evt;
     const { deltaX, deltaY } = event;
     event.preventDefault();

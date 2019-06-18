@@ -1,27 +1,6 @@
 import * as React from 'react';
 import { Observer } from 'mobx-react';
 
-export function createMandatoryContext<T>(defaultValue?: T) {
-  let context = React.createContext<T>((undefined as any) as T);
-  let consumer: React.Consumer<T> = props => {
-    return (
-      <context.Consumer>
-        {state => {
-          return state ? (
-            props.children(state)
-          ) : (
-            <span style={{ color: 'red' }}>Missing Context</span>
-          );
-        }}
-      </context.Consumer>
-    );
-  };
-  return {
-    Provider: context.Provider,
-    Consumer: consumer,
-  };
-}
-
 export function makeCoreInjector<T>(Consumer: React.Consumer<T>) {
   return function makeInjector<P extends {}, I extends {}>(getNextProps: (props: P, core: T) => I) {
     return injectCore(Consumer, getNextProps);

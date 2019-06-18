@@ -76,9 +76,9 @@ export class Minimap extends React.Component<Props & InjectedProps, State> {
     const highlight = this.state.dragging || this.state.mouseover;
 
     return (
-      <MinimapContainer id="minimap" innerRef={ref => (this.minimapRef = ref)}>
+      <MinimapContainer id="minimap" ref={(ref: HTMLDivElement) => (this.minimapRef = ref)}>
         <MinimapThumb
-          innerRef={ref => (this.thumbRef = ref)}
+          ref={(ref: HTMLDivElement) => (this.thumbRef = ref)}
           id="minimapScroll"
           style={thumbStyle}
           highlight={highlight}

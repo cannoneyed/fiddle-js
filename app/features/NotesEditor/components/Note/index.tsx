@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import * as Konva from 'konva';
+import Konva from 'konva';
 import { Rect } from 'react-konva';
-import { KonvaEvent } from 'utils/konva';
 
 import { Note as NoteModel } from 'core/models/notes/note';
 
@@ -20,7 +19,7 @@ interface State {
 
 @observer
 export class Note extends React.Component<Props, State> {
-  handleMouseDown = (e: KonvaEvent<MouseEvent, Konva.Rect>) => {
+  handleMouseDown = (e: Konva.KonvaEventObject<MouseEvent>) => {
     const event = e.evt;
     event.preventDefault();
   };

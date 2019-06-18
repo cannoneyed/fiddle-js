@@ -26,7 +26,7 @@ export const ScrollForwardButton = styled.div`
 export interface ThumbProps {
   highlight: boolean;
 }
-export const ScrollbarThumb = styled<ThumbProps, 'div'>('div')`
+export const ScrollbarThumb = styled.div<ThumbProps>`
   width: 100%;
   position: relative;
 

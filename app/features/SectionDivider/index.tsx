@@ -12,12 +12,15 @@ export class SectionDivider extends React.Component<Props, {}> {
   draggable = new Draggable({ mode: DragMode.absolute });
   unregisterDragHandler: Unregister;
 
-  dividerRef: HTMLDivElement;
+  dividerRef = React.createRef<HTMLDivElement>();
 
   componentDidMount() {
     const { draggable } = this;
     draggable.onDrag(this.onDrag);
-    this.unregisterDragHandler = this.draggable.register(this.dividerRef!, this.dividerRef!);
+    this.unregisterDragHandler = this.draggable.register(
+      this.dividerRef.current!,
+      this.dividerRef.current!
+    );
   }
 
   componentWillUnmount() {
@@ -30,7 +33,7 @@ export class SectionDivider extends React.Component<Props, {}> {
 
   render() {
     return (
-      <Divider innerRef={ref => (this.dividerRef = ref)}>
+      <Divider ref={this.dividerRef}>
         <Handle id="handle" size={20} />
       </Divider>
     );
@@ -48,7 +51,7 @@ const Divider = styled.div`
 interface HandleProps {
   size: number;
 }
-const Handle = styled<HandleProps, 'div'>('div')`
+const Handle = styled.div<HandleProps>`
   position: absolute;
   z-index: 99;
   height: ${theme.sectionDividers.thumbSize.toString()};

@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { hot, injector } from 'utils/injector';
-import { Rect as KonvaRect } from 'konva';
+import Konva from 'konva';
 import { Group, Rect } from 'react-konva';
-import { KonvaEvent } from 'utils/konva';
 
 import { ContextMenu } from '@blueprintjs/core';
 
@@ -49,7 +48,7 @@ const inject = injector<Props, InjectedProps>(props => {
 export class Clip extends React.Component<Props & InjectedProps, State> {
   state = { isContextMenuOpen: false };
 
-  handleMouseDown = (event: KonvaEvent<MouseEvent, KonvaRect>) => {
+  handleMouseDown = (event: Konva.KonvaEventObject<MouseEvent>) => {
     const { clip } = this.props;
     const { evt } = event;
     evt.preventDefault();

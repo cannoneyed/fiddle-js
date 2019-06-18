@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Konva from 'konva';
 import { observer } from 'mobx-react';
 import { hot, injector } from 'utils/injector';
 import { Group, Rect } from 'react-konva';
@@ -62,7 +61,7 @@ export class TracksStage extends React.Component<Props & InjectedProps, {}> {
 
   private trackVisibilityHelper = new TrackVisibilityHelper();
 
-  handleClick = makeHandler<MouseEvent, Konva.Rect>(event => {
+  handleClick = makeHandler<MouseEvent>(event => {
     return this.props.handleStageClick(event);
   });
 

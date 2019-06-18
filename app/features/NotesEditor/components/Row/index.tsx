@@ -2,7 +2,6 @@ import * as React from 'react';
 import Konva from 'konva';
 import { observer } from 'mobx-react';
 import { Group, Rect } from 'react-konva';
-import { KonvaEvent } from 'utils/konva';
 
 import { Note as NoteModel } from 'core/models/notes/note';
 
@@ -21,10 +20,9 @@ interface State {
 
 @observer
 export class Row extends React.Component<Props, State> {
-  handleRowClick = (e: KonvaEvent<MouseEvent, Konva.Rect>) => {
+  handleRowClick = (e: Konva.KonvaEventObject<MouseEvent>) => {
     const event = e.evt;
     event.preventDefault();
-    console.log(event);
   };
 
   render() {

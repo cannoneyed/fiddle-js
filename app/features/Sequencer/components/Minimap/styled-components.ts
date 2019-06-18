@@ -11,7 +11,7 @@ export const MinimapContainer = styled.div`
 export interface ThumbProps {
   highlight: boolean;
 }
-export const MinimapThumb = styled<ThumbProps, 'div'>('div')`
+export const MinimapThumb = styled.div<ThumbProps>`
   height: 100%;
   background-color: ${({ highlight }) => {
     return highlight

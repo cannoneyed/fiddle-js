@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Konva from 'konva';
+import Konva from 'konva';
 import { observer } from 'mobx-react';
 import { Group, Rect } from 'react-konva';
 import { hot, injector } from 'utils/injector';

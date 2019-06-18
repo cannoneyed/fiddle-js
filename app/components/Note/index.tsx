@@ -38,7 +38,7 @@ export interface NoteContainerProps {
   isSelected: boolean;
   isDragging: boolean;
 }
-export const NoteContainer = styled<NoteContainerProps, 'div'>('div')`
+export const NoteContainer = styled.div<NoteContainerProps>`
   background-color: ${props => (props.isSelected ? 'purple' : 'gray')};
   border: solid 2px #ccc;
   opacity: ${props => (props.isDragging ? 0.5 : 1)};
