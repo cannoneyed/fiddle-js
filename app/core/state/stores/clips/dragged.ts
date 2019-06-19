@@ -1,5 +1,5 @@
 import { Service } from 'libs/typedi';
-import { observable } from 'mobx';
+import { observable, computed } from 'mobx';
 
 import { Clip } from 'core/models/clip';
 import { TimelineVector } from 'core/primitives/timeline-vector';
@@ -8,12 +8,12 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 export default class __DraggedClips {
   // The temporary store for clips being dragged in the sequencer
   @observable
-  draggedClips = observable.map<string, Clip>({});
+  draggedClipsMap = observable.map<string, Clip>({});
 
-  @observable
-  getDraggedClips = () => {
-    return Array.from(this.draggedClips.values());
-  };
+  @computed
+  get clips() {
+    return [...this.draggedClipsMap.values()];
+  }
 
   setDraggedClips = (clips: Clip[]) => {
     clips.forEach(clip => {
@@ -22,11 +22,11 @@ export default class __DraggedClips {
       draggedClip.isSelected = true;
       draggedClip.id = clip.id;
       draggedClip.position = draggedClip.position.add(new TimelineVector(1));
-      this.draggedClips.set(draggedClip.id, draggedClip);
+      this.draggedClipsMap.set(draggedClip.id, draggedClip);
     });
   };
 
   clearDraggedClips = () => {
-    this.draggedClips.clear();
+    this.draggedClipsMap.clear();
   };
 }

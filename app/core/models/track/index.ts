@@ -3,12 +3,13 @@ import { computed, observable } from 'mobx';
 import { filterMethods } from 'utils/log-filter';
 import { generateId } from 'utils/generate-id';
 
-import { ClipStore } from 'core';
+import { ClipStore, DraggedClips } from 'core';
 
 export class Track {
   static mobxLoggerConfig = filterMethods('setIsMouseOver');
 
   clipStore = Container.get(ClipStore);
+  draggedClipsStore = Container.get(DraggedClips);
 
   @observable
   id: string;
@@ -26,6 +27,6 @@ export class Track {
 
   @computed
   get draggedClips() {
-    return this.clipStore.getDraggedClips().filter(clip => clip.trackId === this.id);
+    return this.draggedClipsStore.clips.filter(clip => clip.trackId === this.id);
   }
 }

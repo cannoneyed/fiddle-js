@@ -5,6 +5,7 @@ import { action, observable } from 'mobx';
 export default class __WindowLayout {
   @observable
   width = window.innerWidth;
+
   @observable
   height = window.innerHeight;
 

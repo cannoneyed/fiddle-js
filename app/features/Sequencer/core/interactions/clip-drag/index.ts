@@ -7,7 +7,7 @@ import { Clip } from 'core/models/clip';
 import { ScreenVector } from 'core/primitives/screen-vector';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
-import { ClipActions, ClipStore, GridService, TrackStore } from 'core';
+import { ClipActions, ClipStore, DraggedClips, GridService, TrackStore } from 'core';
 import {
   ClipMoveService,
   ClipSelectInteraction,
@@ -31,6 +31,8 @@ export default class __ClipDragInteraction {
   private clipSelect: ClipSelectInteraction;
   @Inject(_ => ClipStore)
   private clipStore: ClipStore;
+  @Inject(_ => DraggedClips)
+  private draggedClipsStore: DraggedClips;
   @Inject(_ => GridService)
   private gridService: GridService;
   @Inject(_ => SequencerPositionService)
@@ -141,7 +143,7 @@ export default class __ClipDragInteraction {
 
   @action
   updateDraggedClips() {
-    this.clipStore.getDraggedClips().forEach(draggedClip => {
+    this.draggedClipsStore.clips.forEach(draggedClip => {
       const originalClip = this.clipStore.clips.get(draggedClip.id)!;
       draggedClip.position = originalClip.position.add(this.deltaTimelinePosition);
 

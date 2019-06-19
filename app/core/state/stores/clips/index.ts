@@ -1,14 +1,10 @@
-import { Inject, Service } from 'libs/typedi';
+import { Service } from 'libs/typedi';
 import { observable } from 'mobx';
 
-import { DraggedClips } from 'core';
 import { Clip, ClipParams } from 'core/models/clip';
 
 @Service({ global: true })
 export default class __ClipStore {
-  @Inject(type => DraggedClips)
-  private draggedClipsStore: DraggedClips;
-
   // The main store for clips (by id)
   @observable
   clips = observable.map<string, Clip>({});
@@ -48,10 +44,6 @@ export default class __ClipStore {
       }
     });
   };
-
-  getDraggedClips() {
-    return this.draggedClipsStore.getDraggedClips();
-  }
 }
 
 export { Clip, ClipParams };

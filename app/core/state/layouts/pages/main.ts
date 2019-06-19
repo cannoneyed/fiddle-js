@@ -1,6 +1,5 @@
 import { action, computed, observable } from 'mobx';
 import { Inject, Service } from 'libs/typedi';
-import { createTransformer } from 'mobx-utils';
 import { filterMethods } from 'utils/log-filter';
 
 import { Dimensions } from 'core/interfaces';
@@ -13,11 +12,6 @@ export default class __MainPageLayout {
 
   @Inject(type => WindowLayout)
   private windowLayout: WindowLayout;
-
-  constructor() {
-    // TODO: Dealing with some weird context binding issues for mobx observable logging, figure out why the action isn't being bound properly.
-    this.deltaSectionDivider = this.deltaSectionDivider.bind(this);
-  }
 
   // TODO: Figure out a more elegant way to support dynamic / rescale sizes of sections
   @observable
@@ -48,8 +42,4 @@ export default class __MainPageLayout {
   get sectionWidth() {
     return this.windowLayout.width;
   }
-
-  getSectionHeight = createTransformer(() => {
-    return 1;
-  });
 }
