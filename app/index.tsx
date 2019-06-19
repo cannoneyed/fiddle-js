@@ -5,7 +5,6 @@ import { render } from 'react-dom';
 import { configure } from 'mobx';
 import { enableLogging } from 'mobx-logger';
 
-import { registerServices } from 'core';
 import { initializeStats } from 'utils/stats';
 
 import { LoadService, UndoService } from 'core';
@@ -14,8 +13,6 @@ import Root from './pages/Root';
 
 import './app.global.css';
 
-// Ensure that all services are registered with the DI provider.
-registerServices();
 initializeStats();
 
 // Configure mobx logging
