@@ -2,7 +2,7 @@ import { Service } from 'libs/typedi';
 import { action, observable } from 'mobx';
 
 @Service()
-export default class __WindowLayout {
+export default class WindowLayout {
   @observable
   width = window.innerWidth;
 

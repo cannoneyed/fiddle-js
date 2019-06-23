@@ -5,7 +5,7 @@ import { Dimensions, Position, Rectangle } from 'core/interfaces';
 import { SequencerState, SequencerPositionService } from 'features/Sequencer/core';
 
 @Service()
-export default class __SequencerLayout {
+export default class SequencerLayout {
   @Inject(type => SequencerState)
   sequencerState: SequencerState;
 

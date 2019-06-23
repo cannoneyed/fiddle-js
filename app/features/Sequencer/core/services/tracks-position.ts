@@ -5,7 +5,7 @@ import { TracksLayout } from 'features/Sequencer/core';
 import { TrackStore } from 'core';
 
 @Service()
-export default class __TracksPositionService {
+export default class TracksPositionService {
   @Inject(type => TracksLayout)
   private tracksLayout: TracksLayout;
   @Inject(type => SequencerLayout)

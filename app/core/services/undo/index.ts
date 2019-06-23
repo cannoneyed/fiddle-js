@@ -5,7 +5,7 @@ import { UndoManager } from './manager';
 import { ClipStore } from 'core';
 
 @Service()
-export default class __UndoService {
+export default class UndoService {
   @Inject(_ => ClipStore)
   private clipStore: ClipStore;
 

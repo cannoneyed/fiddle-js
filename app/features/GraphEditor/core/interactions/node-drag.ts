@@ -7,7 +7,7 @@ import { Node as NodeModel } from 'core/models/graph/node';
 import { GraphEditorLayout, SelectInteraction } from 'features/GraphEditor/core';
 
 @Service()
-export default class __NodeDragInteraction {
+export default class NodeDragInteraction {
   @Inject(type => GraphEditorLayout)
   layout: GraphEditorLayout;
 

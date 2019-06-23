@@ -7,7 +7,7 @@ import { Dimensions } from 'core/interfaces';
 import { WindowLayout } from 'core';
 
 @Service()
-export default class __MainPageLayout {
+export default class MainPageLayout {
   static mobxLoggerConfig = filterMethods('deltaSectionDivider');
 
   @Inject(type => WindowLayout)

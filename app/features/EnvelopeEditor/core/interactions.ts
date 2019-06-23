@@ -13,7 +13,7 @@ import { EnvelopeEditorLayout, EnvelopeEditorState } from 'features/EnvelopeEdit
 export type ClickTarget = PointModel | ConnectionModel | null;
 
 @Service()
-export default class __EnvelopeEditorInteractions {
+export default class EnvelopeEditorInteractions {
   @observable
   isDragging = false;
   @observable

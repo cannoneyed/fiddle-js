@@ -3,7 +3,7 @@ import { Inject, Service } from 'libs/typedi';
 import { TracksLayout } from 'features/Sequencer/core';
 
 @Service()
-export default class __SequencerScrollInteraction {
+export default class SequencerScrollInteraction {
   @Inject(_ => TracksLayout)
   private tracksLayout: TracksLayout;
 

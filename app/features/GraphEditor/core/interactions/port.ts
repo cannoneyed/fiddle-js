@@ -6,7 +6,7 @@ import { Node } from 'core/models/graph/node';
 import { Port, InteractionState } from 'core/models/graph/port';
 
 @Service()
-export default class __PortInteractions {
+export default class PortInteractions {
   @observable
   isDragging = false;
 

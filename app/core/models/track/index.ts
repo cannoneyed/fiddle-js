@@ -8,9 +8,6 @@ import { ClipStore, DraggedClips } from 'core';
 export class Track {
   static mobxLoggerConfig = filterMethods('setIsMouseOver');
 
-  clipStore = Container.get(ClipStore);
-  draggedClipsStore = Container.get(DraggedClips);
-
   @observable
   id: string;
   @observable
@@ -22,11 +19,13 @@ export class Track {
 
   @computed
   get clips() {
-    return this.clipStore.getClips().filter(clip => clip.trackId === this.id);
+    const clipStore = Container.get(ClipStore);
+    return clipStore.getClips().filter(clip => clip.trackId === this.id);
   }
 
   @computed
   get draggedClips() {
-    return this.draggedClipsStore.clips.filter(clip => clip.trackId === this.id);
+    const draggedClipsStore = Container.get(DraggedClips);
+    return draggedClipsStore.clips.filter(clip => clip.trackId === this.id);
   }
 }

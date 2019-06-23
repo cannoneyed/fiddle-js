@@ -5,7 +5,7 @@ import { clamp } from 'lodash';
 import { NotesEditorState, NotesEditorLayout } from 'features/NotesEditor/core';
 
 @Service()
-export default class __NotesEditorScroll {
+export default class NotesEditorScroll {
   @Inject(_ => NotesEditorLayout)
   layout: NotesEditorLayout;
   @Inject(_ => NotesEditorState)

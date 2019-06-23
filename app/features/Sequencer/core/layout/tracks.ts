@@ -11,7 +11,7 @@ import { Dimensions } from 'core/interfaces';
 export const DEFAULT_TRACK_HEIGHT = 50;
 
 @Service()
-export default class __TracksLayout {
+export default class TracksLayout {
   static mobxLoggerConfig = filterMethods('resetScrollOnResize', 'setTracksScroll');
 
   @Inject(_ => TimelineState)

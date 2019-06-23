@@ -4,7 +4,7 @@ import { observable } from 'mobx';
 import { Snip, SnipParams } from 'core/models/snip';
 
 @Service({ global: true })
-export default class __SnipStore {
+export default class SnipStore {
   // The main store for snips (by id)
   @observable
   readonly snips = observable.map<string, Snip>({});

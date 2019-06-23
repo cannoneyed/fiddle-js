@@ -7,7 +7,7 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 import { SequencerPositionService } from 'features/Sequencer/core';
 
 @Service()
-export default class __SequencerState {
+export default class SequencerState {
   @Inject(type => SequencerPositionService)
   sequencerPositionService: SequencerPositionService;
 

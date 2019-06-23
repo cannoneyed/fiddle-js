@@ -9,7 +9,8 @@ export interface ZoomLevelParams {
 }
 
 export class ZoomLevel {
-  @observable level: number;
+  @observable
+  level: number;
   max: number;
   min: number;
   ratio: number;

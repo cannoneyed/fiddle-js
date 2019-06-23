@@ -7,7 +7,7 @@ import { TimelineVector } from '../../primitives/timeline-vector';
 import { ClipActions, TrackStore } from 'core';
 
 @Service({ global: true })
-export default class __LoadService {
+export default class LoadService {
   @Inject(_ => TrackStore)
   private trackStore: TrackStore;
 

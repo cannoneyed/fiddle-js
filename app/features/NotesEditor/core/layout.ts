@@ -5,7 +5,7 @@ import { Dimensions } from 'core/interfaces';
 import { NotesEditorScroll } from 'features/NotesEditor/core';
 
 @Service()
-export default class __NotesEditorLayout {
+export default class NotesEditorLayout {
   @Inject(_ => NotesEditorScroll)
   scroll: NotesEditorScroll;
 

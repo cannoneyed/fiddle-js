@@ -6,7 +6,7 @@ import { Snip, SnipParams } from 'core/models/snip';
 import { SnipStore } from 'core';
 
 @Service({ global: true })
-export default class __SnipActions {
+export default class SnipActions {
   @Inject(_ => SnipStore)
   private snipStore: SnipStore;
 

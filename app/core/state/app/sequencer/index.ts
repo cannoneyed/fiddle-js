@@ -5,7 +5,7 @@ import { SnapToGrid } from 'core/models/snap-to-grid';
 import { TimeSignature } from 'core/primitives/time-signature';
 
 @Service()
-export default class __SequencerState {
+export default class SequencerState {
   @observable
   tempo = 120;
 

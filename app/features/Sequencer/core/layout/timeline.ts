@@ -4,7 +4,7 @@ import { computed } from 'mobx';
 import { ClipDragInteraction } from 'features/Sequencer/core';
 
 @Service()
-export default class __TimelineLayout {
+export default class TimelineLayout {
   @Inject(type => ClipDragInteraction)
   clipDragInteraction: ClipDragInteraction;
 

@@ -7,7 +7,7 @@ import { Coordinates, Dimensions } from 'core/interfaces';
 import { Node as NodeModel } from 'core/models/graph/node';
 
 @Service()
-export default class __GraphEditorLayout {
+export default class GraphEditorLayout {
   static mobxLoggerConfig = filterMethods('setDimensions');
 
   @observable

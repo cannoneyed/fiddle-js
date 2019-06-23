@@ -5,7 +5,7 @@ import { SequencerState, TimelineState } from 'features/Sequencer/core';
 import { GridService } from 'core';
 
 @Service()
-export default class __SequencerPositionService {
+export default class SequencerPositionService {
   @Inject(_ => TimelineState)
   private timelineState: TimelineState;
 

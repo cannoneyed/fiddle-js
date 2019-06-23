@@ -11,7 +11,7 @@ import { Props } from 'features/NotesEditor';
 import { NotesEditorLayout } from 'features/NotesEditor/core';
 
 @Service()
-export default class __NotesEditorState {
+export default class NotesEditorState {
   static mobxLoggerConfig = filterMethods('updateFromProps');
 
   @Inject(_ => NotesEditorLayout)

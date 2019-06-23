@@ -11,7 +11,7 @@ import { Point } from 'core/models/envelope/point';
 import { ClipEditorState, ClipStore, DraggedClips, SnipStore, TrackStore } from 'core';
 
 @Service({ global: true })
-export default class __ClipActions {
+export default class ClipActions {
   @Inject(_ => ClipEditorState)
   private clipEditorState: ClipEditorState;
 

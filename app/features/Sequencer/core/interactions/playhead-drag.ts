@@ -19,7 +19,7 @@ import {
 } from 'features/Sequencer/core';
 
 @Service()
-export default class __PlayheadDragInteraction {
+export default class PlayheadDragInteraction {
   static mobxLoggerConfig = logMethods('beginDrag', 'endDrag');
 
   @Inject(type => SequencerPositionService)

@@ -11,7 +11,7 @@ import { Timeline } from 'core/models/timeline';
 import { Props } from 'features/EnvelopeEditor';
 
 @Service()
-export default class __EnvelopeEditorState {
+export default class EnvelopeEditorState {
   static mobxLoggerConfig = filterMethods('updateFromProps');
 
   @Inject(_ => EnvelopeEditorLayout)

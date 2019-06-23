@@ -6,7 +6,7 @@ import { Clip } from 'core/models/Clip';
 import { ClipStore } from 'core';
 
 @Service()
-export default class __ClipSelectInteraction {
+export default class ClipSelectInteraction {
   @Inject(_ => ClipStore)
   private clipStore: ClipStore;
 

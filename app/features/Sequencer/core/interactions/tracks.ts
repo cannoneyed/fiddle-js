@@ -5,7 +5,7 @@ import { Track } from 'core/models/Track';
 import { ClipSelectInteraction } from 'features/Sequencer/core';
 
 @Service()
-export default class __TracksInteraction {
+export default class TracksInteraction {
   @Inject(_ => ClipSelectInteraction)
   private clipSelect: ClipSelectInteraction;
 

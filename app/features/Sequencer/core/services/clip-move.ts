@@ -6,7 +6,7 @@ import { TimelineVector } from 'core/primitives/timeline-vector';
 import { TrackStore } from 'core';
 
 @Service()
-export default class __ClipMoveService {
+export default class ClipMoveService {
   @Inject(_ => TrackStore)
   private trackStore: TrackStore;
 

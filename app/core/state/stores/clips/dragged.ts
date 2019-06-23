@@ -5,7 +5,7 @@ import { Clip } from 'core/models/clip';
 import { TimelineVector } from 'core/primitives/timeline-vector';
 
 @Service({ global: true })
-export default class __DraggedClips {
+export default class DraggedClips {
   // The temporary store for clips being dragged in the sequencer
   @observable
   draggedClipsMap = observable.map<string, Clip>({});

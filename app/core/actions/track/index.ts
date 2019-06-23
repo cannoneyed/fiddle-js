@@ -4,7 +4,7 @@ import { action } from 'mobx';
 import { ClipActions, TrackStore } from 'core';
 
 @Service({ global: true })
-export default class __TrackActions {
+export default class TrackActions {
   @Inject(_ => ClipActions)
   private clipActions: ClipActions;
 

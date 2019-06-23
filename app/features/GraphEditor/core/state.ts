@@ -8,7 +8,7 @@ import { GraphEditorLayout } from 'features/GraphEditor/core';
 import { Props } from 'features/ClipEditorSection';
 
 @Service()
-export default class __GraphEditorState {
+export default class GraphEditorState {
   static mobxLoggerConfig = filterMethods('updateFromProps');
 
   @Inject(_ => GraphEditorLayout)

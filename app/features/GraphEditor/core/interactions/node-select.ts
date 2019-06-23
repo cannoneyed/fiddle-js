@@ -4,7 +4,7 @@ import { action, observable } from 'mobx';
 import { Node as NodeModel } from 'core/models/graph/node';
 
 @Service()
-export default class __SelectInteractions {
+export default class SelectInteractions {
   private selectedNodes = observable.map<NodeModel, boolean>();
 
   @action

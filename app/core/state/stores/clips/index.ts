@@ -4,17 +4,15 @@ import { observable } from 'mobx';
 import { Clip, ClipParams } from 'core/models/clip';
 
 @Service({ global: true })
-export default class __ClipStore {
+export default class ClipStore {
   // The main store for clips (by id)
   @observable
   clips = observable.map<string, Clip>({});
 
-  @observable
   getClips = () => {
     return Array.from(this.clips.values());
   };
 
-  @observable
   getClipById = (clipId: string | null): Clip | null => {
     const clip = clipId ? this.clips.get(clipId) : null;
     return clip || null;

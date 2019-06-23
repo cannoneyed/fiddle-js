@@ -5,7 +5,7 @@ import { filterMethods } from 'utils/log-filter';
 import { Dimensions, Rectangle, Position } from 'core/interfaces';
 
 @Service()
-export default class __ClipEditorLayout {
+export default class ClipEditorLayout {
   static mobxLoggerConfig = filterMethods('setDimensions');
 
   @observable

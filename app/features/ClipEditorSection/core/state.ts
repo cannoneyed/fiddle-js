@@ -10,7 +10,7 @@ import { ClipEditorGlobalState, ClipEditorLayout } from 'features/ClipEditorSect
 import { Props } from 'features/ClipEditorSection';
 
 @Service()
-export default class __ClipEditorState {
+export default class ClipEditorState {
   static mobxLoggerConfig = filterMethods('updateFromProps');
 
   @Inject(_ => ClipEditorLayout)

@@ -20,7 +20,7 @@ import {
 export const DRAG_DELAY: number = 200;
 
 @Service()
-export default class __ClipDragInteraction {
+export default class ClipDragInteraction {
   static mobxLoggerConfig = logMethods('beginDrag', 'endDrag');
 
   @Inject(_ => ClipActions)

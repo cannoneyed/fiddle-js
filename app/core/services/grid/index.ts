@@ -13,7 +13,7 @@ export enum DivisionType {
 }
 
 @Service()
-export default class __GridService {
+export default class GridService {
   private computeDivisionWidth(timeline: Timeline, snapToGrid: SnapToGrid) {
     const { barWidth } = timeline;
     return snapToGrid.division.multiplyScalar(barWidth);

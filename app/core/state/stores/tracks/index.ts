@@ -6,7 +6,7 @@ import { first, last } from 'lodash';
 import { Track } from 'core/models/track';
 
 @Service({ global: true })
-export default class __TrackStore {
+export default class TrackStore {
   static mobxLoggerConfig = filterMethods('updateTrackIndices');
 
   // The main store for tracks (by id)

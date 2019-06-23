@@ -6,7 +6,7 @@ import { Dimensions } from 'core/interfaces';
 import { EnvelopeEditorState } from 'features/EnvelopeEditor/core';
 
 @Service()
-export default class __EnvelopeEditorLayout {
+export default class EnvelopeEditorLayout {
   @Inject(_ => EnvelopeEditorState)
   private state: EnvelopeEditorState;
 
