@@ -116,6 +116,7 @@
     "mobx": "^5.1.0",
     "mobx-logger": "^0.7.0",
     "mobx-react": "^5.0.0",
+    "mobx-state-tree": "^3.14.0",
     "mobx-utils": "^5.0.0",
     "osc": "^2.2.4",
     "react": "^16.8.6",

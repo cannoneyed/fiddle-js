@@ -1,5 +1,5 @@
 import { Fraction } from 'core/primitives/fraction';
-import { TimeSignature } from 'core/primitives/time-signature';
+import { TimeSignature, SerializedTimeSignature } from 'core/primitives/time-signature';
 import { absFloor } from 'utils/math';
 
 export const TICKS_PER_SECONDARY = 240;
@@ -186,4 +186,36 @@ export class TimelineVector {
   static getNPeriods(timelineVector: TimelineVector, period: TimelineVector) {
     return Math.floor(timelineVector.absoluteTicks / period.absoluteTicks);
   }
+
+  static serialize(timelineVector: TimelineVector): SerializedTimelineVector {
+    return {
+      bars: timelineVector.bars,
+      primary: timelineVector.primary,
+      secondary: timelineVector.secondary,
+      ticks: timelineVector.ticks,
+      timeSignature: TimeSignature.serialize(timelineVector.timeSignature),
+    };
+  }
+
+  static deserialize(serialized: SerializedTimelineVector) {
+    const { bars, primary, secondary, ticks, timeSignature: serializedTimeSignature } = serialized;
+    const timeSignature = TimeSignature.deserialize(serializedTimeSignature);
+    return new TimelineVector(bars, primary, secondary, ticks, timeSignature);
+  }
+
+  static fromJSON(json: string) {
+    return this.deserialize(JSON.parse(json) as SerializedTimelineVector);
+  }
+
+  static toJSON(timelineVector: TimelineVector) {
+    return JSON.stringify(TimelineVector.serialize(timelineVector));
+  }
+}
+
+export interface SerializedTimelineVector {
+  bars: number;
+  primary: number;
+  secondary: number;
+  ticks: number;
+  timeSignature: SerializedTimeSignature;
 }
