@@ -19,6 +19,5 @@
     "test/**/__snapshots__": true,
     "yarn.lock": true
   },
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.autoImportSuggestions.enabled": false
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

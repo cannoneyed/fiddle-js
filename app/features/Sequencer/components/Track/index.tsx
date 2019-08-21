@@ -10,10 +10,11 @@ import TrackContextMenu from 'features/Sequencer/components/ContextMenus/TrackCo
 import Clip from 'features/Sequencer/components/Clip';
 
 import { Dimensions } from 'core/interfaces';
-import { Clip as ClipModel } from 'core/models/clip';
-import { Track as TrackModel } from 'core/models/track';
 
-import { get, TracksInteraction, TracksLayout } from 'features/Sequencer/core';
+import { Clip as ClipModel } from 'core/state/tree/clip';
+import { Track as TrackModel } from 'core/state/tree/track';
+
+import { get, TracksLayout } from 'features/Sequencer/core';
 
 import { ClipVisibilityHelper } from './helpers';
 
@@ -32,9 +33,9 @@ interface State {
 }
 
 const inject = injector<Props, InjectedProps>(props => {
-  const { track } = props;
+  // const { track } = props;
   const tracksLayout = get(TracksLayout);
-  const trackInteraction = get(TracksInteraction);
+  // const trackInteraction = get(TracksInteraction);
 
   const dimensions = {
     height: tracksLayout.trackHeight,
@@ -43,7 +44,8 @@ const inject = injector<Props, InjectedProps>(props => {
 
   return {
     dimensions,
-    handleTrackClick: (e: MouseEvent) => trackInteraction.handleTrackClick(track, e),
+    // handleTrackClick: (e: MouseEvent) => trackInteraction.handleTrackClick(track, e),
+    handleTrackClick: (e: MouseEvent) => {},
   };
 });
 
@@ -82,7 +84,8 @@ export class Track extends React.Component<Props & InjectedProps, State> {
     const { track, offsetX, height, visibleWidth } = this.props;
 
     const visibleClips = this.getVisibleClips(track.clips);
-    const visibleDraggedClips = this.getVisibleClips(track.draggedClips);
+    // const visibleDraggedClips = this.getVisibleClips(track.draggedClips);
+    const visibleDraggedClips: ClipModel[] = [];
 
     const start = { x: offsetX, y: height };
     const end = { x: offsetX + visibleWidth, y: height };

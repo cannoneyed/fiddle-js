@@ -4,7 +4,6 @@ import { hot, injector } from 'utils/injector';
 import { Group, Rect } from 'react-konva';
 import { makeHandler } from 'utils/konva';
 
-import { Track as TrackModel } from 'core/models/track';
 import { Coordinates, Dimensions } from 'core/interfaces';
 
 import { TrackVisibilityHelper } from './helpers';
@@ -12,13 +11,15 @@ import { TrackVisibilityHelper } from './helpers';
 import DragToMarkers from 'features/Sequencer/components/DragToMarkers';
 import Track from 'features/Sequencer/components/Track';
 
+import { getTracksStore } from 'core/state/tree';
+import { Track as TrackModel } from 'core/state/tree/track';
+
 import {
   get,
   SequencerScrollInteraction,
   TracksLayout,
   TracksInteraction,
 } from 'features/Sequencer/core';
-import { TrackStore } from 'core';
 
 interface Props {
   dimensions: Dimensions;
@@ -37,7 +38,7 @@ const inject = injector<Props, InjectedProps>(() => {
   const sequencerScrollInteraction = get(SequencerScrollInteraction);
   const tracksInteraction = get(TracksInteraction);
   const tracksLayout = get(TracksLayout);
-  const trackStore = get(TrackStore);
+  const tracksStore = getTracksStore();
 
   const getScroll = () => ({
     x: tracksLayout.tracksScrolledX,
@@ -49,7 +50,7 @@ const inject = injector<Props, InjectedProps>(() => {
     handleScroll: sequencerScrollInteraction.handleScroll,
     handleStageClick: tracksInteraction.handleStageClick,
     trackHeight: tracksLayout.trackHeight,
-    tracks: trackStore.trackList,
+    tracks: tracksStore.tracks,
   };
 });
 
@@ -75,12 +76,12 @@ export class TracksStage extends React.Component<Props & InjectedProps, {}> {
     this.trackVisibilityHelper.computeVisibility(tracks, top, bottom);
     const { topIndex, bottomIndex } = this.trackVisibilityHelper.getIndices();
 
-    return tracks.slice(topIndex, bottomIndex);
+    return { tracks: tracks.slice(topIndex, bottomIndex), topIndex };
   };
 
   render() {
     const { dimensions, getScroll, position, trackHeight } = this.props;
-    const visibleTracks = this.getVisibleTracks();
+    const { tracks: visibleTracks, topIndex } = this.getVisibleTracks();
 
     const { x: scrollX, y: scrollY } = getScroll();
 
@@ -90,8 +91,9 @@ export class TracksStage extends React.Component<Props & InjectedProps, {}> {
       <Group {...position}>
         <Rect {...dimensions} onClick={this.handleClick} />
         <Group y={-scrollY} x={-scrollX}>
-          {visibleTracks.map(track => {
-            const y = track.index * trackHeight;
+          {visibleTracks.map((track, index) => {
+            const trackIndex = index + topIndex;
+            const y = trackIndex * trackHeight;
             return (
               <Group key={track.id} y={y}>
                 <Track

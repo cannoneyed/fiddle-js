@@ -7,7 +7,7 @@ import { clamp } from 'lodash';
 import theme from 'styles/theme';
 
 import { Coordinates, Dimensions } from 'core/interfaces';
-import { Envelope, Point } from 'core/models/envelope';
+import { Envelope, Point } from 'core/state/tree/envelope';
 
 interface Props {
   backgroundColor: string;

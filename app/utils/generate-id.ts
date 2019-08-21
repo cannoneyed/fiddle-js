@@ -1,5 +1,5 @@
-let nextId = 1;
+import uuid from 'uuid';
 
-export const generateId = () => {
-  return String(nextId++);
+export const generateId = (): string => {
+  return uuid.v4();
 };

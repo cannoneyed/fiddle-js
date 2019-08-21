@@ -5,7 +5,7 @@ import { hot, injector } from 'utils/injector';
 import Minimap from 'features/Sequencer/components/Minimap';
 import TimelineGutter from 'features/Sequencer/components/TimelineGutter';
 import Toolbar from 'features/Sequencer/components/Toolbar';
-import TracksGutter from 'features/Sequencer/components/TracksGutter';
+// import TracksGutter from 'features/Sequencer/components/TracksGutter';
 import TracksStage from 'features/Sequencer/components/TracksStage';
 import VerticalScrollbar from 'features/Sequencer/components/VerticalScrollbar';
 
@@ -111,7 +111,7 @@ export class Layout extends React.Component<Props & InjectedProps, {}> {
         <BottomWrapper style={bottomWrapperStyle}>
           <GutterWrapper style={gutterWrapperStyle}>
             <TimelineGutter />
-            <TracksGutter />
+            {/* <TracksGutter /> */}
           </GutterWrapper>
           <TracksStageWrapper style={tracksStageWrapperStyle}>
             <TracksStage dimensions={tracksDimensions} />
