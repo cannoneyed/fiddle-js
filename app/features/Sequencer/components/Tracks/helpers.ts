@@ -1,4 +1,4 @@
-import { Track as TrackModel } from 'core/state/tree/track';
+import { Track as TrackModel } from 'core/state/tree/models/track';
 
 // TODO: Eventually handle different track heights
 export class TrackVisibilityHelper {

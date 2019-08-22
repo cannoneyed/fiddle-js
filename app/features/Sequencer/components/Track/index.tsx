@@ -11,8 +11,8 @@ import Clip from 'features/Sequencer/components/Clip';
 
 import { Dimensions } from 'core/interfaces';
 
-import { Clip as ClipModel } from 'core/state/tree/clip';
-import { Track as TrackModel } from 'core/state/tree/track';
+import { Clip as ClipModel } from 'core/state/tree/models/clip';
+import { Track as TrackModel } from 'core/state/tree/models/track';
 
 import { get, TracksLayout } from 'features/Sequencer/core';
 

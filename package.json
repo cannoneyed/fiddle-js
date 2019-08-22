@@ -125,6 +125,7 @@
     "react-dom": "^16.8.6",
     "react-konva": "^16.8.7-3",
     "reflect-metadata": "^0.1.12",
+    "remotedev": "^0.2.9",
     "stats.js": "^0.17.0",
     "styled-components": "^4.3.1",
     "tinycolor2": "^1.4.1",

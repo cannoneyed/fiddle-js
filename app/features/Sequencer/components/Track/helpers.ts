@@ -1,4 +1,4 @@
-import { Clip as ClipModel } from 'core/state/tree/clip';
+import { Clip as ClipModel } from 'core/state/tree/models/clip';
 
 import { get, SequencerPositionService } from 'features/Sequencer/core';
 

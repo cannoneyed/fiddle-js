@@ -1,8 +1,8 @@
 import { model, Model, prop } from 'mobx-keystone';
 import { generateId } from 'utils/generate-id';
-import { TimelineVector } from 'core/primitives/timeline-vector/simple';
+import { TimelineVector } from 'core/state/tree/primitives/timeline-vector';
 
-import { Data } from 'core/state/tree/graph';
+import { Data } from 'core/state/tree/models/graph';
 
 export interface SnipParams {
   length: TimelineVector;

@@ -1,8 +1,8 @@
 import { computed, observable, ObservableMap } from 'mobx';
 import { model, modelAction, Model, prop } from 'mobx-keystone';
 import { generateId } from 'utils/generate-id';
-import { Node, OutputNode } from 'core/state/tree/graph/node';
-import { Envelope } from 'core/state/tree/envelope';
+import { Node, OutputNode } from 'core/state/tree/models/graph/node';
+import { Envelope } from 'core/state/tree/models/envelope';
 import { removeFromArray } from 'utils/remove-from-array';
 
 export type Data = Envelope | null;

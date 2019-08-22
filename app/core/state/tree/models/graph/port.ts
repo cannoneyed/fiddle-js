@@ -1,6 +1,6 @@
 import { observable } from 'mobx';
 import { model, Model, prop } from 'mobx-keystone';
-import { Node } from 'core/state/tree/graph/node';
+import { Node } from 'core/state/tree/models/graph/node';
 import { Position } from 'core/primitives/position/simple';
 
 export enum InteractionState {

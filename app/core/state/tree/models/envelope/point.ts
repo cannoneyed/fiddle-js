@@ -2,7 +2,7 @@ import { observable } from 'mobx';
 import { model, Model, prop, modelAction } from 'mobx-keystone';
 import { generateId } from 'utils/generate-id';
 
-import { TimelineVector } from 'core/primitives/timeline-vector/simple';
+import { TimelineVector } from 'core/state/tree/primitives/timeline-vector';
 
 @model('fiddle/core/Envelope/Point')
 export class Point extends Model({

@@ -1,5 +1,5 @@
 import { model, Model, modelAction, prop, objectMap, ObjectMap } from 'mobx-keystone';
-import { Clip, ClipParams } from 'core/state/tree/clip';
+import { Clip, ClipParams } from 'core/state/tree/models/clip';
 
 @model('fiddle/core/Clips')
 export class Clips extends Model({

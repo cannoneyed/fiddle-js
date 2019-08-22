@@ -1,6 +1,6 @@
 import { computed } from 'mobx';
 import { model, Model, modelAction, prop } from 'mobx-keystone';
-import { Track } from 'core/state/tree/track';
+import { Track } from 'core/state/tree/models/track';
 import { first, last } from 'lodash';
 
 @model('fiddle/core/Tracks')

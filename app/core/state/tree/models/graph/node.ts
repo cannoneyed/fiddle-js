@@ -7,7 +7,7 @@ import { generateId } from 'utils/generate-id';
 import { Dimensions } from 'core/interfaces';
 import { Position } from 'core/primitives/position/simple';
 
-import { Envelope } from 'core/state/tree/envelope';
+import { Envelope } from 'core/state/tree/models/envelope';
 import { InputPort, OutputPort } from './port';
 
 import { IO_OFFSET, IO_PADDING } from 'features/GraphEditor/helpers/layout';

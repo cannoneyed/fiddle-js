@@ -1,7 +1,7 @@
 import { computed } from 'mobx';
 import { model, Model, prop, modelAction } from 'mobx-keystone';
 import { generateId } from 'utils/generate-id';
-import { TimelineVector } from 'core/primitives/timeline-vector/simple';
+import { TimelineVector } from 'core/state/tree/primitives/timeline-vector';
 import { PointsByTick } from './points-by-tick';
 import { Point } from './point';
 import { Connection, LineConnection } from './connection';

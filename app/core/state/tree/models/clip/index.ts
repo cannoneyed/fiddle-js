@@ -1,9 +1,9 @@
 import { computed, observable } from 'mobx';
 import { model, Model, modelAction, prop } from 'mobx-keystone';
 import { generateId } from 'utils/generate-id';
-import { TimelineVector } from 'core/primitives/timeline-vector/simple';
+import { TimelineVector } from 'core/state/tree/primitives/timeline-vector';
 
-import { Graph } from 'core/state/tree/graph';
+import { Graph } from 'core/state/tree/models/graph';
 
 export interface ClipParams {
   trackId: string;

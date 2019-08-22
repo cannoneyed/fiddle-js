@@ -10,8 +10,8 @@ import EnvelopeSnip from 'components/Snips/Envelope';
 
 import { Dimensions } from 'core/interfaces';
 
-import { Clip as ClipModel } from 'core/state/tree/clip';
-import { Envelope } from 'core/state/tree/envelope';
+import { Clip as ClipModel } from 'core/state/tree/models/clip';
+import { Envelope } from 'core/state/tree/models/envelope';
 
 // import * as clipDragHandlers from 'features/Sequencer/core/interactions/clip-drag/handlers';
 import { get, SequencerPositionService } from 'features/Sequencer/core';

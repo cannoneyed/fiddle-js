@@ -12,7 +12,7 @@ import DragToMarkers from 'features/Sequencer/components/DragToMarkers';
 import Track from 'features/Sequencer/components/Track';
 
 import { getTracksStore } from 'core/state/tree';
-import { Track as TrackModel } from 'core/state/tree/track';
+import { Track as TrackModel } from 'core/state/tree/models/track';
 
 import {
   get,

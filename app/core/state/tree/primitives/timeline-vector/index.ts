@@ -1,7 +1,8 @@
 import { Simple } from 'mobx-keystone';
-import { Fraction } from 'core/primitives/fraction';
 import { absFloor } from 'utils/math';
-import { TimeSignature, TimeSignatureSnapshot } from '../time-signature/simple';
+
+import { Fraction } from 'core/state/tree/primitives/fraction';
+import { TimeSignature, TimeSignatureSnapshot } from 'core/state/tree/primitives/time-signature';
 
 export const TICKS_PER_SECONDARY = 240;
 const defaultTimeSignature = () => new TimeSignature(4, 4);
