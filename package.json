@@ -111,7 +111,7 @@
     "avl": "^1.4.3",
     "bufferutil": "^4.0.0",
     "classnames": "^2.2.5",
-    "fast-json-patch": "^2.0.6",
+    "fast-json-patch": "^3.1.1",
     "konva": "^3.3.3",
     "mobx": "^5.1.0",
     "mobx-logger": "^0.7.0",
